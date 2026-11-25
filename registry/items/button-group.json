@@ -1,0 +1,45 @@
+{
+  "name": "button-group",
+  "type": "registry:ui",
+  "title": "Button Group",
+  "description": "Manga-styled group of buttons and inputs joined in one row or column. Shared edges collapse to one 2px line; the outer corners follow the radius. A ButtonGroupSeparator is an ink rule (2px, no tone) between two buttons. ButtonGroupText is a label cell in the same frame. Works with the kit Button and Input. Vertical orientation is supported. The focused button draws its ring inside itself, never over a neighbour. Gestures: the buttons keep their own G3 hover, G4 impact and focus.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "button-group",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/button-group.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/button-group.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/button-group\". It wraps your own components/ui/button-group. Put the manga Button (or Input) inside. Use ButtonGroupSeparator between two buttons that should show a rule instead of a shared edge.",
+  "meta": {
+    "tagline": "Buttons joined by one shared 2px line, like a strip of cells.",
+    "usage": "import { Button } from \"@/components/ui/manga/button\"\nimport { ButtonGroup, ButtonGroupSeparator } from \"@/components/ui/manga/button-group\"\n\n<ButtonGroup aria-label=\"Pages\">\n  <Button variant=\"outline\">Prev</Button>\n  <ButtonGroupSeparator />\n  <Button variant=\"outline\">Next</Button>\n</ButtonGroup>",
+    "props": [
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "description": "Row (default) or column; the shared line follows it."
+      },
+      {
+        "name": "ButtonGroupSeparator",
+        "type": "component",
+        "description": "An ink rule between two items. orientation vertical (default) in a row, horizontal in a column."
+      },
+      {
+        "name": "ButtonGroupText",
+        "type": "component",
+        "description": "A label cell in the frame (paper, lettering)."
+      }
+    ]
+  }
+}
