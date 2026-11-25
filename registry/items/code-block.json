@@ -1,0 +1,66 @@
+{
+  "name": "code-block",
+  "type": "registry:ui",
+  "title": "Code Block",
+  "description": "Manga-styled wrapper around your shadcn Code Block: a 2px ink frame on paper, the file name in lettering above a fine rule, the code in mono, ink only (syntax colours are monochrome). Line numbers in ink. Line variants: highlighted (a 6px ink bar), added (bar and \"+\"), removed (accent bar, accent \"−\", struck text). Size sm, destructive frame. The copy button is an ink-framed square: hover thickens its line, focus draws the ink, click plays an impact, and the check icon shows once copied. Long lines scroll inside the block, never the page.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "code-block",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/code-block.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/code-block.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/code-block\". It wraps your own components/ui/code-block, which is plain markup, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A code frame in ink, with a copy square that stamps a check.",
+    "usage": "import { CodeBlock, CodeBlockHeader, CodeBlockTitle, CodeBlockActions, CodeBlockCopyButton, CodeBlockContent, CodeBlockLine } from \"@/components/ui/manga/code-block\"\n\n<CodeBlock>\n  <CodeBlockHeader>\n    <CodeBlockTitle>hero.tsx</CodeBlockTitle>\n    <CodeBlockActions><CodeBlockCopyButton value={code} /></CodeBlockActions>\n  </CodeBlockHeader>\n  <CodeBlockContent lineNumbers>\n    <CodeBlockLine variant=\"added\">{\"return <Button />\"}</CodeBlockLine>\n  </CodeBlockContent>\n</CodeBlock>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"default\" | \"destructive\"",
+        "default": "\"default\"",
+        "description": "On CodeBlock: destructive draws the frame and the text in the accent."
+      },
+      {
+        "name": "size",
+        "type": "\"default\" | \"sm\"",
+        "default": "\"default\"",
+        "description": "On CodeBlock: smaller type and padding."
+      },
+      {
+        "name": "lineNumbers / startLine",
+        "type": "boolean / number",
+        "default": "false / 1",
+        "description": "On CodeBlockContent: number the lines in ink, from startLine."
+      },
+      {
+        "name": "wrap",
+        "type": "boolean",
+        "default": "false",
+        "description": "On CodeBlockContent: wrap long lines instead of scrolling them."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"highlighted\" | \"added\" | \"removed\"",
+        "default": "\"default\"",
+        "description": "On CodeBlockLine: the bar and mark of the line."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "description": "On CodeBlockCopyButton: the text copied to the clipboard."
+      }
+    ]
+  }
+}
