@@ -194,7 +194,8 @@ function TabsContent({ className, children, ...props }: React.ComponentProps<typ
     <ShadcnTabsContent
       data-manga="tabs-content"
       className={cn(
-        "text-base",
+        // a tab panel is a tab stop: the focus shows as the kit ring around it
+        "text-base focus-visible:outline-solid! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring",
         variant === "index" ? "overflow-hidden border-ink-panel bg-background p-4" : orientation === "vertical" ? "ps-4" : "pt-4",
         className,
       )}
