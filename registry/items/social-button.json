@@ -2,7 +2,7 @@
   "name": "social-button",
   "type": "registry:component",
   "title": "Social Button",
-  "description": "\"Continue with <service>\" button for third-party sign-in. An outline button (2px ink line, lettering label, hover, pressed, focus, loading and disabled exactly like the manga Button), 44px tall and full width by default. A logo slot at the start: a 20 × 20 paper plate that fits the given node in the box without recolouring it; the item ships no logo and no brand colour. AuthDivider is a horizontal fine ink rule with \"or\" in lettering in the middle. All Button props pass through; provider sets data-provider.",
+  "description": "\"Continue with <service>\" button for third-party sign-in. An outline button (2px ink line, lettering label, hover, pressed, focus, loading and disabled exactly like the manga Button), 44px tall and full width by default. A logo slot at the start: a bare 32 × 32 box that fits the given mark without recolouring, framing or redrawing it (a mark that needs a plate, like Google's icon on white, brings its own); the item ships no logo and no brand colour. AuthDivider is a horizontal fine ink rule with \"or\" in lettering in the middle. All Button props pass through; provider sets data-provider.",
   "categories": [
     "manga"
   ],
@@ -29,7 +29,7 @@
         "name": "logo",
         "type": "React.ReactNode",
         "default": "undefined",
-        "description": "The brand mark, fitted into a 20 × 20 paper plate. Omit it for a button without a logo."
+        "description": "The brand mark, used as its brand provides it (with its own plate when the brand asks for one), fitted into a bare 32 × 32 box. Omit it for a button without a logo."
       },
       {
         "name": "provider",
