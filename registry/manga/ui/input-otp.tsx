@@ -63,8 +63,8 @@ function InputOTPSlot({ className, ...props }: React.ComponentProps<typeof Shadc
         "size-11! rounded-none! border-y-0! border-e-0! border-s-[length:var(--mg-bw)]! border-border! bg-transparent! font-letter text-2xl! leading-none text-foreground transition-none first:border-s-0!",
         // active slot: a 3px line inside the cell
         "data-[active=true]:ring-0! data-[active=true]:shadow-[inset_0_0_0_3px_var(--ring)]",
-        // the caret: a 2px ink bar blinking in steps (stops with reduced motion)
-        "[&>div>div]:h-6! [&>div>div]:w-[length:var(--mg-bw)]! [&>div>div]:bg-foreground [&>div>div]:[animation-timing-function:steps(1,end)]!",
+        // the caret: a 2px ink bar blinking in two hard steps (base `animate-blink`; stops with reduced motion)
+        "[&>div>div]:h-6! [&>div>div]:w-[length:var(--mg-bw)]! [&>div>div]:bg-foreground [&>div>div]:animate-blink!",
         // invalid: accent rules
         "aria-invalid:border-destructive! aria-invalid:ring-0! group-has-aria-invalid/otp:border-destructive!",
         "data-[active=true]:aria-invalid:shadow-[inset_0_0_0_3px_var(--destructive)] group-has-aria-invalid/otp:data-[active=true]:shadow-[inset_0_0_0_3px_var(--destructive)]",

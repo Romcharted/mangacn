@@ -21,7 +21,7 @@
       "target": "@ui/manga/input-otp.tsx"
     }
   ],
-  "docs": "Import from \"@/components/ui/manga/input-otp\". It wraps your own components/ui/input-otp, which is the same file in Radix and Base UI projects. The caret blinks with the stock caret-blink keyframes (tw-animate-css) in steps and stops with reduced motion.",
+  "docs": "Import from \"@/components/ui/manga/input-otp\". It wraps your own components/ui/input-otp, which is the same file in Radix and Base UI projects. The caret blinks in two hard steps with the base animate-blink utility and stops with reduced motion.",
   "meta": {
     "tagline": "Code boxes joined in one ink frame, with a stepped caret.",
     "usage": "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from \"@/components/ui/manga/input-otp\"\n\n<InputOTP maxLength={6}>\n  <InputOTPGroup>\n    <InputOTPSlot index={0} />\n    <InputOTPSlot index={1} />\n    <InputOTPSlot index={2} />\n  </InputOTPGroup>\n  <InputOTPSeparator />\n  <InputOTPGroup>\n    <InputOTPSlot index={3} />\n    <InputOTPSlot index={4} />\n    <InputOTPSlot index={5} />\n  </InputOTPGroup>\n</InputOTP>",
