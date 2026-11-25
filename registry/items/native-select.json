@@ -1,0 +1,45 @@
+{
+  "name": "native-select",
+  "type": "registry:ui",
+  "title": "Native Select",
+  "description": "Manga-styled wrapper around your shadcn Native Select (a real <select>). Drawn like the kit Select trigger: a 2px ink line on paper and a brush chevron (mark-chevron) in place of the stock icon. Hover thickens the line (G3, fields); focus thickens it to 3px with a paper gap and an ink ring; aria-invalid gives an accent line, a \"!\" mark before the chevron and a serrated bottom edge; disabled gives a dashed line and a tone frame with the label on paper and a not-allowed cursor. Sizes default and sm, both 44px tall under 640px. The options keep the browser's native popup.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "native-select",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/native-select.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/native-select.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/native-select\". It wraps your own components/ui/native-select, so Radix and Base UI both work. className goes on the wrapper (as in the stock component); every other prop goes on the <select>.",
+  "meta": {
+    "tagline": "A real select, drawn in ink with a brush chevron.",
+    "usage": "import { NativeSelect, NativeSelectOption } from \"@/components/ui/manga/native-select\"\n\n<NativeSelect defaultValue=\"rtl\">\n  <NativeSelectOption value=\"rtl\">Right to left</NativeSelectOption>\n  <NativeSelectOption value=\"ltr\">Left to right</NativeSelectOption>\n</NativeSelect>",
+    "props": [
+      {
+        "name": "size",
+        "type": "\"sm\" | \"default\"",
+        "description": "Height and text size (44px tall under 640px either way)."
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean",
+        "description": "The error look: accent line, \"!\" mark, serrated bottom edge."
+      },
+      {
+        "name": "NativeSelectOptGroup",
+        "type": "component",
+        "description": "A labelled group of options (native optgroup)."
+      }
+    ]
+  }
+}

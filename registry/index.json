@@ -70,6 +70,7 @@
     "registry/items/character-card.json",
     "registry/items/impact-counter.json",
     "registry/items/input-group.json",
+    "registry/items/native-select.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json"
   ]
