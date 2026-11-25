@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Rules and gestures (AGENTS.md)
+    url: https://github.com/Romcharted/mangacn/blob/main/AGENTS.md
+    about: The visual grammar every component follows. Worth a look before a request.

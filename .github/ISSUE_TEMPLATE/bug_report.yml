@@ -1,0 +1,44 @@
+name: Bug report
+description: Something looks wrong, breaks, or does not install.
+labels: ["bug"]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component or interface
+      placeholder: "tabs, data-table, dashboard…"
+    validations:
+      required: true
+  - type: dropdown
+    id: library
+    attributes:
+      label: Primitive library
+      options: ["Base UI", "Radix", "Both", "Not sure"]
+    validations:
+      required: true
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      options: ["Next.js", "Vite", "Other", "The mangacn site itself"]
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser, device and width
+      placeholder: "Firefox 140, iPhone, 375 px, dark mode"
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens, and what you expected
+      description: A screenshot helps more than a description.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. npx shadcn@latest add Romcharted/mangacn/tabs
+        2. …
