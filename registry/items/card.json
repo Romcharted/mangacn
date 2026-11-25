@@ -1,0 +1,48 @@
+{
+  "name": "card",
+  "type": "registry:ui",
+  "title": "Card",
+  "description": "Manga-styled wrapper around your shadcn Card as a comic panel: 3px frame and an offset screentone shadow. Variants: default, bleed (first image runs to the edges), tilted (slanted bottom edge drawn in SVG; the content stays upright), splash (focus lines around a wide empty centre, title on a paper plate), beta (ink flat). interactive lifts it on hover; selected adds a double ink frame.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "card",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/card.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/card.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/card\". It wraps your own components/ui/card, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A comic panel with a screentone shadow.",
+    "usage": "import { Card, CardHeader, CardTitle, CardContent } from \"@/components/ui/manga/card\"\n\n<Card variant=\"tilted\">\n  <CardHeader><CardTitle>Chapter 12</CardTitle></CardHeader>\n  <CardContent>The long night.</CardContent>\n</Card>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"default\" | \"bleed\" | \"tilted\" | \"splash\" | \"beta\"",
+        "default": "\"default\"",
+        "description": "Panel style."
+      },
+      {
+        "name": "interactive",
+        "type": "boolean",
+        "default": "false",
+        "description": "Hover lift and longer shadow."
+      },
+      {
+        "name": "selected",
+        "type": "boolean",
+        "default": "false",
+        "description": "Double ink frame."
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "breadcrumb",
+  "type": "registry:ui",
+  "title": "Breadcrumb",
+  "description": "Manga-styled wrapper around your shadcn Breadcrumb: lettering, links whose underline thickens on hover, the current page as an ink flat, brush chevrons between steps.",
+  "categories": [
+    "navigation"
+  ],
+  "registryDependencies": [
+    "breadcrumb",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/breadcrumb.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/breadcrumb.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/breadcrumb\". It wraps your own components/ui/breadcrumb, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Lettering, brush chevrons, the current page in ink.",
+    "usage": "import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from \"@/components/ui/manga/breadcrumb\"\n\n<Breadcrumb>\n  <BreadcrumbList>\n    <BreadcrumbItem><BreadcrumbLink href=\"#\">Library</BreadcrumbLink></BreadcrumbItem>\n    <BreadcrumbSeparator />\n    <BreadcrumbItem><BreadcrumbPage>Vol. 3</BreadcrumbPage></BreadcrumbItem>\n  </BreadcrumbList>\n</Breadcrumb>",
+    "props": []
+  }
+}

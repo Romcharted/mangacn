@@ -1,0 +1,51 @@
+{
+  "name": "manpu",
+  "type": "registry:component",
+  "title": "Manpu",
+  "description": "Emotion marks drawn for the kit (manpu): anger vein, sweat drop, surprise lines, question mark, sparkle, gloom lines, love, sigh. Ink strokes that pop in; anger and sparkle keep a small stepped motion. Decorative by default; pass label to make it spoken.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/manpu.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/manpu.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/manpu\".",
+  "meta": {
+    "tagline": "Emotion marks: anger, sweat, surprise…",
+    "usage": "import { Manpu } from \"@/components/manga/manpu\"\n\n<Manpu kind=\"sweat\" />\n<Manpu kind=\"anger\" label=\"Angry\" />",
+    "props": [
+      {
+        "name": "kind",
+        "type": "\"anger\" | \"sweat\" | \"surprise\" | \"question\" | \"sparkle\" | \"gloom\" | \"love\" | \"sigh\"",
+        "description": "Which mark."
+      },
+      {
+        "name": "size",
+        "type": "string",
+        "default": "\"1.5em\"",
+        "description": "Width and height."
+      },
+      {
+        "name": "animated",
+        "type": "boolean",
+        "default": "true",
+        "description": "Pop in, plus a stepped motion for some marks."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Spoken meaning; without it the mark is aria-hidden."
+      }
+    ]
+  }
+}

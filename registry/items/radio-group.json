@@ -1,0 +1,29 @@
+{
+  "name": "radio-group",
+  "type": "registry:ui",
+  "title": "Radio Group",
+  "description": "Manga-styled wrapper around your shadcn Radio Group. Each option is a small diamond (only speech bubbles are round): the line thickens on hover, the checked one is an ink flat that sweeps in with a paper dot. Dashed when disabled.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "radio-group",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/radio-group.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/radio-group.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/radio-group\". It wraps your own components/ui/radio-group, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Diamonds instead of circles; the chosen one turns to ink.",
+    "usage": "import { RadioGroup, RadioGroupItem } from \"@/components/ui/manga/radio-group\"\n\n<RadioGroup defaultValue=\"ltr\">\n  <label><RadioGroupItem value=\"ltr\" /> Left to right</label>\n  <label><RadioGroupItem value=\"rtl\" /> Right to left</label>\n</RadioGroup>",
+    "props": []
+  }
+}

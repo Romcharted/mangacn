@@ -1,0 +1,47 @@
+{
+  "name": "banner",
+  "type": "registry:component",
+  "title": "Banner",
+  "description": "A title ribbon for announcements and section heads: ink, paper or accent, with swallowtail or straight ends; optional speed lines running out from both ends (never under the text).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/banner.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/banner.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/banner\".",
+  "meta": {
+    "tagline": "A ribbon for titles and announcements.",
+    "usage": "import { Banner } from \"@/components/manga/banner\"\n\n<Banner lines>Chapter 12 is out</Banner>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"ink\" | \"paper\" | \"accent\"",
+        "default": "\"ink\"",
+        "description": "Ribbon colour."
+      },
+      {
+        "name": "ends",
+        "type": "\"notched\" | \"straight\"",
+        "default": "\"notched\"",
+        "description": "Ribbon ends."
+      },
+      {
+        "name": "lines",
+        "type": "boolean",
+        "default": "false",
+        "description": "Speed lines out of both ends."
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "sonner",
+  "type": "registry:ui",
+  "title": "Toast (Sonner)",
+  "description": "Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with an offset second frame, stepped entrance, lettering titles, ink marks for success / info / warning / error, concentration lines while loading, a shake on error. ToastSfx adds an onomatopoeia in its own column. ToastCard renders a static toast with the same look for previews and docs. Toasts enter in three steps with motion lines under them.",
+  "categories": [
+    "feedback"
+  ],
+  "registryDependencies": [
+    "sonner",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "sonner"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/sonner.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/sonner.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/sonner\". It wraps your own components/ui/sonner, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Toasts in a 3px panel, with room for a sound effect.",
+    "usage": "import { Toaster, toast, ToastSfx } from \"@/components/ui/manga/sonner\"\n\n<Toaster />\n\ntoast.success(\"Subscribed!\")\ntoast(\"Level up!\", { icon: <ToastSfx>DON!</ToastSfx> })",
+    "props": []
+  }
+}

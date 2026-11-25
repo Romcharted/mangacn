@@ -1,5 +1,5 @@
 import type { ComponentType } from "react"
-import registry from "../../registry.json"
+import index from "../../registry/index.json"
 
 export const REPO = "Romcharted/mangacn"
 export const GITHUB_URL = `https://github.com/${REPO}`
@@ -31,8 +31,22 @@ export const CATEGORIES: Record<string, string> = {
 const order = Object.keys(CATEGORIES)
 const cat = (i: Item) => i.categories[0] ?? "other"
 
-/** Items in page order: by category, then as listed in registry.json. */
-export const items = (registry.items as Item[])
+/*
+ * One file per item (registry/items/<name>.json). Items listed in registry/index.json come in that
+ * order; an item not listed yet (work in progress) still shows, after the others, so it can be checked
+ * in the showcase before it is assembled into registry.json.
+ */
+const itemFiles = import.meta.glob<Item>("../../registry/items/*.json", { eager: true, import: "default" })
+const position = (path: string) => {
+  const at = index.include.indexOf(path.replace(/^(\.\.\/)+/, ""))
+  return at < 0 ? 1e6 : at
+}
+const all = Object.entries(itemFiles)
+  .sort(([a], [b]) => position(a) - position(b) || a.localeCompare(b))
+  .map(([, item]) => item)
+
+/** Items in page order: by category, then as listed in registry/index.json. */
+export const items = all
   .map((item, index) => ({ item, index }))
   .sort((a, b) => (order.indexOf(cat(a.item)) + 1 || 99) - (order.indexOf(cat(b.item)) + 1 || 99) || a.index - b.index)
   .map(({ item }) => item)

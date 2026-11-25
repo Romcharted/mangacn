@@ -1,0 +1,50 @@
+{
+  "name": "gestures",
+  "type": "registry:lib",
+  "title": "Gestures",
+  "description": "The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4 impact on click or keyboard validation (data-impact for ~250 ms), <ImpactLines> draws the short speed lines outside the element, <FocusFlash> draws an optional halo of concentration lines around a window as it opens (G5, never full screen). Everything is skipped with prefers-reduced-motion.",
+  "categories": [
+    "foundations"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/lib/gestures.tsx",
+      "type": "registry:lib",
+      "target": "@lib/manga/gestures.tsx"
+    }
+  ],
+  "docs": "Import from \"@/lib/manga/gestures\". Installed automatically by the components that use it.",
+  "meta": {
+    "tagline": "Impact and flash primitives shared by every component.",
+    "usage": "import { ImpactLines, withImpact } from \"@/lib/manga/gestures\"\n\n<button className=\"relative data-[impact]:animate-hit\" onClick={withImpact(onSave)}>\n  Save\n  <ImpactLines />\n</button>",
+    "props": [
+      {
+        "name": "punch(el)",
+        "type": "(el: Element) => void",
+        "description": "Plays the three-frame impact on an element."
+      },
+      {
+        "name": "withImpact(handler)",
+        "type": "(handler?) => handler",
+        "description": "Wraps a click handler so it also plays the impact."
+      },
+      {
+        "name": "<ImpactLines offset>",
+        "type": "\"normal\" | \"far\"",
+        "default": "\"normal\"",
+        "description": "Speed lines on both sides; \"far\" for bursts."
+      },
+      {
+        "name": "<FocusFlash />",
+        "type": "component",
+        "description": "Optional halo of concentration lines around a window as it opens."
+      }
+    ]
+  }
+}

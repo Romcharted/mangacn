@@ -1,0 +1,53 @@
+{
+  "name": "speech-bubble",
+  "type": "registry:component",
+  "title": "Speech Bubble",
+  "description": "Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin. BubbleGroup chains bubbles through a neck that hides both outlines.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/speech-bubble.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/speech-bubble.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/speech-bubble\".",
+  "meta": {
+    "tagline": "Seven bubble shapes drawn at their real size.",
+    "usage": "import { SpeechBubble, BubbleGroup } from \"@/components/manga/speech-bubble\"\n\n<SpeechBubble variant=\"shout\" tail=\"bottom\" tailAlign=\"end\">Get down!</SpeechBubble>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"speech\" | \"thought\" | \"shout\" | \"whisper\" | \"narration\" | \"electronic\" | \"wobbly\"",
+        "default": "\"speech\"",
+        "description": "Bubble shape."
+      },
+      {
+        "name": "tail",
+        "type": "\"top\" | \"bottom\" | \"start\" | \"end\" | \"none\"",
+        "default": "\"bottom\"",
+        "description": "Side the tail points to."
+      },
+      {
+        "name": "tailAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
+        "default": "\"start\"",
+        "description": "Tail position along that side."
+      },
+      {
+        "name": "seed",
+        "type": "number",
+        "default": "7",
+        "description": "Seed for hand-drawn irregularities."
+      }
+    ]
+  }
+}

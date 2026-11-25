@@ -1,0 +1,29 @@
+{
+  "name": "empty",
+  "type": "registry:ui",
+  "title": "Empty",
+  "description": "Manga-styled wrapper around your shadcn Empty: a 2px solid frame (dashes mean disabled in this kit), title in lettering, media in an ink frame. Adds EmptyMark, a heavy ellipsis that pops in.",
+  "categories": [
+    "feedback"
+  ],
+  "registryDependencies": [
+    "empty",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/empty.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/empty.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/empty\". It wraps your own components/ui/empty, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "An empty panel with a heavy “…”.",
+    "usage": "import { Empty, EmptyDescription, EmptyHeader, EmptyMark, EmptyTitle } from \"@/components/ui/manga/empty\"\n\n<Empty>\n  <EmptyHeader>\n    <EmptyMark />\n    <EmptyTitle>No bookmarks</EmptyTitle>\n    <EmptyDescription>Tap the corner of a page to keep it.</EmptyDescription>\n  </EmptyHeader>\n</Empty>",
+    "props": []
+  }
+}

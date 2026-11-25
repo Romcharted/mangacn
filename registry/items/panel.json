@@ -1,0 +1,60 @@
+{
+  "name": "panel",
+  "type": "registry:component",
+  "title": "Panel",
+  "description": "Manga page layout. PanelGrid is the page (a CSS grid with gutters; cols, rows, gap, reading=\"rtl\" for right-to-left panel order). Panel is a case placed on it (colSpan, rowSpan) with a 3px outline drawn in SVG, so a side can be cut on a slant (cut={{ side: \"start\" | \"end\", size }} in px; give the neighbour the opposite cut and the gutter stays parallel); ink panels for night scenes. PanelCaption is the narration box, a 2px case in a corner. Compose with SpeedLines, Screentone, SpeechBubble and Sfx.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/panel.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/panel.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/panel\".",
+  "meta": {
+    "tagline": "A page grid, slanted cuts and narration boxes.",
+    "usage": "import { Panel, PanelCaption, PanelGrid } from \"@/components/manga/panel\"\n\n<PanelGrid cols={3} rows={2} className=\"aspect-[4/3]\">\n  <Panel colSpan={2} rowSpan={2}>…</Panel>\n  <Panel cut={{ side: \"start\" }}>\n    <PanelCaption>Midnight.</PanelCaption>\n  </Panel>\n  <Panel>…</Panel>\n</PanelGrid>",
+    "props": [
+      {
+        "name": "cols / rows / gap",
+        "type": "number / number / string",
+        "description": "On PanelGrid: the page grid."
+      },
+      {
+        "name": "reading",
+        "type": "\"ltr\" | \"rtl\"",
+        "description": "On PanelGrid: panel order; defaults to the page setting (data-reading on <html>)."
+      },
+      {
+        "name": "colSpan / rowSpan",
+        "type": "number",
+        "description": "On Panel: cells covered."
+      },
+      {
+        "name": "cut",
+        "type": "{ side: \"start\" | \"end\"; size?: number }",
+        "description": "On Panel: slanted side, size in px (default 32)."
+      },
+      {
+        "name": "ink",
+        "type": "boolean",
+        "description": "On Panel: ink background, paper lines."
+      },
+      {
+        "name": "position",
+        "type": "\"top-start\" | \"top-end\" | \"bottom-start\" | \"bottom-end\"",
+        "default": "\"top-start\"",
+        "description": "On PanelCaption: corner."
+      }
+    ]
+  }
+}

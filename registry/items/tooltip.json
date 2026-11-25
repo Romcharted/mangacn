@@ -1,0 +1,36 @@
+{
+  "name": "tooltip",
+  "type": "registry:ui",
+  "title": "Tooltip",
+  "description": "Manga-styled wrapper around your shadcn Tooltip as a mini speech bubble with a curved tail (or two circles for thought) that follows the side; the offset leaves room for the tail. TooltipBubble renders a static bubble for previews and docs.",
+  "categories": [
+    "overlays"
+  ],
+  "registryDependencies": [
+    "tooltip",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/tooltip.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/tooltip.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/tooltip\". It wraps your own components/ui/tooltip, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A tiny speech or thought bubble.",
+    "usage": "import { Tooltip, TooltipTrigger, TooltipContent } from \"@/components/ui/manga/tooltip\"\n\n<Tooltip>\n  <TooltipTrigger>Hover me</TooltipTrigger>\n  <TooltipContent variant=\"thought\">Maybe tomorrow.</TooltipContent>\n</Tooltip>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"speech\" | \"thought\"",
+        "default": "\"speech\"",
+        "description": "On TooltipContent."
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "Textarea",
+  "description": "Manga-styled wrapper around your shadcn Textarea, drawn like Input: 2px ink line that thickens on hover, 3px with ink / paper / ink on focus, italic placeholder, dashed line and tone frame when disabled, accent line and a \"!\" mark on aria-invalid.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "textarea",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/textarea.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/textarea.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/textarea\". It wraps your own components/ui/textarea, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Input's ink line, for longer text.",
+    "usage": "import { Textarea } from \"@/components/ui/manga/textarea\"\n\n<Textarea placeholder=\"Your review…\" />",
+    "props": []
+  }
+}

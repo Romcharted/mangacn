@@ -1,0 +1,35 @@
+{
+  "name": "label",
+  "type": "registry:ui",
+  "title": "Label",
+  "description": "Manga-styled wrapper around your shadcn Label: lettering face, uppercase, never faded when its field is disabled. Optional required asterisk.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "label",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/label.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/label.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/label\". It wraps your own components/ui/label, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Lettering for field labels.",
+    "usage": "import { Label } from \"@/components/ui/manga/label\"\n\n<Label htmlFor=\"pen\">Pen name</Label>",
+    "props": [
+      {
+        "name": "required",
+        "type": "boolean",
+        "description": "Adds an ink asterisk."
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton",
+  "description": "Manga-styled wrapper around your shadcn Skeleton: a light screentone (tone-10) that flickers in steps instead of pulsing in opacity, no heavy frame. Shapes: text, avatar, panel, block. SkeletonCard composes a card placeholder.",
+  "categories": [
+    "feedback"
+  ],
+  "registryDependencies": [
+    "skeleton",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/skeleton.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/skeleton.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/skeleton\". It wraps your own components/ui/skeleton, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A light screentone that flickers while content loads.",
+    "usage": "import { Skeleton, SkeletonCard } from \"@/components/ui/manga/skeleton\"\n\n<Skeleton shape=\"text\" />\n<SkeletonCard />",
+    "props": [
+      {
+        "name": "shape",
+        "type": "\"text\" | \"avatar\" | \"panel\" | \"block\"",
+        "default": "\"block\"",
+        "description": "Preset size and frame."
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "description": "Manga-styled wrapper around your shadcn Badge in lettering type. Variants: default (ink flat), outline, tone (screentone tab at the start, label on paper), destructive (clean accent flat), burst (\"NEW!\" star) and stamp (tilted accent stamp). Optional square status dot; icons via data-icon.",
+  "categories": [
+    "feedback"
+  ],
+  "registryDependencies": [
+    "badge",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/badge.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/badge.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/badge\". It wraps your own components/ui/badge, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Ink, outline, burst and a tilted stamp.",
+    "usage": "import { Badge } from \"@/components/ui/manga/badge\"\n\n<Badge variant=\"burst\">New!</Badge>\n<Badge variant=\"outline\" dot>Live</Badge>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"default\" | \"outline\" | \"tone\" | \"destructive\" | \"burst\" | \"stamp\"",
+        "default": "\"default\"",
+        "description": "Visual style."
+      },
+      {
+        "name": "dot",
+        "type": "boolean",
+        "default": "false",
+        "description": "Square status dot before the label."
+      }
+    ]
+  }
+}

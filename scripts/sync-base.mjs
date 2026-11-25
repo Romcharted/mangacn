@@ -1,4 +1,4 @@
-// Turns registry/manga/base/mangacn.css into the `base` item of registry.json.
+// Turns registry/manga/base/mangacn.css into the `base` item (registry/items/base.json).
 //   :root -> cssVars.light, .dark -> cssVars.dark, @theme inline -> cssVars.theme,
 //   everything else -> css. `@apply x` of a utility defined in the same file is
 //   inlined so the installed CSS does not depend on rule order.
@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from "node:fs"
 import postcss from "postcss"
 
 const CSS = "registry/manga/base/mangacn.css"
-const REGISTRY = "registry.json"
+const ITEM = "registry/items/base.json"
 
 const root = postcss.parse(readFileSync(CSS, "utf8"))
 const clean = (s) => s.replace(/\s+/g, " ").trim()
@@ -48,10 +48,8 @@ for (const node of root.nodes) {
   else if (node.type !== "comment") rest.append(node.clone())
 }
 
-const registry = JSON.parse(readFileSync(REGISTRY, "utf8"))
-const base = registry.items.find((i) => i.name === "base")
-if (!base) throw new Error("registry.json has no `base` item")
+const base = JSON.parse(readFileSync(ITEM, "utf8"))
 base.cssVars = cssVars
 base.css = toObject(rest)
-writeFileSync(REGISTRY, JSON.stringify(registry, null, 2) + "\n")
+writeFileSync(ITEM, JSON.stringify(base, null, 2) + "\n")
 console.log(`synced base: ${Object.keys(base.css).length} css blocks, ${Object.keys(cssVars.light).length} light vars`)

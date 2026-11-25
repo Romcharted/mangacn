@@ -1,0 +1,29 @@
+{
+  "name": "switch",
+  "type": "registry:ui",
+  "title": "Switch",
+  "description": "Manga-styled wrapper around your shadcn Switch, 44 × 24 px. Off: paper track and ink thumb. On: ink track and paper thumb. Hover thickens the line, disabled is dashed, aria-invalid uses the accent colour. The thumb travels in three steps with a trail of speed lines; a small spark flies off when it turns on.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "switch",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/switch.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/switch.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/switch\". It wraps your own components/ui/switch, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Paper track and ink thumb when off, the negative when on.",
+    "usage": "import { Switch } from \"@/components/ui/manga/switch\"\n\n<Switch defaultChecked />",
+    "props": []
+  }
+}

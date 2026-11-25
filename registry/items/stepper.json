@@ -1,0 +1,45 @@
+{
+  "name": "stepper",
+  "type": "registry:component",
+  "title": "Stepper",
+  "description": "Steps as chapter marks: done steps get a brush check, the current one is an ink flat that sweeps in, the next ones are paper squares; the rail between done steps runs with speed lines. Horizontal or vertical; follows the manga reading order.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/stepper.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/stepper.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/stepper\".",
+  "meta": {
+    "tagline": "Chapter marks for a multi-step flow.",
+    "usage": "import { Stepper } from \"@/components/manga/stepper\"\n\n<Stepper current={1} steps={[{ label: \"Account\" }, { label: \"Shelf\" }, { label: \"Done\" }]} />",
+    "props": [
+      {
+        "name": "steps",
+        "type": "{ label; description? }[]",
+        "description": "The steps."
+      },
+      {
+        "name": "current",
+        "type": "number",
+        "description": "Index of the current step."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "default": "\"horizontal\"",
+        "description": "Layout."
+      }
+    ]
+  }
+}

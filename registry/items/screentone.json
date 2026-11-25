@@ -1,0 +1,65 @@
+{
+  "name": "screentone",
+  "type": "registry:component",
+  "title": "Screentone",
+  "description": "Screentone as a component: dots, lines, cross-hatching or noise, with density, angle and cell size (SVG patterns with patternTransform), and a stepped (never smooth) fade toward any side. Use it as a background (put labels on a plate with on-tone) or as a layer over art. Coloured by --tone-ink.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/screentone.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/screentone.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/screentone\".",
+  "meta": {
+    "tagline": "Any tone: dots, lines, cross-hatching or noise, with a stepped fade.",
+    "usage": "import { Screentone } from \"@/components/manga/screentone\"\n\n<Screentone density={35} fade=\"bottom\" className=\"h-48\">Night falls</Screentone>",
+    "props": [
+      {
+        "name": "pattern",
+        "type": "\"dots\" | \"lines\" | \"cross\" | \"noise\"",
+        "default": "\"dots\"",
+        "description": "Tone pattern."
+      },
+      {
+        "name": "density",
+        "type": "number",
+        "default": "20",
+        "description": "Ink coverage in percent (5–60)."
+      },
+      {
+        "name": "angle",
+        "type": "number",
+        "default": "45",
+        "description": "Screen angle in degrees."
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "default": "6",
+        "description": "Cell size in px."
+      },
+      {
+        "name": "fade",
+        "type": "\"none\" | \"top\" | \"bottom\" | \"start\" | \"end\"",
+        "default": "\"none\"",
+        "description": "Stepped fade direction."
+      },
+      {
+        "name": "as",
+        "type": "\"background\" | \"layer\"",
+        "default": "\"background\"",
+        "description": "Behind children or overlaid on the parent."
+      }
+    ]
+  }
+}

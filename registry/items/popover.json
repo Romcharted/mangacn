@@ -1,0 +1,30 @@
+{
+  "name": "popover",
+  "type": "registry:ui",
+  "title": "Popover",
+  "description": "Manga-styled wrapper around your shadcn Popover: a speech bubble (3px line, round corners) with a tail toward the trigger, popping in. Adds PopoverBubble, a static twin for previews.",
+  "categories": [
+    "overlays"
+  ],
+  "registryDependencies": [
+    "popover",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/popover.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/popover.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/popover\". It wraps your own components/ui/popover, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A speech bubble pointing at its trigger.",
+    "usage": "import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from \"@/components/ui/manga/popover\"\n\n<Popover>\n  <PopoverTrigger>Details</PopoverTrigger>\n  <PopoverContent><PopoverTitle>Vol. 3</PopoverTitle>18 pages.</PopoverContent>\n</Popover>",
+    "props": []
+  }
+}

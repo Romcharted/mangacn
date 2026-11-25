@@ -1,0 +1,29 @@
+{
+  "name": "message",
+  "type": "registry:ui",
+  "title": "Message",
+  "description": "Manga-styled wrapper around your shadcn Message (conversation): square avatar frame, speaker name in lettering, time in a small monospace. Pair with Bubble.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "message",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/message.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/message.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/message\". It wraps your own components/ui/message, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A line of a conversation: avatar, name, bubbles.",
+    "usage": "import { Message, MessageAvatar, MessageContent, MessageHeader } from \"@/components/ui/manga/message\"\n\n<Message>\n  <MessageAvatar>NO</MessageAvatar>\n  <MessageContent>\n    <MessageHeader>Night owl</MessageHeader>\n    {/* Bubble… */}\n  </MessageContent>\n</Message>",
+    "props": []
+  }
+}

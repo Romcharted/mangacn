@@ -1,0 +1,29 @@
+{
+  "name": "bubble",
+  "type": "registry:ui",
+  "title": "Bubble",
+  "description": "Manga-styled wrapper around your shadcn Bubble (conversation): speech bubbles with a 2px ink line and a tail at the bottom pointing at the speaker; only the last bubble of a group keeps its tail; new bubbles pop in. default is an ink bubble (your messages), secondary / muted / outline / tinted are paper bubbles, destructive adds the accent and a \"!\" mark.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "bubble",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/bubble.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/bubble.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/bubble\". It wraps your own components/ui/bubble, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Chat messages as speech bubbles.",
+    "usage": "import { Bubble, BubbleContent, BubbleGroup } from \"@/components/ui/manga/bubble\"\n\n<BubbleGroup>\n  <Bubble variant=\"secondary\"><BubbleContent>Did you read it?</BubbleContent></Bubble>\n  <Bubble align=\"end\"><BubbleContent>Twice.</BubbleContent></Bubble>\n</BubbleGroup>",
+    "props": []
+  }
+}

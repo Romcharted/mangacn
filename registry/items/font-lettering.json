@@ -1,0 +1,26 @@
+{
+  "name": "font-lettering",
+  "type": "registry:font",
+  "title": "Font: Patrick Hand SC",
+  "description": "Hand-lettering face for titles, buttons and badges (SIL OFL). Sets --font-manga-letter. Installed by base.",
+  "categories": [
+    "foundations"
+  ],
+  "font": {
+    "family": "'Patrick Hand SC', cursive",
+    "provider": "google",
+    "import": "Patrick_Hand_SC",
+    "variable": "--font-manga-letter",
+    "weight": [
+      "400"
+    ],
+    "subsets": [
+      "latin",
+      "latin-ext"
+    ],
+    "dependency": "@fontsource/patrick-hand-sc"
+  },
+  "meta": {
+    "tagline": "Hand lettering for titles, buttons and badges."
+  }
+}

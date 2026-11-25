@@ -1,0 +1,41 @@
+{
+  "name": "input",
+  "type": "registry:ui",
+  "title": "Input",
+  "description": "Manga-styled wrapper around your shadcn Input. 2px ink line that thickens to 3px on focus, italic placeholder, fine line when read-only, dashed line + light tone when disabled, and an error look on aria-invalid (stamp red, serrated bottom edge, \"!\" mark). Sizes via inputSize: sm, default, lg.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "input",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/input.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/input.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/input\". It wraps your own components/ui/input, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A 2px ink line that thickens on focus; serrated with a “!” on error.",
+    "usage": "import { Input } from \"@/components/ui/manga/input\"\n\n<Input placeholder=\"Pen name\" />\n<Input aria-invalid defaultValue=\"reader@\" />",
+    "props": [
+      {
+        "name": "inputSize",
+        "type": "\"sm\" | \"default\" | \"lg\"",
+        "default": "\"default\"",
+        "description": "Height and text size."
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean",
+        "description": "Shows the error look."
+      }
+    ]
+  }
+}

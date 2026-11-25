@@ -1,0 +1,50 @@
+{
+  "name": "table",
+  "type": "registry:ui",
+  "title": "Table",
+  "description": "Manga-styled wrapper around your shadcn Table. The table sits in a case; the header is an ink flat and stays in place while the body scrolls (maxHeight). Rows are split by a 1px line, never striped. Hovered row: a 3px ink bar at the row start; selected row (data-state=\"selected\" or aria-selected): a 6px bar. Sortable headers get a brush arrow and aria-sort. Adds TableEmpty (a “…” mark) and TableLoading (flickering tone placeholders).",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "table",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/table.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/table.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/table\". It wraps your own components/ui/table, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "An ink header, 1px rules, and an ink bar for the hovered row.",
+    "usage": "import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from \"@/components/ui/manga/table\"\n\n<Table>\n  <TableHeader>\n    <TableRow><TableHead sort=\"ascending\">Title</TableHead><TableHead>Pages</TableHead></TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow data-state=\"selected\"><TableCell>The long night</TableCell><TableCell>24</TableCell></TableRow>\n  </TableBody>\n</Table>",
+    "props": [
+      {
+        "name": "maxHeight",
+        "type": "string",
+        "description": "On Table: height of the scroll area; the header stays in place."
+      },
+      {
+        "name": "sort",
+        "type": "\"ascending\" | \"descending\" | \"none\"",
+        "description": "On TableHead: sortable column with a brush arrow (sets aria-sort)."
+      },
+      {
+        "name": "onSort",
+        "type": "() => void",
+        "description": "On TableHead: called when the arrow button is pressed."
+      },
+      {
+        "name": "TableEmpty / TableLoading",
+        "type": "{ colSpan }",
+        "description": "Empty and loading rows."
+      }
+    ]
+  }
+}

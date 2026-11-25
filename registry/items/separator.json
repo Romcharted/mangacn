@@ -1,0 +1,36 @@
+{
+  "name": "separator",
+  "type": "registry:ui",
+  "title": "Separator",
+  "description": "Manga-styled wrapper around your shadcn Separator: 2px ink by default, fine (1px), or double for a break between chapters.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "separator",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/separator.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/separator.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/separator\". It wraps your own components/ui/separator, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "An ink rule: 2px, fine or double.",
+    "usage": "import { Separator } from \"@/components/ui/manga/separator\"\n\n<Separator />\n<Separator variant=\"double\" />",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"ink\" | \"fine\" | \"double\"",
+        "default": "\"ink\"",
+        "description": "Line weight."
+      }
+    ]
+  }
+}

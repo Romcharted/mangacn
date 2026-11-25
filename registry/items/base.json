@@ -1,0 +1,955 @@
+{
+  "name": "base",
+  "type": "registry:theme",
+  "title": "Manga base",
+  "description": "Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn variables (dark mode is the negative) and one accent colour, --mg-accent (stamp red by default; presets via data-accent=\"indigo|pine|ochre\"), which also drives --destructive. Screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b, tone-frame), on-tone (paper plate for labels over tones), knockout (outline for heavy SFX), speed-lines and focus-lines, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged, mark-error, a reading-rtl: variant for manga reading order (data-reading=\"rtl\"), a screentone veil for every shadcn overlay, and stepped 12 fps animations. Installed automatically as a dependency of every other item. Includes stepped keyframes for tabs, clicks, switches, dialogs and toasts; all motion stops with prefers-reduced-motion.",
+  "categories": [
+    "foundations"
+  ],
+  "docs": "mangacn base installed. Tones: tone-10|20|35|50, tone-lines, tone-cross, tone-fade-r|l|t|b, tone-frame; labels over tones go on an on-tone plate. Energy: speed-lines, focus-lines. Ink: border-ink, ink-fill, focus-ink, tone-shadow (positioned element). Accent: --mg-accent or data-accent=\"indigo|pine|ochre\". Manga reading order: data-reading=\"rtl\" + the reading-rtl: variant.",
+  "meta": {
+    "tagline": "Ink, paper and one accent colour, screentone, speed lines, stepped motion.",
+    "usage": "<div className=\"relative border-ink tone-shadow p-6\">\n  <div className=\"tone-fade-b h-24\" />\n  <h2 className=\"on-tone font-letter text-2xl\">Chapter 1</h2>\n</div>",
+    "props": []
+  },
+  "cssVars": {
+    "theme": {
+      "font-sans": "var(--font-manga-body, \"Atkinson Hyperlegible Next Variable\", \"Atkinson Hyperlegible Next\", ui-sans-serif, system-ui, sans-serif)",
+      "font-heading": "var(--font-manga-letter, \"Patrick Hand SC\", \"Comic Sans MS\", cursive)",
+      "font-letter": "var(--font-manga-letter, \"Patrick Hand SC\", \"Comic Sans MS\", cursive)",
+      "font-sfx": "var(--font-manga-sfx, \"Dela Gothic One\", Impact, sans-serif)",
+      "color-paper": "var(--paper)",
+      "color-ink": "var(--ink)",
+      "color-accent-ink": "var(--mg-accent)",
+      "animate-impact": "mg-impact 166ms linear",
+      "animate-shake": "mg-shake 240ms step-end",
+      "animate-pop": "mg-pop 249ms step-end",
+      "animate-spin-steps": "mg-spin 666ms steps(8) infinite",
+      "animate-draw": "mg-draw 240ms steps(3) both",
+      "animate-enter": "mg-enter 166ms step-end",
+      "animate-sfx": "mg-sfx 166ms step-end",
+      "animate-wiggle": "mg-wiggle 500ms step-end infinite",
+      "animate-tone-flicker": "mg-tone-flicker 500ms step-end infinite",
+      "animate-slide-in": "mg-slide-in 249ms step-end both",
+      "animate-hit": "mg-hit 249ms step-end",
+      "animate-hit-lines": "mg-hit-lines 249ms step-end both",
+      "animate-jitter": "mg-jitter 249ms step-end infinite",
+      "animate-trail": "mg-trail 249ms step-end both",
+      "animate-spark": "mg-spark 333ms step-end both",
+      "animate-burst-lines": "mg-burst-lines 583ms step-end both",
+      "animate-halo": "mg-halo 499ms step-end both",
+      "animate-toast-in": "mg-toast-in 249ms step-end both",
+      "animate-trail-v": "mg-trail-v 249ms step-end both",
+      "animate-page-hit": "mg-page-hit 333ms step-end",
+      "animate-bar-in": "mg-bar-in 249ms step-end backwards",
+      "animate-chevron": "mg-chevron 166ms step-end backwards",
+      "animate-drop-in": "mg-drop-in 249ms step-end backwards",
+      "animate-sheet-in": "mg-sheet-in 249ms step-end backwards"
+    },
+    "light": {
+      "paper": "oklch(0.975 0.008 85)",
+      "ink": "oklch(0.2 0.012 60)",
+      "mg-accent": "oklch(0.52 0.2 27)",
+      "background": "var(--paper)",
+      "foreground": "var(--ink)",
+      "card": "var(--paper)",
+      "card-foreground": "var(--ink)",
+      "popover": "var(--paper)",
+      "popover-foreground": "var(--ink)",
+      "primary": "var(--ink)",
+      "primary-foreground": "var(--paper)",
+      "secondary": "var(--paper)",
+      "secondary-foreground": "var(--ink)",
+      "muted": "var(--paper)",
+      "muted-foreground": "var(--ink)",
+      "accent": "var(--ink)",
+      "accent-foreground": "var(--paper)",
+      "destructive": "var(--mg-accent)",
+      "border": "var(--ink)",
+      "input": "var(--ink)",
+      "ring": "var(--ink)",
+      "chart-1": "var(--ink)",
+      "chart-2": "var(--ink)",
+      "chart-3": "var(--ink)",
+      "chart-4": "var(--ink)",
+      "chart-5": "var(--ink)",
+      "radius": "0rem",
+      "sidebar": "var(--paper)",
+      "sidebar-foreground": "var(--ink)",
+      "sidebar-primary": "var(--ink)",
+      "sidebar-primary-foreground": "var(--paper)",
+      "sidebar-accent": "var(--ink)",
+      "sidebar-accent-foreground": "var(--paper)",
+      "sidebar-border": "var(--ink)",
+      "sidebar-ring": "var(--ink)"
+    },
+    "dark": {
+      "paper": "oklch(0.18 0.008 60)",
+      "ink": "oklch(0.95 0.012 85)",
+      "mg-accent": "oklch(0.68 0.19 27)",
+      "background": "var(--paper)",
+      "foreground": "var(--ink)",
+      "card": "var(--paper)",
+      "card-foreground": "var(--ink)",
+      "popover": "var(--paper)",
+      "popover-foreground": "var(--ink)",
+      "primary": "var(--ink)",
+      "primary-foreground": "var(--paper)",
+      "secondary": "var(--paper)",
+      "secondary-foreground": "var(--ink)",
+      "muted": "var(--paper)",
+      "muted-foreground": "var(--ink)",
+      "accent": "var(--ink)",
+      "accent-foreground": "var(--paper)",
+      "destructive": "var(--mg-accent)",
+      "border": "var(--ink)",
+      "input": "var(--ink)",
+      "ring": "var(--ink)",
+      "chart-1": "var(--ink)",
+      "chart-2": "var(--ink)",
+      "chart-3": "var(--ink)",
+      "chart-4": "var(--ink)",
+      "chart-5": "var(--ink)",
+      "sidebar": "var(--paper)",
+      "sidebar-foreground": "var(--ink)",
+      "sidebar-primary": "var(--ink)",
+      "sidebar-primary-foreground": "var(--paper)",
+      "sidebar-accent": "var(--ink)",
+      "sidebar-accent-foreground": "var(--paper)",
+      "sidebar-border": "var(--ink)",
+      "sidebar-ring": "var(--ink)"
+    }
+  },
+  "css": {
+    "@custom-variant reading-rtl (&:where([data-reading=\"rtl\"], [data-reading=\"rtl\"] *))": {},
+    "[data-accent=\"stamp\"]": {
+      "--mg-accent": "oklch(0.52 0.2 27)"
+    },
+    "[data-accent=\"indigo\"]": {
+      "--mg-accent": "oklch(0.45 0.19 275)"
+    },
+    "[data-accent=\"pine\"]": {
+      "--mg-accent": "oklch(0.47 0.12 160)"
+    },
+    "[data-accent=\"ochre\"]": {
+      "--mg-accent": "oklch(0.5 0.13 60)"
+    },
+    ".dark[data-accent=\"stamp\"], .dark [data-accent=\"stamp\"]": {
+      "--mg-accent": "oklch(0.68 0.19 27)"
+    },
+    ".dark[data-accent=\"indigo\"], .dark [data-accent=\"indigo\"]": {
+      "--mg-accent": "oklch(0.72 0.14 275)"
+    },
+    ".dark[data-accent=\"pine\"], .dark [data-accent=\"pine\"]": {
+      "--mg-accent": "oklch(0.74 0.13 160)"
+    },
+    ".dark[data-accent=\"ochre\"], .dark [data-accent=\"ochre\"]": {
+      "--mg-accent": "oklch(0.78 0.13 75)"
+    },
+    "[data-slot=\"dialog-overlay\"], [data-slot=\"alert-dialog-overlay\"], [data-slot=\"sheet-overlay\"], [data-slot=\"drawer-overlay\"]": {
+      "--_s": "14px",
+      "--_tr": "1.1px",
+      "background-color": "color-mix(in oklch, var(--background) 72%, transparent)",
+      "background-image": "radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.6px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.6px))",
+      "background-size": "var(--_s) var(--_s)",
+      "background-position": "0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
+      "background-attachment": "fixed",
+      "backdrop-filter": "none",
+      "animation": "none"
+    },
+    "@property --shadow-x": {
+      "syntax": "\"<length>\"",
+      "inherits": "true",
+      "initial-value": "6px"
+    },
+    "@property --shadow-y": {
+      "syntax": "\"<length>\"",
+      "inherits": "true",
+      "initial-value": "6px"
+    },
+    "@layer base": {
+      ":root": {
+        "--mg-bw": "2px",
+        "--mg-bw-panel": "3px",
+        "--mg-bw-fine": "1px",
+        "--frame": "83ms",
+        "--tone-size": "6px",
+        "--tone-ink": "currentColor",
+        "--speed-angle": "0deg",
+        "--focus-x": "50%",
+        "--focus-y": "50%",
+        "--focus-hole": "26% 30%",
+        "--shadow-x": "6px",
+        "--shadow-y": "6px",
+        "--jag": "4px",
+        "--stamp": "var(--mg-accent)"
+      },
+      "*": {
+        "outline-color": "var(--ring)"
+      },
+      "body": {
+        "font-family": "var(--font-manga-body, \"Atkinson Hyperlegible Next Variable\", \"Atkinson Hyperlegible Next\", ui-sans-serif, system-ui, sans-serif)"
+      },
+      ".bg-muted": {
+        "--_ms": "8px",
+        "--_tr": "0.8px",
+        "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+        "background-size": "var(--_ms) var(--_ms)",
+        "background-position": "0 0, calc(var(--_ms) / 2) calc(var(--_ms) / 2)"
+      },
+      ":focus-visible": {
+        "outline": "2px solid var(--ring)",
+        "outline-offset": "2px"
+      },
+      "@media (prefers-reduced-motion: reduce)": {
+        "*, *::before, *::after": {
+          "animation": "none !important",
+          "transition": "none !important"
+        }
+      }
+    },
+    "@utility tone-10": {
+      "--_tr": "calc(var(--tone-size) * 0.126)",
+      "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+      "background-size": "var(--tone-size) var(--tone-size)",
+      "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
+    },
+    "@utility tone-20": {
+      "--_tr": "calc(var(--tone-size) * 0.178)",
+      "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+      "background-size": "var(--tone-size) var(--tone-size)",
+      "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
+    },
+    "@utility tone-35": {
+      "--_tr": "calc(var(--tone-size) * 0.236)",
+      "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+      "background-size": "var(--tone-size) var(--tone-size)",
+      "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
+    },
+    "@utility tone-50": {
+      "--_tr": "calc(var(--tone-size) * 0.282)",
+      "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+      "background-size": "var(--tone-size) var(--tone-size)",
+      "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
+    },
+    "@utility tone-lines": {
+      "background-image": "repeating-linear-gradient(var(--tone-angle, 45deg), var(--tone-ink) 0 1px, #0000 1px var(--tone-size))"
+    },
+    "@utility tone-cross": {
+      "background-image": "repeating-linear-gradient(45deg, var(--tone-ink) 0 1px, #0000 1px var(--tone-size)), repeating-linear-gradient(-45deg, var(--tone-ink) 0 1px, #0000 1px var(--tone-size))"
+    },
+    "@utility tone-fade-r": {
+      "--_d": "to right",
+      "--_s": "var(--tone-size)",
+      "--_c": "var(--tone-ink)",
+      "--_p": "var(--tone-paper, var(--background))",
+      "--_r1": "calc(var(--_s) * 0.126)",
+      "--_r2": "calc(var(--_s) * 0.178)",
+      "--_r3": "calc(var(--_s) * 0.236)",
+      "--_r4": "calc(var(--_s) * 0.282)",
+      "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+      "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
+      "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
+      "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
+    },
+    "@utility tone-fade-l": {
+      "--_d": "to left",
+      "--_s": "var(--tone-size)",
+      "--_c": "var(--tone-ink)",
+      "--_p": "var(--tone-paper, var(--background))",
+      "--_r1": "calc(var(--_s) * 0.126)",
+      "--_r2": "calc(var(--_s) * 0.178)",
+      "--_r3": "calc(var(--_s) * 0.236)",
+      "--_r4": "calc(var(--_s) * 0.282)",
+      "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+      "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
+      "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
+      "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
+    },
+    "@utility tone-fade-t": {
+      "--_d": "to top",
+      "--_s": "var(--tone-size)",
+      "--_c": "var(--tone-ink)",
+      "--_p": "var(--tone-paper, var(--background))",
+      "--_r1": "calc(var(--_s) * 0.126)",
+      "--_r2": "calc(var(--_s) * 0.178)",
+      "--_r3": "calc(var(--_s) * 0.236)",
+      "--_r4": "calc(var(--_s) * 0.282)",
+      "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+      "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
+      "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
+      "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
+    },
+    "@utility tone-fade-b": {
+      "--_d": "to bottom",
+      "--_s": "var(--tone-size)",
+      "--_c": "var(--tone-ink)",
+      "--_p": "var(--tone-paper, var(--background))",
+      "--_r1": "calc(var(--_s) * 0.126)",
+      "--_r2": "calc(var(--_s) * 0.178)",
+      "--_r3": "calc(var(--_s) * 0.236)",
+      "--_r4": "calc(var(--_s) * 0.282)",
+      "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+      "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
+      "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
+      "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
+    },
+    "@utility tone-frame": {
+      "--_fw": "var(--frame-w, 5px)",
+      "--_p": "var(--tone-paper, var(--background))",
+      "--_tr": "calc(var(--tone-size) * 0.16)",
+      "background-image": "linear-gradient(var(--_p), var(--_p)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+      "background-size": "calc(100% - 2 * var(--_fw)) calc(100% - 2 * var(--_fw)), var(--tone-size) var(--tone-size), var(--tone-size) var(--tone-size)",
+      "background-position": "center, 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+      "background-repeat": "no-repeat, repeat, repeat"
+    },
+    "@utility on-tone": {
+      "background-color": "var(--tone-paper, var(--background))",
+      "padding": "2px 6px",
+      "-webkit-box-decoration-break": "clone",
+      "box-decoration-break": "clone",
+      "text-shadow": "none"
+    },
+    "@utility speed-lines": {
+      "--_lc": "var(--lines-ink, var(--tone-ink))",
+      "background-image": "repeating-linear-gradient(var(--speed-angle), var(--_lc) 0 1px, #0000 1px 9px), repeating-linear-gradient(var(--speed-angle), #0000 0 4px, var(--_lc) 4px 6px, #0000 6px 19px), repeating-linear-gradient(var(--speed-angle), #0000 0 13px, var(--_lc) 13px 16px, #0000 16px 37px)"
+    },
+    "@utility focus-lines": {
+      "--_lc": "var(--lines-ink, var(--tone-ink))",
+      "background-image": "radial-gradient(var(--focus-hole) at var(--focus-x) var(--focus-y), var(--tone-paper, var(--background)) calc(100% - 1px), #0000 100%), repeating-conic-gradient(from 0deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.8deg, #0000 0.8deg 4deg), repeating-conic-gradient(from 1.7deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.5deg, #0000 0.5deg 7deg)"
+    },
+    "@utility knockout": {
+      "--_ko": "var(--tone-paper, var(--background))",
+      "--_k": "max(2px, 0.06em)",
+      "--_kd": "calc(var(--_k) * 0.7)",
+      "text-shadow": "var(--_k) 0 var(--_ko), calc(var(--_k) * -1) 0 var(--_ko), 0 var(--_k) var(--_ko), 0 calc(var(--_k) * -1) var(--_ko), var(--_kd) var(--_kd) var(--_ko), calc(var(--_kd) * -1) calc(var(--_kd) * -1) var(--_ko), var(--_kd) calc(var(--_kd) * -1) var(--_ko), calc(var(--_kd) * -1) var(--_kd) var(--_ko), calc(var(--_k) / 2) 0 var(--_ko), calc(var(--_k) / -2) 0 var(--_ko), 0 calc(var(--_k) / 2) var(--_ko), 0 calc(var(--_k) / -2) var(--_ko)"
+    },
+    "@utility border-ink": {
+      "border": "var(--mg-bw) solid var(--border)"
+    },
+    "@utility border-ink-panel": {
+      "--mg-bw": "var(--mg-bw-panel)",
+      "border": "var(--mg-bw-panel) solid var(--border)"
+    },
+    "@utility border-ink-fine": {
+      "border": "var(--mg-bw-fine) solid var(--border)"
+    },
+    "@utility ink-fill": {
+      "background-color": "var(--primary)",
+      "color": "var(--primary-foreground)",
+      "--tone-ink": "var(--primary-foreground)",
+      "--tone-paper": "var(--primary)"
+    },
+    "@utility focus-ink": {
+      "&:focus-visible": {
+        "outline": "2px solid var(--ring)",
+        "outline-offset": "4px",
+        "box-shadow": "0 0 0 2px var(--ring), 0 0 0 4px var(--background)"
+      }
+    },
+    "@utility tone-shadow": {
+      "isolation": "isolate",
+      "&::after": {
+        "content": "\"\"",
+        "position": "absolute",
+        "z-index": "-1",
+        "pointer-events": "none",
+        "inset": "calc(var(--mg-bw) * -1)",
+        "border-radius": "inherit",
+        "translate": "var(--shadow-x) var(--shadow-y)",
+        "--_tr": "calc(var(--tone-size) * 0.236)",
+        "background-image": "radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+        "background-size": "var(--tone-size) var(--tone-size)",
+        "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+        "clip-path": "polygon(calc(100% - var(--shadow-x)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--shadow-y)), calc(100% - var(--shadow-x)) calc(100% - var(--shadow-y)))"
+      },
+      "&:where([dir=\"rtl\"], [dir=\"rtl\"] *)::after": {
+        "translate": "calc(var(--shadow-x) * -1) var(--shadow-y)",
+        "clip-path": "polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%)"
+      }
+    },
+    "@utility mark-error": {
+      "--_e": "var(--destructive)",
+      "padding-inline-end": "2rem",
+      "background-image": "linear-gradient(var(--_e), var(--_e)), linear-gradient(var(--_e), var(--_e)), conic-gradient(from -45deg at 50% 100%, var(--_e) 90deg, #0000 0)",
+      "background-size": "3px 0.7rem, 3px 3px, 8px 5px",
+      "background-position": "right 0.85rem top calc(50% - 0.25rem), right 0.85rem top calc(50% + 0.55rem), left bottom",
+      "background-repeat": "no-repeat, no-repeat, repeat-x",
+      "&:where([dir=\"rtl\"], [dir=\"rtl\"] *)": {
+        "background-position": "left 0.85rem top calc(50% - 0.25rem), left 0.85rem top calc(50% + 0.55rem), right bottom"
+      }
+    },
+    "@utility shape-burst": {
+      "clip-path": "polygon(47% 0.1%, 59.6% 14.3%, 72% 11.9%, 74.7% 25.3%, 94.7% 27.6%, 86.7% 40.2%, 96.9% 47.2%, 82.8% 58.8%, 93.3% 75%, 76.2% 76.2%, 69.2% 88.5%, 59.3% 84.8%, 53% 99.9%, 40.9% 83.8%, 27% 89.8%, 23.1% 76.9%, 5.3% 72.4%, 15.2% 59.3%, 6.1% 52.6%, 17.2% 41.2%, 7.6% 25.5%, 23.8% 23.8%, 29% 8%, 40.9% 16.2%)"
+    },
+    "@utility edge-jagged": {
+      "--_j": "var(--jag)",
+      "mask": "conic-gradient(from 135deg at 50% 0, #000 90deg, #0000 0) 0 0 / calc(var(--_j) * 2) 100% repeat-x, conic-gradient(from -45deg at 50% 100%, #000 90deg, #0000 0) 0 0 / calc(var(--_j) * 2) 100% repeat-x, conic-gradient(from 45deg at 0 50%, #000 90deg, #0000 0) 0 0 / 100% calc(var(--_j) * 2) repeat-y, conic-gradient(from -135deg at 100% 50%, #000 90deg, #0000 0) 0 0 / 100% calc(var(--_j) * 2) repeat-y",
+      "mask-composite": "intersect"
+    },
+    "@keyframes mg-impact": {
+      "from": {
+        "filter": "invert(1) hue-rotate(180deg)"
+      },
+      "to": {
+        "filter": "invert(1) hue-rotate(180deg)"
+      }
+    },
+    "@keyframes mg-shake": {
+      "0%": {
+        "translate": "0 0"
+      },
+      "25%": {
+        "translate": "-3px 0"
+      },
+      "50%": {
+        "translate": "3px 0"
+      },
+      "75%": {
+        "translate": "-2px 0"
+      },
+      "100%": {
+        "translate": "0 0"
+      }
+    },
+    "@keyframes mg-pop": {
+      "0%": {
+        "scale": "0.9"
+      },
+      "33%": {
+        "scale": "1.05"
+      },
+      "66%": {
+        "scale": "1"
+      },
+      "100%": {
+        "scale": "1"
+      }
+    },
+    "@keyframes mg-spin": {
+      "to": {
+        "rotate": "360deg"
+      }
+    },
+    "@keyframes mg-draw": {
+      "from": {
+        "stroke-dashoffset": "var(--draw-length, 24)"
+      },
+      "to": {
+        "stroke-dashoffset": "0"
+      }
+    },
+    "@keyframes mg-enter": {
+      "0%": {
+        "translate": "0 10px"
+      },
+      "50%": {
+        "translate": "0 3px"
+      },
+      "100%": {
+        "translate": "0 0"
+      }
+    },
+    "@keyframes mg-sfx": {
+      "0%": {
+        "scale": "1.5",
+        "rotate": "-8deg"
+      },
+      "50%": {
+        "scale": "1",
+        "rotate": "0deg"
+      },
+      "100%": {
+        "scale": "1",
+        "rotate": "0deg"
+      }
+    },
+    "@keyframes mg-wiggle": {
+      "0%": {
+        "rotate": "-6deg"
+      },
+      "50%": {
+        "rotate": "6deg"
+      },
+      "100%": {
+        "rotate": "-6deg"
+      }
+    },
+    "@keyframes mg-tone-flicker": {
+      "0%": {
+        "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
+      },
+      "50%": {
+        "background-position": "calc(var(--tone-size) / 2) 0, var(--tone-size) calc(var(--tone-size) / 2)"
+      },
+      "100%": {
+        "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
+      }
+    },
+    "@keyframes mg-slide-in": {
+      "0%": {
+        "translate": "calc(2.5rem * var(--slide-dir, 1)) 0"
+      },
+      "33%": {
+        "translate": "calc(1rem * var(--slide-dir, 1)) 0"
+      },
+      "66%": {
+        "translate": "calc(0.3rem * var(--slide-dir, 1)) 0"
+      },
+      "100%": {
+        "translate": "0 0"
+      }
+    },
+    "@keyframes mg-hit": {
+      "0%": {
+        "filter": "invert(1) hue-rotate(180deg)",
+        "scale": "1.06",
+        "rotate": "-1.5deg"
+      },
+      "33%": {
+        "filter": "none",
+        "scale": "0.97",
+        "rotate": "1deg"
+      },
+      "66%": {
+        "filter": "none",
+        "scale": "1.02",
+        "rotate": "0deg"
+      },
+      "100%": {
+        "filter": "none",
+        "scale": "1",
+        "rotate": "0deg"
+      }
+    },
+    "@keyframes mg-hit-lines": {
+      "0%": {
+        "visibility": "visible",
+        "scale": "1 1"
+      },
+      "33%": {
+        "visibility": "visible",
+        "scale": "1.4 1"
+      },
+      "66%": {
+        "visibility": "hidden"
+      },
+      "100%": {
+        "visibility": "hidden"
+      }
+    },
+    "@keyframes mg-jitter": {
+      "0%": {
+        "scale": "1.1",
+        "rotate": "4deg"
+      },
+      "33%": {
+        "scale": "1.05",
+        "rotate": "-3deg"
+      },
+      "66%": {
+        "scale": "1.12",
+        "rotate": "7deg"
+      },
+      "100%": {
+        "scale": "1.1",
+        "rotate": "4deg"
+      }
+    },
+    "@keyframes mg-trail": {
+      "0%": {
+        "visibility": "visible",
+        "scale": "1 1"
+      },
+      "33%": {
+        "visibility": "visible",
+        "scale": "0.66 1"
+      },
+      "66%": {
+        "visibility": "visible",
+        "scale": "0.33 1"
+      },
+      "100%": {
+        "visibility": "hidden",
+        "scale": "0 1"
+      }
+    },
+    "@keyframes mg-spark": {
+      "0%": {
+        "visibility": "visible",
+        "scale": "0.4",
+        "rotate": "0deg"
+      },
+      "33%": {
+        "visibility": "visible",
+        "scale": "1.25",
+        "rotate": "20deg"
+      },
+      "66%": {
+        "visibility": "visible",
+        "scale": "0.8",
+        "rotate": "45deg"
+      },
+      "100%": {
+        "visibility": "hidden",
+        "scale": "0.8",
+        "rotate": "45deg"
+      }
+    },
+    "@keyframes mg-burst-lines": {
+      "0%": {
+        "visibility": "visible",
+        "scale": "1.2"
+      },
+      "28%": {
+        "visibility": "visible",
+        "scale": "1.08"
+      },
+      "57%": {
+        "visibility": "visible",
+        "scale": "1"
+      },
+      "100%": {
+        "visibility": "hidden",
+        "scale": "1"
+      }
+    },
+    "@keyframes mg-halo": {
+      "0%": {
+        "visibility": "visible",
+        "scale": "1.03"
+      },
+      "33%": {
+        "visibility": "visible",
+        "scale": "1.015"
+      },
+      "66%": {
+        "visibility": "visible",
+        "scale": "1"
+      },
+      "100%": {
+        "visibility": "hidden",
+        "scale": "1"
+      }
+    },
+    "@keyframes mg-toast-in": {
+      "0%": {
+        "translate": "0 32px",
+        "scale": "0.9"
+      },
+      "33%": {
+        "translate": "0 10px",
+        "scale": "1.05"
+      },
+      "66%": {
+        "translate": "0 2px",
+        "scale": "1"
+      },
+      "100%": {
+        "translate": "0 0",
+        "scale": "1"
+      }
+    },
+    "@keyframes mg-trail-v": {
+      "0%": {
+        "visibility": "visible",
+        "scale": "1 1"
+      },
+      "33%": {
+        "visibility": "visible",
+        "scale": "1 0.6"
+      },
+      "66%": {
+        "visibility": "visible",
+        "scale": "1 0.3"
+      },
+      "100%": {
+        "visibility": "hidden",
+        "scale": "1 0"
+      }
+    },
+    "@keyframes mg-page-hit": {
+      "0%": {
+        "filter": "invert(1) hue-rotate(180deg)",
+        "translate": "-6px 2px"
+      },
+      "25%": {
+        "filter": "invert(1) hue-rotate(180deg)",
+        "translate": "6px -2px"
+      },
+      "50%": {
+        "filter": "none",
+        "translate": "-4px 0"
+      },
+      "75%": {
+        "filter": "none",
+        "translate": "3px 0"
+      },
+      "100%": {
+        "filter": "none",
+        "translate": "0 0"
+      }
+    },
+    "@utility ink-case": {
+      "--mg-bw": "var(--mg-bw-panel)",
+      "background-color": "var(--tone-paper, var(--card))",
+      "color": "var(--card-foreground)",
+      "border": "var(--mg-bw-panel) solid var(--border)",
+      "isolation": "isolate",
+      "&::after": {
+        "content": "\"\"",
+        "position": "absolute",
+        "z-index": "-1",
+        "pointer-events": "none",
+        "inset": "calc(var(--mg-bw) * -1)",
+        "border-radius": "inherit",
+        "translate": "var(--shadow-x) var(--shadow-y)",
+        "--_tr": "calc(var(--tone-size) * 0.236)",
+        "background-image": "radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+        "background-size": "var(--tone-size) var(--tone-size)",
+        "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+        "clip-path": "polygon(calc(100% - var(--shadow-x)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--shadow-y)), calc(100% - var(--shadow-x)) calc(100% - var(--shadow-y)))"
+      },
+      "&:where([dir=\"rtl\"], [dir=\"rtl\"] *)::after": {
+        "translate": "calc(var(--shadow-x) * -1) var(--shadow-y)",
+        "clip-path": "polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%)"
+      }
+    },
+    "@utility ink-case-inner": {
+      "background-color": "var(--tone-paper, var(--card))",
+      "border": "var(--mg-bw) solid var(--border)"
+    },
+    "@utility fill-in": {
+      "--_from": "0%",
+      "animation": "mg-fill-in 249ms step-end backwards",
+      "&:where([dir=\"rtl\"], [dir=\"rtl\"] *, [data-reading=\"rtl\"] *)": {
+        "--_from": "100%"
+      }
+    },
+    "@keyframes mg-fill-in": {
+      "0%": {
+        "background-image": "linear-gradient(var(--primary), var(--primary)), linear-gradient(var(--background), var(--background))",
+        "background-repeat": "no-repeat",
+        "background-position": "var(--_from) 0, 0 0",
+        "background-size": "34% 100%, 100% 100%",
+        "-webkit-text-fill-color": "var(--foreground)"
+      },
+      "33%": {
+        "background-image": "linear-gradient(var(--primary), var(--primary)), linear-gradient(var(--background), var(--background))",
+        "background-repeat": "no-repeat",
+        "background-position": "var(--_from) 0, 0 0",
+        "background-size": "67% 100%, 100% 100%",
+        "-webkit-text-fill-color": "var(--foreground)"
+      },
+      "66%": {
+        "background-image": "none",
+        "-webkit-text-fill-color": "var(--primary-foreground)"
+      },
+      "100%": {
+        "background-image": "none",
+        "-webkit-text-fill-color": "var(--primary-foreground)"
+      }
+    },
+    "@keyframes mg-bar-in": {
+      "0%": {
+        "scale": "var(--bar-from, 0.34 1)"
+      },
+      "33%": {
+        "scale": "var(--bar-mid, 0.67 1)"
+      },
+      "66%": {
+        "scale": "1 1"
+      },
+      "100%": {
+        "scale": "1 1"
+      }
+    },
+    "@utility hover-lift": {
+      "--shadow-x": "2px",
+      "--shadow-y": "2px",
+      "transition": "--shadow-x 166ms steps(2, jump-none), --shadow-y 166ms steps(2, jump-none) !important",
+      "&:hover": {
+        "--shadow-x": "4px",
+        "--shadow-y": "4px",
+        "isolation": "isolate",
+        "&::after": {
+          "content": "\"\"",
+          "position": "absolute",
+          "z-index": "-1",
+          "pointer-events": "none",
+          "inset": "calc(var(--mg-bw) * -1)",
+          "border-radius": "inherit",
+          "translate": "var(--shadow-x) var(--shadow-y)",
+          "--_tr": "calc(var(--tone-size) * 0.236)",
+          "background-image": "radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+          "background-size": "var(--tone-size) var(--tone-size)",
+          "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+          "clip-path": "polygon(calc(100% - var(--shadow-x)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--shadow-y)), calc(100% - var(--shadow-x)) calc(100% - var(--shadow-y)))"
+        },
+        "&:where([dir=\"rtl\"], [dir=\"rtl\"] *)::after": {
+          "translate": "calc(var(--shadow-x) * -1) var(--shadow-y)",
+          "clip-path": "polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%)"
+        }
+      },
+      "&:active": {
+        "--shadow-x": "2px",
+        "--shadow-y": "2px"
+      }
+    },
+    "@utility hover-invert": {
+      "&:hover": {
+        "background-color": "var(--foreground)",
+        "color": "var(--background)",
+        "--tone-ink": "var(--background)"
+      }
+    },
+    "@utility hover-thicken": {
+      "&:hover": {
+        "box-shadow": "inset 0 0 0 1px var(--thicken-ink, var(--border))"
+      }
+    },
+    "@utility hover-underline": {
+      "text-decoration-line": "underline",
+      "text-decoration-thickness": "2px",
+      "text-underline-offset": "4px",
+      "&:hover": {
+        "text-decoration-thickness": "4px"
+      }
+    },
+    "@utility press": {
+      "&:active": {
+        "translate": "2px 2px"
+      },
+      "&:where([dir=\"rtl\"], [dir=\"rtl\"] *):active": {
+        "translate": "-2px 2px"
+      }
+    },
+    "@utility case-notch": {
+      "&::before": {
+        "content": "\"\"",
+        "display": "none",
+        "position": "absolute",
+        "z-index": "1",
+        "inset-inline-start": "1.25rem",
+        "width": "12px",
+        "height": "12px",
+        "background": "var(--tone-paper, var(--popover))",
+        "border-top": "var(--mg-bw) solid var(--border)",
+        "border-left": "var(--mg-bw) solid var(--border)"
+      },
+      "&:where([data-side=\"bottom\"])::before": {
+        "display": "block",
+        "top": "calc(var(--mg-bw) * -1 - 7px)",
+        "rotate": "45deg"
+      },
+      "&:where([data-side=\"top\"])::before": {
+        "display": "block",
+        "bottom": "calc(var(--mg-bw) * -1 - 7px)",
+        "rotate": "225deg"
+      }
+    },
+    "@utility fill-lines": {
+      "background-color": "var(--primary)",
+      "background-image": "repeating-linear-gradient(to bottom, #0000 0 3px, var(--primary-foreground) 3px 4px, #0000 4px 7px, var(--primary-foreground) 7px 7.6px, #0000 7.6px 11px)",
+      "background-size": "100% 11px"
+    },
+    "@utility mark-check": {
+      "display": "inline-block",
+      "width": "1em",
+      "height": "1em",
+      "background-color": "currentColor",
+      "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3.5 13.2c1.6.9 3.4 2.6 5 4.8.3.4.9.4 1.1-.1C12 12 15.4 7.4 20.6 3.6c.5-.4 0-1.1-.6-.8C14.4 5.6 10.8 9.8 8.6 14.4c-1.2-1.4-2.6-2.4-4.2-3-1-.4-1.8 1.2-.9 1.8z'/%3E%3C/svg%3E\") center / contain no-repeat",
+      "animation": "mg-check-in 249ms step-end backwards"
+    },
+    "@keyframes mg-check-in": {
+      "0%": {
+        "clip-path": "inset(0 66% 0 0)"
+      },
+      "33%": {
+        "clip-path": "inset(0 33% 0 0)"
+      },
+      "66%": {
+        "clip-path": "inset(0 0 0 0)"
+      },
+      "100%": {
+        "clip-path": "inset(0 0 0 0)"
+      }
+    },
+    "@keyframes mg-chevron": {
+      "0%": {
+        "rotate": "0deg"
+      },
+      "50%": {
+        "rotate": "90deg"
+      },
+      "100%": {
+        "rotate": "180deg"
+      }
+    },
+    "@utility mark-chevron": {
+      "display": "inline-block",
+      "width": "1em",
+      "height": "1em",
+      "background-color": "currentColor",
+      "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2.3 8.6c-.9-.9-.2-2.6 1.1-2.2 3.1 1 5.7 3.1 8.6 5.9 2.6-2.9 5.4-5.2 8.7-6.5 1.3-.5 2.2 1.1 1.2 2-3.3 3-6 6.2-8.5 9.9-.6.9-1.9.9-2.5 0-2.7-3.5-5.4-6.5-8.6-9.1z'/%3E%3C/svg%3E\") center / contain no-repeat"
+    },
+    "@utility mark-arrow": {
+      "display": "inline-block",
+      "width": "1em",
+      "height": "1em",
+      "background-color": "currentColor",
+      "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11.2 2.6c.4-.5 1.2-.5 1.6 0 2 2.6 3.8 4.6 6 6.6.6.6-.1 1.6-.9 1.2-1.4-.7-2.7-1.6-3.9-2.7.1 4.3.3 8.6.7 12.9.1.9-1.3 1.1-1.5.2-.6-4.3-.9-8.6-1-13-1.4 1.2-2.9 2.2-4.5 3-.8.4-1.5-.6-.9-1.2 1.6-2.2 3-4.6 4.4-7z'/%3E%3C/svg%3E\") center / contain no-repeat"
+    },
+    "@keyframes mg-drop-in": {
+      "0%": {
+        "translate": "0 -0.75rem",
+        "clip-path": "inset(0 0 66% 0)"
+      },
+      "33%": {
+        "translate": "0 -0.35rem",
+        "clip-path": "inset(0 0 33% 0)"
+      },
+      "66%": {
+        "translate": "0 0",
+        "clip-path": "inset(0 0 0 0)"
+      },
+      "100%": {
+        "translate": "0 0",
+        "clip-path": "inset(0 0 0 0)"
+      }
+    },
+    "@keyframes mg-sheet-in": {
+      "0%": {
+        "translate": "calc(var(--sheet-x, 0%) * 0.66) calc(var(--sheet-y, 0%) * 0.66)"
+      },
+      "33%": {
+        "translate": "calc(var(--sheet-x, 0%) * 0.25) calc(var(--sheet-y, 0%) * 0.25)"
+      },
+      "66%": {
+        "translate": "0 0"
+      },
+      "100%": {
+        "translate": "0 0"
+      }
+    },
+    "@keyframes mg-stamp": {
+      "0%": {
+        "scale": "1.5"
+      },
+      "33%": {
+        "scale": "0.92"
+      },
+      "66%": {
+        "scale": "1.03"
+      },
+      "100%": {
+        "scale": "1"
+      }
+    }
+  },
+  "registryDependencies": [
+    "Romcharted/mangacn/font-body",
+    "Romcharted/mangacn/font-lettering",
+    "Romcharted/mangacn/font-sfx"
+  ]
+}

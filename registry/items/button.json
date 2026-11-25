@@ -1,0 +1,55 @@
+{
+  "name": "button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth. A click plays a three-frame impact (negative, recoil, settle) with short speed lines on both sides; the shout burst fidgets on hover.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "button",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/button.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/button.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/button\". It wraps your own components/ui/button, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Ink flats, a tone band, a burst for the one call to action.",
+    "usage": "import { Button } from \"@/components/ui/manga/button\"\n\n<Button variant=\"shout\" size=\"lg\">Start!</Button>\n<Button variant=\"outline\" loading>Saving</Button>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"default\" | \"outline\" | \"tone\" | \"ghost\" | \"link\" | \"destructive\" | \"shout\"",
+        "default": "\"default\"",
+        "description": "Visual style."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"default\" | \"lg\" | \"icon\"",
+        "default": "\"default\"",
+        "description": "Height and padding."
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "default": "false",
+        "description": "Shows turning focus lines, sets aria-busy, disables the button."
+      },
+      {
+        "name": "fullWidth",
+        "type": "boolean",
+        "default": "false",
+        "description": "Stretches to the container width."
+      }
+    ]
+  }
+}

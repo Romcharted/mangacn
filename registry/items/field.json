@@ -1,0 +1,29 @@
+{
+  "name": "field",
+  "type": "registry:ui",
+  "title": "Field",
+  "description": "Manga-styled wrapper around your shadcn Field family (Field, FieldLabel, FieldDescription, FieldError, FieldSet, FieldLegend, FieldGroup, FieldSeparator). Labels in lettering, descriptions in ink, errors in the accent with a \"!\" mark and a shake. A choice card (FieldLabel wrapping a Field) is a 2px case; checked, it gets a 6px ink bar at the start.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "field",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/field.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/field.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/field\". It wraps your own components/ui/field, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Labels, help text and errors with a “!” mark.",
+    "usage": "import { Field, FieldDescription, FieldError, FieldLabel } from \"@/components/ui/manga/field\"\n\n<Field>\n  <FieldLabel htmlFor=\"email\">Email</FieldLabel>\n  <Input id=\"email\" aria-invalid />\n  <FieldError>Add the end of your address.</FieldError>\n</Field>",
+    "props": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "stamp",
+  "type": "registry:component",
+  "title": "Stamp",
+  "description": "A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/stamp.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/stamp.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/stamp\".",
+  "meta": {
+    "tagline": "A seal that lands with a thump.",
+    "usage": "import { Stamp } from \"@/components/manga/stamp\"\n\n<Stamp>Approved</Stamp>\n<Stamp orientation=\"vertical\">完了</Stamp>",
+    "props": [
+      {
+        "name": "rotate",
+        "type": "number",
+        "default": "-8",
+        "description": "Tilt in degrees."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "default": "\"horizontal\"",
+        "description": "Text direction."
+      },
+      {
+        "name": "animated",
+        "type": "boolean",
+        "default": "true",
+        "description": "Lands with a stepped thump."
+      }
+    ]
+  }
+}

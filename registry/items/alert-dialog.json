@@ -1,0 +1,44 @@
+{
+  "name": "alert-dialog",
+  "type": "registry:ui",
+  "title": "Alert Dialog",
+  "description": "Manga-styled wrapper around your shadcn Alert Dialog: a 3px case that pops in over three steps (flash adds a halo of concentration lines, off by default), over the light screentone veil from base. Action and Cancel are drawn as manga buttons; the action hits on click (tone=\"destructive\" for irreversible actions).",
+  "categories": [
+    "overlays"
+  ],
+  "registryDependencies": [
+    "alert-dialog",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures",
+    "Romcharted/mangacn/button"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/alert-dialog.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/alert-dialog.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/alert-dialog\". It wraps your own components/ui/alert-dialog, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A case that pops in over a screentone veil.",
+    "usage": "import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from \"@/components/ui/manga/alert-dialog\"\n\n<AlertDialog>\n  <AlertDialogTrigger>Delete volume</AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>Delete Vol. 3?</AlertDialogTitle>\n      <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Keep</AlertDialogCancel>\n      <AlertDialogAction tone=\"destructive\">Delete</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>",
+    "props": [
+      {
+        "name": "tone",
+        "type": "\"default\" | \"destructive\"",
+        "default": "\"default\"",
+        "description": "On AlertDialogAction: the button look."
+      },
+      {
+        "name": "flash",
+        "type": "boolean",
+        "default": "false",
+        "description": "On AlertDialogContent: a halo of concentration lines around the window as it opens."
+      }
+    ]
+  }
+}

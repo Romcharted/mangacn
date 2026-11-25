@@ -1,0 +1,36 @@
+{
+  "name": "tabs",
+  "type": "registry:ui",
+  "title": "Tabs",
+  "description": "Manga-styled wrapper around your shadcn Tabs. Variants: index (tabs resting on the 3px top edge of a framed panel, the active tab merges with the panel), underline (one baseline, a thick bar under the active tab), boxed (one frame split into cells, the active cell is an ink flat). The flat or bar travels to the new tab in three steps and the panel slides in. Labels always sit on paper. Horizontal and vertical; disabled tabs are dashed with a tone frame.",
+  "categories": [
+    "navigation"
+  ],
+  "registryDependencies": [
+    "tabs",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/tabs.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/tabs.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/tabs\". It wraps your own components/ui/tabs, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Chapter dividers, a thick underline or boxed tabs.",
+    "usage": "import { Tabs, TabsList, TabsTrigger, TabsContent } from \"@/components/ui/manga/tabs\"\n\n<Tabs variant=\"index\" defaultValue=\"v1\">\n  <TabsList>\n    <TabsTrigger value=\"v1\">Vol. 1</TabsTrigger>\n    <TabsTrigger value=\"v2\">Vol. 2</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"v1\">…</TabsContent>\n</Tabs>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"index\" | \"underline\" | \"boxed\"",
+        "default": "\"index\"",
+        "description": "Set on <Tabs>; lists and triggers follow."
+      }
+    ]
+  }
+}

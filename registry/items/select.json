@@ -1,0 +1,45 @@
+{
+  "name": "select",
+  "type": "registry:ui",
+  "title": "Select",
+  "description": "Manga-styled wrapper around your shadcn Select. The trigger is drawn like Input with a brush chevron that turns in two steps. The list is a case (3px ink line, tone shadow) with a notch toward the trigger, popping in over three frames. The highlighted option inverts to ink; the chosen option gets a brush check that draws itself. Group labels are underlined lettering; disabled options keep the label with a dashed underline. Adds SelectEmpty (a “…” mark) and SelectLoading (turning concentration lines).",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "select",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/select.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/select.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/select\". It wraps your own components/ui/select, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "An ink-lined trigger; the list pops in as a notched case.",
+    "usage": "import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from \"@/components/ui/manga/select\"\n\n<Select>\n  <SelectTrigger><SelectValue placeholder=\"Pick a volume\" /></SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"v1\">Vol. 1</SelectItem>\n    <SelectItem value=\"v2\">Vol. 2</SelectItem>\n  </SelectContent>\n</Select>",
+    "props": [
+      {
+        "name": "SelectEmpty",
+        "type": "component",
+        "description": "Empty list: a “…” mark and a short line."
+      },
+      {
+        "name": "SelectLoading",
+        "type": "component",
+        "description": "While options load: turning concentration lines."
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean",
+        "description": "On SelectTrigger: the error look."
+      }
+    ]
+  }
+}

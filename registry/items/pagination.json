@@ -1,0 +1,29 @@
+{
+  "name": "pagination",
+  "type": "registry:ui",
+  "title": "Pagination",
+  "description": "Manga-styled wrapper around your shadcn Pagination: page numbers are cells with a 2px frame whose line thickens on hover; the current page is an ink flat that sweeps in; previous / next carry brush arrows. In manga reading order the pages run right to left.",
+  "categories": [
+    "navigation"
+  ],
+  "registryDependencies": [
+    "pagination",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/pagination.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/pagination.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/pagination\". It wraps your own components/ui/pagination, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Cells for pages; the current one is ink.",
+    "usage": "import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from \"@/components/ui/manga/pagination\"\n\n<Pagination>\n  <PaginationContent>\n    <PaginationItem><PaginationPrevious href=\"#\" /></PaginationItem>\n    <PaginationItem><PaginationLink href=\"#\" isActive>1</PaginationLink></PaginationItem>\n    <PaginationItem><PaginationNext href=\"#\" /></PaginationItem>\n  </PaginationContent>\n</Pagination>",
+    "props": []
+  }
+}

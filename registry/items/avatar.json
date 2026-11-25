@@ -1,0 +1,29 @@
+{
+  "name": "avatar",
+  "type": "registry:ui",
+  "title": "Avatar",
+  "description": "Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "avatar",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/avatar.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/avatar.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/avatar\". It wraps your own components/ui/avatar, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A square panel for a face or initials.",
+    "usage": "import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/manga/avatar\"\n\n<Avatar>\n  <AvatarImage src=\"/me.png\" alt=\"\" />\n  <AvatarFallback>NO</AvatarFallback>\n</Avatar>",
+    "props": []
+  }
+}

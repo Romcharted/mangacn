@@ -1,0 +1,29 @@
+{
+  "name": "sheet",
+  "type": "registry:ui",
+  "title": "Sheet",
+  "description": "Manga-styled wrapper around your shadcn Sheet: a case docked to an edge, 3px line on the open side with an offset frame thrown onto the page, sliding in over three frames. Title in lettering; the veil comes from base.",
+  "categories": [
+    "overlays"
+  ],
+  "registryDependencies": [
+    "sheet",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/sheet.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/sheet.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/sheet\". It wraps your own components/ui/sheet, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A case sliding in from the edge.",
+    "usage": "import { Sheet, SheetContent, SheetTitle, SheetTrigger } from \"@/components/ui/manga/sheet\"\n\n<Sheet>\n  <SheetTrigger>Contents</SheetTrigger>\n  <SheetContent side=\"right\"><SheetTitle>Chapters</SheetTitle></SheetContent>\n</Sheet>",
+    "props": []
+  }
+}

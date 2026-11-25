@@ -1,0 +1,52 @@
+{
+  "name": "burst",
+  "type": "registry:component",
+  "title": "Burst",
+  "description": "A starburst drawn in SVG (irregular spikes, 3px outline) with its content centred on the flat, never on a tone. Variants ink, paper and accent; it fidgets in steps on hover, or always.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/burst.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/burst.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/burst\".",
+  "meta": {
+    "tagline": "A starburst for news and shouts.",
+    "usage": "import { Burst } from \"@/components/manga/burst\"\n\n<Burst>NEW!</Burst>\n<Burst variant=\"accent\" animated=\"always\">-50%</Burst>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"ink\" | \"paper\" | \"accent\"",
+        "default": "\"ink\"",
+        "description": "Fill."
+      },
+      {
+        "name": "points",
+        "type": "number",
+        "default": "14",
+        "description": "Number of spikes."
+      },
+      {
+        "name": "animated",
+        "type": "boolean | \"always\"",
+        "default": "true",
+        "description": "Fidgets on hover, or all the time."
+      },
+      {
+        "name": "seed",
+        "type": "number",
+        "description": "Changes the irregularity."
+      }
+    ]
+  }
+}

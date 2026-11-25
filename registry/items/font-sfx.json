@@ -1,0 +1,25 @@
+{
+  "name": "font-sfx",
+  "type": "registry:font",
+  "title": "Font: Dela Gothic One",
+  "description": "Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --font-manga-sfx. Installed by base.",
+  "categories": [
+    "foundations"
+  ],
+  "font": {
+    "family": "'Dela Gothic One', sans-serif",
+    "provider": "google",
+    "import": "Dela_Gothic_One",
+    "variable": "--font-manga-sfx",
+    "weight": [
+      "400"
+    ],
+    "subsets": [
+      "latin"
+    ],
+    "dependency": "@fontsource/dela-gothic-one"
+  },
+  "meta": {
+    "tagline": "A heavy face for sound effects, katakana included."
+  }
+}

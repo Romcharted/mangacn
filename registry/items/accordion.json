@@ -1,0 +1,29 @@
+{
+  "name": "accordion",
+  "type": "registry:ui",
+  "title": "Accordion",
+  "description": "Manga-styled wrapper around your shadcn Accordion. Items are cases stacked so they share their lines; the open header is an ink flat that sweeps in, the content drops in by steps and the brush chevron turns in two steps. Hover thickens the label underline; disabled items keep the label on paper inside a tone frame. Radix needs type=\"single\" | \"multiple\" on <Accordion>; Base UI does not.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "accordion",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/accordion.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/accordion.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/accordion\". It wraps your own components/ui/accordion, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Stacked cases; the open one turns to ink.",
+    "usage": "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from \"@/components/ui/manga/accordion\"\n\n<Accordion>\n  <AccordionItem value=\"a\">\n    <AccordionTrigger>Chapter 1</AccordionTrigger>\n    <AccordionContent>The long night.</AccordionContent>\n  </AccordionItem>\n</Accordion>",
+    "props": []
+  }
+}

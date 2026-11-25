@@ -1,0 +1,29 @@
+{
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "Manga-styled wrapper around your shadcn Checkbox. Square ink box; hover thickens the line (no screentone under 24px); checked is an ink flat with a brush check that draws itself in three frames; indeterminate is a thick bar; disabled is dashed; aria-invalid uses the accent colour.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "checkbox",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/checkbox.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/checkbox.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/checkbox\". It wraps your own components/ui/checkbox, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A square box; the brush check draws itself.",
+    "usage": "import { Checkbox } from \"@/components/ui/manga/checkbox\"\n\n<label className=\"flex items-center gap-3\">\n  <Checkbox defaultChecked /> Notify me\n</label>",
+    "props": []
+  }
+}

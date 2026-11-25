@@ -1,0 +1,29 @@
+{
+  "name": "slider",
+  "type": "registry:ui",
+  "title": "Slider",
+  "description": "Manga-styled wrapper around your shadcn Slider: a 2px ink rail whose filled part runs with speed lines, and an ink block thumb with a paper gap. Hover thickens the thumb line; dashed rail when disabled.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "slider",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/slider.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/slider.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/slider\". It wraps your own components/ui/slider, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A rail that fills with speed lines.",
+    "usage": "import { Slider } from \"@/components/ui/manga/slider\"\n\n<Slider defaultValue={[40]} max={100} />",
+    "props": []
+  }
+}

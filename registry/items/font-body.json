@@ -1,0 +1,23 @@
+{
+  "name": "font-body",
+  "type": "registry:font",
+  "title": "Font: Atkinson Hyperlegible Next",
+  "description": "Reading face for body text and form fields (SIL OFL). Sets --font-manga-body. Installed by base.",
+  "categories": [
+    "foundations"
+  ],
+  "font": {
+    "family": "'Atkinson Hyperlegible Next Variable', 'Atkinson Hyperlegible Next', sans-serif",
+    "provider": "google",
+    "import": "Atkinson_Hyperlegible_Next",
+    "variable": "--font-manga-body",
+    "subsets": [
+      "latin",
+      "latin-ext"
+    ],
+    "dependency": "@fontsource-variable/atkinson-hyperlegible-next"
+  },
+  "meta": {
+    "tagline": "The reading face for text and fields."
+  }
+}

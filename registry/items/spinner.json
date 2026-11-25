@@ -1,0 +1,28 @@
+{
+  "name": "spinner",
+  "type": "registry:ui",
+  "title": "Spinner",
+  "description": "Waiting mark: concentration lines turning in steps. The stock Spinner is only an icon, so this one draws its own lines (same props: className and svg attributes; role=\"status\").",
+  "categories": [
+    "feedback"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/spinner.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/spinner.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/spinner\".",
+  "meta": {
+    "tagline": "Concentration lines turning in steps.",
+    "usage": "import { Spinner } from \"@/components/ui/manga/spinner\"\n\n<Spinner />",
+    "props": []
+  }
+}

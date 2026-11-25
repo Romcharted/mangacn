@@ -1,0 +1,43 @@
+{
+  "name": "dialog",
+  "type": "registry:ui",
+  "title": "Dialog",
+  "description": "Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow that pops in over three steps; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. flash adds a halo of concentration lines around the window as it opens (off by default).",
+  "categories": [
+    "overlays"
+  ],
+  "registryDependencies": [
+    "dialog",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/dialog.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/dialog.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/dialog\". It wraps your own components/ui/dialog, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A centred panel over a light screentone veil.",
+    "usage": "import { Dialog, DialogTrigger, DialogContent, DialogTitle } from \"@/components/ui/manga/dialog\"\n\n<Dialog>\n  <DialogTrigger>Open</DialogTrigger>\n  <DialogContent size=\"sm\"><DialogTitle>Leave the chapter?</DialogTitle></DialogContent>\n</Dialog>",
+    "props": [
+      {
+        "name": "size",
+        "type": "\"sm\" | \"default\" | \"lg\" | \"full\"",
+        "default": "\"default\"",
+        "description": "On DialogContent: max width."
+      },
+      {
+        "name": "flash",
+        "type": "boolean",
+        "default": "false",
+        "description": "On DialogContent: a halo of concentration lines around the window as it opens."
+      }
+    ]
+  }
+}

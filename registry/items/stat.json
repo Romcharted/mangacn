@@ -1,0 +1,51 @@
+{
+  "name": "stat",
+  "type": "registry:component",
+  "title": "Stat",
+  "description": "A key figure in a case: label in lettering, the number in the SFX face, a brush arrow for the trend. With emphasis, concentration lines burst around the case (never under the number).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/stat.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/stat.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/stat\".",
+  "meta": {
+    "tagline": "A key figure in heavy lettering.",
+    "usage": "import { Stat } from \"@/components/manga/stat\"\n\n<Stat label=\"Readers\" value=\"12.4k\" delta=\"+8%\" trend=\"up\" emphasis />",
+    "props": [
+      {
+        "name": "label / value",
+        "type": "ReactNode",
+        "description": "What and how much."
+      },
+      {
+        "name": "delta",
+        "type": "ReactNode",
+        "description": "Change, e.g. \"+8%\"."
+      },
+      {
+        "name": "trend",
+        "type": "\"up\" | \"down\" | \"flat\"",
+        "default": "\"flat\"",
+        "description": "Arrow direction."
+      },
+      {
+        "name": "emphasis",
+        "type": "boolean",
+        "default": "false",
+        "description": "Focus lines around the case."
+      }
+    ]
+  }
+}

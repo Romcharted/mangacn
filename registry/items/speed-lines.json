@@ -1,0 +1,65 @@
+{
+  "name": "speed-lines",
+  "type": "registry:component",
+  "title": "Speed Lines",
+  "description": "Emphasis lines drawn in SVG at the real size: focus (radial concentration lines with an empty centre and a movable origin) or motion (tapered parallel lines at any direction). Density control, optional stepped animation (off with reduced motion). Children sit on top with a paper knockout, ideal for SFX.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/speed-lines.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/speed-lines.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/speed-lines\".",
+  "meta": {
+    "tagline": "Focus or motion lines to make a moment hit.",
+    "usage": "import { SpeedLines } from \"@/components/manga/speed-lines\"\n\n<SpeedLines className=\"h-56 grid place-items-center\">\n  <span aria-hidden className=\"font-sfx text-6xl\">ドン!</span>\n</SpeedLines>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"focus\" | \"motion\"",
+        "default": "\"focus\"",
+        "description": "Radial or parallel."
+      },
+      {
+        "name": "originX / originY",
+        "type": "number",
+        "default": "50",
+        "description": "Focus origin in %."
+      },
+      {
+        "name": "hole",
+        "type": "number",
+        "default": "0.35",
+        "description": "Empty centre (fraction of half-size)."
+      },
+      {
+        "name": "direction",
+        "type": "number",
+        "default": "0",
+        "description": "Motion angle in degrees."
+      },
+      {
+        "name": "density",
+        "type": "number",
+        "default": "0.6",
+        "description": "Amount of lines (0.1–1)."
+      },
+      {
+        "name": "animated",
+        "type": "boolean | \"slow\"",
+        "default": "false",
+        "description": "Redraws the lines in steps: true ≈ 6 fps, \"slow\" ≈ 2 fps. Off with reduced motion."
+      }
+    ]
+  }
+}

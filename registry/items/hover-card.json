@@ -1,0 +1,30 @@
+{
+  "name": "hover-card",
+  "type": "registry:ui",
+  "title": "Hover Card",
+  "description": "Manga-styled wrapper around your shadcn Hover Card: the same speech bubble as Popover, with a tail toward the trigger, popping in.",
+  "categories": [
+    "overlays"
+  ],
+  "registryDependencies": [
+    "hover-card",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/hover-card.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/hover-card.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/hover-card\". It wraps your own components/ui/hover-card, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A preview in a speech bubble.",
+    "usage": "import { HoverCard, HoverCardContent, HoverCardTrigger } from \"@/components/ui/manga/hover-card\"\n\n<HoverCard>\n  <HoverCardTrigger href=\"#\">@nightowl</HoverCardTrigger>\n  <HoverCardContent>Draws on Fridays.</HoverCardContent>\n</HoverCard>",
+    "props": []
+  }
+}
