@@ -1,0 +1,46 @@
+{
+  "name": "dashboard",
+  "type": "registry:block",
+  "title": "Dashboard",
+  "description": "A full dashboard made only with mangacn: a collapsible Sidebar (a sheet on phones), four Stat key figures, a bar chart and a line chart in screentone patterns (Chart), a Data Table of chapters with Badge statuses, a period switch (Button Group of pressed buttons) and a Command palette opened with Ctrl/⌘ K. Works in light, dark, any accent and at phone width.",
+  "categories": [
+    "blocks"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/sidebar",
+    "Romcharted/mangacn/stat",
+    "Romcharted/mangacn/chart",
+    "Romcharted/mangacn/data-table",
+    "Romcharted/mangacn/command",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/button-group",
+    "Romcharted/mangacn/badge",
+    "Romcharted/mangacn/kbd",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "lucide-react",
+    "recharts",
+    "@tanstack/react-table@^8"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/blocks/dashboard/dashboard.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/blocks/dashboard.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/blocks/dashboard\". The root fills its container: pass className=\"h-svh\" for a whole screen.",
+  "meta": {
+    "tagline": "Sidebar, key figures, toned charts, a data table and a command palette.",
+    "usage": "import { Dashboard } from \"@/components/manga/blocks/dashboard\"\n\n<Dashboard className=\"h-svh\" />",
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Size and placement of the whole interface."
+      }
+    ]
+  }
+}
