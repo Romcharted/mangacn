@@ -1,0 +1,69 @@
+{
+  "name": "typing-bubble",
+  "type": "registry:component",
+  "title": "Typing Bubble",
+  "description": "A speech or thought bubble (the kit SpeechBubble) that first shows three small ink squares rising one after another at 12 fps (waiting), then writes its text a few characters per frame with a stepped block caret. The whole text is laid out from the start (the rest is invisible), so the bubble never reflows. Text that grows over time (streamed answers) types on from where it stopped, never from zero. The typed text is aria-hidden; a visually hidden copy is announced once, complete, through aria-live=\"polite\"; the dots are role=\"status\" with aria-label=\"Typing\". Reduced motion: still dots, the text at once. Gestures: G6 bubble, G7 waiting.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/speech-bubble",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/typing-bubble.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/typing-bubble.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/typing-bubble\". It draws its outline with SpeechBubble from \"@/components/manga/speech-bubble\" (installed with it). TypingDots, the three waiting squares, is exported too.",
+  "meta": {
+    "tagline": "A bubble that waits, then writes.",
+    "usage": "import { TypingBubble } from \"@/components/manga/typing-bubble\"\n\n<TypingBubble text={answer} typing={!answer} onDone={() => setReady(true)} />",
+    "props": [
+      {
+        "name": "text",
+        "type": "string",
+        "description": "The text to write. It may grow over time: only the new characters animate."
+      },
+      {
+        "name": "typing",
+        "type": "boolean",
+        "default": "!text",
+        "description": "Show the three waiting dots; the writing pauses meanwhile."
+      },
+      {
+        "name": "speed",
+        "type": "number",
+        "default": "3",
+        "description": "Characters per frame at 12 fps. 0 shows the text at once."
+      },
+      {
+        "name": "variant",
+        "type": "\"speech\" | \"thought\"",
+        "default": "\"speech\"",
+        "description": "Bubble shape."
+      },
+      {
+        "name": "tail / tailAlign",
+        "type": "SpeechBubble tail props",
+        "default": "\"bottom\" / \"start\"",
+        "description": "Where the tail points, as in SpeechBubble."
+      },
+      {
+        "name": "onDone",
+        "type": "() => void",
+        "description": "Called each time the visible text catches up with text."
+      },
+      {
+        "name": "progress",
+        "type": "number",
+        "description": "Freezes the writing at this fraction (0–1), caret included: for previews and state grids."
+      }
+    ]
+  }
+}
