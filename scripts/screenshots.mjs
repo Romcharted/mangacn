@@ -42,8 +42,8 @@ async function launch() {
   throw new Error("No Chromium-based browser found (Chrome, Edge or a Playwright Chromium).")
 }
 
-const server = await preview({ preview: { port: 4179, strictPort: true }, logLevel: "error" })
-const base = "http://localhost:4179"
+const server = await preview({ preview: { port: Number(process.env.PORT ?? 4179), strictPort: true }, logLevel: "error" })
+const base = `http://localhost:${process.env.PORT ?? 4179}`
 const browser = await launch()
 
 const views = [
