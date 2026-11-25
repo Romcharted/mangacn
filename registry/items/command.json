@@ -1,0 +1,56 @@
+{
+  "name": "command",
+  "type": "registry:ui",
+  "title": "Command",
+  "description": "Manga-styled command palette (cmdk). The palette is a case (3px ink line, tone shadow) with a search row drawn like an input with a search mark and a 2px line under it. Group headings are underlined lettering; the highlighted item inverts to an ink flat; the chosen item gets a brush check; disabled items keep the label with a dashed underline. Shortcuts are mono lettering in a fine frame. CommandDialog pops in over three steps, and its case is the palette itself. Empty state uses a “…” mark. Gestures: G1 case, G2 flat, G3 hover inversion, G5 pop, G8 check.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "command",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/dialog"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/command.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/command.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/command\". It wraps your own components/ui/command (cmdk), so the stock command and cmdk are installed with it. CommandDialog uses the manga Dialog around the stock Command.",
+  "meta": {
+    "tagline": "A notched case of commands: the highlighted row inverts to ink.",
+    "usage": "import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandShortcut } from \"@/components/ui/manga/command\"\n\n<Command>\n  <CommandInput placeholder=\"Search chapters…\" />\n  <CommandList>\n    <CommandEmpty>No page matches.</CommandEmpty>\n    <CommandGroup heading=\"Read\">\n      <CommandItem value=\"chapter-12\">\n        Chapter 12 — The rooftop\n        <CommandShortcut>1</CommandShortcut>\n      </CommandItem>\n    </CommandGroup>\n  </CommandList>\n</Command>",
+    "props": [
+      {
+        "name": "CommandDialog",
+        "type": "component",
+        "description": "The palette in a dialog (open, onOpenChange, title, description). The dialog frame is hidden: the palette draws the case."
+      },
+      {
+        "name": "CommandInput",
+        "type": "component",
+        "description": "The search row: a search mark, an input in the reading face, a 2px line under it."
+      },
+      {
+        "name": "CommandEmpty",
+        "type": "component",
+        "description": "Shown when nothing matches: a “…” mark and a short line (children override the text)."
+      },
+      {
+        "name": "CommandItem",
+        "type": "component",
+        "description": "An option. disabled keeps the label with a dashed underline; data-checked=\"true\" shows the brush check."
+      },
+      {
+        "name": "CommandShortcut",
+        "type": "component",
+        "description": "A shortcut in mono lettering inside a fine frame, at the end of an item."
+      }
+    ]
+  }
+}
