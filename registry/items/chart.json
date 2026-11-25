@@ -1,0 +1,61 @@
+{
+  "name": "chart",
+  "type": "registry:ui",
+  "title": "Chart",
+  "description": "Manga-styled wrapper around the shadcn Chart (recharts). Series are told apart by screentone and hatching, never by colour: chartFill(series) gives each series a pattern (solid ink, 45° hatching, dots, horizontal lines, cross hatching, fine dots), bars and areas are outlined in 2px ink, pie slices are separated by paper gaps. Lines differ by dash and by marker (ChartMarker: square, diamond, dot). The container is a case; the tooltip is a speech bubble with a tail; the legend shows pattern swatches. Exports ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle, ChartPatterns, ChartMarker, chartFill, chartPattern, chartPatternFill and type ChartConfig. Ink and paper only, dark mode is the negative.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "chart",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "recharts"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/chart.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/chart.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/chart\". It wraps your own components/ui/chart. ChartContainer renders the pattern set itself, so chartFill(...) works in any chart inside it. Set the height with the CSS variable --chart-h (default 16rem), e.g. className=\"[--chart-h:8rem]\".",
+  "meta": {
+    "tagline": "Recharts in screentone: each series gets its own pattern, never a colour.",
+    "usage": "import { BarChart, Bar, XAxis } from \"recharts\"\nimport { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, chartFill, type ChartConfig } from \"@/components/ui/manga/chart\"\n\nconst config = { reads: { label: \"Reads\" }, sales: { label: \"Sales\" } } satisfies ChartConfig\nconst keys = Object.keys(config)\n\n<ChartContainer config={config}>\n  <BarChart data={data}>\n    <XAxis dataKey=\"month\" />\n    <ChartTooltip content={<ChartTooltipContent />} />\n    <ChartLegend content={<ChartLegendContent config={config} />} />\n    <Bar dataKey=\"reads\" fill={chartFill(\"reads\", keys)} stroke=\"currentColor\" strokeWidth={2} />\n    <Bar dataKey=\"sales\" fill={chartFill(\"sales\", keys)} stroke=\"currentColor\" strokeWidth={2} />\n  </BarChart>\n</ChartContainer>",
+    "props": [
+      {
+        "name": "ChartContainer",
+        "type": "{ config, id?, className? } + recharts children",
+        "description": "A case around the recharts container. className goes on the case; --chart-h sets the height."
+      },
+      {
+        "name": "chartFill(series, keys?)",
+        "type": "(number | string, string[]?) => string",
+        "description": "The url(#…) fill of a series: by index, or by its config key in keys. The first series is solid ink."
+      },
+      {
+        "name": "chartPattern / chartPatternFill",
+        "type": "helpers",
+        "description": "The pattern name of a series, or the fill of a named pattern (solid, paper, hatch, cross, dots, dots-fine, lines)."
+      },
+      {
+        "name": "ChartMarker",
+        "type": "{ cx, cy, kind?: \"square\" | \"diamond\" | \"dot\", size? }",
+        "description": "Point marker for a line's dot prop: a paper shape with an ink outline."
+      },
+      {
+        "name": "ChartTooltipContent",
+        "type": "recharts tooltip props",
+        "description": "Speech bubble with a tail; the indicator is hidden by default (set hideIndicator={false} to show it)."
+      },
+      {
+        "name": "ChartLegendContent",
+        "type": "{ config?, payload?, verticalAlign? }",
+        "description": "Legend with a pattern swatch per series; labels come from the config."
+      }
+    ]
+  }
+}
