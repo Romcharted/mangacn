@@ -38,3 +38,11 @@ export function States() {
     </div>
   )
 }
+
+export function Thumb() {
+  return (
+    <SpeedLines className="grid h-28 w-48 place-items-center border-ink">
+      <span aria-hidden className="font-sfx text-3xl">ドン!</span>
+    </SpeedLines>
+  )
+}
