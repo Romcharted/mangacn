@@ -1,0 +1,75 @@
+{
+  "name": "date-picker",
+  "type": "registry:ui",
+  "title": "Date Picker",
+  "description": "mangacn's own Date Picker (shadcn documents it as a recipe, not an item): DatePicker (one date) and DateRangePicker (from / to), built on the manga Popover and Calendar. The trigger is a field like the Select trigger: 2px ink line, a drawn calendar mark, the placeholder in the same ink (italic, never grey), the date formatted with date-fns. Hover thickens the line, focus is ink / paper / ink, the line goes to 3px while open, disabled is dashed with a tone frame, aria-invalid adds the accent line and a \"!\" mark. The calendar opens in a speech bubble with a tail toward the trigger and pops in; choosing a day closes it (single). The range picker shows two months from 640px and one on phones, so the bubble fits a 360px screen. Works with Radix and Base UI (the trigger only gets a className).",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/calendar",
+    "Romcharted/mangacn/popover",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "date-fns",
+    "react-day-picker"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/date-picker.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/date-picker.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/date-picker\". It uses the manga Popover and Calendar (installed with it), so Radix and Base UI both work. Pass calendarProps for the caption dropdowns (captionLayout=\"dropdown\" with startMonth / endMonth), disabled days or a locale. className replaces the default trigger width (w-72, w-80 for the range).",
+  "meta": {
+    "tagline": "An ink field that opens a calendar in a speech bubble.",
+    "usage": "import { DatePicker, DateRangePicker } from \"@/components/ui/manga/date-picker\"\n\n<DatePicker placeholder=\"Release day\" onValueChange={(date) => console.log(date)} />\n<DateRangePicker placeholder=\"Trip dates\" />",
+    "props": [
+      {
+        "name": "value / defaultValue",
+        "type": "Date (DatePicker) · DateRange (DateRangePicker)",
+        "description": "Controlled or initial value."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value) => void",
+        "description": "Called with the new date or range (undefined when cleared)."
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "default": "\"Pick a date\" · \"Pick dates\"",
+        "description": "Shown in the same ink, italic, while nothing is chosen."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Dashed line and tone frame; the calendar cannot open."
+      },
+      {
+        "name": "formatString",
+        "type": "string",
+        "default": "\"LLL d, y\"",
+        "description": "date-fns format of each date in the trigger."
+      },
+      {
+        "name": "calendarProps",
+        "type": "Partial<PropsBase>",
+        "description": "Extra Calendar props: captionLayout, startMonth, endMonth, disabled days, locale…"
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean",
+        "description": "The error look: accent line and a \"!\" mark."
+      },
+      {
+        "name": "datePickerTriggerClassName",
+        "type": "(className?) => string",
+        "description": "The trigger look, for a static twin or a trigger of your own."
+      }
+    ]
+  }
+}
