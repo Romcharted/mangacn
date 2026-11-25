@@ -2,15 +2,30 @@ import { AuthDivider, SocialButton } from "@registry/manga/signature/social-butt
 import { Button } from "@registry/manga/ui/button"
 import { Tile, Tiles, force } from "../state-grid"
 
-// Neutral placeholder marks only (a letter in lettering). The real brand logos are added later by the orchestrator.
+// A neutral stand-in for a mark (a letter in a fine frame), used in the frozen tiles.
 function Placeholder({ letter }: { letter: string }) {
-  return <span className="font-letter text-sm leading-none">{letter}</span>
+  return <span className="grid size-5 place-items-center border-ink-fine font-letter text-sm leading-none">{letter}</span>
+}
+
+/*
+ * The official Google icon from Google's "Sign in with Google" bundle (site/public/brands, see its README),
+ * shown unmodified: the light asset on paper, the dark asset in dark mode. Showcase only: the SocialButton
+ * item ships no logo.
+ */
+function GoogleMark() {
+  const src = (theme: "light" | "dark") => `${import.meta.env.BASE_URL}brands/google-signin-icon-${theme}@2x.png`
+  return (
+    <>
+      <img src={src("light")} alt="" width={32} height={32} className="size-8 dark:hidden" />
+      <img src={src("dark")} alt="" width={32} height={32} className="hidden size-8 dark:block" />
+    </>
+  )
 }
 
 export function Preview() {
   return (
     <div className="grid w-full max-w-sm gap-4">
-      <SocialButton provider="google" logo={<Placeholder letter="G" />}>
+      <SocialButton provider="google" logo={<GoogleMark />}>
         Continue with Google
       </SocialButton>
       <SocialButton provider="apple" logo={<Placeholder letter="A" />}>

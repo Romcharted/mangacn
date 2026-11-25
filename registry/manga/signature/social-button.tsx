@@ -1,12 +1,14 @@
 // Gestures: G3 hover, G4 impact, the focus ring and the loading lines all come from the Button it wraps
-// (outline variant). The logo plate is a paper square with a 1px ink line; AuthDivider is two fine ink rules.
+// (outline variant). The logo slot is a bare 32 × 32 box: it never recolours, frames or redraws the mark,
+// which brings its own plate when its brand asks for one (Google's official icon sits on its own white or
+// dark plate). AuthDivider is two fine ink rules.
 import * as React from "react"
 import { cn } from "cn"
 
 import { Button, type ButtonProps } from "@/components/ui/manga/button"
 
 export type SocialButtonProps = ButtonProps & {
-  /** The brand mark, supplied by the app (the item ships no logo). Fitted into a 20 × 20 paper plate. */
+  /** The brand mark, supplied by the app (the item ships no logo), used as the brand provides it. Fitted into a bare 32 × 32 box. */
   logo?: React.ReactNode
   /** Sets data-provider (e.g. "google", "apple") for styling hooks in the app. */
   provider?: string
@@ -27,7 +29,7 @@ function SocialButton({ logo, provider, children, variant = "outline", fullWidth
         <span
           data-slot="social-logo"
           aria-hidden
-          className="grid size-5 shrink-0 place-items-center overflow-hidden border-[length:var(--mg-bw-fine)] border-border bg-background [&>*]:max-h-full [&>*]:max-w-full"
+          className="-ms-2 grid size-8 shrink-0 place-items-center [&>*]:max-h-full [&>*]:max-w-full"
         >
           {logo}
         </span>
