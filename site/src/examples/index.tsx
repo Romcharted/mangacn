@@ -1,11 +1,18 @@
 import { Code } from "../copy"
+import { Chat } from "./chat"
+import chatSource from "./chat.tsx?raw"
 import { MangaPage } from "./manga-page"
+import { NotFound } from "./not-found"
+import notFoundSource from "./not-found.tsx?raw"
 import { SettingsScreen } from "./settings-screen"
 import settingsSource from "./settings-screen.tsx?raw"
 
 // Show the import paths a user gets after installing, not the showcase's own aliases.
 const userPaths = (src: string) =>
-  src.replace(/@registry\/manga\/ui\//g, "@/components/ui/manga/").replace(/@registry\/manga\/signature\//g, "@/components/manga/")
+  src
+    .replace(/@registry\/manga\/ui\//g, "@/components/ui/manga/")
+    .replace(/@registry\/manga\/signature\//g, "@/components/manga/")
+    .replace(/"\.\.\/art"/g, `"./art" // your own drawings`)
 
 export function Examples() {
   return (
@@ -40,6 +47,28 @@ export function Examples() {
           <SettingsScreen />
         </div>
         <Code text={userPaths(settingsSource)} />
+      </section>
+
+      <section aria-labelledby="ex-chat" className="mt-14 space-y-4">
+        <h2 id="ex-chat" className="font-letter text-3xl uppercase">
+          A conversation
+        </h2>
+        <p className="max-w-prose">Message, Bubble, Input and Button: write a line and send it.</p>
+        <div className="border-ink-fine p-4 sm:p-8">
+          <Chat />
+        </div>
+        <Code text={userPaths(chatSource)} />
+      </section>
+
+      <section aria-labelledby="ex-404" className="mt-14 space-y-4">
+        <h2 id="ex-404" className="font-letter text-3xl uppercase">
+          A 404 page
+        </h2>
+        <p className="max-w-prose">Three panels: PanelGrid, SpeedLines, Sfx, Manpu, a thought bubble and a shout button.</p>
+        <div className="border-ink-fine p-4 sm:p-8">
+          <NotFound />
+        </div>
+        <Code text={userPaths(notFoundSource)} />
       </section>
     </article>
   )

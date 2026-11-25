@@ -20,7 +20,7 @@ export function Preview() {
   const rows = [...chapters].sort((a, b) => (sort === "ascending" ? a.pages - b.pages : b.pages - a.pages))
   const toggle = (id: number) => setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]))
   return (
-    <Table maxHeight="16rem">
+    <Table>
       <TableHeader>
         <TableRow>
           <TableHead className="w-10">
@@ -81,6 +81,24 @@ export function States() {
             <TableCell>18</TableCell>
           </TableRow>
         </Mini>
+      </Tile>
+      <Tile label="sticky header (maxHeight)" size="lg">
+        <Table maxHeight="9.5rem">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Chapter</TableHead>
+              <TableHead>Pages</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {chapters.map((c) => (
+              <TableRow key={c.id}>
+                <TableCell>{c.title}</TableCell>
+                <TableCell>{c.pages}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </Tile>
       <Tile label="empty" size="lg">
         <Mini>

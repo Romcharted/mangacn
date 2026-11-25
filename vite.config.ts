@@ -39,6 +39,8 @@ export default defineConfig({
       "@registry": r("./registry"),
       // registry lib files keep the import path users get after install (@/lib/manga/...)
       "@/lib/manga": r("./registry/manga/lib"),
+      "@/components/ui/manga": r("./registry/manga/ui"),
+      "@/components/manga": r("./registry/manga/signature"),
       "@": r("./site/src"),
     },
   },

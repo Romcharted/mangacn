@@ -6,11 +6,8 @@ import { Switch } from "@registry/manga/ui/switch"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@registry/manga/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 
-const languages = [
-  { value: "en", label: "English" },
-  { value: "fr", label: "Français" },
-  { value: "ja", label: "日本語" },
-]
+// Values are the labels, so <SelectValue /> shows the same text under Base UI and Radix.
+const languages = ["English", "Français", "日本語"]
 
 const library = [
   { title: "The long night", volume: 3, progress: "Ch. 24" },
@@ -56,20 +53,20 @@ export function SettingsScreen() {
         </TabsContent>
         <TabsContent value="reading">
           <Row label="Right to left" hint="Turn pages like a printed manga.">
-            <Switch checked={rtl} onCheckedChange={setRtl} aria-label="Right to left" />
+            <Switch checked={rtl} onCheckedChange={(on: boolean) => setRtl(on)} aria-label="Right to left" />
           </Row>
           <Row label="New chapter alerts">
             <Switch defaultChecked aria-label="New chapter alerts" />
           </Row>
           <Row label="Language">
-            <Select items={languages} defaultValue="en">
+            <Select defaultValue="English">
               <SelectTrigger aria-label="Language">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent alignItemWithTrigger={false}>
+              <SelectContent>
                 {languages.map((l) => (
-                  <SelectItem key={l.value} value={l.value}>
-                    {l.label}
+                  <SelectItem key={l} value={l}>
+                    {l}
                   </SelectItem>
                 ))}
               </SelectContent>

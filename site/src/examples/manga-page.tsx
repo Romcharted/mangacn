@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import { Panel, PanelCaption, PanelGrid, type PanelProps } from "@registry/manga/signature/panel"
 import { Screentone } from "@registry/manga/signature/screentone"
 import { Sfx } from "@registry/manga/signature/sfx"
@@ -105,7 +105,7 @@ const LAYOUTS = {
   },
   strip: {
     grid: { cols: 1, rows: 4 },
-    box: "h-[60rem] w-full max-w-sm",
+    box: "h-[56rem] w-full max-w-sm",
     slots: [{ key: "city" }, { key: "big" }, { key: "eyes" }, { key: "talk" }] as Slot[],
   },
 } as const
@@ -138,14 +138,33 @@ ${l.slots.map((s) => `  <Panel${slotProps(s)}>\n    ${PANELS[s.key].code}\n  </P
 }`
 }
 
+function useNarrow(px: number) {
+  const query = `(max-width: ${px - 0.02}px)`
+  const [narrow, setNarrow] = useState(() => typeof matchMedia === "function" && matchMedia(query).matches)
+  useEffect(() => {
+    const mq = matchMedia(query)
+    const on = () => setNarrow(mq.matches)
+    mq.addEventListener("change", on)
+    return () => mq.removeEventListener("change", on)
+  }, [query])
+  return narrow
+}
+
 export function MangaPage() {
-  const [layout, setLayout] = useState<Layout>("big + 2")
+  const [chosen, setLayout] = useState<Layout>("big + 2")
   const [rtl, setRtl] = useState(false)
+  // On a phone (under 480px) the page becomes a vertical strip.
+  const narrow = useNarrow(480)
+  const layout: Layout = narrow ? "strip" : chosen
   const l = LAYOUTS[layout]
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
       <div className="flex flex-wrap items-end gap-6">
-        <Choice label="layout" value={layout} options={Object.keys(LAYOUTS) as Layout[]} onChange={setLayout} />
+        {narrow ? (
+          <p className="text-sm">On a narrow screen the page reads as a vertical strip.</p>
+        ) : (
+          <Choice label="layout" value={layout} options={Object.keys(LAYOUTS) as Layout[]} onChange={setLayout} />
+        )}
         <div className="w-56">
           <Flag label="read right to left" checked={rtl} onChange={setRtl} />
         </div>

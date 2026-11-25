@@ -18,6 +18,8 @@
     "paths": {
       "@registry/*": ["./registry/*"],
       "@/lib/manga/*": ["./registry/manga/lib/*"],
+      "@/components/ui/manga/*": ["./registry/manga/ui/*"],
+      "@/components/manga/*": ["./registry/manga/signature/*"],
       "@/*": ["./site/src/*"]
     }
   },

@@ -90,7 +90,7 @@ function TopBar(props: {
   return (
     <header className="relative z-40 sm:sticky sm:top-0 border-b-[length:var(--mg-bw-panel)] border-border bg-background">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 px-4 py-2.5">
-        <a href="#" className="font-letter text-2xl leading-none tracking-wide focus-ink" aria-label="mangacn, back to the gallery">
+        <a href="#" className="font-sfx text-xl leading-none focus-ink" aria-label="mangacn, back to the gallery">
           manga<span className="ink-fill px-1">cn</span>
         </a>
         <nav aria-label="Guides" className="flex gap-1.5">
@@ -198,7 +198,7 @@ function Gallery({ query, category }: { query: string; category: string | null }
       {showHero && (
         <section className="grid grid-cols-[minmax(0,1fr)] gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
           <div className="space-y-5">
-            <h1 className="font-letter text-5xl leading-[0.95] uppercase sm:text-6xl">
+            <h1 className="font-sfx text-[2rem] leading-[1.05] uppercase sm:text-[2.4rem] lg:text-[1.85rem] xl:text-[2.35rem]">
               shadcn/ui,
               <br />
               inked like a manga.
