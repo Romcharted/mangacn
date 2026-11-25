@@ -148,23 +148,33 @@ function Button({
   onClick,
   ...props
 }: ButtonProps) {
-  const handleClick = withImpact(onClick) as ShadcnProps["onClick"]
+  const withHit = withImpact(onClick) as NonNullable<ShadcnProps["onClick"]>
+  // Loading keeps the button focusable (no real `disabled`, so focus never drops to <body>):
+  // aria-busy + aria-disabled tell assistive tech, and clicks (and form submits) are ignored.
+  const handleClick: ShadcnProps["onClick"] = (event) => {
+    if (loading) {
+      event.preventDefault()
+      return
+    }
+    withHit(event)
+  }
   return (
     <ShadcnButton
       data-manga="button"
       data-variant={variant}
       data-loading={loading || undefined}
       aria-busy={loading || undefined}
+      aria-disabled={(loading && !disabled) || undefined}
       variant={VARIANTS[variant]}
       size={SIZES[size]}
-      disabled={disabled || loading}
+      disabled={disabled}
       className={cn(
         base,
         sizes[size],
         variants[variant],
         size === "lg" && variant === "shout" && "px-10",
         fullWidth && "w-full",
-        loading ? "disabled:cursor-progress" : disabledLook,
+        loading ? "cursor-progress" : disabledLook,
         className,
       )}
       onClick={handleClick}

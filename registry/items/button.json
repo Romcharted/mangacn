@@ -42,7 +42,7 @@
         "name": "loading",
         "type": "boolean",
         "default": "false",
-        "description": "Shows turning focus lines, sets aria-busy, disables the button."
+        "description": "Shows turning focus lines, sets aria-busy and aria-disabled and ignores clicks, but stays focusable (focus never drops to the page)."
       },
       {
         "name": "fullWidth",
