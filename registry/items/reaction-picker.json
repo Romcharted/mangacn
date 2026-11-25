@@ -1,0 +1,59 @@
+{
+  "name": "reaction-picker",
+  "type": "registry:component",
+  "title": "Reaction Picker",
+  "description": "A row of reactions drawn as manpu marks (anger, sweat, surprise, question, sparkle, gloom, love, sigh), each a toggle chip with its count in the SFX face: 2px ink frame, sharp corners. A chip is a button with aria-pressed; reacted = ink flat sweeping in (G2), hover thickens the line (G3, small cells), a click hits with speed lines (G4) and the count takes the hit when it changes; new chips pop in (G5). A \"+\" chip opens the kit Popover bubble (G6) with the eight marks as labelled buttons (\"React with anger\"); picking one toggles it and closes. Arrow keys move inside the grid. The row wraps; 44px targets under 640px. Controlled: pass reactions and toggle them in onReact. max caps the different kinds in the row; disabled makes it read-only (dashed chips). Exports ReactionChip and ReactionGrid for custom layouts and frozen previews.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/manpu",
+    "Romcharted/mangacn/popover",
+    "Romcharted/mangacn/gestures",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/reaction-picker.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/reaction-picker.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/reaction-picker\". It uses Manpu (\"@/components/manga/manpu\"), the kit Popover (\"@/components/ui/manga/popover\", which wraps your own components/ui/popover, Radix or Base UI) and withImpact, punch and ImpactLines from \"@/lib/manga/gestures\".",
+  "meta": {
+    "tagline": "React with manga emotion marks.",
+    "usage": "import { ReactionPicker } from \"@/components/manga/reaction-picker\"\n\n<ReactionPicker\n  reactions={[{ kind: \"love\", count: 12, active: true }, { kind: \"sweat\", count: 2 }]}\n  onReact={(kind) => toggle(kind)}\n/>",
+    "props": [
+      {
+        "name": "reactions",
+        "type": "{ kind: ManpuKind; count: number; active?: boolean }[]",
+        "description": "The row, in order. active = the reader reacted with it. Entries at 0 that are not active are hidden."
+      },
+      {
+        "name": "onReact",
+        "type": "(kind: ManpuKind) => void",
+        "description": "A chip or a mark of the picker was clicked: toggle that kind in your state."
+      },
+      {
+        "name": "kinds",
+        "type": "ManpuKind[]",
+        "default": "all eight",
+        "description": "Marks offered in the picker."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "description": "The most different kinds the row holds; once full, the other marks of the picker are disabled."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "default": "false",
+        "description": "Read-only row: dashed chips, no picker."
+      }
+    ]
+  }
+}
