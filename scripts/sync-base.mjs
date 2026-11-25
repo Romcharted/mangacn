@@ -50,6 +50,13 @@ for (const node of root.nodes) {
 
 const base = JSON.parse(readFileSync(ITEM, "utf8"))
 base.cssVars = cssVars
-base.css = toObject(rest)
+/*
+ * When base arrives as a dependency (`shadcn add …/button`), the CLI adds new variables to :root but keeps
+ * the values the project's theme already set (--border, --radius, --background…). The same values are
+ * therefore repeated under html:root and html.dark, one notch more specific than :root and .dark, so the
+ * kit's ink and paper win whatever the install order.
+ */
+const decls = (v) => Object.fromEntries(Object.entries(v).map(([k, val]) => [`--${k}`, val]))
+base.css = { "html:root": decls(cssVars.light), "html.dark": decls(cssVars.dark), ...toObject(rest) }
 writeFileSync(ITEM, JSON.stringify(base, null, 2) + "\n")
 console.log(`synced base: ${Object.keys(base.css).length} css blocks, ${Object.keys(cssVars.light).length} light vars`)
