@@ -11,7 +11,7 @@ Homepage: https://romcharted.github.io/mangacn
 
 ### Manga base (`base`)
 
-Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn variables (dark mode is the negative) and one accent colour, --mg-accent (stamp red by default; presets via data-accent="indigo|pine|ochre"), which also drives --destructive. Screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b, tone-frame), on-tone (paper plate for labels over tones), knockout (outline for heavy SFX), speed-lines and focus-lines, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged, mark-error, a reading-rtl: variant for manga reading order (data-reading="rtl"), a screentone veil for every shadcn overlay, and stepped 12 fps animations. Installed automatically as a dependency of every other item.
+Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn variables (dark mode is the negative) and one accent colour, --mg-accent (stamp red by default; presets via data-accent="indigo|pine|ochre"), which also drives --destructive. Screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b, tone-frame), on-tone (paper plate for labels over tones), knockout (outline for heavy SFX), speed-lines and focus-lines, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged, mark-error, a reading-rtl: variant for manga reading order (data-reading="rtl"), a screentone veil for every shadcn overlay, and stepped 12 fps animations. Installed automatically as a dependency of every other item. Includes stepped keyframes for tabs, clicks, switches, dialogs and toasts; all motion stops with prefers-reduced-motion.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/base`
 - Categories: foundations
@@ -46,7 +46,7 @@ Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --fo
 
 ### Button (`button`)
 
-Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth.
+Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth. A click plays a three-frame impact (negative, recoil, settle) with short speed lines on both sides; the shout burst fidgets on hover.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/button`
 - Categories: actions
@@ -97,7 +97,7 @@ import { Checkbox } from "@/components/ui/manga/checkbox"
 
 ### Switch (`switch`)
 
-Manga-styled wrapper around your shadcn Switch, 44 × 24 px. Off: paper track and ink thumb. On: ink track and paper thumb. Hover thickens the line, disabled is dashed, aria-invalid uses the accent colour.
+Manga-styled wrapper around your shadcn Switch, 44 × 24 px. Off: paper track and ink thumb. On: ink track and paper thumb. Hover thickens the line, disabled is dashed, aria-invalid uses the accent colour. The thumb travels in three steps with a trail of speed lines; a small spark flies off when it turns on.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/switch`
 - Categories: actions
@@ -143,7 +143,7 @@ import { Skeleton, SkeletonCard } from "@/components/ui/manga/skeleton"
 
 ### Toast (Sonner) (`sonner`)
 
-Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with an offset second frame, stepped entrance, lettering titles, ink marks for success / info / warning / error, concentration lines while loading, a shake on error. ToastSfx adds an onomatopoeia in its own column. ToastCard renders a static toast with the same look for previews and docs.
+Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with an offset second frame, stepped entrance, lettering titles, ink marks for success / info / warning / error, concentration lines while loading, a shake on error. ToastSfx adds an onomatopoeia in its own column. ToastCard renders a static toast with the same look for previews and docs. Toasts enter in three steps with motion lines under them.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sonner`
 - Categories: feedback
@@ -179,12 +179,12 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/manga/
 
 ### Tabs (`tabs`)
 
-Manga-styled wrapper around your shadcn Tabs. Variants: index (chapter dividers, active tab is an ink flat), underline (thick ink line), pills (paper tabs on a light tone). Labels always sit on paper. Horizontal and vertical; disabled tabs are dashed with a tone frame.
+Manga-styled wrapper around your shadcn Tabs. Variants: index (tabs resting on the 3px top edge of a framed panel, the active tab merges with the panel), underline (one baseline, a thick bar under the active tab), boxed (one frame split into cells, the active cell is an ink flat). The flat or bar travels to the new tab in three steps and the panel slides in. Labels always sit on paper. Horizontal and vertical; disabled tabs are dashed with a tone frame.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/tabs`
 - Categories: navigation
 - Props:
-  - `variant`: `"index" | "underline" | "pills"` (default `"index"`) — Set on <Tabs>; lists and triggers follow.
+  - `variant`: `"index" | "underline" | "boxed"` (default `"index"`) — Set on <Tabs>; lists and triggers follow.
 
 ```tsx
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/manga/tabs"
@@ -200,7 +200,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/manga/
 
 ### Dialog (`dialog`)
 
-Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside.
+Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. Opens with concentration lines behind the window for a few frames.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/dialog`
 - Categories: overlays
@@ -284,7 +284,7 @@ Emphasis lines drawn in SVG at the real size: focus (radial concentration lines 
   - `hole`: `number` (default `0.35`) — Empty centre (fraction of half-size).
   - `direction`: `number` (default `0`) — Motion angle in degrees.
   - `density`: `number` (default `0.6`) — Amount of lines (0.1–1).
-  - `animated`: `boolean` (default `false`) — Redraw in steps.
+  - `animated`: `boolean | "slow"` (default `false`) — Redraws the lines in steps: true ≈ 6 fps, "slow" ≈ 2 fps. Off with reduced motion.
 
 ```tsx
 import { SpeedLines } from "@/components/manga/speed-lines"

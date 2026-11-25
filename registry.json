@@ -7,7 +7,7 @@
       "name": "base",
       "type": "registry:theme",
       "title": "Manga base",
-      "description": "Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn variables (dark mode is the negative) and one accent colour, --mg-accent (stamp red by default; presets via data-accent=\"indigo|pine|ochre\"), which also drives --destructive. Screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b, tone-frame), on-tone (paper plate for labels over tones), knockout (outline for heavy SFX), speed-lines and focus-lines, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged, mark-error, a reading-rtl: variant for manga reading order (data-reading=\"rtl\"), a screentone veil for every shadcn overlay, and stepped 12 fps animations. Installed automatically as a dependency of every other item.",
+      "description": "Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn variables (dark mode is the negative) and one accent colour, --mg-accent (stamp red by default; presets via data-accent=\"indigo|pine|ochre\"), which also drives --destructive. Screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b, tone-frame), on-tone (paper plate for labels over tones), knockout (outline for heavy SFX), speed-lines and focus-lines, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged, mark-error, a reading-rtl: variant for manga reading order (data-reading=\"rtl\"), a screentone veil for every shadcn overlay, and stepped 12 fps animations. Installed automatically as a dependency of every other item. Includes stepped keyframes for tabs, clicks, switches, dialogs and toasts; all motion stops with prefers-reduced-motion.",
       "categories": [
         "foundations"
       ],
@@ -34,7 +34,17 @@
           "animate-enter": "mg-enter 166ms step-end",
           "animate-sfx": "mg-sfx 166ms step-end",
           "animate-wiggle": "mg-wiggle 500ms step-end infinite",
-          "animate-tone-flicker": "mg-tone-flicker 500ms step-end infinite"
+          "animate-tone-flicker": "mg-tone-flicker 500ms step-end infinite",
+          "animate-slide-in": "mg-slide-in 249ms step-end both",
+          "animate-hit": "mg-hit 249ms step-end",
+          "animate-hit-lines": "mg-hit-lines 249ms step-end both",
+          "animate-jitter": "mg-jitter 249ms step-end infinite",
+          "animate-trail": "mg-trail 249ms step-end both",
+          "animate-spark": "mg-spark 333ms step-end both",
+          "animate-burst-lines": "mg-burst-lines 583ms step-end both",
+          "animate-toast-in": "mg-toast-in 249ms step-end both",
+          "animate-trail-v": "mg-trail-v 249ms step-end both",
+          "animate-page-hit": "mg-page-hit 333ms step-end"
         },
         "light": {
           "paper": "oklch(0.975 0.008 85)",
@@ -465,6 +475,188 @@
           "100%": {
             "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
           }
+        },
+        "@keyframes mg-slide-in": {
+          "0%": {
+            "translate": "calc(2.5rem * var(--slide-dir, 1)) 0"
+          },
+          "33%": {
+            "translate": "calc(1rem * var(--slide-dir, 1)) 0"
+          },
+          "66%": {
+            "translate": "calc(0.3rem * var(--slide-dir, 1)) 0"
+          },
+          "100%": {
+            "translate": "0 0"
+          }
+        },
+        "@keyframes mg-hit": {
+          "0%": {
+            "filter": "invert(1) hue-rotate(180deg)",
+            "scale": "1.06",
+            "rotate": "-1.5deg"
+          },
+          "33%": {
+            "filter": "none",
+            "scale": "0.97",
+            "rotate": "1deg"
+          },
+          "66%": {
+            "filter": "none",
+            "scale": "1.02",
+            "rotate": "0deg"
+          },
+          "100%": {
+            "filter": "none",
+            "scale": "1",
+            "rotate": "0deg"
+          }
+        },
+        "@keyframes mg-hit-lines": {
+          "0%": {
+            "visibility": "visible",
+            "scale": "1 1"
+          },
+          "33%": {
+            "visibility": "visible",
+            "scale": "1.4 1"
+          },
+          "66%": {
+            "visibility": "hidden"
+          },
+          "100%": {
+            "visibility": "hidden"
+          }
+        },
+        "@keyframes mg-jitter": {
+          "0%": {
+            "scale": "1.1",
+            "rotate": "4deg"
+          },
+          "33%": {
+            "scale": "1.05",
+            "rotate": "-3deg"
+          },
+          "66%": {
+            "scale": "1.12",
+            "rotate": "7deg"
+          },
+          "100%": {
+            "scale": "1.1",
+            "rotate": "4deg"
+          }
+        },
+        "@keyframes mg-trail": {
+          "0%": {
+            "visibility": "visible",
+            "scale": "1 1"
+          },
+          "33%": {
+            "visibility": "visible",
+            "scale": "0.66 1"
+          },
+          "66%": {
+            "visibility": "visible",
+            "scale": "0.33 1"
+          },
+          "100%": {
+            "visibility": "hidden",
+            "scale": "0 1"
+          }
+        },
+        "@keyframes mg-spark": {
+          "0%": {
+            "visibility": "visible",
+            "scale": "0.4",
+            "rotate": "0deg"
+          },
+          "33%": {
+            "visibility": "visible",
+            "scale": "1.25",
+            "rotate": "20deg"
+          },
+          "66%": {
+            "visibility": "visible",
+            "scale": "0.8",
+            "rotate": "45deg"
+          },
+          "100%": {
+            "visibility": "hidden",
+            "scale": "0.8",
+            "rotate": "45deg"
+          }
+        },
+        "@keyframes mg-burst-lines": {
+          "0%": {
+            "visibility": "visible",
+            "scale": "1.2"
+          },
+          "28%": {
+            "visibility": "visible",
+            "scale": "1.08"
+          },
+          "57%": {
+            "visibility": "visible",
+            "scale": "1"
+          },
+          "100%": {
+            "visibility": "hidden",
+            "scale": "1"
+          }
+        },
+        "@keyframes mg-toast-in": {
+          "0%": {
+            "translate": "0 32px"
+          },
+          "33%": {
+            "translate": "0 12px"
+          },
+          "66%": {
+            "translate": "0 3px"
+          },
+          "100%": {
+            "translate": "0 0"
+          }
+        },
+        "@keyframes mg-trail-v": {
+          "0%": {
+            "visibility": "visible",
+            "scale": "1 1"
+          },
+          "33%": {
+            "visibility": "visible",
+            "scale": "1 0.6"
+          },
+          "66%": {
+            "visibility": "visible",
+            "scale": "1 0.3"
+          },
+          "100%": {
+            "visibility": "hidden",
+            "scale": "1 0"
+          }
+        },
+        "@keyframes mg-page-hit": {
+          "0%": {
+            "filter": "invert(1) hue-rotate(180deg)",
+            "translate": "-6px 2px"
+          },
+          "25%": {
+            "filter": "invert(1) hue-rotate(180deg)",
+            "translate": "6px -2px"
+          },
+          "50%": {
+            "filter": "none",
+            "translate": "-4px 0"
+          },
+          "75%": {
+            "filter": "none",
+            "translate": "3px 0"
+          },
+          "100%": {
+            "filter": "none",
+            "translate": "0 0"
+          }
         }
       },
       "registryDependencies": [
@@ -551,7 +743,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth.",
+      "description": "Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth. A click plays a three-frame impact (negative, recoil, settle) with short speed lines on both sides; the shout burst fidgets on hover.",
       "categories": [
         "actions"
       ],
@@ -675,7 +867,7 @@
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
-      "description": "Manga-styled wrapper around your shadcn Switch, 44 × 24 px. Off: paper track and ink thumb. On: ink track and paper thumb. Hover thickens the line, disabled is dashed, aria-invalid uses the accent colour.",
+      "description": "Manga-styled wrapper around your shadcn Switch, 44 × 24 px. Off: paper track and ink thumb. On: ink track and paper thumb. Hover thickens the line, disabled is dashed, aria-invalid uses the accent colour. The thumb travels in three steps with a trail of speed lines; a small spark flies off when it turns on.",
       "categories": [
         "actions"
       ],
@@ -782,7 +974,7 @@
       "name": "sonner",
       "type": "registry:ui",
       "title": "Toast (Sonner)",
-      "description": "Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with an offset second frame, stepped entrance, lettering titles, ink marks for success / info / warning / error, concentration lines while loading, a shake on error. ToastSfx adds an onomatopoeia in its own column. ToastCard renders a static toast with the same look for previews and docs.",
+      "description": "Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with an offset second frame, stepped entrance, lettering titles, ink marks for success / info / warning / error, concentration lines while loading, a shake on error. ToastSfx adds an onomatopoeia in its own column. ToastCard renders a static toast with the same look for previews and docs. Toasts enter in three steps with motion lines under them.",
       "categories": [
         "feedback"
       ],
@@ -860,7 +1052,7 @@
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
-      "description": "Manga-styled wrapper around your shadcn Tabs. Variants: index (chapter dividers, active tab is an ink flat), underline (thick ink line), pills (paper tabs on a light tone). Labels always sit on paper. Horizontal and vertical; disabled tabs are dashed with a tone frame.",
+      "description": "Manga-styled wrapper around your shadcn Tabs. Variants: index (tabs resting on the 3px top edge of a framed panel, the active tab merges with the panel), underline (one baseline, a thick bar under the active tab), boxed (one frame split into cells, the active cell is an ink flat). The flat or bar travels to the new tab in three steps and the panel slides in. Labels always sit on paper. Horizontal and vertical; disabled tabs are dashed with a tone frame.",
       "categories": [
         "navigation"
       ],
@@ -885,7 +1077,7 @@
         "props": [
           {
             "name": "variant",
-            "type": "\"index\" | \"underline\" | \"pills\"",
+            "type": "\"index\" | \"underline\" | \"boxed\"",
             "default": "\"index\"",
             "description": "Set on <Tabs>; lists and triggers follow."
           }
@@ -896,7 +1088,7 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside.",
+      "description": "Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. Opens with concentration lines behind the window for a few frames.",
       "categories": [
         "overlays"
       ],
@@ -1140,9 +1332,9 @@
           },
           {
             "name": "animated",
-            "type": "boolean",
+            "type": "boolean | \"slow\"",
             "default": "false",
-            "description": "Redraw in steps."
+            "description": "Redraws the lines in steps: true ≈ 6 fps, \"slow\" ≈ 2 fps. Off with reduced motion."
           }
         ]
       }
