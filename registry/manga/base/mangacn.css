@@ -1,0 +1,506 @@
+/*
+ * mangacn base — the single source for every shared style in the kit.
+ *
+ * `npm run sync` turns this file into the `base` item of registry.json:
+ *   :root            -> cssVars.light
+ *   .dark            -> cssVars.dark
+ *   @theme inline    -> cssVars.theme
+ *   everything else  -> css
+ * Edit this file, never the generated JSON.
+ *
+ * Rules (see AGENTS.md): two values only (ink, paper) plus one stamp red.
+ * Tones replace grey. No opacity, no smooth gradient, no blurred shadow.
+ */
+
+@theme inline {
+  --font-sans: var(--font-manga-body);
+  --font-heading: var(--font-manga-letter);
+  --font-letter: var(--font-manga-letter);
+  --font-sfx: var(--font-manga-sfx);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-stamp: var(--stamp);
+  --animate-impact: mg-impact 166ms linear;
+  --animate-shake: mg-shake 240ms step-end;
+  --animate-pop: mg-pop 240ms step-end;
+  --animate-spin-steps: mg-spin 666ms steps(8) infinite;
+  --animate-draw: mg-draw 240ms steps(3) both;
+  --animate-enter: mg-enter 166ms step-end;
+  --animate-sfx: mg-sfx 166ms step-end;
+  --animate-wiggle: mg-wiggle 500ms step-end infinite;
+  --animate-tone-flicker: mg-tone-flicker 500ms step-end infinite;
+}
+
+:root {
+  --paper: oklch(0.975 0.008 85);
+  --ink: oklch(0.2 0.012 60);
+  --stamp: oklch(0.52 0.2 27);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper);
+  --muted-foreground: var(--ink);
+  --accent: var(--ink);
+  --accent-foreground: var(--paper);
+  --destructive: var(--stamp);
+  --border: var(--ink);
+  --input: var(--ink);
+  --ring: var(--ink);
+  --chart-1: var(--ink);
+  --chart-2: var(--ink);
+  --chart-3: var(--ink);
+  --chart-4: var(--ink);
+  --chart-5: var(--ink);
+  --radius: 0rem;
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--ink);
+  --sidebar-accent-foreground: var(--paper);
+  --sidebar-border: var(--ink);
+  --sidebar-ring: var(--ink);
+  --font-manga-body: ui-sans-serif, system-ui, sans-serif;
+  --font-manga-letter: "Comic Sans MS", "Chalkboard SE", ui-rounded, sans-serif;
+  --font-manga-sfx: Impact, "Arial Black", sans-serif;
+}
+
+.dark {
+  --paper: oklch(0.18 0.008 60);
+  --ink: oklch(0.95 0.012 85);
+  --stamp: oklch(0.68 0.19 27);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper);
+  --muted-foreground: var(--ink);
+  --accent: var(--ink);
+  --accent-foreground: var(--paper);
+  --destructive: var(--stamp);
+  --border: var(--ink);
+  --input: var(--ink);
+  --ring: var(--ink);
+  --chart-1: var(--ink);
+  --chart-2: var(--ink);
+  --chart-3: var(--ink);
+  --chart-4: var(--ink);
+  --chart-5: var(--ink);
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--ink);
+  --sidebar-accent-foreground: var(--paper);
+  --sidebar-border: var(--ink);
+  --sidebar-ring: var(--ink);
+}
+
+/* ---------- Webtoon theme: same components, other variables ---------- */
+
+[data-theme="webtoon"] {
+  --paper: oklch(0.985 0.008 300);
+  --ink: oklch(0.27 0.03 295);
+  --stamp: oklch(0.58 0.19 18);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  --primary: oklch(0.52 0.17 295);
+  --primary-foreground: oklch(0.99 0.005 300);
+  --secondary: oklch(0.93 0.045 55);
+  --secondary-foreground: oklch(0.35 0.06 45);
+  --muted: oklch(0.95 0.018 300);
+  --muted-foreground: oklch(0.45 0.03 295);
+  --accent: oklch(0.93 0.04 300);
+  --accent-foreground: oklch(0.3 0.08 295);
+  --destructive: var(--stamp);
+  --border: oklch(0.88 0.02 300);
+  --input: oklch(0.86 0.025 300);
+  --ring: oklch(0.52 0.17 295);
+  --chart-1: oklch(0.52 0.17 295);
+  --chart-2: oklch(0.72 0.12 55);
+  --chart-3: oklch(0.65 0.12 185);
+  --chart-4: oklch(0.68 0.15 350);
+  --chart-5: oklch(0.8 0.12 95);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.97 0.012 300);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: oklch(0.52 0.17 295);
+  --sidebar-primary-foreground: oklch(0.99 0.005 300);
+  --sidebar-accent: oklch(0.93 0.04 300);
+  --sidebar-accent-foreground: oklch(0.3 0.08 295);
+  --sidebar-border: oklch(0.88 0.02 300);
+  --sidebar-ring: oklch(0.52 0.17 295);
+  --mg-bw: 1px;
+  --mg-bw-panel: 1px;
+  --mg-bw-fine: 1px;
+  --tone-solid: 1;
+  --tone-ink-10: oklch(0.96 0.02 300);
+  --tone-ink-20: oklch(0.93 0.035 300);
+  --tone-ink-35: oklch(0.9 0.05 55);
+  --tone-ink-50: oklch(0.86 0.07 55);
+  --lines-ink: oklch(0.86 0.06 300);
+  --shadow-ink: transparent;
+  --shadow-x: 0px;
+  --shadow-y: 0px;
+  --shadow-clip: none;
+  --tone-knockout: none;
+  --soft-shadow: 0 10px 28px -12px oklch(0.35 0.1 295 / 35%);
+}
+
+[data-theme="webtoon"].dark,
+.dark [data-theme="webtoon"] {
+  --paper: oklch(0.2 0.02 295);
+  --ink: oklch(0.94 0.012 300);
+  --stamp: oklch(0.7 0.17 18);
+  --card: oklch(0.25 0.025 295);
+  --popover: oklch(0.25 0.025 295);
+  --primary: oklch(0.76 0.13 295);
+  --primary-foreground: oklch(0.2 0.03 295);
+  --secondary: oklch(0.36 0.05 50);
+  --secondary-foreground: oklch(0.94 0.03 60);
+  --muted: oklch(0.27 0.025 295);
+  --muted-foreground: oklch(0.78 0.03 300);
+  --accent: oklch(0.32 0.05 295);
+  --accent-foreground: oklch(0.94 0.012 300);
+  --border: oklch(0.34 0.03 295);
+  --input: oklch(0.38 0.035 295);
+  --ring: oklch(0.76 0.13 295);
+  --sidebar: oklch(0.23 0.022 295);
+  --sidebar-primary: oklch(0.76 0.13 295);
+  --sidebar-primary-foreground: oklch(0.2 0.03 295);
+  --sidebar-accent: oklch(0.32 0.05 295);
+  --sidebar-accent-foreground: oklch(0.94 0.012 300);
+  --sidebar-border: oklch(0.34 0.03 295);
+  --sidebar-ring: oklch(0.76 0.13 295);
+  --tone-ink-10: oklch(0.25 0.025 295);
+  --tone-ink-20: oklch(0.29 0.035 295);
+  --tone-ink-35: oklch(0.33 0.05 50);
+  --tone-ink-50: oklch(0.38 0.06 50);
+  --lines-ink: oklch(0.36 0.06 295);
+  --soft-shadow: 0 12px 30px -12px oklch(0 0 0 / 60%);
+}
+
+/* ---------- Defaults for the kit's own knobs ---------- */
+
+@layer base {
+  :root {
+    --mg-bw: 2px;
+    --mg-bw-panel: 3px;
+    --mg-bw-fine: 1px;
+    --frame: 83ms;
+    --tone-size: 6px;
+    --tone-ink: currentColor;
+    --tone-solid: 0;
+    --speed-angle: 0deg;
+    --focus-x: 50%;
+    --focus-y: 50%;
+    --focus-hole: 26% 30%;
+    --shadow-x: 6px;
+    --shadow-y: 6px;
+    --jag: 4px;
+  }
+
+  * {
+    outline-color: var(--ring);
+  }
+
+  body {
+    font-family: var(--font-manga-body);
+  }
+
+  /* Muted and secondary surfaces are light screentone, never grey. */
+  .bg-muted {
+    --_ko: var(--tone-paper, var(--background));
+    text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+    --_tr: calc(var(--tone-size) * max(0.126, var(--tone-solid)));
+    background-image: radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px));
+    background-size: var(--tone-size) var(--tone-size);
+    background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+/* ---------- Screentone: dots at 45°, coloured by the ink ---------- */
+
+@utility tone-10 {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_tr: calc(var(--tone-size) * max(0.126, var(--tone-solid)));
+  background-image: radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px));
+  background-size: var(--tone-size) var(--tone-size);
+  background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2);
+}
+
+@utility tone-20 {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_tr: calc(var(--tone-size) * max(0.178, var(--tone-solid)));
+  background-image: radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px));
+  background-size: var(--tone-size) var(--tone-size);
+  background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2);
+}
+
+@utility tone-35 {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_tr: calc(var(--tone-size) * max(0.236, var(--tone-solid)));
+  background-image: radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px));
+  background-size: var(--tone-size) var(--tone-size);
+  background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2);
+}
+
+@utility tone-50 {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_tr: calc(var(--tone-size) * max(0.282, var(--tone-solid)));
+  background-image: radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px));
+  background-size: var(--tone-size) var(--tone-size);
+  background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2);
+}
+
+@utility tone-lines {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_lc: var(--tone-ink-20, var(--tone-ink));
+  background-image: repeating-linear-gradient(var(--tone-angle, 45deg), var(--_lc) 0 1px, #0000 1px var(--tone-size));
+  background-size: auto;
+}
+
+@utility tone-cross {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_lc: var(--tone-ink-20, var(--tone-ink));
+  background-image: repeating-linear-gradient(45deg, var(--_lc) 0 1px, #0000 1px var(--tone-size)), repeating-linear-gradient(-45deg, var(--_lc) 0 1px, #0000 1px var(--tone-size));
+  background-size: auto;
+}
+
+/*
+ * Fading tone: stacked density bands with hard edges (50 -> 35 -> 20 -> 10 -> none).
+ * Smaller dots share the centres of bigger ones, so each band shows its own density.
+ * The paper bands use --tone-paper; set it when the tone sits on a non-paper surface.
+ */
+@utility tone-fade-r {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_d: to right;
+  --_s: var(--tone-size);
+  --_c: var(--tone-ink-35, var(--tone-ink));
+  --_p: var(--tone-paper, var(--background));
+  --_r1: calc(var(--_s) * max(0.126, var(--tone-solid)));
+  --_r2: calc(var(--_s) * max(0.178, var(--tone-solid)));
+  --_r3: calc(var(--_s) * max(0.236, var(--tone-solid)));
+  --_r4: calc(var(--_s) * max(0.282, var(--tone-solid)));
+  background-image:
+    linear-gradient(var(--_d), #0000 80%, var(--_p) 80%),
+    radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)),
+    linear-gradient(var(--_d), #0000 60%, var(--_p) 60%),
+    radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)),
+    linear-gradient(var(--_d), #0000 40%, var(--_p) 40%),
+    radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)),
+    linear-gradient(var(--_d), #0000 20%, var(--_p) 20%),
+    radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px));
+  background-size: 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s);
+  background-position: 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2);
+  background-repeat: no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat;
+}
+
+@utility tone-fade-l {
+  @apply tone-fade-r;
+  --_d: to left;
+}
+
+@utility tone-fade-t {
+  @apply tone-fade-r;
+  --_d: to top;
+}
+
+@utility tone-fade-b {
+  @apply tone-fade-r;
+  --_d: to bottom;
+}
+
+/* ---------- Energy: speed lines (parallel) and focus lines (radial) ---------- */
+
+@utility speed-lines {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_lc: var(--lines-ink, var(--tone-ink));
+  background-image:
+    repeating-linear-gradient(var(--speed-angle), var(--_lc) 0 1px, #0000 1px 9px),
+    repeating-linear-gradient(var(--speed-angle), #0000 0 4px, var(--_lc) 4px 6px, #0000 6px 19px),
+    repeating-linear-gradient(var(--speed-angle), #0000 0 13px, var(--_lc) 13px 16px, #0000 16px 37px);
+}
+
+@utility focus-lines {
+  --_ko: var(--tone-paper, var(--background));
+  text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
+  --_lc: var(--lines-ink, var(--tone-ink));
+  background-image:
+    radial-gradient(var(--focus-hole) at var(--focus-x) var(--focus-y), var(--tone-paper, var(--background)) calc(100% - 1px), #0000 100%),
+    repeating-conic-gradient(from 0deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.8deg, #0000 0.8deg 4deg),
+    repeating-conic-gradient(from 1.7deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.5deg, #0000 0.5deg 7deg);
+}
+
+/* ---------- Ink: borders, solid fill, focus ring ---------- */
+
+@utility border-ink {
+  border: var(--mg-bw) solid var(--border);
+}
+
+@utility border-ink-panel {
+  --mg-bw: var(--mg-bw-panel);
+  border: var(--mg-bw-panel) solid var(--border);
+}
+
+@utility border-ink-fine {
+  border: var(--mg-bw-fine) solid var(--border);
+}
+
+/* Selected / active state: a flat of ink with paper text. */
+@utility ink-fill {
+  --tone-paper: var(--primary);
+  text-shadow: none;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  --tone-ink: var(--primary-foreground);
+}
+
+/* Visible focus: ink, paper, ink — in light and dark alike. */
+@utility focus-ink {
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 2px var(--ring), 0 0 0 4px var(--background);
+  }
+}
+
+/* ---------- Tone shadow: an offset block of screentone, never a blur ---------- */
+/* Needs a positioned element (relative, absolute, fixed or sticky). */
+
+@utility tone-shadow {
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    inset: calc(var(--mg-bw) * -1);
+    border-radius: inherit;
+    translate: var(--shadow-x) var(--shadow-y);
+    box-shadow: var(--soft-shadow, none);
+    --_tr: calc(var(--tone-size) * 0.236);
+    --_sc: var(--shadow-ink, var(--foreground));
+    background-image: radial-gradient(circle, var(--_sc) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--_sc) var(--_tr), #0000 calc(var(--_tr) + 0.5px));
+    background-size: var(--tone-size) var(--tone-size);
+    background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2);
+    clip-path: var(--shadow-clip, polygon(calc(100% - var(--shadow-x)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--shadow-y)), calc(100% - var(--shadow-x)) calc(100% - var(--shadow-y))));
+  }
+  &:where([dir="rtl"], [dir="rtl"] *)::after {
+    translate: calc(var(--shadow-x) * -1) var(--shadow-y);
+    clip-path: var(--shadow-clip, polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%));
+  }
+}
+
+/* ---------- Shapes ---------- */
+
+/* Burst for calls to action. Irregular 12-point star. */
+@utility shape-burst {
+  clip-path: polygon(47% 0.1%, 59.6% 14.3%, 72% 11.9%, 74.7% 25.3%, 94.7% 27.6%, 86.7% 40.2%, 96.9% 47.2%, 82.8% 58.8%, 93.3% 75%, 76.2% 76.2%, 69.2% 88.5%, 59.3% 84.8%, 53% 99.9%, 40.9% 83.8%, 27% 89.8%, 23.1% 76.9%, 5.3% 72.4%, 15.2% 59.3%, 6.1% 52.6%, 17.2% 41.2%, 7.6% 25.5%, 23.8% 23.8%, 29% 8%, 40.9% 16.2%);
+}
+
+/* Serrated edge for errors and destructive fills. Masks all four sides. */
+@utility edge-jagged {
+  --_j: var(--jag);
+  mask:
+    conic-gradient(from 135deg at 50% 0, #000 90deg, #0000 0) 0 0 / calc(var(--_j) * 2) 100% repeat-x,
+    conic-gradient(from -45deg at 50% 100%, #000 90deg, #0000 0) 0 0 / calc(var(--_j) * 2) 100% repeat-x,
+    conic-gradient(from 45deg at 0 50%, #000 90deg, #0000 0) 0 0 / 100% calc(var(--_j) * 2) repeat-y,
+    conic-gradient(from -135deg at 100% 50%, #000 90deg, #0000 0) 0 0 / 100% calc(var(--_j) * 2) repeat-y;
+  mask-composite: intersect;
+}
+
+/* ---------- Motion: stepped, ~12 frames per second, 80-240 ms ---------- */
+
+/* Impact frame: two frames in negative. */
+@keyframes mg-impact {
+  from { filter: invert(1); }
+  to { filter: invert(1); }
+}
+
+@keyframes mg-shake {
+  0% { translate: 0 0; }
+  25% { translate: -3px 0; }
+  50% { translate: 3px 0; }
+  75% { translate: -2px 0; }
+  100% { translate: 0 0; }
+}
+
+@keyframes mg-pop {
+  0% { scale: 0.4; }
+  33% { scale: 1.2; }
+  66% { scale: 0.95; }
+  100% { scale: 1; }
+}
+
+@keyframes mg-spin {
+  to { rotate: 360deg; }
+}
+
+@keyframes mg-draw {
+  from { stroke-dashoffset: var(--draw-length, 24); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes mg-enter {
+  0% { translate: 0 10px; }
+  50% { translate: 0 3px; }
+  100% { translate: 0 0; }
+}
+
+@keyframes mg-sfx {
+  0% { scale: 1.5; rotate: -8deg; }
+  50% { scale: 1; rotate: 0deg; }
+  100% { scale: 1; rotate: 0deg; }
+}
+
+@keyframes mg-wiggle {
+  0% { rotate: -6deg; }
+  50% { rotate: 6deg; }
+  100% { rotate: -6deg; }
+}
+
+@keyframes mg-tone-flicker {
+  0% { background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2); }
+  50% { background-position: calc(var(--tone-size) / 2) 0, var(--tone-size) calc(var(--tone-size) / 2); }
+  100% { background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2); }
+}
