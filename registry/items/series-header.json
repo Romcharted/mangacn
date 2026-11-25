@@ -1,0 +1,44 @@
+{
+  "name": "series-header",
+  "type": "registry:component",
+  "title": "Series Header",
+  "description": "The head of a manga series page, in a case: a 2:3 cover in a 2px case (image URL or any node; a screentone without one), the status as a Stamp (accent for new, ink for ongoing, completed and hiatus), the title in big lettering, an alternative title, the author, genres as outline Badges, up to four figures (chapters, volumes, readers) in a frame split into cells, a summary folded to a few lines with a Read more / Show less link (shown only when the text is cut; the unfolded text drops in) and your actions. At 375 px the cover sits beside the title and the rest takes the full width; in a wide container everything but the cover forms one column beside it (container queries, so it adapts to its column, not the window).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/stamp",
+    "Romcharted/mangacn/badge",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/series-header.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/series-header.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/series-header\". Pass Buttons or links as actions; on phones they share the row and grow to 44 px. Set as=\"h2\" when the page already has an h1.",
+  "meta": {
+    "tagline": "Cover, title, status, genres, a folding summary and the actions of a series.",
+    "usage": "import { SeriesHeader } from \"@/components/manga/series-header\"\nimport { Button } from \"@/components/ui/manga/button\"\n\n<SeriesHeader\n  title=\"Lantern Street\"\n  author=\"N. Arai\"\n  cover=\"/covers/lantern-street.jpg\"\n  status=\"ongoing\"\n  genres={[\"Slice of life\", \"Mystery\"]}\n  stats={[{ label: \"Chapters\", value: 38 }, { label: \"Volumes\", value: 4 }]}\n  summary=\"Every autumn the night market…\"\n  actions={<><Button>Start reading</Button><Button variant=\"outline\">Add to shelf</Button></>}\n/>",
+    "props": [
+      { "name": "title", "type": "ReactNode", "description": "Set in big lettering." },
+      { "name": "cover", "type": "string | ReactNode", "description": "Image URL or any node, in a 2:3 box. Without it, a screentone." },
+      { "name": "altTitle", "type": "ReactNode", "description": "Original or alternative title." },
+      { "name": "author", "type": "ReactNode", "description": "Author line." },
+      { "name": "status", "type": "\"new\" | \"ongoing\" | \"completed\" | \"hiatus\"", "description": "Shown as a stamp." },
+      { "name": "genres", "type": "string[]", "description": "Shown as outline badges." },
+      { "name": "stats", "type": "{ label: ReactNode; value: ReactNode }[]", "description": "Up to four figures." },
+      { "name": "summary", "type": "ReactNode", "description": "Folded to summaryLines lines with Read more." },
+      { "name": "summaryLines", "type": "2 | 3 | 4 | 5", "default": "3", "description": "Lines shown while folded." },
+      { "name": "actions", "type": "ReactNode", "description": "Buttons or links." },
+      { "name": "as", "type": "\"h1\" | \"h2\" | \"h3\"", "default": "\"h1\"", "description": "Heading level of the title." },
+      { "name": "className", "type": "string", "description": "Added to the case." }
+    ]
+  }
+}
