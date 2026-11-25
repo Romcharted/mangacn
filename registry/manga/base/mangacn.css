@@ -13,10 +13,10 @@
  */
 
 @theme inline {
-  --font-sans: var(--font-manga-body);
-  --font-heading: var(--font-manga-letter);
-  --font-letter: var(--font-manga-letter);
-  --font-sfx: var(--font-manga-sfx);
+  --font-sans: var(--font-manga-body, "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif);
+  --font-heading: var(--font-manga-letter, "Patrick Hand SC", "Comic Sans MS", cursive);
+  --font-letter: var(--font-manga-letter, "Patrick Hand SC", "Comic Sans MS", cursive);
+  --font-sfx: var(--font-manga-sfx, "Dela Gothic One", Impact, sans-serif);
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-stamp: var(--stamp);
@@ -67,9 +67,6 @@
   --sidebar-accent-foreground: var(--paper);
   --sidebar-border: var(--ink);
   --sidebar-ring: var(--ink);
-  --font-manga-body: ui-sans-serif, system-ui, sans-serif;
-  --font-manga-letter: "Comic Sans MS", "Chalkboard SE", ui-rounded, sans-serif;
-  --font-manga-sfx: Impact, "Arial Black", sans-serif;
 }
 
 .dark {
@@ -151,16 +148,20 @@
   --mg-bw-panel: 1px;
   --mg-bw-fine: 1px;
   --tone-solid: 1;
-  --tone-ink-10: oklch(0.96 0.02 300);
-  --tone-ink-20: oklch(0.93 0.035 300);
-  --tone-ink-35: oklch(0.9 0.05 55);
-  --tone-ink-50: oklch(0.86 0.07 55);
+  --tone-ink-10: oklch(0.965 0.016 295);
+  --tone-ink-20: oklch(0.935 0.03 295);
+  --tone-ink-35: oklch(0.895 0.05 295);
+  --tone-ink-50: oklch(0.85 0.075 295);
   --lines-ink: oklch(0.86 0.06 300);
   --shadow-ink: transparent;
   --shadow-x: 0px;
   --shadow-y: 0px;
   --shadow-clip: none;
   --tone-knockout: none;
+  --bubble-stroke: transparent;
+  --overlay-image: linear-gradient(oklch(0.25 0.06 295 / 45%), oklch(0.25 0.06 295 / 45%));
+  --bubble-fill: oklch(1 0 0);
+  --bubble-shadow: drop-shadow(0 8px 14px oklch(0.35 0.1 295 / 22%));
   --soft-shadow: 0 10px 28px -12px oklch(0.35 0.1 295 / 35%);
 }
 
@@ -189,12 +190,32 @@
   --sidebar-accent-foreground: oklch(0.94 0.012 300);
   --sidebar-border: oklch(0.34 0.03 295);
   --sidebar-ring: oklch(0.76 0.13 295);
-  --tone-ink-10: oklch(0.25 0.025 295);
+  --tone-ink-10: oklch(0.25 0.02 295);
   --tone-ink-20: oklch(0.29 0.035 295);
-  --tone-ink-35: oklch(0.33 0.05 50);
-  --tone-ink-50: oklch(0.38 0.06 50);
+  --tone-ink-35: oklch(0.335 0.05 295);
+  --tone-ink-50: oklch(0.38 0.065 295);
   --lines-ink: oklch(0.36 0.06 295);
   --soft-shadow: 0 12px 30px -12px oklch(0 0 0 / 60%);
+  --bubble-fill: oklch(0.27 0.025 295);
+  --bubble-shadow: drop-shadow(0 8px 16px oklch(0 0 0 / 45%));
+}
+
+/*
+ * Overlays behind dialogs, sheets and drawers: screentone, never blur or translucent grey.
+ * Unlayered on purpose: it must beat the stock bg-black/10 + backdrop-blur utilities.
+ */
+[data-slot="dialog-overlay"],
+[data-slot="alert-dialog-overlay"],
+[data-slot="sheet-overlay"],
+[data-slot="drawer-overlay"] {
+  --_tr: calc(var(--tone-size) * 0.236);
+  color: var(--foreground);
+  background-color: transparent;
+  background-image: var(--overlay-image, radial-gradient(circle, currentColor var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, currentColor var(--_tr), #0000 calc(var(--_tr) + 0.5px)));
+  background-size: var(--tone-size) var(--tone-size);
+  background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2);
+  backdrop-filter: none;
+  animation: none;
 }
 
 /* ---------- Defaults for the kit's own knobs ---------- */
@@ -222,17 +243,28 @@
   }
 
   body {
-    font-family: var(--font-manga-body);
+    font-family: var(--font-sans);
   }
 
-  /* Muted and secondary surfaces are light screentone, never grey. */
+  /* Muted surfaces are a very light screentone (~6%), never grey: light enough for small text. */
   .bg-muted {
+    --tone-size: 8px;
     --_ko: var(--tone-paper, var(--background));
     text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
-    --_tr: calc(var(--tone-size) * max(0.126, var(--tone-solid)));
+    --_tr: calc(var(--tone-size) * max(0.1, var(--tone-solid)));
     background-image: radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px));
     background-size: var(--tone-size) var(--tone-size);
     background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2);
+  }
+
+  /* Flats never inherit the paper knockout of a toned parent. */
+  .bg-primary,
+  .bg-destructive,
+  .bg-accent,
+  [data-manga][data-variant="destructive"],
+  [data-manga][data-variant="shout"],
+  [data-manga][data-variant="burst"] {
+    text-shadow: none;
   }
 
   :focus-visible {
@@ -314,7 +346,6 @@
   text-shadow: var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko));
   --_d: to right;
   --_s: var(--tone-size);
-  --_c: var(--tone-ink-35, var(--tone-ink));
   --_p: var(--tone-paper, var(--background));
   --_r1: calc(var(--_s) * max(0.126, var(--tone-solid)));
   --_r2: calc(var(--_s) * max(0.178, var(--tone-solid)));
@@ -322,13 +353,13 @@
   --_r4: calc(var(--_s) * max(0.282, var(--tone-solid)));
   background-image:
     linear-gradient(var(--_d), #0000 80%, var(--_p) 80%),
-    radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)),
+    radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)),
     linear-gradient(var(--_d), #0000 60%, var(--_p) 60%),
-    radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)),
+    radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)),
     linear-gradient(var(--_d), #0000 40%, var(--_p) 40%),
-    radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)),
+    radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)),
     linear-gradient(var(--_d), #0000 20%, var(--_p) 20%),
-    radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px));
+    radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px));
   background-size: 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s);
   background-position: 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2);
   background-repeat: no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat;
@@ -369,6 +400,17 @@
     radial-gradient(var(--focus-hole) at var(--focus-x) var(--focus-y), var(--tone-paper, var(--background)) calc(100% - 1px), #0000 100%),
     repeating-conic-gradient(from 0deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.8deg, #0000 0.8deg 4deg),
     repeating-conic-gradient(from 1.7deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.5deg, #0000 0.5deg 7deg);
+}
+
+/*
+ * Paper knockout around glyphs: the outline text gets on tones and lines, scaled
+ * with the font size. Use it on SFX and big lettering placed over art.
+ */
+@utility knockout {
+  --_ko: var(--tone-paper, var(--background));
+  --_k: max(2px, 0.06em);
+  --_kd: calc(var(--_k) * 0.7);
+  text-shadow: var(--tone-knockout, var(--_k) 0 var(--_ko), calc(var(--_k) * -1) 0 var(--_ko), 0 var(--_k) var(--_ko), 0 calc(var(--_k) * -1) var(--_ko), var(--_kd) var(--_kd) var(--_ko), calc(var(--_kd) * -1) calc(var(--_kd) * -1) var(--_ko), var(--_kd) calc(var(--_kd) * -1) var(--_ko), calc(var(--_kd) * -1) var(--_kd) var(--_ko), calc(var(--_k) / 2) 0 var(--_ko), calc(var(--_k) / -2) 0 var(--_ko), 0 calc(var(--_k) / 2) var(--_ko), 0 calc(var(--_k) / -2) var(--_ko));
 }
 
 /* ---------- Ink: borders, solid fill, focus ring ---------- */
@@ -431,6 +473,22 @@
   }
 }
 
+/*
+ * Error mark for fields: a stamp-red "!" at the inline end and a serrated
+ * bottom edge, drawn with gradients so it works on <input> and <textarea>.
+ */
+@utility mark-error {
+  --_e: var(--destructive);
+  padding-inline-end: 2rem;
+  background-image: linear-gradient(var(--_e), var(--_e)), linear-gradient(var(--_e), var(--_e)), conic-gradient(from -45deg at 50% 100%, var(--_e) 90deg, #0000 0);
+  background-size: 3px 0.7rem, 3px 3px, 8px 5px;
+  background-position: right 0.85rem top calc(50% - 0.25rem), right 0.85rem top calc(50% + 0.55rem), left bottom;
+  background-repeat: no-repeat, no-repeat, repeat-x;
+  &:where([dir="rtl"], [dir="rtl"] *) {
+    background-position: left 0.85rem top calc(50% - 0.25rem), left 0.85rem top calc(50% + 0.55rem), right bottom;
+  }
+}
+
 /* ---------- Shapes ---------- */
 
 /* Burst for calls to action. Irregular 12-point star. */
@@ -451,10 +509,10 @@
 
 /* ---------- Motion: stepped, ~12 frames per second, 80-240 ms ---------- */
 
-/* Impact frame: two frames in negative. */
+/* Impact frame: two frames in negative (lightness inverted, hue kept: red stays red). */
 @keyframes mg-impact {
-  from { filter: invert(1); }
-  to { filter: invert(1); }
+  from { filter: invert(1) hue-rotate(180deg); }
+  to { filter: invert(1) hue-rotate(180deg); }
 }
 
 @keyframes mg-shake {
