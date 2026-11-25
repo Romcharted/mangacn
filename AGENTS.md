@@ -95,6 +95,14 @@ Categories (first one decides the showcase section): `foundations`, `actions`, `
 - **Segments of a group keep their focus inside** (tabs, toggle groups, button groups, pagination cells):
   `focus-visible:outline-2! focus-visible:outline-offset-[-Npx]! focus-visible:shadow-none!`, so the ring never
   overlaps a neighbour or the panel.
+- **Restate the outline style when you move a focus ring.** Stock classes can set `outline-style: none`;
+  overriding only the width and offset leaves no ring at all. Write `focus-visible:outline-solid!` (and the
+  colour) with the offset, then check the focus tile.
+- **`cn` here does not merge classes.** A colour or border passed through `className` does not reliably
+  replace the component's own: give the component a prop (Stamp `tone`) instead of overriding from outside.
+- **Library-specific props stay out of registry files and blocks:** no `render`, no `asChild`, no Toggle
+  Group `type` / array values. Style a trigger with a class helper (`buttonClassName()`) or use plain pressed
+  buttons.
 - **Bars sit on their line, in whole pixels.** An underline bar shares the outer edge of its 2px baseline and
   grows inward (hover 4px, selected 6px). Never `calc(… + 1.5px)`.
 - **shadcn's Tabs drops `orientation`** before the primitive (both versions): the wrapper adds
