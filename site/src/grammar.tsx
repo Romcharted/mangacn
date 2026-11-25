@@ -81,7 +81,7 @@ const GESTURES: Gesture[] = [
   {
     id: "G5",
     name: "Pop",
-    when: "Whatever appears: three steps of scale (0.9 → 1.05 → 1). Important windows also flash concentration lines behind them.",
+    when: "Whatever appears: three steps of scale (0.9 → 1.05 → 1). A window may add a halo of concentration lines around it (FocusFlash, off by default).",
     utilities: ["animate-pop", "<FocusFlash />", "animate-slide-in", "animate-drop-in"],
     demo: (r) => (
       <div className="relative isolate grid h-40 w-full place-items-center overflow-hidden">
@@ -189,7 +189,7 @@ function GestureCard({ g }: { g: Gesture }) {
 export function Grammar() {
   return (
     <article className="pt-6" aria-labelledby="grammar-title">
-      <a href="#" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+      <a href="#/" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
         ← All components
       </a>
       <header className="mt-6 max-w-prose space-y-2">

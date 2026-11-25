@@ -46,7 +46,7 @@ Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --fo
 
 ### Gestures (`gestures`)
 
-The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4 impact on click or keyboard validation (data-impact for ~250 ms), <ImpactLines> draws the short speed lines outside the element, <FocusFlash> flashes concentration lines behind an important window (G5). Everything is skipped with prefers-reduced-motion.
+The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4 impact on click or keyboard validation (data-impact for ~250 ms), <ImpactLines> draws the short speed lines outside the element, <FocusFlash> draws an optional halo of concentration lines around a window as it opens (G5, never full screen). Everything is skipped with prefers-reduced-motion.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/gestures`
 - Categories: foundations
@@ -54,7 +54,7 @@ The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4
   - `punch(el)`: `(el: Element) => void` — Plays the three-frame impact on an element.
   - `withImpact(handler)`: `(handler?) => handler` — Wraps a click handler so it also plays the impact.
   - `<ImpactLines offset>`: `"normal" | "far"` (default `"normal"`) — Speed lines on both sides; "far" for bursts.
-  - `<FocusFlash />`: `component` — Concentration lines behind a window when it opens.
+  - `<FocusFlash />`: `component` — Optional halo of concentration lines around a window as it opens.
 
 ```tsx
 import { ImpactLines, withImpact } from "@/lib/manga/gestures"
@@ -287,12 +287,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 ### Dialog (`dialog`)
 
-Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. Opens with concentration lines behind the window for a few frames.
+Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow that pops in over three steps; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. flash adds a halo of concentration lines around the window as it opens (off by default).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/dialog`
 - Categories: overlays
 - Props:
   - `size`: `"sm" | "default" | "lg" | "full"` (default `"default"`) — On DialogContent: max width.
+  - `flash`: `boolean` (default `false`) — On DialogContent: a halo of concentration lines around the window as it opens.
 
 ```tsx
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/manga/dialog"
@@ -521,12 +522,13 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/manga/alert
 
 ### Alert Dialog (`alert-dialog`)
 
-Manga-styled wrapper around your shadcn Alert Dialog: a 3px case that pops in with a flash of concentration lines behind it, over the light screentone veil from base. Action and Cancel are drawn as manga buttons; the action hits on click (tone="destructive" for irreversible actions).
+Manga-styled wrapper around your shadcn Alert Dialog: a 3px case that pops in over three steps (flash adds a halo of concentration lines, off by default), over the light screentone veil from base. Action and Cancel are drawn as manga buttons; the action hits on click (tone="destructive" for irreversible actions).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/alert-dialog`
 - Categories: overlays
 - Props:
   - `tone`: `"default" | "destructive"` (default `"default"`) — On AlertDialogAction: the button look.
+  - `flash`: `boolean` (default `false`) — On AlertDialogContent: a halo of concentration lines around the window as it opens.
 
 ```tsx
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/manga/alert-dialog"

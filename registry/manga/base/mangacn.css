@@ -40,6 +40,7 @@
   --animate-trail: mg-trail 249ms step-end both;
   --animate-spark: mg-spark 333ms step-end both;
   --animate-burst-lines: mg-burst-lines 583ms step-end both;
+  --animate-halo: mg-halo 499ms step-end both;
   --animate-toast-in: mg-toast-in 249ms step-end both;
   --animate-trail-v: mg-trail-v 249ms step-end both;
   --animate-page-hit: mg-page-hit 333ms step-end;
@@ -583,6 +584,14 @@
   100% { visibility: hidden; scale: 1; }
 }
 
+/* Optional halo of lines around a window (FocusFlash): stays within its band, three frames then gone. */
+@keyframes mg-halo {
+  0% { visibility: visible; scale: 1.03; }
+  33% { visibility: visible; scale: 1.015; }
+  66% { visibility: visible; scale: 1; }
+  100% { visibility: hidden; scale: 1; }
+}
+
 /* Toast: enters from below in three steps, with motion lines trailing under it. */
 @keyframes mg-toast-in {
   0% { translate: 0 32px; scale: 0.9; }
@@ -650,9 +659,10 @@
 }
 
 /* G2 for bars and underlines (a thick bar under the active tab): it grows from the start in three steps. */
+/* Horizontal by default; a vertical bar sets --bar-from: 1 0.34 and --bar-mid: 1 0.67. */
 @keyframes mg-bar-in {
-  0% { scale: 0.34 1; }
-  33% { scale: 0.67 1; }
+  0% { scale: var(--bar-from, 0.34 1); }
+  33% { scale: var(--bar-mid, 0.67 1); }
   66% { scale: 1 1; }
   100% { scale: 1 1; }
 }

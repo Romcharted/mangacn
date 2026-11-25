@@ -42,6 +42,7 @@
           "animate-trail": "mg-trail 249ms step-end both",
           "animate-spark": "mg-spark 333ms step-end both",
           "animate-burst-lines": "mg-burst-lines 583ms step-end both",
+          "animate-halo": "mg-halo 499ms step-end both",
           "animate-toast-in": "mg-toast-in 249ms step-end both",
           "animate-trail-v": "mg-trail-v 249ms step-end both",
           "animate-page-hit": "mg-page-hit 333ms step-end",
@@ -618,6 +619,24 @@
             "scale": "1"
           }
         },
+        "@keyframes mg-halo": {
+          "0%": {
+            "visibility": "visible",
+            "scale": "1.03"
+          },
+          "33%": {
+            "visibility": "visible",
+            "scale": "1.015"
+          },
+          "66%": {
+            "visibility": "visible",
+            "scale": "1"
+          },
+          "100%": {
+            "visibility": "hidden",
+            "scale": "1"
+          }
+        },
         "@keyframes mg-toast-in": {
           "0%": {
             "translate": "0 32px",
@@ -738,10 +757,10 @@
         },
         "@keyframes mg-bar-in": {
           "0%": {
-            "scale": "0.34 1"
+            "scale": "var(--bar-from, 0.34 1)"
           },
           "33%": {
-            "scale": "0.67 1"
+            "scale": "var(--bar-mid, 0.67 1)"
           },
           "66%": {
             "scale": "1 1"
@@ -1017,7 +1036,7 @@
       "name": "gestures",
       "type": "registry:lib",
       "title": "Gestures",
-      "description": "The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4 impact on click or keyboard validation (data-impact for ~250 ms), <ImpactLines> draws the short speed lines outside the element, <FocusFlash> flashes concentration lines behind an important window (G5). Everything is skipped with prefers-reduced-motion.",
+      "description": "The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4 impact on click or keyboard validation (data-impact for ~250 ms), <ImpactLines> draws the short speed lines outside the element, <FocusFlash> draws an optional halo of concentration lines around a window as it opens (G5, never full screen). Everything is skipped with prefers-reduced-motion.",
       "categories": [
         "foundations"
       ],
@@ -1058,7 +1077,7 @@
           {
             "name": "<FocusFlash />",
             "type": "component",
-            "description": "Concentration lines behind a window when it opens."
+            "description": "Optional halo of concentration lines around a window as it opens."
           }
         ]
       }
@@ -1537,7 +1556,7 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. Opens with concentration lines behind the window for a few frames.",
+      "description": "Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow that pops in over three steps; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. flash adds a halo of concentration lines around the window as it opens (off by default).",
       "categories": [
         "overlays"
       ],
@@ -1566,6 +1585,12 @@
             "type": "\"sm\" | \"default\" | \"lg\" | \"full\"",
             "default": "\"default\"",
             "description": "On DialogContent: max width."
+          },
+          {
+            "name": "flash",
+            "type": "boolean",
+            "default": "false",
+            "description": "On DialogContent: a halo of concentration lines around the window as it opens."
           }
         ]
       }
@@ -2098,7 +2123,7 @@
       "name": "alert-dialog",
       "type": "registry:ui",
       "title": "Alert Dialog",
-      "description": "Manga-styled wrapper around your shadcn Alert Dialog: a 3px case that pops in with a flash of concentration lines behind it, over the light screentone veil from base. Action and Cancel are drawn as manga buttons; the action hits on click (tone=\"destructive\" for irreversible actions).",
+      "description": "Manga-styled wrapper around your shadcn Alert Dialog: a 3px case that pops in over three steps (flash adds a halo of concentration lines, off by default), over the light screentone veil from base. Action and Cancel are drawn as manga buttons; the action hits on click (tone=\"destructive\" for irreversible actions).",
       "categories": [
         "overlays"
       ],
@@ -2120,7 +2145,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/alert-dialog\". It wraps your own components/ui/alert-dialog, so Radix and Base UI both work.",
       "meta": {
-        "tagline": "A case that pops in, with concentration lines behind.",
+        "tagline": "A case that pops in over a screentone veil.",
         "usage": "import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from \"@/components/ui/manga/alert-dialog\"\n\n<AlertDialog>\n  <AlertDialogTrigger>Delete volume</AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>Delete Vol. 3?</AlertDialogTitle>\n      <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Keep</AlertDialogCancel>\n      <AlertDialogAction tone=\"destructive\">Delete</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>",
         "props": [
           {
@@ -2128,6 +2153,12 @@
             "type": "\"default\" | \"destructive\"",
             "default": "\"default\"",
             "description": "On AlertDialogAction: the button look."
+          },
+          {
+            "name": "flash",
+            "type": "boolean",
+            "default": "false",
+            "description": "On AlertDialogContent: a halo of concentration lines around the window as it opens."
           }
         ]
       }

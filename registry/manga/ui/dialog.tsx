@@ -40,10 +40,12 @@ function DialogOverlay({ className, ...props }: React.ComponentProps<typeof Shad
 
 export type DialogContentProps = React.ComponentProps<typeof ShadcnDialogContent> & {
   size?: DialogSize
+  /** A halo of concentration lines around the window as it opens (G5). Off by default. */
+  flash?: boolean
 }
 
-/** The panel: 3px frame, tone shadow, opens on an impact frame with concentration lines. Long content goes in <DialogBody>. */
-function DialogContent({ size = "default", className, children, ...props }: DialogContentProps) {
+/** The panel: 3px frame, tone shadow, pops in over three steps (G5). Long content goes in <DialogBody>. */
+function DialogContent({ size = "default", flash = false, className, children, ...props }: DialogContentProps) {
   return (
     <ShadcnDialogContent
       data-manga="dialog"
@@ -56,7 +58,7 @@ function DialogContent({ size = "default", className, children, ...props }: Dial
       )}
       {...props}
     >
-      <FocusFlash />
+      {flash && <FocusFlash />}
       {children}
     </ShadcnDialogContent>
   )

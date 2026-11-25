@@ -12,11 +12,11 @@ import {
   type DialogSize,
 } from "@registry/manga/ui/dialog"
 
-function Sample({ size = "default", long = false, label }: { size?: DialogSize; long?: boolean; label: string }) {
+function Sample({ size = "default", long = false, flash = false, label }: { size?: DialogSize; long?: boolean; flash?: boolean; label: string }) {
   return (
     <Dialog>
       <DialogTrigger render={<Button variant="outline" />}>{label}</DialogTrigger>
-      <DialogContent size={size}>
+      <DialogContent size={size} flash={flash}>
         <DialogHeader>
           <DialogTitle>Leave the chapter?</DialogTitle>
           <DialogDescription>Your place is saved. You can come back to page 14 at any time.</DialogDescription>
@@ -38,7 +38,12 @@ function Sample({ size = "default", long = false, label }: { size?: DialogSize; 
 }
 
 export function Preview() {
-  return <Sample label="Open dialog" />
+  return (
+    <div className="flex flex-wrap gap-3">
+      <Sample label="Open dialog" />
+      <Sample label="With flash" flash />
+    </div>
+  )
 }
 
 export function States() {

@@ -95,7 +95,7 @@ The showcase has a Grammar page (`#grammar`) that replays each one.
 | G2 | Flat | Selected, checked, active, current | `ink-fill` + `fill-in` (sweeps in over three frames in the reading direction). Bars: `animate-bar-in` |
 | G3 | Hover | Every interactive element | Framed: `hover-lift` (tone shadow appears at 2px, moves to 4px). Frameless: `hover-invert` or `hover-underline`. Elements of 24px or less, fields and cells of a group: `hover-thicken` (the line thickens by 1px, inside). Never a tone behind text |
 | G4 | Impact | Every click or validation | `data-[impact]:animate-hit` + `<ImpactLines />` + `withImpact(onClick)` / `punch(el)`. Without JavaScript the press still hits: explicit pressed negative, `press` (2px offset) and the lines while `:active` |
-| G5 | Pop | Whatever appears | `animate-pop` (0.9 → 1.05 → 1). Important windows: `<FocusFlash />`. Panels that slide: `animate-slide-in`; content that unfolds: `animate-drop-in` |
+| G5 | Pop | Whatever appears | `animate-pop` (0.9 → 1.05 → 1). Optional halo around a window: `<FocusFlash />` (Dialog `flash`, off by default, never full screen). Panels that slide: `animate-slide-in`; content that unfolds: `animate-drop-in` |
 | G6 | Bubble | Whatever floats and points | Tooltip / popover / hover card: a bubble with a tail (`<BubbleTail />`). Lists and menus: `ink-case case-notch` (notch toward the trigger, from `data-side`) |
 | G7 | Running line | Progress, waiting, value | `fill-lines`; waiting: `Spinner` (`animate-spin-steps`) |
 | G8 | Mark | Status and emotion | Error: `mark-error`, `edge-jagged` (32px+), `animate-shake`. New: `shape-burst`. Done: `mark-check`. Brush shapes: `mark-chevron`, `mark-arrow`. Manpu marks |

@@ -19,10 +19,18 @@ import { buttonClassName } from "@/components/ui/manga/button"
 import { FocusFlash, ImpactLines, withImpact } from "@/lib/manga/gestures"
 
 /*
- * Like Dialog: a case (G1) that pops in (G5) with a flash of concentration lines behind it. The veil comes
+ * Like Dialog: a case (G1) that pops in over three steps (G5); `flash` adds a halo of lines. The veil comes
  * from base. Action and Cancel are drawn as manga buttons and hit on click (G4).
  */
-function AlertDialogContent({ className, children, ...props }: React.ComponentProps<typeof ShadcnAlertDialogContent>) {
+function AlertDialogContent({
+  flash = false,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof ShadcnAlertDialogContent> & {
+  /** A halo of concentration lines around the window as it opens (G5). Off by default. */
+  flash?: boolean
+}) {
   return (
     <ShadcnAlertDialogContent
       data-manga="alert-dialog"
@@ -33,7 +41,7 @@ function AlertDialogContent({ className, children, ...props }: React.ComponentPr
       )}
       {...props}
     >
-      <FocusFlash />
+      {flash && <FocusFlash />}
       {children}
     </ShadcnAlertDialogContent>
   )

@@ -107,7 +107,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | --- | --- | --- |
 | Dialog | `dialog` | A centred panel over a light screentone veil. |
 | Tooltip | `tooltip` | A tiny speech or thought bubble. |
-| Alert Dialog | `alert-dialog` | A case that pops in, with concentration lines behind. |
+| Alert Dialog | `alert-dialog` | A case that pops in over a screentone veil. |
 | Popover | `popover` | A speech bubble pointing at its trigger. |
 | Hover Card | `hover-card` | A preview in a speech bubble. |
 | Dropdown Menu | `dropdown-menu` | A notched case; the row under the pointer turns to ink. |

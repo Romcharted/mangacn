@@ -3,7 +3,7 @@
 /*
  * mangacn gestures — the small JavaScript half of the grammar (the CSS half lives in base).
  * G4 Impact needs a trigger that outlives :active (keyboard included); G5 Pop gets a flash of
- * concentration lines behind important windows. Everything is skipped with reduced motion.
+ * halo of concentration lines around a window, on request. Everything is skipped with reduced motion.
  */
 import * as React from "react"
 import { cn } from "cn"
@@ -49,13 +49,15 @@ function lines(flip: boolean) {
 }
 
 /**
- * G4 Impact: short speed lines on both sides, outside the element, shown while an ancestor has
- * `data-impact`. The parent must be positioned. `offset` pushes them further out (e.g. for bursts).
+ * G4 Impact: short speed lines on both sides, outside the element, shown while their parent has
+ * `data-impact` or is pressed. Put them directly inside the element that hits, which must be positioned. `offset` pushes them further out (e.g. for bursts).
  */
 export function ImpactLines({ className, offset = "normal" }: { className?: string; offset?: "normal" | "far" }) {
   const side =
-    // in-active: the lines also show while pressed, so the click keeps an impact without JavaScript
-    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground in-active:visible in-data-[impact]:animate-hit-lines"
+    // Parent only, never in-*: :active matches every ancestor up to <html>, so a click anywhere on the
+    // page would show the lines of every button. [:active>&]: the lines also show while the element
+    // itself is pressed, so the click keeps an impact without JavaScript.
+    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground [:active>&]:visible [[data-impact]>&]:animate-hit-lines"
   return (
     <>
       <span
@@ -77,9 +79,9 @@ export function ImpactLines({ className, offset = "normal" }: { className?: stri
 }
 
 /**
- * G5 Pop, important windows: concentration lines behind the window for the first frames after it
- * opens. Place it first inside a positioned window. The box reaches past the screen and its middle
- * (the window) is masked out, so the lines never cover the content. Hidden with reduced motion.
+ * G5 Pop, optional: a halo of concentration lines in a 24px band around a window, for its first frames.
+ * Never full screen, never on by default (Dialog and Alert Dialog take `flash`). Place it first inside
+ * the positioned window; the window itself is masked out, so the lines never cover the content.
  */
 export function FocusFlash({ className }: { className?: string }) {
   return (
@@ -87,8 +89,8 @@ export function FocusFlash({ className }: { className?: string }) {
       aria-hidden
       data-manga="focus-flash"
       className={cn(
-        "pointer-events-none invisible absolute -inset-[100vmax] -z-10 p-[100vmax] text-foreground focus-lines [--focus-hole:1px_1px]",
-        "[mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)] animate-burst-lines",
+        "pointer-events-none invisible absolute -inset-6 -z-10 p-6 text-foreground focus-lines [--focus-hole:1px_1px]",
+        "[mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)] animate-halo",
         className,
       )}
     />
@@ -97,19 +99,20 @@ export function FocusFlash({ className }: { className?: string }) {
 
 /**
  * G6 Bubble: the tail of a floating bubble (tooltip, popover, hover card), pointing at the trigger.
- * Placed from the nearest data-side (Radix and Base UI both set it on the popup). Its fill hides the
+ * Placed from its parent's data-side (Radix and Base UI both set it on the popup): put it directly inside. Its fill hides the
  * bubble outline under it. `weight` matches the bubble's line (2 or 3 px).
  */
 export function BubbleTail({ variant = "speech", weight = 2 }: { variant?: "speech" | "thought"; weight?: 2 | 3 }) {
+  // Direct parent only ([[data-side=…]>&]), so a bubble nested in another popup keeps its own side.
   const pos = cn(
     "pointer-events-none absolute overflow-visible",
-    "in-data-[side=top]:top-full in-data-[side=top]:start-5",
-    "in-data-[side=bottom]:bottom-full in-data-[side=bottom]:start-5 in-data-[side=bottom]:-scale-y-100",
-    "in-data-[side=left]:left-full in-data-[side=left]:top-1/2 in-data-[side=left]:-translate-y-1/2 in-data-[side=left]:-rotate-90",
-    "in-data-[side=right]:right-full in-data-[side=right]:top-1/2 in-data-[side=right]:-translate-y-1/2 in-data-[side=right]:rotate-90",
+    "[[data-side=top]>&]:top-full [[data-side=top]>&]:start-5",
+    "[[data-side=bottom]>&]:bottom-full [[data-side=bottom]>&]:start-5 [[data-side=bottom]>&]:-scale-y-100",
+    "[[data-side=left]>&]:left-full [[data-side=left]>&]:top-1/2 [[data-side=left]>&]:-translate-y-1/2 [[data-side=left]>&]:-rotate-90",
+    "[[data-side=right]>&]:right-full [[data-side=right]>&]:top-1/2 [[data-side=right]>&]:-translate-y-1/2 [[data-side=right]>&]:rotate-90",
     weight === 3
-      ? "in-data-[side=top]:-mt-[4px] in-data-[side=bottom]:-mb-[4px] in-data-[side=left]:-ml-[4px] in-data-[side=right]:-mr-[4px]"
-      : "in-data-[side=top]:-mt-[3px] in-data-[side=bottom]:-mb-[3px] in-data-[side=left]:-ml-[3px] in-data-[side=right]:-mr-[3px]",
+      ? "[[data-side=top]>&]:-mt-[4px] [[data-side=bottom]>&]:-mb-[4px] [[data-side=left]>&]:-ml-[4px] [[data-side=right]>&]:-mr-[4px]"
+      : "[[data-side=top]>&]:-mt-[3px] [[data-side=bottom]>&]:-mb-[3px] [[data-side=left]>&]:-ml-[3px] [[data-side=right]>&]:-mr-[3px]",
   )
   const style = { fill: "var(--background)", stroke: "var(--foreground)", strokeWidth: weight, strokeLinejoin: "round" as const }
   return variant === "speech" ? (
