@@ -69,7 +69,7 @@ export function InterfacePage({ slug }: { slug: string }) {
         <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand(slug)}</code>
         <CopyButton text={installCommand(slug)} onCopied={() => track("copy-install", { item: slug })} className="border-s-[length:var(--mg-bw)]" />
       </div>
-      <div data-demo className="mt-6 border-ink-panel bg-background md:overflow-hidden">
+      <div data-demo className="mt-6 border-ink-panel bg-background md:overflow-clip">
         <Component />
       </div>
       <div className="mt-4">
@@ -101,7 +101,7 @@ export function HomeInterfaces() {
         </TabsList>
         {shown.map((i) => (
           <TabsContent key={i.slug} value={i.slug}>
-            <div data-demo className="border-ink-panel bg-background md:overflow-hidden">
+            <div data-demo className="border-ink-panel bg-background md:overflow-clip">
               <i.Component />
             </div>
             <a href={`#examples/${i.slug}`} className="mt-3 inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
