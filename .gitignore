@@ -4,3 +4,5 @@ screenshots/
 *.log
 .DS_Store
 .claude/
+.env.local
+.env.*.local

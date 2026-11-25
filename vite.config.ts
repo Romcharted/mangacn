@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from "node:url"
 import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 import type { Plugin as PostcssPlugin } from "postcss"
-import { defineConfig } from "vite"
+import { defineConfig, type Plugin } from "vite"
 
 const r = (p: string) => fileURLToPath(new URL(p, import.meta.url))
 
@@ -27,12 +27,34 @@ const forceStates: PostcssPlugin = {
   },
 }
 
+/*
+ * Hosting (see docs/deploy.md). BASE_PATH: where the site is served ("/" at the root of a domain,
+ * "/mangacn/" in a folder); "./" by default works anywhere since the site routes with the hash.
+ * SITE_URL: the public address (https://example.com/ or https://example.com/mangacn/), written into the
+ * share tags; without it the canonical and og:url tags are left out and og:image stays relative.
+ */
+const BASE_PATH = process.env.BASE_PATH || "./"
+const SITE_URL = process.env.SITE_URL ? process.env.SITE_URL.replace(/\/?$/, "/") : ""
+const siteUrl: Plugin = {
+  name: "mangacn-site-url",
+  transformIndexHtml(html) {
+    if (SITE_URL) return html.replaceAll("__SITE_URL__", SITE_URL)
+    return html
+      .split("\n")
+      .filter((line) => !/rel="canonical"|property="og:url"/.test(line))
+      .join("\n")
+      .replaceAll("__SITE_URL__", "")
+  },
+}
+
 // The site lives in ./site but imports the registry sources from ./registry,
 // exactly as a user project would after `shadcn add`.
 export default defineConfig({
   root: "site",
-  base: "./",
-  plugins: [react(), tailwindcss()],
+  base: BASE_PATH,
+  // .env files live at the repository root, next to package.json (the Vite root is ./site)
+  envDir: r("."),
+  plugins: [react(), tailwindcss(), siteUrl],
   css: { postcss: { plugins: [forceStates] } },
   resolve: {
     alias: {

@@ -1,18 +1,16 @@
-name: Deploy showcase
+name: Build
+
+# The site is hosted on Hostinger (docs/deploy.md). CI builds it, checks every item and keeps the
+# static build as a downloadable artifact, ready to upload.
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
   build:
@@ -25,19 +23,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          BASE_PATH: ${{ vars.BASE_PATH }}
       - run: npm run check
       - name: Generated files are in sync
         run: |
           git diff --exit-code registry.json README.md site/public/llms.txt || (echo "Generated files are out of sync. Run npm run sync." && exit 1)
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
+          name: mangacn-site
           path: site/dist
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          include-hidden-files: true
+          retention-days: 14
