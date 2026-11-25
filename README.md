@@ -62,7 +62,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 
 <!-- items:start -->
 
-100 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+106 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
 
 ### Foundations
 
@@ -190,6 +190,8 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Reaction Picker | `reaction-picker` | React with manga emotion marks. |
 | Reader Strip | `reader-strip` | Pages in a vertical strip, for scroll reading. |
 | Reading Progress | `reading-progress` | How far the reader has gone, in speed lines. |
+| Social Button | `social-button` | A sign-in button with a logo plate and an “or” rule. |
+| Password Strength | `password-strength` | A four-step gauge that fills with speed lines. |
 
 ### Full interfaces
 
@@ -202,7 +204,11 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Manga Reader | `manga-reader` | A vertical strip, chapters in a sheet, progress and reading order. |
 | Developer portfolio | `portfolio` | Intro panels, projects on a manga page, skills as a character sheet, a contact form. |
 | Catalog | `catalog` | Volume cards, filters, tabs and search. |
-| Sign in | `sign-in` | A big manga panel beside the form, then a one-time code. |
+| Sign in | `sign-in` | A manga panel beside the sign-in form, with social buttons and a jagged error box. |
+| Verify code | `verify-code` | Six digits, a resend countdown and a stamp when the code is right. |
+| Reset password | `reset-password` | A new password with a strength gauge, then a 'Saved!' stamp. |
+| Sign up | `sign-up` | A manga panel beside the sign-up form, with a strength gauge and social buttons. |
+| Forgot password | `forgot-password` | A manga panel beside a one-field recovery form that stamps “Sent!”. |
 
 <!-- items:end -->
 

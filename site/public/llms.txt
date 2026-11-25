@@ -1,6 +1,6 @@
 # mangacn
 
-> 100 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
+> 106 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -1874,6 +1874,48 @@ import { ReadingProgress } from "@/components/manga/reading-progress"
 <ReadingProgress value={37.5} showValue valueText="Page 3 / 8" />
 ```
 
+### Social Button (`social-button`)
+
+"Continue with <service>" button for third-party sign-in. An outline button (2px ink line, lettering label, hover, pressed, focus, loading and disabled exactly like the manga Button), 44px tall and full width by default. A logo slot at the start: a bare 32 × 32 box that fits the given mark without recolouring, framing or redrawing it (a mark that needs a plate, like Google's icon on white, brings its own); the item ships no logo and no brand colour. AuthDivider is a horizontal fine ink rule with "or" in lettering in the middle. All Button props pass through; provider sets data-provider.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/social-button`
+- Categories: manga
+- Props:
+  - `logo`: `React.ReactNode` (default `undefined`) — The brand mark, used as its brand provides it (with its own plate when the brand asks for one), fitted into a bare 32 × 32 box. Omit it for a button without a logo.
+  - `provider`: `string` (default `undefined`) — Sets data-provider on the button (e.g. "google", "apple").
+  - `variant`: `"default" | "outline" | "tone" | "ghost" | "link" | "destructive" | "shout"` (default `"outline"`) — Inherited from the manga Button.
+  - `fullWidth`: `boolean` (default `true`) — Stretches the button to the container width.
+  - `loading`: `boolean` (default `false`) — Inherited from the manga Button: turning lines, aria-busy, clicks ignored.
+  - `label (AuthDivider)`: `string` (default `"or"`) — Text in the middle of the divider; also its accessible label.
+
+```tsx
+import { SocialButton, AuthDivider } from "@/components/manga/social-button"
+
+<SocialButton provider="google" logo={<GoogleMark />}>Continue with Google</SocialButton>
+<AuthDivider />
+<SocialButton provider="apple" logo={<AppleMark />} loading>Continue with Apple</SocialButton>
+```
+
+### Password Strength (`password-strength`)
+
+A gauge under a password field: four segments (2px ink frame) that fill with speed lines, one after the other in steps; the top level is an ink flat. The label sits beside the gauge on paper and is announced politely; the gauge is role=meter. Props: value (the password, scored locally by passwordScore: length, lower/upper case, digits, symbols; no dictionary, no network) or score 0-4 (overrides value), labels (five, default Too short, Weak, Fair, Good, Strong), minLength (default 8). Also exports passwordScore(password, minLength?).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/password-strength`
+- Categories: manga
+- Props:
+  - `value`: `string` (default `""`) — The password to estimate locally. Ignored when score is given.
+  - `score`: `0 | 1 | 2 | 3 | 4` (default `undefined`) — A score from your own estimate. Overrides value.
+  - `labels`: `string[]` (default `["Too short", "Weak", "Fair", "Good", "Strong"]`) — Five labels for the scores 0 to 4.
+  - `minLength`: `number` (default `8`) — Passwords shorter than this score 0.
+
+```tsx
+import { PasswordStrength, passwordScore } from "@/components/manga/password-strength"
+
+<Input type="password" value={pw} onChange={(e) => setPw(e.target.value)} />
+<PasswordStrength value={pw} />
+<PasswordStrength score={3} labels={["Empty", "Poor", "OK", "Good", "Great"]} />
+```
+
 ### Dashboard (`dashboard`)
 
 A full dashboard made only with mangacn: a collapsible Sidebar (a sheet on phones), four Stat key figures, a bar chart and a line chart in screentone patterns (Chart), a Data Table of chapters with Badge statuses, a period switch (Button Group of pressed buttons) and a Command palette opened with Ctrl/⌘ K. Works in light, dark, any accent and at phone width.
@@ -1981,15 +2023,94 @@ import { Catalog } from "@/components/manga/blocks/catalog"
 
 ### Sign in (`sign-in`)
 
-A two-step sign-in made only with mangacn. On the start side a big manga Panel: a reader drawn in SVG (ink lines, paper fills, a screentone jacket), focus SpeedLines around her, a SpeechBubble whose line changes with each step, Sfx lettering and a PanelCaption; on phones the panel shrinks to a short banner above the form. On the end side the form, in a case (G1) when there is room: email and password Fields with Input, labels and shaking FieldErrors on submit, a 'Keep me signed in' Checkbox, a Sign in Button with its loading state, a FieldSeparator divider and a sign-up link. The second step asks for a one-time code with InputOTP (6 digits), shows a resend link after a 30 s countdown and the error look (accent lines, '!' mark) for the wrong code 000000; any other code signs in and shows a brush check. No network, links do not navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
+The sign-in screen of the mangacn auth flow, made only with the kit. A manga Panel: the reader drawn whole in SVG (ink lines, paper fills, a screentone jacket, an open volume), focus SpeedLines around her, a SpeechBubble ('Welcome back! Your shelf missed you.', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu mark and the Sfx ドキッ. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: email Field, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit), a 'Keep me signed in' Checkbox, a Sign in Button with its loading state (fields stay enabled), a 'Forgot password?' link, SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'New here? Create an account'. Errors: field errors (Field) with focus on the first wrong field; wrong credentials (demo: the password 'wrongpass') show a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp and an 'Enter your code' button for the second step. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sign-in`
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
+  - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` (default `undefined`) — Called by 'Forgot password?', 'Create an account' and 'Enter your code'. Without it these do nothing.
+  - `providers`: `{ id: string; label: string; logo?: React.ReactNode }[]` (default `[{ id: "google", label: "Continue with Google" }, { id: "apple", label: "Continue with Apple" }]`) — Third-party sign-in buttons. The block ships no logo; an empty list hides the divider and the buttons.
 
 ```tsx
 import { SignIn } from "@/components/manga/blocks/sign-in"
 
-<SignIn className="min-h-svh" />
+<SignIn
+  className="min-h-svh"
+  onNavigate={(screen) => router.push(`/${screen}`)}
+  providers={[{ id: "google", label: "Continue with Google", logo: <GoogleMark /> }]}
+/>
+```
+
+### Verify code (`verify-code`)
+
+The one-time code screen of a manga auth flow, made only with mangacn. A manga Panel shows a reader drawn whole in SVG (ink lines, paper fills, a screentone jacket) holding the email that just arrived, focus SpeedLines around her, 'ピコン' Sfx lettering and a SpeechBubble that reacts: 'Check your inbox!', a shout bubble 'Huh?!' on error, 'Yes!' on success. From 48rem of container width the panel sits on the start side at the full height of the form; under it the panel is a 4:3 picture above the form. The form, in a case (G1) when there is room: InputOTP with one group of 6 digits (fits 360px), a Button with its loading state, a resend link after a 30 s countdown (only the end and the resend are announced) and 'Use another email'. Fewer than six digits shows a Field error; the wrong code 000000 shows the G8 error box (accent fill, edge-jagged, '!' mark, shake, role=alert) and the InputOTP invalid look, focus back in the code; any other full code loads, then the success Stamp lands with the next action. The purpose prop (sign-in, sign-up, reset) changes the copy, the stamp ('Welcome back!', 'Welcome!', 'Verified!') and the next screen. Links call onNavigate and never navigate by themselves. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/verify-code`
+- Categories: blocks
+- Props:
+  - `purpose`: `"sign-in" | "sign-up" | "reset"` (default `"sign-in"`) — What the code confirms: changes the copy, the stamp and the next step (reset goes on to reset-password).
+  - `email`: `string` (default `"mika@inkwell.app"`) — The address the code was sent to.
+  - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` — Called by 'Use another email' (back to sign-in, sign-up or forgot-password) and, for reset, by 'Choose a new password'. Without it they do nothing.
+  - `onContinue`: `() => void` — Called by the button shown once a sign-in or sign-up code is accepted.
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { VerifyCode } from "@/components/manga/blocks/verify-code"
+
+<VerifyCode purpose="sign-in" email="mika@inkwell.app" onNavigate={(screen) => router.push(`/${screen}`)} />
+```
+
+### Reset password (`reset-password`)
+
+The last screen of a manga 'forgot password' flow, made only with mangacn. A manga Panel shows a reader drawn whole in SVG (ink lines, paper fills, a screentone jacket) holding up a big key, focus SpeedLines around her, 'キラッ' Sfx lettering and a SpeechBubble that reacts: 'A fresh start.', a shout bubble 'Huh?!' on error, 'Yes!' on success. From 48rem of container width the panel sits on the start side at the full height of the form; under it the panel is a 4:3 picture above the form. The form, in a case (G1) when there is room: a new password in an InputGroup with a show/hide toggle (aria-pressed, 'Show password' / 'Hide password', touch-hit, it reveals both fields) and a PasswordStrength gauge, a confirmation Input, a Save Button with its loading state. Field errors (empty, weak when the score is under 2, mismatch) appear on submit with focus on the first wrong field; the demo 'server' refuses the current password 'Lanterns42!' with the G8 error box (accent fill, edge-jagged, '!' mark, shake, role=alert). Success: the 'Saved!' Stamp lands and 'Back to sign in' calls onNavigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/reset-password`
+- Categories: blocks
+- Props:
+  - `email`: `string` (default `"mika@inkwell.app"`) — The account whose password changes.
+  - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` — Called by 'Back to sign in' after the password is saved. Without it the button does nothing.
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { ResetPassword } from "@/components/manga/blocks/reset-password"
+
+<ResetPassword email="mika@inkwell.app" onNavigate={(screen) => router.push(`/${screen}`)} />
+```
+
+### Sign up (`sign-up`)
+
+The sign-up screen of the mangacn auth flow, made only with the kit. A manga Panel: the reader drawn whole in SVG hugging a brand-new volume (ink lines, paper fills, a screentone jacket), focus SpeedLines, a SpeechBubble ('A new reader!', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sparkle and the Sfx ワクワク. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: name and email Fields, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit) and a PasswordStrength gauge, a terms Checkbox ('I accept the Terms and the Privacy notice'), a Create account Button with its loading state (fields stay enabled), SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'Already have an account? Sign in'. Errors with focus on the first wrong field: empty fields, invalid email, weak password (passwordScore under 2), terms unchecked; a taken email (demo: an address starting with 'taken') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Created!', 'Check your inbox' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/sign-up`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+  - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` (default `undefined`) — Called by 'Sign in' and 'Enter the code'. Without it these do nothing.
+  - `providers`: `{ id: string; label: string; logo?: React.ReactNode }[]` (default `[{ id: "google", label: "Continue with Google" }, { id: "apple", label: "Continue with Apple" }]`) — Third-party sign-up buttons. The block ships no logo; an empty list hides the divider and the buttons.
+
+```tsx
+import { SignUp } from "@/components/manga/blocks/sign-up"
+
+<SignUp
+  className="min-h-svh"
+  onNavigate={(screen) => router.push(`/${screen}`)}
+  providers={[{ id: "google", label: "Continue with Google", logo: <GoogleMark /> }]}
+/>
+```
+
+### Forgot password (`forgot-password`)
+
+The password-recovery screen of the mangacn auth flow, made only with the kit. A manga Panel: the reader drawn whole in SVG, caught off guard with her volume lowered (ink lines, paper fills, a screentone jacket), focus SpeedLines, a SpeechBubble ('Forgot it? It happens.', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sweat drop and the Sfx ハッ. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: an email Field, a Send code Button with its loading state (the field stays enabled) and a 'Back to sign in' link. Errors with focus on the field: empty or invalid email; an unknown email (demo: an address containing 'unknown') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Sent!' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/forgot-password`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+  - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` (default `undefined`) — Called by 'Back to sign in' and 'Enter the code'. Without it these do nothing.
+
+```tsx
+import { ForgotPassword } from "@/components/manga/blocks/forgot-password"
+
+<ForgotPassword className="min-h-svh" onNavigate={(screen) => router.push(`/${screen}`)} />
 ```
