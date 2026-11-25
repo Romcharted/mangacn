@@ -1,0 +1,49 @@
+{
+  "name": "portfolio",
+  "type": "registry:block",
+  "title": "Developer portfolio",
+  "description": "A developer's portfolio made only with mangacn: a top bar whose section buttons scroll in place, an opening spread of two Panels with a slanted gutter (focus SpeedLines behind a TonedImage portrait drawn in SVG, a SpeechBubble, Sfx lettering and a band of motion lines), projects as a manga page of Cards (wide, two, wide) with drawn thumbnails, Badge tags, a CodeBlock install snippet and links that do not navigate, skills as a CharacterCard with stat bars, a career as a vertical Stepper, and a contact form (Field, Input, Textarea, Button) that validates on submit, shakes its errors, shows a loading button and then a brush-check success panel. No network. One column on phones; container queries widen it. Works in light, dark, any accent and in manga reading order.",
+  "categories": [
+    "blocks"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/panel",
+    "Romcharted/mangacn/speed-lines",
+    "Romcharted/mangacn/sfx",
+    "Romcharted/mangacn/speech-bubble",
+    "Romcharted/mangacn/toned-image",
+    "Romcharted/mangacn/card",
+    "Romcharted/mangacn/badge",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/code-block",
+    "Romcharted/mangacn/character-card",
+    "Romcharted/mangacn/stepper",
+    "Romcharted/mangacn/stamp",
+    "Romcharted/mangacn/field",
+    "Romcharted/mangacn/input",
+    "Romcharted/mangacn/textarea",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/blocks/portfolio/portfolio.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/blocks/portfolio.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/blocks/portfolio\". The page follows the document scroll; replace the name, portrait (a data URL or any picture URL), projects, stats and career in the constants at the top of the file. The contact form only validates and shows a success panel: wire `submit` to your own endpoint.",
+  "meta": {
+    "tagline": "Intro panels, projects on a manga page, skills as a character sheet, a contact form.",
+    "usage": "import { Portfolio } from \"@/components/manga/blocks/portfolio\"\n\n<Portfolio />",
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Size and placement of the whole interface."
+      }
+    ]
+  }
+}
