@@ -10,7 +10,15 @@ import { installCommand } from "./registry"
  * Blocks and their sources load on demand: an interface's code arrives when it is shown, its source text
  * when "Show the code" is opened.
  */
-export type Interface = { slug: string; title: string; summary: string; Component: ComponentType; source: () => Promise<string> }
+export type Interface = {
+  slug: string
+  title: string
+  summary: string
+  Component: ComponentType
+  source: () => Promise<string>
+  /** Blocks installed by this example when it combines several (Auth); otherwise the slug itself. */
+  items?: string[]
+}
 
 const modules = import.meta.glob<Record<string, ComponentType>>("../../registry/manga/blocks/*/*.tsx")
 const sources = import.meta.glob<string>("../../registry/manga/blocks/*/*.tsx", { query: "?raw", import: "default" })
@@ -31,12 +39,17 @@ function Pending({ children }: { children: ReactNode }) {
 }
 
 /** Order and copy of the interfaces; an entry shows only once its block file exists. */
-const CATALOG: { slug: string; title: string; summary: string }[] = [
+const CATALOG: { slug: string; title: string; summary: string; screens?: string[] }[] = [
   { slug: "dashboard", title: "Dashboard", summary: "Sidebar, key figures, toned charts, a data table and a command palette." },
   { slug: "tasks", title: "Tasks", summary: "A task board: stamps for statuses, filters and actions on a selection." },
   { slug: "ai-chat", title: "AI chat", summary: "Thinking in a thought bubble, errors shouted, answers typed as they come." },
   { slug: "landing-page", title: "Landing page", summary: "An opening page, features in panels, pricing as a versus, reviews in bubbles." },
-  { slug: "sign-in", title: "Sign in", summary: "A big manga panel beside the form, with a one-time code." },
+  {
+    slug: "auth",
+    title: "Auth",
+    summary: "Sign in, sign up, a forgotten password, a one-time code and a new password: five screens that lead to each other.",
+    screens: ["sign-in", "sign-up", "forgot-password", "verify-code", "reset-password"],
+  },
   { slug: "manga-reader", title: "Manga reader", summary: "A vertical strip, chapters in a sheet, progress and reading order." },
   { slug: "catalog", title: "Catalog", summary: "Volume cards, filters, tabs and search." },
   { slug: "portfolio", title: "Developer portfolio", summary: "Intro, projects in panels, skills as a character sheet, contact." },
@@ -44,13 +57,43 @@ const CATALOG: { slug: string; title: string; summary: string }[] = [
 
 const pascal = (slug: string) => slug.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase())
 
-export const interfaces: Interface[] = CATALOG.flatMap((entry) => {
-  const path = `../../registry/manga/blocks/${entry.slug}/${entry.slug}.tsx`
+const blockPath = (slug: string) => `../../registry/manga/blocks/${slug}/${slug}.tsx`
+
+/** One block as an interface page: lazy component, source loaded on demand. */
+function blockInterface(entry: { slug: string; title: string; summary: string }): Interface[] {
+  const path = blockPath(entry.slug)
   const load = modules[path]
   if (!load) return []
   const Component = lazy(() => load().then((mod) => ({ default: mod[pascal(entry.slug)] })))
   return [{ ...entry, Component, source: () => sources[path]().then(userPaths) }]
-})
+}
+
+/*
+ * An example made of several blocks (Auth): a site-side flow switches between them (each loads when shown);
+ * the code shows every block, one after the other.
+ */
+function flowInterface(entry: { slug: string; title: string; summary: string; screens: string[] }): Interface[] {
+  if (!entry.screens.every((s) => modules[blockPath(s)])) return []
+  const Component = lazy(() => import("./examples/auth-flow").then((m) => ({ default: m.AuthFlow })))
+  const source = () =>
+    Promise.all(entry.screens.map((s) => sources[blockPath(s)]().then((src) => `// ── components/manga/blocks/${s}.tsx ──\n\n${userPaths(src)}`))).then(
+      (parts) => parts.join("\n\n"),
+    )
+  return [{ slug: entry.slug, title: entry.title, summary: entry.summary, Component, source, items: entry.screens }]
+}
+
+export const interfaces: Interface[] = CATALOG.flatMap((entry) => (entry.screens ? flowInterface({ ...entry, screens: entry.screens }) : blockInterface(entry)))
+
+/** The screens of a flow also open on their own (#examples/sign-up…), without a card of their own. */
+const screenPages: Interface[] = CATALOG.flatMap((entry) =>
+  (entry.screens ?? []).flatMap((slug) =>
+    blockInterface({ slug, title: slug.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase()), summary: `One screen of the ${entry.title} example.` }),
+  ),
+)
+
+/** The install command of an interface: one block, or every block of a flow. */
+const installFor = (i: Interface) =>
+  i.items ? [installCommand(i.items[0]), ...i.items.slice(1).map((s) => installCommand(s).split(" ").pop())].join(" ") : installCommand(i.slug)
 
 // Show the import paths a user gets after installing, not the showcase's own aliases.
 export const userPaths = (src: string) =>
@@ -62,7 +105,7 @@ export const userPaths = (src: string) =>
 
 /** One interface, full width: install, live render, code on demand. */
 export function InterfacePage({ slug }: { slug: string }) {
-  const found = interfaces.find((i) => i.slug === slug)
+  const found = interfaces.find((i) => i.slug === slug) ?? screenPages.find((i) => i.slug === slug)
   if (!found) {
     return (
       <p className="mt-8 border-ink p-6 font-letter text-lg uppercase">
@@ -85,8 +128,8 @@ export function InterfacePage({ slug }: { slug: string }) {
         <p className="text-lg">{summary}</p>
       </header>
       <div className="mt-5 flex max-w-2xl items-stretch border-ink">
-        <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand(slug)}</code>
-        <CopyButton text={installCommand(slug)} onCopied={() => track("copy-install", { item: slug })} className="border-s-[length:var(--mg-bw)]" />
+        <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installFor(found)}</code>
+        <CopyButton text={installFor(found)} onCopied={() => track("copy-install", { item: slug })} className="border-s-[length:var(--mg-bw)]" />
       </div>
       <div data-demo className="mt-6 border-ink-panel bg-background md:overflow-clip">
         <Pending>
