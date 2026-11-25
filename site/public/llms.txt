@@ -5,7 +5,7 @@
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
 Restyled shadcn components install to `@ui/manga/<name>.tsx` and wrap the project's own `@/components/ui/<name>` (works with Radix and Base UI).
-Homepage: https://romcharted.github.io/mangacn
+Homepage: https://DOMAIN
 
 ## Items
 
