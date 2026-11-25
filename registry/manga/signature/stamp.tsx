@@ -8,20 +8,25 @@ export type StampProps = React.ComponentProps<"span"> & {
   orientation?: "horizontal" | "vertical"
   /** Lands with a thump (G5 pop) when it appears. Off with reduced motion. */
   animated?: boolean
+  /** accent: the one colour of the kit, for what must stand out · ink: everyday statuses */
+  tone?: "accent" | "ink"
 }
 
 /*
- * A seal in the accent colour: double square frame (only bubbles are round), heavy lettering, the ink a
+ * A seal in the accent colour (or in ink with tone="ink"): double square frame (only bubbles are round), heavy lettering, the ink a
  * little uneven (a mask of tiny gaps). Readable: the gaps never cover more than a few percent.
  */
-function Stamp({ rotate = -8, orientation = "horizontal", animated = true, className, style, ...props }: StampProps) {
+function Stamp({ rotate = -8, orientation = "horizontal", animated = true, tone = "accent", className, style, ...props }: StampProps) {
   return (
     <span
       data-manga="stamp"
       data-orientation={orientation}
+      data-tone={tone}
       className={cn(
-        "inline-block border-[3px] border-destructive px-3 py-1.5 font-sfx text-xl leading-none tracking-[0.12em] text-destructive uppercase",
-        "shadow-[inset_0_0_0_2px_var(--background),inset_0_0_0_4px_var(--destructive)]",
+        "inline-block border-[3px] px-3 py-1.5 font-sfx text-xl leading-none tracking-[0.12em] uppercase",
+        tone === "ink"
+          ? "border-foreground text-foreground shadow-[inset_0_0_0_2px_var(--background),inset_0_0_0_4px_var(--foreground)]"
+          : "border-destructive text-destructive shadow-[inset_0_0_0_2px_var(--background),inset_0_0_0_4px_var(--destructive)]",
         "[mask:radial-gradient(circle_at_30%_40%,#0000_0.6px,#000_1.2px)_0_0/7px_9px,linear-gradient(#000_0_0)] [mask-composite:intersect]",
         orientation === "vertical" && "px-1.5 py-3 [writing-mode:vertical-rl] [text-orientation:upright]",
         animated && "animate-[mg-stamp_249ms_step-end_backwards]",

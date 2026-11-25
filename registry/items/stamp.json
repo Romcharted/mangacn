@@ -2,7 +2,7 @@
   "name": "stamp",
   "type": "registry:component",
   "title": "Stamp",
-  "description": "A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom).",
+  "description": "A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom). tone=\"ink\" draws it in ink for everyday statuses.",
   "categories": [
     "manga"
   ],
@@ -41,6 +41,12 @@
         "type": "boolean",
         "default": "true",
         "description": "Lands with a stepped thump."
+      },
+      {
+        "name": "tone",
+        "type": "\"accent\" | \"ink\"",
+        "default": "\"accent\"",
+        "description": "accent for what must stand out, ink for everyday statuses."
       }
     ]
   }
