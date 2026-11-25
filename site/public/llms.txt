@@ -1,6 +1,6 @@
 # mangacn
 
-> 106 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
+> 116 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -1872,6 +1872,289 @@ import { ReadingProgress } from "@/components/manga/reading-progress"
 
 <ReadingProgress position="top" />
 <ReadingProgress value={37.5} showValue valueText="Page 3 / 8" />
+```
+
+### Page Reader (`page-reader`)
+
+A manga read page by page from a list of images ({ src, alt, width, height }). One page or two-page spreads (auto: spreads when the stage is wide and landscape; the cover stands alone), manga order (right to left: the next page is on the left, a spread puts the lower page on the right) or western order. Turn with the page edges (invisible zones that show a paper plate with a brush arrow on hover), the arrow keys (following the order), Page Up / Down, Home / End, a swipe (the page follows the finger with no steps, then turns or snaps back; it resists at both ends) or the toolbar. Fit: whole page, width (scrolls down) or height. Background: paper, ink or tone. Zoom 100–300 % with buttons, + / - / 0 or a double click at a point, then drag to pan. Full screen asks the browser (Fullscreen API on the document) and falls back to a fixed immersive mode (iOS Safari); Escape leaves. Pages around the current one are fetched ahead (preload), and a page known to be loaded shows at once. Each page is a ReaderPage (ink frame, loading panel, jagged error panel with Retry, a paper mat in dark mode). A turned page slides in from the side it comes from in three steps. An optional end view after the last page holds a ChapterEnd. The toolbar has a ReadingProgress with a page counter and a slot for your own buttons (settings, thumbnails). Controlled or not (page / onPageChange). Built at 375 px first: 44 px controls, two toolbar rows.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/page-reader`
+- Categories: manga
+- Props:
+  - `pages`: `{ src: string; alt: string; width: number; height: number }[]` — The pages, in reading order.
+  - `page`: `number` — First page shown (0-based), controlled. pages.length is the end view when end is set.
+  - `defaultPage`: `number` (default `0`) — First page shown, uncontrolled.
+  - `onPageChange`: `(page: number) => void` — Called with the first page of the new view.
+  - `spread`: `"single" | "double" | "auto"` (default `"auto"`) — One page, two-page spreads, or spreads when the stage is wide and landscape.
+  - `coverAlone`: `boolean` (default `true`) — In spreads, the first page stands alone.
+  - `direction`: `"rtl" | "ltr"` (default `"rtl"`) — Manga order (next page on the left) or western order.
+  - `fit`: `"contain" | "width" | "height"` (default `"contain"`) — Whole page in view, fill the width (scrolls down) or fill the height.
+  - `background`: `"paper" | "ink" | "tone"` (default `"paper"`) — What shows around the pages.
+  - `preload`: `number` (default `2`) — Pages fetched ahead of and behind the view.
+  - `end`: `ReactNode` — One more view after the last page, e.g. a ChapterEnd.
+  - `onEnd`: `() => void` — Called on reaching the end view, or on asking past the last page when there is none.
+  - `toolbar`: `ReactNode` — Your own buttons in the toolbar (settings, thumbnails).
+  - `className`: `string` — Added to the root; set its height here (default min(48rem, 88svh)).
+
+```tsx
+import { PageReader } from "@/components/manga/page-reader"
+import { ChapterEnd } from "@/components/manga/chapter-end"
+
+<PageReader
+  pages={pages}
+  direction="rtl"
+  spread="auto"
+  onPageChange={(page) => save(page)}
+  end={<ChapterEnd chapter="Chapter 4" next={{ number: 5, title: "Paper boats", href: "/read/5" }} />}
+/>
+```
+
+### Page Thumbnails (`page-thumbnails`)
+
+Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/page-thumbnails`
+- Categories: manga
+- Props:
+  - `pages`: `{ src: string; alt: string; width: number; height: number }[]` — The pages, in reading order.
+  - `current`: `number | number[]` — The page or pages on screen.
+  - `readUntil`: `number` (default `0`) — Pages before this index get a brush check.
+  - `onSelect`: `(page: number) => void` — Called with the page chosen.
+  - `direction`: `"rtl" | "ltr"` (default `"rtl"`) — The grid runs right to left (manga) or left to right.
+  - `minWidth`: `string` (default `"5.5rem"`) — Smallest thumbnail width (CSS length).
+  - `className`: `string` — Added to the nav.
+
+```tsx
+import { PageThumbnails } from "@/components/manga/page-thumbnails"
+
+<PageThumbnails
+  pages={pages}
+  current={page}
+  readUntil={page}
+  direction="rtl"
+  onSelect={(i) => setPage(i)}
+/>
+```
+
+### Reader Settings (`reader-settings`)
+
+Settings for a manga reader: reading order (manga right to left, western left to right), mode (page, double page, strip), fit (whole page, width, height) and background (paper, ink, tone). Each setting is a radio group drawn like boxed tabs: one 2px frame split into cells of at least 44 px, each with a small drawn pictogram and a lettering label; the chosen cell is an ink flat that sweeps in, hover thickens the line, focus stays inside the cell (a paper line on the chosen ink cell), pressed moves 1px. Arrows move and choose (following the writing direction), Home / End, Tab leaves. A setting can be hidden or shown disabled (dashed frame, tone frame in the cells, the chosen label underlined on paper). Controlled or not; it only holds the value: put it in a Sheet, a Popover or a page and feed PageReader.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/reader-settings`
+- Categories: manga
+- Props:
+  - `value`: `{ direction: "rtl" | "ltr"; mode: "single" | "double" | "strip"; fit: "contain" | "width" | "height"; background: "paper" | "ink" | "tone" }` — The settings, controlled.
+  - `defaultValue`: `ReaderSettingsValue` (default `defaultReaderSettings`) — Manga order, single page, whole page, paper.
+  - `onValueChange`: `(value: ReaderSettingsValue) => void` — Called with the whole new value.
+  - `hide`: `("direction" | "mode" | "fit" | "background")[]` — Settings left out.
+  - `disabled`: `("direction" | "mode" | "fit" | "background")[]` — Settings shown but not changeable.
+  - `className`: `string` — Added to the root.
+
+```tsx
+import { ReaderSettings, defaultReaderSettings } from "@/components/manga/reader-settings"
+
+const [settings, setSettings] = React.useState(defaultReaderSettings)
+
+<ReaderSettings value={settings} onValueChange={setSettings} />
+```
+
+### Chapter End (`chapter-end`)
+
+The end card of a chapter: a 3px panel whose concentration lines surround a central paper plate, with the chapter line, the big SFX word (To be continued, or The end for a finished series) and a brush arrow in the reading direction (a check at the end of a series). Under it, the next chapter as a full-width button with its number, title and optional cover, or, when it is not out yet, the date in a stamp; then any actions the reader wants (back to the series, comments). Under the manga reading order (data-reading="rtl") the arrow points left. The panel pops in once.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/chapter-end`
+- Categories: manga
+- Props:
+  - `chapter`: `ReactNode` — The chapter just read, shown as "End of {chapter}".
+  - `variant`: `"continued" | "end"` (default `"continued"`) — continued: more to come (arrow) · end: the series is over (check).
+  - `title`: `string` (default `"To be continued" or "The end"`) — The big SFX word.
+  - `next`: `{ number, title, href?, onSelect?, cover?, date? }` — The next chapter. Without href or onSelect it is not out yet and shows "Out on {date}".
+  - `children`: `ReactNode` — Extra actions, in a wrapping row under the next chapter.
+  - `className`: `string` — Added to the panel.
+
+```tsx
+import { ChapterEnd } from "@/components/manga/chapter-end"
+
+<ChapterEnd
+  chapter="Chapter 12 · Echo"
+  next={{ number: 13, title: "Quiet Engine", href: "/read/13", cover: "/covers/13.jpg" }}
+>
+  <Button variant="outline" size="sm">Back to series</Button>
+</ChapterEnd>
+```
+
+### Shelf (`shelf`)
+
+Manga volumes standing spine out on a shelf. Each spine is a 2px case at least 44 px wide (three thicknesses, slightly varied heights) with the volume number on an ink flat at the top, the title in vertical lettering and an optional tone band or tone ends (never under text); the plank is a 3px ink edge, a band of tone lines and another edge. Hover lifts the spine's tone shadow, focus is the ink ring, pressed the 2px offset. Pulling a volume (click, Enter) turns its spine into an ink flat raised by 16px in two steps and drops its VolumeCard in under the shelf (cover, status, reading progress) with Open and Put back buttons. Arrows move along the row, Home / End, Escape puts the volume back and returns the focus to its spine. The row scrolls sideways when it is wider than the screen; in manga order volume 1 stands at the right end. Controlled or not (selected / onSelectedChange).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/shelf`
+- Categories: manga
+- Props:
+  - `volumes`: `ShelfVolume[]` — { id, title, volume, author?, cover?, status?, read?, total?, thickness?: 1 | 2 | 3, spine?: "plain" | "band" | "tone" }.
+  - `selected`: `string | null` — Id of the pulled volume, controlled.
+  - `defaultSelected`: `string | null` (default `null`) — Pulled volume, uncontrolled.
+  - `onSelectedChange`: `(id: string | null) => void` — Called when a volume is pulled or put back.
+  - `onOpen`: `(volume: ShelfVolume) => void` — Called by the Open button of the pulled volume.
+  - `openLabel`: `string` (default `"Open"`) — Label of that button.
+  - `direction`: `"ltr" | "rtl"` (default `"ltr"`) — Volume 1 at the left, or at the right (manga order).
+  - `className`: `string` — Added to the root.
+
+```tsx
+import { Shelf } from "@/components/manga/shelf"
+
+<Shelf
+  volumes={[
+    { id: "ls-1", title: "Lantern Street", volume: 1, cover: "/covers/ls-1.jpg", status: "completed", read: 8, total: 8 },
+    { id: "ls-2", title: "Lantern Street", volume: 2, cover: "/covers/ls-2.jpg", status: "ongoing", read: 3, total: 8, spine: "band" },
+  ]}
+  openLabel="Read"
+  onOpen={(v) => router.push(`/read/${v.id}`)}
+/>
+```
+
+### Series Header (`series-header`)
+
+The head of a manga series page, in a case: a 2:3 cover in a 2px case (image URL or any node; a screentone without one), the status as a Stamp (accent for new, ink for ongoing, completed and hiatus), the title in big lettering, an alternative title, the author, genres as outline Badges, up to four figures (chapters, volumes, readers) in a frame split into cells, a summary folded to a few lines with a Read more / Show less link (shown only when the text is cut; the unfolded text drops in) and your actions. At 375 px the cover sits beside the title and the rest takes the full width; in a wide container everything but the cover forms one column beside it (container queries, so it adapts to its column, not the window).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/series-header`
+- Categories: manga
+- Props:
+  - `title`: `ReactNode` — Set in big lettering.
+  - `cover`: `string | ReactNode` — Image URL or any node, in a 2:3 box. Without it, a screentone.
+  - `altTitle`: `ReactNode` — Original or alternative title.
+  - `author`: `ReactNode` — Author line.
+  - `status`: `"new" | "ongoing" | "completed" | "hiatus"` — Shown as a stamp.
+  - `genres`: `string[]` — Shown as outline badges.
+  - `stats`: `{ label: ReactNode; value: ReactNode }[]` — Up to four figures.
+  - `summary`: `ReactNode` — Folded to summaryLines lines with Read more.
+  - `summaryLines`: `2 | 3 | 4 | 5` (default `3`) — Lines shown while folded.
+  - `actions`: `ReactNode` — Buttons or links.
+  - `as`: `"h1" | "h2" | "h3"` (default `"h1"`) — Heading level of the title.
+  - `className`: `string` — Added to the case.
+
+```tsx
+import { SeriesHeader } from "@/components/manga/series-header"
+import { Button } from "@/components/ui/manga/button"
+
+<SeriesHeader
+  title="Lantern Street"
+  author="N. Arai"
+  cover="/covers/lantern-street.jpg"
+  status="ongoing"
+  genres={["Slice of life", "Mystery"]}
+  stats={[{ label: "Chapters", value: 38 }, { label: "Volumes", value: 4 }]}
+  summary="Every autumn the night market…"
+  actions={<><Button>Start reading</Button><Button variant="outline">Add to shelf</Button></>}
+/>
+```
+
+### Obi Band (`obi-band`)
+
+The paper promotional band wrapped round the lower part of a manga volume. It takes a 2:3 cover (an image URL, or any node) and overhangs it by a few pixels at the bottom, with a 2px ink line on each side and a fold strip at the start edge. Tones: accent (the kit's one colour), ink (an ink flat) or paper (a screentone strip on the top edge only). Sizes sm, md, lg set the band height (26, 34, 42 % of the cover). The headline scales with the cover width through container queries, so it works on a 120 px cover too. An optional badge is a burst at the band's end corner. Static, not interactive.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/obi-band`
+- Categories: manga
+- Props:
+  - `cover`: `string | ReactNode` — An image URL (object-cover), or any node drawn as the cover. Takes precedence over children.
+  - `children`: `ReactNode` — Drawn in the 2:3 box when no cover is given.
+  - `headline`: `ReactNode` — The big catchphrase, in lettering.
+  - `caption`: `ReactNode` — A small line under the headline.
+  - `badge`: `ReactNode` — A short word in a burst at the band's end corner, e.g. "NEW".
+  - `tone`: `"accent" | "ink" | "paper"` (default `"accent"`) — accent: the kit's accent · ink: an ink flat · paper: paper with a screentone top edge.
+  - `size`: `"sm" | "md" | "lg"` (default `"md"`) — Band height: 26 %, 34 % or 42 % of the cover.
+  - `className`: `string` — Added to the root.
+
+```tsx
+import { ObiBand } from "@/components/manga/obi-band"
+
+<ObiBand
+  cover="/covers/night-rail-2.jpg"
+  headline="Over 2 million copies"
+  caption="Now a major series"
+  badge="NEW"
+  tone="accent"
+  size="md"
+/>
+```
+
+### Spoiler (`spoiler`)
+
+Content hidden by a screentone, revealed on click. Block: the children stay in the layout but are inert and aria-hidden under a tone cover with a paper plate that names what is hidden ("Chapter 12 ending") and says "Tap to reveal"; the plate gets a tone shadow on hover, the cover has the ink focus ring and a pressed offset, and the content pops in on reveal with a Hide button to cover it again. Inline: a few words become an ink flat with transparent text, a paper inner line on hover, and the revealed words get a 2px underline. Controlled (revealed, onRevealedChange) or uncontrolled (defaultRevealed).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/spoiler`
+- Categories: manga
+- Props:
+  - `variant`: `"block" | "inline"` (default `"block"`) — block: an image or a paragraph under a cover · inline: a few words in a sentence.
+  - `label`: `string` (default `"Spoiler"`) — What it hides, read in the reveal button's name and shown on the plate (block).
+  - `revealed`: `boolean` — Controlled reveal state.
+  - `defaultRevealed`: `boolean` (default `false`) — Initial reveal state when uncontrolled.
+  - `onRevealedChange`: `(revealed: boolean) => void` — Called when the reader reveals or hides it.
+  - `triggerProps`: `ButtonHTMLAttributes & data-*` — Extra attributes for the reveal button (showcase states).
+  - `className`: `string` — Added to the root (block) or to the reveal button / revealed text (inline).
+
+```tsx
+import { Spoiler } from "@/components/manga/spoiler"
+
+<Spoiler label="Chapter 12 ending">
+  <img src="/panels/ch12-last.jpg" alt="The final panel of chapter 12" />
+</Spoiler>
+
+<p>
+  The letter was signed by <Spoiler variant="inline" label="the editor">the editor</Spoiler>.
+</p>
+```
+
+### Ranking List (`ranking-list`)
+
+A ranking with big numbers in a case: the rank in the SFX face (the top ranks biggest, the first place in the accent), an optional 2:3 cover thumbnail in a 2px ink frame, the title in lettering and a subtitle, an optional score, and the change at the end: an up or down brush arrow with its count, an en dash for no change, or a NEW burst. Rows are separated by 2px ink lines. Rows with href are links, rows with onSelect are buttons: both invert to ink on hover, and press to a paper negative with a 2px offset. Logical properties only, so dir=rtl works.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/ranking-list`
+- Categories: manga
+- Props:
+  - `entries`: `RankingEntry[]` — Rows: id, title, subtitle, cover, change (number or "new"), score, href.
+  - `onSelect`: `(entry: RankingEntry, index: number) => void` — Makes the rows without href buttons.
+  - `start`: `number` (default `1`) — First rank shown.
+  - `highlightTop`: `number` (default `3`) — Ranks up to this one get the biggest numbers. Rank 1 is in the accent.
+  - `className`: `string` — Added to the list.
+
+```tsx
+import { RankingList, type RankingEntry } from "@/components/manga/ranking-list"
+
+const entries: RankingEntry[] = [
+  { id: "glass-harbour", title: "Glass Harbour", subtitle: "M. Sato", change: 0, score: "1.2M", href: "/series/glass-harbour" },
+  { id: "iron-lullaby", title: "Iron Lullaby", subtitle: "K. Hadley", change: 3, cover: "/covers/iron-lullaby.jpg", href: "/series/iron-lullaby" },
+]
+
+<RankingList entries={entries} />
+```
+
+### Release Calendar (`release-calendar`)
+
+Releases by day of the week. On a narrow screen a day strip drawn like boxed tabs (one frame split into seven cells, the selected day an ink flat, today marked with a corner triangle) shows the releases of one day below it, with arrow, Home and End keys. From a container of 56 rem up, seven columns show every day at once, today's header an ink flat. Each release is a case with its cover, time, title and chapter, a NEW burst or a Break stamp; rows with an href are links, rows with onSelect are buttons, both with the hover lift, the ink focus ring and the pressed offset. A day without releases shows a short line in a fine frame.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/release-calendar`
+- Categories: manga
+- Props:
+  - `releases`: `Release[]` — Each release: id, day (0 = Monday … 6 = Sunday), title, optional chapter, time, cover (URL or node), status ("new" | "break") and href (makes the row a link).
+  - `today`: `Weekday` (default `computed from the date`) — The day marked with the corner triangle and the ink header.
+  - `day`: `Weekday` — Controlled day shown on narrow screens.
+  - `defaultDay`: `Weekday` (default `today`) — Day shown first on narrow screens.
+  - `onDayChange`: `(day: Weekday) => void` — Called when a day is picked in the strip.
+  - `dayLabels`: `[string × 7]` (default `["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]`) — Short day labels, Monday first.
+  - `onSelect`: `(release: Release) => void` — Makes the rows without an href buttons.
+  - `empty`: `ReactNode` (default `"Nothing this day."`) — Shown on a day without releases.
+  - `layout`: `"auto" | "strip" | "columns"` (default `"auto"`) — auto switches by the container width (56 rem); strip and columns force one layout.
+  - `className`: `string` — Added to the root.
+
+```tsx
+import { ReleaseCalendar, type Release } from "@/components/manga/release-calendar"
+
+const releases: Release[] = [
+  { id: "1", day: 0, title: "Glass Harbor", chapter: "Ch. 1 · Low Tide", time: "06:00", status: "new", href: "/series/glass-harbor/1" },
+  { id: "2", day: 2, title: "Paper Comet", chapter: "Ch. 18", time: "18:00", status: "break" },
+]
+
+<ReleaseCalendar releases={releases} today={2} onSelect={(r) => openRelease(r.id)} />
 ```
 
 ### Social Button (`social-button`)
