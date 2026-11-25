@@ -52,8 +52,12 @@ const content = [
   "data-[vaul-drawer-direction=top]:border-b-[length:var(--mg-bw-panel)]! data-[vaul-drawer-direction=top]:shadow-[0_8px_0_-2px_var(--background),0_8px_0_0_var(--foreground)]!",
   "data-[vaul-drawer-direction=left]:border-r-[length:var(--mg-bw-panel)]! data-[vaul-drawer-direction=left]:shadow-[8px_0_0_-2px_var(--background),8px_0_0_0_var(--foreground)]!",
   "data-[vaul-drawer-direction=right]:border-l-[length:var(--mg-bw-panel)]! data-[vaul-drawer-direction=right]:shadow-[-8px_0_0_-2px_var(--background),-8px_0_0_0_var(--foreground)]!",
-  // stepped timing on the library's own transform (transition in Base UI, transition + keyframes in vaul)
+  // Opening and closing: stepped timing on the library's own transform (transition in Base UI, transition +
+  // keyframes in vaul). Dragging: the drawer follows the finger with no steps and no delay (grammar rule:
+  // what a finger drags follows the finger). Base UI marks the drag with data-swiping; vaul sets an inline
+  // `transition: none` while dragging.
   "ease-[steps(5)]! [animation-timing-function:steps(5)]! motion-reduce:transition-none! motion-reduce:animate-none!",
+  "data-swiping:transition-none! data-swiping:animate-none!",
   // grab handle, Base UI: the swipe handle draws its bar with ::after
   "[&>[data-slot=drawer-swipe-handle]]:after:rounded-(--radius)! [&>[data-slot=drawer-swipe-handle]]:after:bg-foreground!",
   "data-[swipe-axis=y]:[&>[data-slot=drawer-swipe-handle]]:h-5! data-[swipe-axis=y]:[&>[data-slot=drawer-swipe-handle]]:after:h-0.5! data-[swipe-axis=y]:[&>[data-slot=drawer-swipe-handle]]:after:w-16!",
