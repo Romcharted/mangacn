@@ -1,3 +1,5 @@
+import { Choice, Playground, jsx } from "../playground"
+import { useState } from "react"
 import { BubbleGroup, SpeechBubble, type BubbleVariant } from "@registry/manga/signature/speech-bubble"
 
 const VARIANTS: BubbleVariant[] = ["speech", "thought", "shout", "whisper", "narration", "electronic", "wobbly"]
@@ -11,7 +13,7 @@ const TEXT: Record<BubbleVariant, string> = {
   wobbly: "I-it's cold…",
 }
 
-export function Preview() {
+function Examples() {
   return (
     <div className="flex flex-wrap items-start gap-x-10 gap-y-12 py-4">
       <SpeechBubble>Did you hear that?</SpeechBubble>
@@ -27,6 +29,32 @@ export function Preview() {
           It's coming from the roof.
         </SpeechBubble>
       </BubbleGroup>
+    </div>
+  )
+}
+
+const TAILS = ["top", "bottom", "start", "end", "none"] as const
+const ALIGNS = ["start", "center", "end"] as const
+
+export function Preview() {
+  const [variant, setVariant] = useState<BubbleVariant>("speech")
+  const [tail, setTail] = useState<(typeof TAILS)[number]>("bottom")
+  const [tailAlign, setTailAlign] = useState<(typeof ALIGNS)[number]>("start")
+  const props = { variant, tail, tailAlign }
+  return (
+    <div className="grid gap-8">
+      <Playground
+        preview={<SpeechBubble {...props}>{TEXT[variant]}</SpeechBubble>}
+        controls={
+          <>
+            <Choice label="variant" value={variant} options={VARIANTS} onChange={setVariant} />
+            <Choice label="tail" value={tail} options={TAILS} onChange={setTail} />
+            <Choice label="tailAlign" value={tailAlign} options={ALIGNS} onChange={setTailAlign} />
+          </>
+        }
+        code={jsx("SpeechBubble", props, { variant: "speech", tail: "bottom", tailAlign: "start" }, TEXT[variant])}
+      />
+      <Examples />
     </div>
   )
 }
@@ -63,9 +91,13 @@ export function States() {
 }
 
 export function Thumb() {
+  const [i, setI] = useState(2)
+  const v = VARIANTS[i % VARIANTS.length]
   return (
-    <SpeechBubble variant="shout" tail="none" className="px-10 py-6 text-base">
-      Bam!
-    </SpeechBubble>
+    <button type="button" onClick={() => setI((x) => x + 1)} className="cursor-pointer focus-ink" aria-label={`Bubble: ${v}. Click for the next shape.`}>
+      <SpeechBubble variant={v} tail={v === "narration" ? "none" : "bottom"} className="text-base">
+        {TEXT[v]}
+      </SpeechBubble>
+    </button>
   )
 }
