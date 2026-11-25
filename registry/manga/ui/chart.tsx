@@ -121,6 +121,8 @@ function ChartContainer({ className, config, id, children, ...props }: React.Com
           "[&_.recharts-tooltip-cursor]:[stroke-dasharray:none]! [&_.recharts-tooltip-cursor]:[stroke-width:1px]!",
           // areas are patterns at full strength: a translucent fill would read as grey
           "[&_.recharts-area-area]:[fill-opacity:1]!",
+          // keyboard: recharts makes the chart a tab stop (arrow keys walk the points); show where focus is
+          "[&_.recharts-surface:focus-visible]:outline-solid! [&_.recharts-surface:focus-visible]:outline-2 [&_.recharts-surface:focus-visible]:outline-offset-4 [&_.recharts-surface:focus-visible]:outline-ring",
         )}
         {...props}
       >
