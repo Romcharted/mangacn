@@ -131,6 +131,9 @@ A component never draws its own hover, selection or entrance: it applies a gestu
 utility in `base` or a small primitive in `gestures`. Cadence: 12 frames per second (83 ms a frame); a
 gesture lasts 2 to 4 frames (166–333 ms), always in `steps()`. With `prefers-reduced-motion` nothing
 moves and every state stays distinct (hidden effects such as lines start `invisible`).
+**Exception — what a finger drags follows the finger, without steps.** While a drawer, a resizable handle, a
+slider thumb or a carousel strip is being dragged, it moves with the pointer, continuously and with no delay;
+the steps come back only for what the component does on its own (opening, closing, snapping).
 The showcase has a Grammar page (`#grammar`) that replays each one.
 
 | # | Gesture | When | How |
@@ -173,6 +176,23 @@ These started as special cases and are now rules of the kit. New ones go through
   behind goes quiet.
 - **Library-specific parts are not wrapped:** if one version of shadcn (Radix or Base UI) lacks a part, the
   wrapper leaves it out (Progress only wraps `Progress`).
+- **Drop zones** (Attachment `idle`): a solid 2px line and a "+" mark, never the stock dashes (dashes mean disabled).
+- **Code is monochrome** (Code Block): highlighter tokens are drawn in ink; marked lines carry the 6px bar.
+- **Trace status mark** (optional): an empty `TraceIcon` draws the line's status mark; your own icon replaces it.
+- **Choice bars grow** (Field, Questionnaire): the 6px bar of a checked choice grows down with `animate-bar-in` (G2).
+- **Thin running bars** (ReadingProgress): at 4px the bar is solid ink; its paper speed line shows only at 6px.
+- **Failed pages** (ReaderStrip): a jagged panel filled with the accent, paper text on it, like a destructive button.
+- **Shouted errors** (AI chat): a shout bubble's outline takes the accent (`--bubble-stroke: var(--destructive)`).
+- **Small buttons that invert on hover** (Input Group button, Combobox trigger and clear): pressed is an ink
+  flat with a 2px paper line inside and the 2px offset, so it never looks like hover. A chip's remove cell:
+  pressed is paper with an ink x (the negative of hover); its focus stays inside the chip.
+- **Day cells** (Calendar) draw their hover line with a shared inset shadow, so it combines with the today
+  frame and the range band; it looks the same as `hover-thicken`.
+- **Dots of a group** (Carousel dots): focus is a 2px line inside the hit area, not the full double ring.
+- **Draggable lines** (Resizable handle): hover thickens the 2px line to 4px, 1px on each side.
+- **Radix-required props in blocks:** when Radix needs a prop Base UI ignores (Accordion `type`), pass it
+  through a loosely typed spread (`const MODE = { type: "multiple" } as unknown as ComponentProps<…>`).
+- **Waiting caret and date mark:** `animate-blink` (two hard steps) and `mark-calendar` come from base.
 
 ### Recipes that shadcn documents but does not ship
 

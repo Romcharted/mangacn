@@ -110,8 +110,8 @@ const GESTURES: Gesture[] = [
   {
     id: "G7",
     name: "Running line",
-    when: "Progress, waiting, value. Filled with speed lines; waiting is concentration lines turning in steps.",
-    utilities: ["fill-lines", "Spinner", "animate-spin-steps"],
+    when: "Progress, waiting, value. Filled with speed lines; waiting is concentration lines turning in steps, or a caret blinking in two hard steps.",
+    utilities: ["fill-lines", "Spinner", "animate-spin-steps", "animate-blink"],
     demo: (r) => (
       <div className="grid w-full max-w-xs gap-4">
         <div className="h-5 border-ink bg-background p-0.5">
@@ -120,6 +120,10 @@ const GESTURES: Gesture[] = [
         <span className="inline-flex items-center gap-2 text-sm">
           <Spinner className="size-6" /> Loading the next chapter…
         </span>
+        <span className="inline-flex items-center gap-1 text-sm">
+          Type your code
+          <span aria-hidden className="inline-block h-5 w-[length:var(--mg-bw)] animate-blink bg-foreground" />
+        </span>
       </div>
     ),
   },
@@ -127,12 +131,13 @@ const GESTURES: Gesture[] = [
     id: "G8",
     name: "Mark",
     when: "Status and emotion. Error: “!”, serrated edge (32px and up), shake. New: a burst. Done: a brush check. Others: manpu marks.",
-    utilities: ["mark-error", "animate-shake", "shape-burst", "mark-check", "edge-jagged"],
+    utilities: ["mark-error", "animate-shake", "shape-burst", "mark-check", "mark-calendar", "edge-jagged"],
     demo: (r) => (
       <div key={r} className="flex flex-wrap items-center gap-5">
         <span className="grid size-9 animate-shake place-items-center bg-destructive font-sfx text-lg text-primary-foreground edge-jagged">!</span>
         <Badge variant="burst">New!</Badge>
         <span className="mark-check text-3xl" aria-label="Done" role="img" />
+        <span className="mark-calendar text-3xl" aria-label="Date" role="img" />
         <Manpu />
       </div>
     ),
@@ -200,6 +205,11 @@ export function Grammar() {
           Eight gestures, written once in <code className="font-mono text-base">base</code>, applied by every component. Cadence: 12
           frames per second; a gesture lasts 2 to 4 frames, always in steps. With reduced motion nothing moves, and every state stays
           distinct. Disabled stays as it is: dashed line, tone frame, label on paper.
+        </p>
+        <p className="border-s-[6px] border-border ps-3">
+          <strong className="font-letter font-normal uppercase">One exception:</strong> what a finger drags follows the finger, without
+          steps. A drawer, a resizable handle, a slider thumb or a carousel strip moves with the pointer while it is dragged; the steps
+          come back for what the component does on its own (opening, closing, snapping).
         </p>
       </header>
       <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(min(100%,22rem),1fr))] gap-5">
