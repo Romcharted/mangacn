@@ -1,6 +1,6 @@
 # mangacn
 
-> 83 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
+> 98 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -1607,6 +1607,273 @@ import { DatePicker, DateRangePicker } from "@/components/ui/manga/date-picker"
 <DateRangePicker placeholder="Trip dates" />
 ```
 
+### Attachment (`attachment`)
+
+Manga-styled wrapper around your shadcn Attachment (a file attached to a message or a prompt): a 2px ink frame, a fine-framed media square, title in the reading face and description in small mono. States via state: done (rest), uploading (a running line along the bottom edge), processing (the manga Spinner in the media square), error (accent line, a mark-error '!' and accent description), idle (a solid line with a '+' mark). AttachmentTrigger makes the whole card clickable (hover-lift, focus ring); AttachmentAction is a small square ink button with hover-thicken. AttachmentGroup wraps. Sizes default, sm, xs; orientation horizontal or vertical.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/attachment`
+- Categories: display
+- Props:
+  - `state`: `"idle" | "uploading" | "processing" | "error" | "done"` (default `"done"`) — The look of the file: running line, spinner, accent error or idle '+'.
+  - `size`: `"default" | "sm" | "xs"` (default `"default"`) — Stock sizes, kept.
+  - `orientation`: `"horizontal" | "vertical"` (default `"horizontal"`) — Vertical puts the media on top.
+
+```tsx
+import { Attachment, AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription, AttachmentActions, AttachmentAction } from "@/components/ui/manga/attachment"
+
+<Attachment state="uploading">
+  <AttachmentMedia>…</AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>page-12.png</AttachmentTitle>
+    <AttachmentDescription>Uploading 64%</AttachmentDescription>
+  </AttachmentContent>
+  <AttachmentActions>
+    <AttachmentAction aria-label="Remove">×</AttachmentAction>
+  </AttachmentActions>
+</Attachment>
+```
+
+### Marker (`marker`)
+
+Manga-styled wrapper around your shadcn Marker (a line inside a conversation, such as 'Today', 'Model switched to ...' or 'Context compacted'): lettering, small, uppercase, always ink (never grey). variant separator draws a 1px ink rule on both sides; variant border draws a 1px ink rule under it. Links inside take the underline hover and the focus ring. MarkerIcon stays in ink.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/marker`
+- Categories: display
+- Props:
+  - `variant`: `"default" | "separator" | "border"` (default `"default"`) — separator: rules on both sides. border: a rule under the line.
+
+```tsx
+import { Marker, MarkerIcon, MarkerContent } from "@/components/ui/manga/marker"
+
+<Marker variant="separator">
+  <MarkerContent>Today</MarkerContent>
+</Marker>
+```
+
+### Message Scroller (`message-scroller`)
+
+Manga-styled wrapper around your shadcn Message Scroller (the scrolling column of a conversation with a 'jump to latest' button). The viewport keeps the stock behaviour (it scrolls) with a thin ink scrollbar and no grey fade at the edges. MessageScrollerButton is a square ink-framed button (only bubbles are round): it pops in when the reader scrolls up (animate-pop), lifts on hover, shows a focus ring and hits on click (impact lines). 44px touch target under 640px.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/message-scroller`
+- Categories: display
+- Props:
+  - `direction`: `"start" | "end"` (default `"end"`) — Which way the button jumps: to the latest line or to the first.
+
+```tsx
+import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton } from "@/components/ui/manga/message-scroller"
+
+<MessageScrollerProvider>
+  <MessageScroller className="h-80">
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        <MessageScrollerItem>…</MessageScrollerItem>
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+### Questionnaire (`questionnaire`)
+
+Manga-styled wrapper around your shadcn Questionnaire (one question at a time, the kind an AI agent asks). The whole form is a case (3px ink line, tone shadow). Progress reads “Question 2 of 4” in lettering beside a 2px ink rail filled with speed lines that moves in steps. Each question pops in over three frames; titles are lettering, descriptions the reading face. Each choice is a choice card: a 2px ink frame whose line thickens on hover, with the ink / paper / ink focus ring around the row; checked, a 6px ink bar grows down its start edge and the indicator fills with ink (radio = a diamond with a paper dot, checkbox = a square with a brush check that draws itself). Shortcuts are key caps. The free-text input is the kit Input. Errors: accent line, a “!” mark and one shake. Previous / Skip are outline buttons, Next / Submit ink buttons, all with the impact on click. Disabled choices: dashed line and tone frame, label on paper.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/questionnaire`
+- Categories: actions
+- Props:
+  - `shortcuts`: `"letters" | "numbers"` — On Questionnaire: shows a key cap on each choice and picks it on key press.
+  - `multiple`: `boolean` (default `false`) — On QuestionnaireItem: square checkboxes instead of radio diamonds.
+  - `required / invalid`: `boolean` — On QuestionnaireItem: required hides Skip; invalid shows the error look and QuestionnaireError.
+  - `disabled / defaultChecked`: `boolean` — On QuestionnaireChoice: the dashed disabled card / a pre-checked choice.
+  - `variant / size`: `shadcn Button variant / size` — On Previous, Skip, Next, Submit: drawn with the kit button look (outline for Previous / Skip, ink for Next / Submit by default).
+
+```tsx
+import {
+  Questionnaire, QuestionnaireActions, QuestionnaireChoice, QuestionnaireChoices, QuestionnaireError,
+  QuestionnaireItem, QuestionnaireNext, QuestionnairePrevious, QuestionnaireProgress, QuestionnaireSubmit, QuestionnaireTitle,
+} from "@/components/ui/manga/questionnaire"
+
+<Questionnaire shortcuts="letters" onSubmit={save}>
+  <QuestionnaireProgress />
+  <QuestionnaireItem name="genre" required>
+    <QuestionnaireTitle>Which genre?</QuestionnaireTitle>
+    <QuestionnaireChoices>
+      <QuestionnaireChoice value="action">Action</QuestionnaireChoice>
+      <QuestionnaireChoice value="romance">Romance</QuestionnaireChoice>
+    </QuestionnaireChoices>
+    <QuestionnaireError />
+  </QuestionnaireItem>
+  <QuestionnaireActions>
+    <QuestionnairePrevious />
+    <QuestionnaireNext />
+    <QuestionnaireSubmit />
+  </QuestionnaireActions>
+</Questionnaire>
+```
+
+### Trace (`trace`)
+
+Manga-styled wrapper around your shadcn Trace (the log of steps an agent ran). Every line is reading text in ink, never faded. An empty TraceIcon shows the mark of the line's status: done = a brush check, running = turning concentration lines (the kit Spinner, instead of the stock shimmer), pending = a small hollow square (no dashes: dashes mean disabled), error = accent text and a “!” mark. Lines inside a link or button are underlined; the underline thickens on hover and focus draws the ink / paper / ink ring. A collapsible group has a brush chevron that turns in two steps and content that unfolds in steps along a 1px ink rail on the start side. Durations (TraceDescription) are small mono, in ink.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/trace`
+- Categories: feedback
+- Props:
+  - `status`: `"running" | "error" | "pending"` — On TraceLine. Omitted = done (brush check).
+  - `TraceIcon children`: `ReactNode` — Empty: the status mark. Any icon replaces it.
+  - `TraceCollapsible`: `component` — A group of lines: TraceCollapsibleTrigger (wraps a TraceLine) and TraceCollapsibleContent.
+
+```tsx
+import { Trace, TraceDescription, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/manga/trace"
+
+<Trace>
+  <TraceLine>
+    <TraceIcon />
+    <TraceTitle>Read chapter-12.md</TraceTitle>
+    <TraceDescription>0.4s</TraceDescription>
+  </TraceLine>
+  <TraceLine status="running">
+    <TraceIcon />
+    <TraceTitle>Inking page 9…</TraceTitle>
+  </TraceLine>
+</Trace>
+```
+
+### Code Block (`code-block`)
+
+Manga-styled wrapper around your shadcn Code Block: a 2px ink frame on paper, the file name in lettering above a fine rule, the code in mono, ink only (syntax colours are monochrome). Line numbers in ink. Line variants: highlighted (a 6px ink bar), added (bar and "+"), removed (accent bar, accent "−", struck text). Size sm, destructive frame. The copy button is an ink-framed square: hover thickens its line, focus draws the ink, click plays an impact, and the check icon shows once copied. Long lines scroll inside the block, never the page.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/code-block`
+- Categories: display
+- Props:
+  - `variant`: `"default" | "destructive"` (default `"default"`) — On CodeBlock: destructive draws the frame and the text in the accent.
+  - `size`: `"default" | "sm"` (default `"default"`) — On CodeBlock: smaller type and padding.
+  - `lineNumbers / startLine`: `boolean / number` (default `false / 1`) — On CodeBlockContent: number the lines in ink, from startLine.
+  - `wrap`: `boolean` (default `false`) — On CodeBlockContent: wrap long lines instead of scrolling them.
+  - `variant`: `"default" | "highlighted" | "added" | "removed"` (default `"default"`) — On CodeBlockLine: the bar and mark of the line.
+  - `value`: `string` — On CodeBlockCopyButton: the text copied to the clipboard.
+
+```tsx
+import { CodeBlock, CodeBlockHeader, CodeBlockTitle, CodeBlockActions, CodeBlockCopyButton, CodeBlockContent, CodeBlockLine } from "@/components/ui/manga/code-block"
+
+<CodeBlock>
+  <CodeBlockHeader>
+    <CodeBlockTitle>hero.tsx</CodeBlockTitle>
+    <CodeBlockActions><CodeBlockCopyButton value={code} /></CodeBlockActions>
+  </CodeBlockHeader>
+  <CodeBlockContent lineNumbers>
+    <CodeBlockLine variant="added">{"return <Button />"}</CodeBlockLine>
+  </CodeBlockContent>
+</CodeBlock>
+```
+
+### Direction (`direction`)
+
+Plain re-export of shadcn's Direction provider (DirectionProvider and useDirection), with the same API. Nothing is dressed: direction has no manga effect. It always takes `direction` ("ltr" or "rtl"), which both the Base UI and the Radix versions accept. The writing direction (dir) is what the kit's logical properties and rtl: variants follow; the manga reading order (data-reading) is a separate setting.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/direction`
+- Categories: foundations
+- Props:
+  - `direction`: `"ltr" | "rtl"` — The direction the subtree is laid out in. Set dir on the element too, so CSS follows.
+  - `useDirection()`: `hook` — Returns the current direction from the nearest provider.
+
+```tsx
+import { DirectionProvider, useDirection } from "@/components/ui/manga/direction"
+
+<DirectionProvider direction="rtl">
+  <div dir="rtl">...</div>
+</DirectionProvider>
+```
+
+### Typing Bubble (`typing-bubble`)
+
+A speech or thought bubble (the kit SpeechBubble) that first shows three small ink squares rising one after another at 12 fps (waiting), then writes its text a few characters per frame with a stepped block caret. The whole text is laid out from the start (the rest is invisible), so the bubble never reflows. Text that grows over time (streamed answers) types on from where it stopped, never from zero. The typed text is aria-hidden; a visually hidden copy is announced once, complete, through aria-live="polite"; the dots are role="status" with aria-label="Typing". Reduced motion: still dots, the text at once. Gestures: G6 bubble, G7 waiting.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/typing-bubble`
+- Categories: manga
+- Props:
+  - `text`: `string` — The text to write. It may grow over time: only the new characters animate.
+  - `typing`: `boolean` (default `!text`) — Show the three waiting dots; the writing pauses meanwhile.
+  - `speed`: `number` (default `3`) — Characters per frame at 12 fps. 0 shows the text at once.
+  - `variant`: `"speech" | "thought"` (default `"speech"`) — Bubble shape.
+  - `tail / tailAlign`: `SpeechBubble tail props` (default `"bottom" / "start"`) — Where the tail points, as in SpeechBubble.
+  - `onDone`: `() => void` — Called each time the visible text catches up with text.
+  - `progress`: `number` — Freezes the writing at this fraction (0–1), caret included: for previews and state grids.
+
+```tsx
+import { TypingBubble } from "@/components/manga/typing-bubble"
+
+<TypingBubble text={answer} typing={!answer} onDone={() => setReady(true)} />
+```
+
+### Reaction Picker (`reaction-picker`)
+
+A row of reactions drawn as manpu marks (anger, sweat, surprise, question, sparkle, gloom, love, sigh), each a toggle chip with its count in the SFX face: 2px ink frame, sharp corners. A chip is a button with aria-pressed; reacted = ink flat sweeping in (G2), hover thickens the line (G3, small cells), a click hits with speed lines (G4) and the count takes the hit when it changes; new chips pop in (G5). A "+" chip opens the kit Popover bubble (G6) with the eight marks as labelled buttons ("React with anger"); picking one toggles it and closes. Arrow keys move inside the grid. The row wraps; 44px targets under 640px. Controlled: pass reactions and toggle them in onReact. max caps the different kinds in the row; disabled makes it read-only (dashed chips). Exports ReactionChip and ReactionGrid for custom layouts and frozen previews.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/reaction-picker`
+- Categories: manga
+- Props:
+  - `reactions`: `{ kind: ManpuKind; count: number; active?: boolean }[]` — The row, in order. active = the reader reacted with it. Entries at 0 that are not active are hidden.
+  - `onReact`: `(kind: ManpuKind) => void` — A chip or a mark of the picker was clicked: toggle that kind in your state.
+  - `kinds`: `ManpuKind[]` (default `all eight`) — Marks offered in the picker.
+  - `max`: `number` — The most different kinds the row holds; once full, the other marks of the picker are disabled.
+  - `disabled`: `boolean` (default `false`) — Read-only row: dashed chips, no picker.
+
+```tsx
+import { ReactionPicker } from "@/components/manga/reaction-picker"
+
+<ReactionPicker
+  reactions={[{ kind: "love", count: 12, active: true }, { kind: "sweat", count: 2 }]}
+  onReact={(kind) => toggle(kind)}
+/>
+```
+
+### Reader Strip (`reader-strip`)
+
+A vertical strip of page images for scroll (webtoon) reading, centred, full width on phones and at most 720px (or the widest page) on desktop. It follows the page scroll or the nearest scroll parent: no inner scroll box. Each page is a <figure> with a lazy <img> whose width and height reserve the space (no jump), framed by a 2px ink line unless gap is "none". Page states: loading = a paper panel of the page's ratio with a tone frame and the kit Spinner (G7); error = an accent edge-jagged panel with a "!" and a Retry button (G8) that asks the image again; loaded = the art pops in (G5). After the last page, an end panel (3px frame, SFX "END", brush mark-check, "To be continued"), announced to screen readers when reached. Reports progress (0-1 and the page in the middle of the view) with a requestAnimationFrame-throttled scroll listener, cleaned up on unmount. Exports ReaderStrip, ReaderPage (one page, with a status prop to freeze a state) and ReaderEnd (the end panel).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/reader-strip`
+- Categories: manga
+- Props:
+  - `pages`: `{ src: string; alt: string; width: number; height: number }[]` — The page images, in reading order. width / height reserve the space.
+  - `gap`: `"none" | "sm" | "md"` (default `"sm"`) — Space between pages; "none" joins them without frames.
+  - `onProgress`: `(ratio: number, pageIndex: number) => void` — Scroll progress through the strip (0-1) and the page in the middle of the view (0-based).
+  - `onEnd`: `() => void` — Called each time the end panel comes into view.
+  - `onRetry`: `(pageIndex: number) => void` — Called when the reader retries a failed page (e.g. to switch source).
+  - `end`: `ReactNode` (default `<ReaderEnd />`) — Shown after the last page.
+  - `aria-label`: `string` (default `"Pages"`) — Name of the strip (a <section>).
+
+```tsx
+import { ReaderStrip } from "@/components/manga/reader-strip"
+
+<ReaderStrip
+  aria-label="Chapter 12"
+  pages={[{ src: "/ch12/01.webp", alt: "The city at night", width: 800, height: 1200 }]}
+  onProgress={(ratio, page) => setPage(page + 1)}
+  onEnd={() => markRead()}
+/>
+```
+
+### Reading Progress (`reading-progress`)
+
+A reading progress bar: a 2px ink baseline with an ink fill-lines bar sitting on it (G7), in whole pixels; the bar shares the baseline's outer edge and grows inward, 4px of solid ink at rest and 6px with a paper speed line through it while the reader scrolls or the value changes. Measures the scroll of a target element (its own scroll, or how far the window has moved through it) or of the window, with requestAnimationFrame, cleaned up on unmount; or takes a controlled value (then the width moves in steps). Positions: fixed to the top or bottom edge of the viewport, or inline in the flow. In manga reading order (data-reading="rtl") it fills from the right. Optional value text ("42 %" or "Page 3 / 8") on paper, never on the lines. role="progressbar" with aria-valuenow/min/max and aria-valuetext. Reduced motion: no motion, the value still updates. Also exports useScrollProgress(target).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/reading-progress`
+- Categories: manga
+- Props:
+  - `value`: `number` — 0-100, controlled. Leave out to measure the scroll.
+  - `target`: `RefObject<HTMLElement | null>` — Element whose scroll progress is measured. Default: the window.
+  - `position`: `"top" | "bottom" | "inline"` (default `"inline"`) — Fixed to that edge of the viewport, or in the flow.
+  - `label`: `string` (default `"Reading progress"`) — Accessible name.
+  - `showValue`: `boolean` (default `false`) — Shows the value as a small text.
+  - `valueText`: `string` (default `"42 %"`) — Text for the value, e.g. "Page 3 / 8"; also aria-valuetext.
+
+```tsx
+import { ReadingProgress } from "@/components/manga/reading-progress"
+
+<ReadingProgress position="top" />
+<ReadingProgress value={37.5} showValue valueText="Page 3 / 8" />
+```
+
 ### Dashboard (`dashboard`)
 
 A full dashboard made only with mangacn: a collapsible Sidebar (a sheet on phones), four Stat key figures, a bar chart and a line chart in screentone patterns (Chart), a Data Table of chapters with Badge statuses, a period switch (Button Group of pressed buttons) and a Command palette opened with Ctrl/⌘ K. Works in light, dark, any accent and at phone width.
@@ -1635,4 +1902,64 @@ A production task board made only with mangacn: a Data Table whose statuses are 
 import { Tasks } from "@/components/manga/blocks/tasks"
 
 <Tasks className="h-svh" />
+```
+
+### Landing page (`landing-page`)
+
+A product landing page made only with mangacn, for an invented manga publishing app: a top nav that folds into a Sheet below 42rem of container width, an opening splash page of Panels on a PanelGrid (lettering headline, focus SpeedLines and an accent Burst around the drawn art, never under text, a shout Button and an outline Button, an ink panel of key figures; three columns with a slanted gutter from 48rem), features in cases (ink-case), pricing as a VersusPanel (Free vs Pro, Pro highlighted, monthly or yearly with pressed buttons in a Button Group), reviews in SpeechBubbles with square Avatars, a FAQ in the Accordion and a footer with link columns and a newsletter InputGroup in a Field that validates the address. One column on phones, container queries widen it; links never navigate. Works in light, dark, any accent and at phone width.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/landing-page`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { LandingPage } from "@/components/manga/blocks/landing-page"
+
+<LandingPage />
+```
+
+### AI chat (`ai-chat`)
+
+A full chat with an AI story assistant made only with mangacn: a header with the assistant's name, a model switch (Button Group of pressed buttons that drops a Marker in the conversation) and New chat; the conversation in the Message Scroller with Message + Bubble lines (your own in ink bubbles, the assistant's in paper bubbles), Markers ("Today", "Switched to a faster model"), the reasoning folded in a Collapsible that opens a thought SpeechBubble ("Thought for 4 s"), tool steps in a Trace (done checks, a running Spinner), a Code Block, Reaction Picker chips, Attachments on a user line, an offered Questionnaire ("Plan your one-shot") that folds into a summary card, and an error shouted in an accent shout SpeechBubble with Retry. The composer: Attachments row (uploading line, remove action), attach button, Textarea (Enter sends, Shift+Enter new line), send button that shows the loading lines while the assistant answers. Sending plays a fake reply with no network: a running step, the waiting dots, then the answer types in a TypingBubble. From 48rem wide it is a 48rem frame that scrolls inside; narrower it follows the page (no inner scroller) and sending brings the composer back into view. Works in light, dark, any accent and at phone width.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/ai-chat`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Placement and width of the whole interface.
+
+```tsx
+import { AiChat } from "@/components/manga/blocks/ai-chat"
+
+<AiChat />
+```
+
+### Manga Reader (`manga-reader`)
+
+A webtoon-style chapter reader made only with mangacn: a series header with a cover drawn in SVG, a Chapters button opening a Sheet with the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a "Page 3 / 9" counter fed by the strip, a ReaderStrip of nine drawn pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Works in light, dark, any accent and at phone width.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/manga-reader`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole reader.
+
+```tsx
+import { MangaReader } from "@/components/manga/blocks/manga-reader"
+
+<MangaReader />
+```
+
+### Developer portfolio (`portfolio`)
+
+A developer's portfolio made only with mangacn: a top bar whose section buttons scroll in place, an opening spread of two Panels with a slanted gutter (focus SpeedLines behind a TonedImage portrait drawn in SVG, a SpeechBubble, Sfx lettering and a band of motion lines), projects as a manga page of Cards (wide, two, wide) with drawn thumbnails, Badge tags, a CodeBlock install snippet and links that do not navigate, skills as a CharacterCard with stat bars, a career as a vertical Stepper, and a contact form (Field, Input, Textarea, Button) that validates on submit, shakes its errors, shows a loading button and then a brush-check success panel. No network. One column on phones; container queries widen it. Works in light, dark, any accent and in manga reading order.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/portfolio`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { Portfolio } from "@/components/manga/blocks/portfolio"
+
+<Portfolio />
 ```

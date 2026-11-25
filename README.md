@@ -62,7 +62,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 
 <!-- items:start -->
 
-83 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+98 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
 
 ### Foundations
 
@@ -74,6 +74,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Font: Dela Gothic One | `font-sfx` | A heavy face for sound effects, katakana included. |
 | Gestures | `gestures` | Impact and flash primitives shared by every component. |
 | Typography | `typography` | Headings in lettering, body in the reading face, narration in a case. |
+| Direction | `direction` | Left to right or right to left, for the whole subtree. |
 
 ### Actions & input
 
@@ -99,6 +100,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Input OTP | `input-otp` | Code boxes joined in one ink frame, with a stepped caret. |
 | Calendar | `calendar` | A month drawn in ink: chosen days turn to flat ink, today gets a frame. |
 | Date Picker | `date-picker` | An ink field that opens a calendar in a speech bubble. |
+| Questionnaire | `questionnaire` | One question at a time, in an inked case with a running progress rail. |
 
 ### Feedback
 
@@ -111,6 +113,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Progress | `progress` | A rail that fills with speed lines, in steps. |
 | Spinner | `spinner` | Concentration lines turning in steps. |
 | Empty | `empty` | An empty panel with a heavy “…”. |
+| Trace | `trace` | An agent's steps, inked line by line with status marks. |
 
 ### Overlays
 
@@ -157,6 +160,10 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Resizable | `resizable` | Panels divided by a 2px ink line with a grip to pull. |
 | Aspect Ratio | `aspect-ratio` | A box of a fixed ratio for covers, panels and frames. |
 | Carousel | `carousel` | Panels in a strip, turned with brush arrows. |
+| Attachment | `attachment` | A file attached to a message, with its progress and errors. |
+| Marker | `marker` | A line in the conversation: a date, a switch, a compaction. |
+| Message Scroller | `message-scroller` | A conversation column that jumps back to the latest line. |
+| Code Block | `code-block` | A code frame in ink, with a copy square that stamps a check. |
 
 ### Manga pieces
 
@@ -179,6 +186,10 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Versus Panel | `versus-panel` | Two options split by a diagonal, with a VS burst at the crossing. |
 | Loading Screen | `loading-screen` | A waiting screen of concentration lines and a sound effect. |
 | Volume Card | `volume-card` | A manga volume with its cover, status and reading progress. |
+| Typing Bubble | `typing-bubble` | A bubble that waits, then writes. |
+| Reaction Picker | `reaction-picker` | React with manga emotion marks. |
+| Reader Strip | `reader-strip` | Pages in a vertical strip, for scroll reading. |
+| Reading Progress | `reading-progress` | How far the reader has gone, in speed lines. |
 
 ### Full interfaces
 
@@ -186,6 +197,10 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | --- | --- | --- |
 | Dashboard | `dashboard` | Sidebar, key figures, toned charts, a data table and a command palette. |
 | Tasks | `tasks` | A task board: stamps for statuses, filters and actions on a selection. |
+| Landing page | `landing-page` | An opening page, features in panels, pricing as a versus, reviews in bubbles. |
+| AI chat | `ai-chat` | Thinking in a thought bubble, errors shouted, answers typed as they come. |
+| Manga Reader | `manga-reader` | A vertical strip, chapters in a sheet, progress and reading order. |
+| Developer portfolio | `portfolio` | Intro panels, projects on a manga page, skills as a character sheet, a contact form. |
 
 <!-- items:end -->
 

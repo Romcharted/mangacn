@@ -84,8 +84,22 @@
     "registry/items/input-otp.json",
     "registry/items/calendar.json",
     "registry/items/date-picker.json",
+    "registry/items/attachment.json",
+    "registry/items/marker.json",
+    "registry/items/message-scroller.json",
+    "registry/items/questionnaire.json",
+    "registry/items/trace.json",
+    "registry/items/code-block.json",
+    "registry/items/direction.json",
+    "registry/items/typing-bubble.json",
+    "registry/items/reaction-picker.json",
+    "registry/items/reader-strip.json",
+    "registry/items/reading-progress.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json",
-    "registry/items/landing-page.json"
+    "registry/items/landing-page.json",
+    "registry/items/ai-chat.json",
+    "registry/items/manga-reader.json",
+    "registry/items/portfolio.json"
   ]
 }

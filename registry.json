@@ -4465,6 +4465,598 @@
       }
     },
     {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Manga-styled wrapper around your shadcn Attachment (a file attached to a message or a prompt): a 2px ink frame, a fine-framed media square, title in the reading face and description in small mono. States via state: done (rest), uploading (a running line along the bottom edge), processing (the manga Spinner in the media square), error (accent line, a mark-error '!' and accent description), idle (a solid line with a '+' mark). AttachmentTrigger makes the whole card clickable (hover-lift, focus ring); AttachmentAction is a small square ink button with hover-thicken. AttachmentGroup wraps. Sizes default, sm, xs; orientation horizontal or vertical.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "attachment",
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/button"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/attachment.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/attachment.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/attachment\". It wraps your own components/ui/attachment, so Radix and Base UI both work: never pass render or asChild to AttachmentTrigger.",
+      "meta": {
+        "tagline": "A file attached to a message, with its progress and errors.",
+        "usage": "import { Attachment, AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription, AttachmentActions, AttachmentAction } from \"@/components/ui/manga/attachment\"\n\n<Attachment state=\"uploading\">\n  <AttachmentMedia>…</AttachmentMedia>\n  <AttachmentContent>\n    <AttachmentTitle>page-12.png</AttachmentTitle>\n    <AttachmentDescription>Uploading 64%</AttachmentDescription>\n  </AttachmentContent>\n  <AttachmentActions>\n    <AttachmentAction aria-label=\"Remove\">×</AttachmentAction>\n  </AttachmentActions>\n</Attachment>",
+        "props": [
+          {
+            "name": "state",
+            "type": "\"idle\" | \"uploading\" | \"processing\" | \"error\" | \"done\"",
+            "default": "\"done\"",
+            "description": "The look of the file: running line, spinner, accent error or idle '+'."
+          },
+          {
+            "name": "size",
+            "type": "\"default\" | \"sm\" | \"xs\"",
+            "default": "\"default\"",
+            "description": "Stock sizes, kept."
+          },
+          {
+            "name": "orientation",
+            "type": "\"horizontal\" | \"vertical\"",
+            "default": "\"horizontal\"",
+            "description": "Vertical puts the media on top."
+          }
+        ]
+      }
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Manga-styled wrapper around your shadcn Marker (a line inside a conversation, such as 'Today', 'Model switched to ...' or 'Context compacted'): lettering, small, uppercase, always ink (never grey). variant separator draws a 1px ink rule on both sides; variant border draws a 1px ink rule under it. Links inside take the underline hover and the focus ring. MarkerIcon stays in ink.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "marker",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/marker.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/marker.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/marker\". It wraps your own components/ui/marker, so Radix and Base UI both work: never pass render or asChild.",
+      "meta": {
+        "tagline": "A line in the conversation: a date, a switch, a compaction.",
+        "usage": "import { Marker, MarkerIcon, MarkerContent } from \"@/components/ui/manga/marker\"\n\n<Marker variant=\"separator\">\n  <MarkerContent>Today</MarkerContent>\n</Marker>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"separator\" | \"border\"",
+            "default": "\"default\"",
+            "description": "separator: rules on both sides. border: a rule under the line."
+          }
+        ]
+      }
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "Manga-styled wrapper around your shadcn Message Scroller (the scrolling column of a conversation with a 'jump to latest' button). The viewport keeps the stock behaviour (it scrolls) with a thin ink scrollbar and no grey fade at the edges. MessageScrollerButton is a square ink-framed button (only bubbles are round): it pops in when the reader scrolls up (animate-pop), lifts on hover, shows a focus ring and hits on click (impact lines). 44px touch target under 640px.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "message-scroller",
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/gestures"
+      ],
+      "dependencies": [
+        "cn",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/message-scroller.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/message-scroller.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/message-scroller\". It wraps your own components/ui/message-scroller, so Radix and Base UI both work: never pass render or asChild to MessageScrollerButton.",
+      "meta": {
+        "tagline": "A conversation column that jumps back to the latest line.",
+        "usage": "import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton } from \"@/components/ui/manga/message-scroller\"\n\n<MessageScrollerProvider>\n  <MessageScroller className=\"h-80\">\n    <MessageScrollerViewport>\n      <MessageScrollerContent>\n        <MessageScrollerItem>…</MessageScrollerItem>\n      </MessageScrollerContent>\n    </MessageScrollerViewport>\n    <MessageScrollerButton />\n  </MessageScroller>\n</MessageScrollerProvider>",
+        "props": [
+          {
+            "name": "direction",
+            "type": "\"start\" | \"end\"",
+            "default": "\"end\"",
+            "description": "Which way the button jumps: to the latest line or to the first."
+          }
+        ]
+      }
+    },
+    {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "description": "Manga-styled wrapper around your shadcn Questionnaire (one question at a time, the kind an AI agent asks). The whole form is a case (3px ink line, tone shadow). Progress reads “Question 2 of 4” in lettering beside a 2px ink rail filled with speed lines that moves in steps. Each question pops in over three frames; titles are lettering, descriptions the reading face. Each choice is a choice card: a 2px ink frame whose line thickens on hover, with the ink / paper / ink focus ring around the row; checked, a 6px ink bar grows down its start edge and the indicator fills with ink (radio = a diamond with a paper dot, checkbox = a square with a brush check that draws itself). Shortcuts are key caps. The free-text input is the kit Input. Errors: accent line, a “!” mark and one shake. Previous / Skip are outline buttons, Next / Submit ink buttons, all with the impact on click. Disabled choices: dashed line and tone frame, label on paper.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "questionnaire",
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/gestures",
+        "Romcharted/mangacn/button"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/questionnaire.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/questionnaire.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/questionnaire\". It wraps your own components/ui/questionnaire (built on @shadcn/react), so it works with the Radix and Base UI versions of shadcn alike. The progress rail reads the aria values of the progress element, so it follows any number of questions.",
+      "meta": {
+        "tagline": "One question at a time, in an inked case with a running progress rail.",
+        "usage": "import {\n  Questionnaire, QuestionnaireActions, QuestionnaireChoice, QuestionnaireChoices, QuestionnaireError,\n  QuestionnaireItem, QuestionnaireNext, QuestionnairePrevious, QuestionnaireProgress, QuestionnaireSubmit, QuestionnaireTitle,\n} from \"@/components/ui/manga/questionnaire\"\n\n<Questionnaire shortcuts=\"letters\" onSubmit={save}>\n  <QuestionnaireProgress />\n  <QuestionnaireItem name=\"genre\" required>\n    <QuestionnaireTitle>Which genre?</QuestionnaireTitle>\n    <QuestionnaireChoices>\n      <QuestionnaireChoice value=\"action\">Action</QuestionnaireChoice>\n      <QuestionnaireChoice value=\"romance\">Romance</QuestionnaireChoice>\n    </QuestionnaireChoices>\n    <QuestionnaireError />\n  </QuestionnaireItem>\n  <QuestionnaireActions>\n    <QuestionnairePrevious />\n    <QuestionnaireNext />\n    <QuestionnaireSubmit />\n  </QuestionnaireActions>\n</Questionnaire>",
+        "props": [
+          {
+            "name": "shortcuts",
+            "type": "\"letters\" | \"numbers\"",
+            "description": "On Questionnaire: shows a key cap on each choice and picks it on key press."
+          },
+          {
+            "name": "multiple",
+            "type": "boolean",
+            "default": "false",
+            "description": "On QuestionnaireItem: square checkboxes instead of radio diamonds."
+          },
+          {
+            "name": "required / invalid",
+            "type": "boolean",
+            "description": "On QuestionnaireItem: required hides Skip; invalid shows the error look and QuestionnaireError."
+          },
+          {
+            "name": "disabled / defaultChecked",
+            "type": "boolean",
+            "description": "On QuestionnaireChoice: the dashed disabled card / a pre-checked choice."
+          },
+          {
+            "name": "variant / size",
+            "type": "shadcn Button variant / size",
+            "description": "On Previous, Skip, Next, Submit: drawn with the kit button look (outline for Previous / Skip, ink for Next / Submit by default)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "trace",
+      "type": "registry:ui",
+      "title": "Trace",
+      "description": "Manga-styled wrapper around your shadcn Trace (the log of steps an agent ran). Every line is reading text in ink, never faded. An empty TraceIcon shows the mark of the line's status: done = a brush check, running = turning concentration lines (the kit Spinner, instead of the stock shimmer), pending = a small hollow square (no dashes: dashes mean disabled), error = accent text and a “!” mark. Lines inside a link or button are underlined; the underline thickens on hover and focus draws the ink / paper / ink ring. A collapsible group has a brush chevron that turns in two steps and content that unfolds in steps along a 1px ink rail on the start side. Durations (TraceDescription) are small mono, in ink.",
+      "categories": [
+        "feedback"
+      ],
+      "registryDependencies": [
+        "trace",
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/spinner"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/trace.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/trace.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/trace\". It wraps your own components/ui/trace (and so your Collapsible), so Radix and Base UI both work. Leave TraceIcon empty to get the status mark; pass an icon to replace it.",
+      "meta": {
+        "tagline": "An agent's steps, inked line by line with status marks.",
+        "usage": "import { Trace, TraceDescription, TraceIcon, TraceLine, TraceTitle } from \"@/components/ui/manga/trace\"\n\n<Trace>\n  <TraceLine>\n    <TraceIcon />\n    <TraceTitle>Read chapter-12.md</TraceTitle>\n    <TraceDescription>0.4s</TraceDescription>\n  </TraceLine>\n  <TraceLine status=\"running\">\n    <TraceIcon />\n    <TraceTitle>Inking page 9…</TraceTitle>\n  </TraceLine>\n</Trace>",
+        "props": [
+          {
+            "name": "status",
+            "type": "\"running\" | \"error\" | \"pending\"",
+            "description": "On TraceLine. Omitted = done (brush check)."
+          },
+          {
+            "name": "TraceIcon children",
+            "type": "ReactNode",
+            "description": "Empty: the status mark. Any icon replaces it."
+          },
+          {
+            "name": "TraceCollapsible",
+            "type": "component",
+            "description": "A group of lines: TraceCollapsibleTrigger (wraps a TraceLine) and TraceCollapsibleContent."
+          }
+        ]
+      }
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Manga-styled wrapper around your shadcn Code Block: a 2px ink frame on paper, the file name in lettering above a fine rule, the code in mono, ink only (syntax colours are monochrome). Line numbers in ink. Line variants: highlighted (a 6px ink bar), added (bar and \"+\"), removed (accent bar, accent \"−\", struck text). Size sm, destructive frame. The copy button is an ink-framed square: hover thickens its line, focus draws the ink, click plays an impact, and the check icon shows once copied. Long lines scroll inside the block, never the page.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "code-block",
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/gestures"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/code-block.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/code-block.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/code-block\". It wraps your own components/ui/code-block, which is plain markup, so Radix and Base UI both work.",
+      "meta": {
+        "tagline": "A code frame in ink, with a copy square that stamps a check.",
+        "usage": "import { CodeBlock, CodeBlockHeader, CodeBlockTitle, CodeBlockActions, CodeBlockCopyButton, CodeBlockContent, CodeBlockLine } from \"@/components/ui/manga/code-block\"\n\n<CodeBlock>\n  <CodeBlockHeader>\n    <CodeBlockTitle>hero.tsx</CodeBlockTitle>\n    <CodeBlockActions><CodeBlockCopyButton value={code} /></CodeBlockActions>\n  </CodeBlockHeader>\n  <CodeBlockContent lineNumbers>\n    <CodeBlockLine variant=\"added\">{\"return <Button />\"}</CodeBlockLine>\n  </CodeBlockContent>\n</CodeBlock>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"destructive\"",
+            "default": "\"default\"",
+            "description": "On CodeBlock: destructive draws the frame and the text in the accent."
+          },
+          {
+            "name": "size",
+            "type": "\"default\" | \"sm\"",
+            "default": "\"default\"",
+            "description": "On CodeBlock: smaller type and padding."
+          },
+          {
+            "name": "lineNumbers / startLine",
+            "type": "boolean / number",
+            "default": "false / 1",
+            "description": "On CodeBlockContent: number the lines in ink, from startLine."
+          },
+          {
+            "name": "wrap",
+            "type": "boolean",
+            "default": "false",
+            "description": "On CodeBlockContent: wrap long lines instead of scrolling them."
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"highlighted\" | \"added\" | \"removed\"",
+            "default": "\"default\"",
+            "description": "On CodeBlockLine: the bar and mark of the line."
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "On CodeBlockCopyButton: the text copied to the clipboard."
+          }
+        ]
+      }
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "Plain re-export of shadcn's Direction provider (DirectionProvider and useDirection), with the same API. Nothing is dressed: direction has no manga effect. It always takes `direction` (\"ltr\" or \"rtl\"), which both the Base UI and the Radix versions accept. The writing direction (dir) is what the kit's logical properties and rtl: variants follow; the manga reading order (data-reading) is a separate setting.",
+      "categories": [
+        "foundations"
+      ],
+      "registryDependencies": [
+        "direction",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/manga/ui/direction.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/direction.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/direction\". It wraps your own components/ui/direction, so Radix and Base UI both work.",
+      "meta": {
+        "tagline": "Left to right or right to left, for the whole subtree.",
+        "usage": "import { DirectionProvider, useDirection } from \"@/components/ui/manga/direction\"\n\n<DirectionProvider direction=\"rtl\">\n  <div dir=\"rtl\">...</div>\n</DirectionProvider>",
+        "props": [
+          {
+            "name": "direction",
+            "type": "\"ltr\" | \"rtl\"",
+            "description": "The direction the subtree is laid out in. Set dir on the element too, so CSS follows."
+          },
+          {
+            "name": "useDirection()",
+            "type": "hook",
+            "description": "Returns the current direction from the nearest provider."
+          }
+        ]
+      }
+    },
+    {
+      "name": "typing-bubble",
+      "type": "registry:component",
+      "title": "Typing Bubble",
+      "description": "A speech or thought bubble (the kit SpeechBubble) that first shows three small ink squares rising one after another at 12 fps (waiting), then writes its text a few characters per frame with a stepped block caret. The whole text is laid out from the start (the rest is invisible), so the bubble never reflows. Text that grows over time (streamed answers) types on from where it stopped, never from zero. The typed text is aria-hidden; a visually hidden copy is announced once, complete, through aria-live=\"polite\"; the dots are role=\"status\" with aria-label=\"Typing\". Reduced motion: still dots, the text at once. Gestures: G6 bubble, G7 waiting.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/speech-bubble",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/typing-bubble.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/typing-bubble.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/typing-bubble\". It draws its outline with SpeechBubble from \"@/components/manga/speech-bubble\" (installed with it). TypingDots, the three waiting squares, is exported too.",
+      "meta": {
+        "tagline": "A bubble that waits, then writes.",
+        "usage": "import { TypingBubble } from \"@/components/manga/typing-bubble\"\n\n<TypingBubble text={answer} typing={!answer} onDone={() => setReady(true)} />",
+        "props": [
+          {
+            "name": "text",
+            "type": "string",
+            "description": "The text to write. It may grow over time: only the new characters animate."
+          },
+          {
+            "name": "typing",
+            "type": "boolean",
+            "default": "!text",
+            "description": "Show the three waiting dots; the writing pauses meanwhile."
+          },
+          {
+            "name": "speed",
+            "type": "number",
+            "default": "3",
+            "description": "Characters per frame at 12 fps. 0 shows the text at once."
+          },
+          {
+            "name": "variant",
+            "type": "\"speech\" | \"thought\"",
+            "default": "\"speech\"",
+            "description": "Bubble shape."
+          },
+          {
+            "name": "tail / tailAlign",
+            "type": "SpeechBubble tail props",
+            "default": "\"bottom\" / \"start\"",
+            "description": "Where the tail points, as in SpeechBubble."
+          },
+          {
+            "name": "onDone",
+            "type": "() => void",
+            "description": "Called each time the visible text catches up with text."
+          },
+          {
+            "name": "progress",
+            "type": "number",
+            "description": "Freezes the writing at this fraction (0–1), caret included: for previews and state grids."
+          }
+        ]
+      }
+    },
+    {
+      "name": "reaction-picker",
+      "type": "registry:component",
+      "title": "Reaction Picker",
+      "description": "A row of reactions drawn as manpu marks (anger, sweat, surprise, question, sparkle, gloom, love, sigh), each a toggle chip with its count in the SFX face: 2px ink frame, sharp corners. A chip is a button with aria-pressed; reacted = ink flat sweeping in (G2), hover thickens the line (G3, small cells), a click hits with speed lines (G4) and the count takes the hit when it changes; new chips pop in (G5). A \"+\" chip opens the kit Popover bubble (G6) with the eight marks as labelled buttons (\"React with anger\"); picking one toggles it and closes. Arrow keys move inside the grid. The row wraps; 44px targets under 640px. Controlled: pass reactions and toggle them in onReact. max caps the different kinds in the row; disabled makes it read-only (dashed chips). Exports ReactionChip and ReactionGrid for custom layouts and frozen previews.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/manpu",
+        "Romcharted/mangacn/popover",
+        "Romcharted/mangacn/gestures",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/reaction-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/reaction-picker.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/reaction-picker\". It uses Manpu (\"@/components/manga/manpu\"), the kit Popover (\"@/components/ui/manga/popover\", which wraps your own components/ui/popover, Radix or Base UI) and withImpact, punch and ImpactLines from \"@/lib/manga/gestures\".",
+      "meta": {
+        "tagline": "React with manga emotion marks.",
+        "usage": "import { ReactionPicker } from \"@/components/manga/reaction-picker\"\n\n<ReactionPicker\n  reactions={[{ kind: \"love\", count: 12, active: true }, { kind: \"sweat\", count: 2 }]}\n  onReact={(kind) => toggle(kind)}\n/>",
+        "props": [
+          {
+            "name": "reactions",
+            "type": "{ kind: ManpuKind; count: number; active?: boolean }[]",
+            "description": "The row, in order. active = the reader reacted with it. Entries at 0 that are not active are hidden."
+          },
+          {
+            "name": "onReact",
+            "type": "(kind: ManpuKind) => void",
+            "description": "A chip or a mark of the picker was clicked: toggle that kind in your state."
+          },
+          {
+            "name": "kinds",
+            "type": "ManpuKind[]",
+            "default": "all eight",
+            "description": "Marks offered in the picker."
+          },
+          {
+            "name": "max",
+            "type": "number",
+            "description": "The most different kinds the row holds; once full, the other marks of the picker are disabled."
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "default": "false",
+            "description": "Read-only row: dashed chips, no picker."
+          }
+        ]
+      }
+    },
+    {
+      "name": "reader-strip",
+      "type": "registry:component",
+      "title": "Reader Strip",
+      "description": "A vertical strip of page images for scroll (webtoon) reading, centred, full width on phones and at most 720px (or the widest page) on desktop. It follows the page scroll or the nearest scroll parent: no inner scroll box. Each page is a <figure> with a lazy <img> whose width and height reserve the space (no jump), framed by a 2px ink line unless gap is \"none\". Page states: loading = a paper panel of the page's ratio with a tone frame and the kit Spinner (G7); error = an accent edge-jagged panel with a \"!\" and a Retry button (G8) that asks the image again; loaded = the art pops in (G5). After the last page, an end panel (3px frame, SFX \"END\", brush mark-check, \"To be continued\"), announced to screen readers when reached. Reports progress (0-1 and the page in the middle of the view) with a requestAnimationFrame-throttled scroll listener, cleaned up on unmount. Exports ReaderStrip, ReaderPage (one page, with a status prop to freeze a state) and ReaderEnd (the end panel).",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/spinner",
+        "Romcharted/mangacn/sfx"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/reader-strip.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/reader-strip.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/reader-strip\". Give every page its real width and height so the space is reserved before the image arrives. Pair it with ReadingProgress (value = ratio * 100) for a progress bar.",
+      "meta": {
+        "tagline": "Pages in a vertical strip, for scroll reading.",
+        "usage": "import { ReaderStrip } from \"@/components/manga/reader-strip\"\n\n<ReaderStrip\n  aria-label=\"Chapter 12\"\n  pages={[{ src: \"/ch12/01.webp\", alt: \"The city at night\", width: 800, height: 1200 }]}\n  onProgress={(ratio, page) => setPage(page + 1)}\n  onEnd={() => markRead()}\n/>",
+        "props": [
+          {
+            "name": "pages",
+            "type": "{ src: string; alt: string; width: number; height: number }[]",
+            "description": "The page images, in reading order. width / height reserve the space."
+          },
+          {
+            "name": "gap",
+            "type": "\"none\" | \"sm\" | \"md\"",
+            "default": "\"sm\"",
+            "description": "Space between pages; \"none\" joins them without frames."
+          },
+          {
+            "name": "onProgress",
+            "type": "(ratio: number, pageIndex: number) => void",
+            "description": "Scroll progress through the strip (0-1) and the page in the middle of the view (0-based)."
+          },
+          {
+            "name": "onEnd",
+            "type": "() => void",
+            "description": "Called each time the end panel comes into view."
+          },
+          {
+            "name": "onRetry",
+            "type": "(pageIndex: number) => void",
+            "description": "Called when the reader retries a failed page (e.g. to switch source)."
+          },
+          {
+            "name": "end",
+            "type": "ReactNode",
+            "default": "<ReaderEnd />",
+            "description": "Shown after the last page."
+          },
+          {
+            "name": "aria-label",
+            "type": "string",
+            "default": "\"Pages\"",
+            "description": "Name of the strip (a <section>)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "reading-progress",
+      "type": "registry:component",
+      "title": "Reading Progress",
+      "description": "A reading progress bar: a 2px ink baseline with an ink fill-lines bar sitting on it (G7), in whole pixels; the bar shares the baseline's outer edge and grows inward, 4px of solid ink at rest and 6px with a paper speed line through it while the reader scrolls or the value changes. Measures the scroll of a target element (its own scroll, or how far the window has moved through it) or of the window, with requestAnimationFrame, cleaned up on unmount; or takes a controlled value (then the width moves in steps). Positions: fixed to the top or bottom edge of the viewport, or inline in the flow. In manga reading order (data-reading=\"rtl\") it fills from the right. Optional value text (\"42 %\" or \"Page 3 / 8\") on paper, never on the lines. role=\"progressbar\" with aria-valuenow/min/max and aria-valuetext. Reduced motion: no motion, the value still updates. Also exports useScrollProgress(target).",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/reading-progress.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/reading-progress.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/reading-progress\". Without value it measures the window (or target); with value it is controlled, e.g. value={ratio * 100} from ReaderStrip's onProgress.",
+      "meta": {
+        "tagline": "How far the reader has gone, in speed lines.",
+        "usage": "import { ReadingProgress } from \"@/components/manga/reading-progress\"\n\n<ReadingProgress position=\"top\" />\n<ReadingProgress value={37.5} showValue valueText=\"Page 3 / 8\" />",
+        "props": [
+          {
+            "name": "value",
+            "type": "number",
+            "description": "0-100, controlled. Leave out to measure the scroll."
+          },
+          {
+            "name": "target",
+            "type": "RefObject<HTMLElement | null>",
+            "description": "Element whose scroll progress is measured. Default: the window."
+          },
+          {
+            "name": "position",
+            "type": "\"top\" | \"bottom\" | \"inline\"",
+            "default": "\"inline\"",
+            "description": "Fixed to that edge of the viewport, or in the flow."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "default": "\"Reading progress\"",
+            "description": "Accessible name."
+          },
+          {
+            "name": "showValue",
+            "type": "boolean",
+            "default": "false",
+            "description": "Shows the value as a small text."
+          },
+          {
+            "name": "valueText",
+            "type": "string",
+            "default": "\"42 %\"",
+            "description": "Text for the value, e.g. \"Page 3 / 8\"; also aria-valuetext."
+          }
+        ]
+      }
+    },
+    {
       "name": "dashboard",
       "type": "registry:block",
       "title": "Dashboard",
@@ -4543,6 +5135,197 @@
       "meta": {
         "tagline": "A task board: stamps for statuses, filters and actions on a selection.",
         "usage": "import { Tasks } from \"@/components/manga/blocks/tasks\"\n\n<Tasks className=\"h-svh\" />",
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Size and placement of the whole interface."
+          }
+        ]
+      }
+    },
+    {
+      "name": "landing-page",
+      "type": "registry:block",
+      "title": "Landing page",
+      "description": "A product landing page made only with mangacn, for an invented manga publishing app: a top nav that folds into a Sheet below 42rem of container width, an opening splash page of Panels on a PanelGrid (lettering headline, focus SpeedLines and an accent Burst around the drawn art, never under text, a shout Button and an outline Button, an ink panel of key figures; three columns with a slanted gutter from 48rem), features in cases (ink-case), pricing as a VersusPanel (Free vs Pro, Pro highlighted, monthly or yearly with pressed buttons in a Button Group), reviews in SpeechBubbles with square Avatars, a FAQ in the Accordion and a footer with link columns and a newsletter InputGroup in a Field that validates the address. One column on phones, container queries widen it; links never navigate. Works in light, dark, any accent and at phone width.",
+      "categories": [
+        "blocks"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/panel",
+        "Romcharted/mangacn/speed-lines",
+        "Romcharted/mangacn/burst",
+        "Romcharted/mangacn/versus-panel",
+        "Romcharted/mangacn/speech-bubble",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/button-group",
+        "Romcharted/mangacn/accordion",
+        "Romcharted/mangacn/avatar",
+        "Romcharted/mangacn/field",
+        "Romcharted/mangacn/input-group",
+        "Romcharted/mangacn/sheet",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/blocks/landing-page/landing-page.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/blocks/landing-page.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/blocks/landing-page\". The root fills its container and follows the page (no inner scroll). The layout reacts to the width of the block itself (container queries), so it also works inside a narrower frame. With Radix, the Accordion is single and not collapsible unless you add type=\"single\" collapsible to it (Base UI needs nothing).",
+      "meta": {
+        "tagline": "An opening page, features in panels, pricing as a versus, reviews in bubbles.",
+        "usage": "import { LandingPage } from \"@/components/manga/blocks/landing-page\"\n\n<LandingPage />",
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Size and placement of the whole interface."
+          }
+        ]
+      }
+    },
+    {
+      "name": "ai-chat",
+      "type": "registry:block",
+      "title": "AI chat",
+      "description": "A full chat with an AI story assistant made only with mangacn: a header with the assistant's name, a model switch (Button Group of pressed buttons that drops a Marker in the conversation) and New chat; the conversation in the Message Scroller with Message + Bubble lines (your own in ink bubbles, the assistant's in paper bubbles), Markers (\"Today\", \"Switched to a faster model\"), the reasoning folded in a Collapsible that opens a thought SpeechBubble (\"Thought for 4 s\"), tool steps in a Trace (done checks, a running Spinner), a Code Block, Reaction Picker chips, Attachments on a user line, an offered Questionnaire (\"Plan your one-shot\") that folds into a summary card, and an error shouted in an accent shout SpeechBubble with Retry. The composer: Attachments row (uploading line, remove action), attach button, Textarea (Enter sends, Shift+Enter new line), send button that shows the loading lines while the assistant answers. Sending plays a fake reply with no network: a running step, the waiting dots, then the answer types in a TypingBubble. From 48rem wide it is a 48rem frame that scrolls inside; narrower it follows the page (no inner scroller) and sending brings the composer back into view. Works in light, dark, any accent and at phone width.",
+      "categories": [
+        "blocks"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/message-scroller",
+        "Romcharted/mangacn/message",
+        "Romcharted/mangacn/bubble",
+        "Romcharted/mangacn/marker",
+        "Romcharted/mangacn/trace",
+        "Romcharted/mangacn/code-block",
+        "Romcharted/mangacn/attachment",
+        "Romcharted/mangacn/questionnaire",
+        "Romcharted/mangacn/collapsible",
+        "Romcharted/mangacn/textarea",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/button-group",
+        "Romcharted/mangacn/kbd",
+        "Romcharted/mangacn/speech-bubble",
+        "Romcharted/mangacn/typing-bubble",
+        "Romcharted/mangacn/reaction-picker",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/blocks/ai-chat/ai-chat.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/blocks/ai-chat.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/blocks/ai-chat\". The replies are fake (timers, no network): replace send() with your own call and stream the text into the TypingBubble. From 48rem wide the chat is a 48rem-tall frame; narrower it follows the page, with no inner scroller.",
+      "meta": {
+        "tagline": "Thinking in a thought bubble, errors shouted, answers typed as they come.",
+        "usage": "import { AiChat } from \"@/components/manga/blocks/ai-chat\"\n\n<AiChat />",
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Placement and width of the whole interface."
+          }
+        ]
+      }
+    },
+    {
+      "name": "manga-reader",
+      "type": "registry:block",
+      "title": "Manga Reader",
+      "description": "A webtoon-style chapter reader made only with mangacn: a series header with a cover drawn in SVG, a Chapters button opening a Sheet with the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a \"Page 3 / 9\" counter fed by the strip, a ReaderStrip of nine drawn pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Works in light, dark, any accent and at phone width.",
+      "categories": [
+        "blocks"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/reader-strip",
+        "Romcharted/mangacn/reading-progress",
+        "Romcharted/mangacn/sheet",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/button-group",
+        "Romcharted/mangacn/reaction-picker",
+        "Romcharted/mangacn/message",
+        "Romcharted/mangacn/bubble",
+        "Romcharted/mangacn/input",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/blocks/manga-reader/manga-reader.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/blocks/manga-reader.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/blocks/manga-reader\". The pages are SVG drawings made for the demo: replace chapterPages() with your own scans ({ src, alt, width, height }) and CHAPTERS with your chapter list. The reading order lives in the reader (data-reading on its root).",
+      "meta": {
+        "tagline": "A vertical strip, chapters in a sheet, progress and reading order.",
+        "usage": "import { MangaReader } from \"@/components/manga/blocks/manga-reader\"\n\n<MangaReader />",
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Size and placement of the whole reader."
+          }
+        ]
+      }
+    },
+    {
+      "name": "portfolio",
+      "type": "registry:block",
+      "title": "Developer portfolio",
+      "description": "A developer's portfolio made only with mangacn: a top bar whose section buttons scroll in place, an opening spread of two Panels with a slanted gutter (focus SpeedLines behind a TonedImage portrait drawn in SVG, a SpeechBubble, Sfx lettering and a band of motion lines), projects as a manga page of Cards (wide, two, wide) with drawn thumbnails, Badge tags, a CodeBlock install snippet and links that do not navigate, skills as a CharacterCard with stat bars, a career as a vertical Stepper, and a contact form (Field, Input, Textarea, Button) that validates on submit, shakes its errors, shows a loading button and then a brush-check success panel. No network. One column on phones; container queries widen it. Works in light, dark, any accent and in manga reading order.",
+      "categories": [
+        "blocks"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/panel",
+        "Romcharted/mangacn/speed-lines",
+        "Romcharted/mangacn/sfx",
+        "Romcharted/mangacn/speech-bubble",
+        "Romcharted/mangacn/toned-image",
+        "Romcharted/mangacn/card",
+        "Romcharted/mangacn/badge",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/code-block",
+        "Romcharted/mangacn/character-card",
+        "Romcharted/mangacn/stepper",
+        "Romcharted/mangacn/stamp",
+        "Romcharted/mangacn/field",
+        "Romcharted/mangacn/input",
+        "Romcharted/mangacn/textarea",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/blocks/portfolio/portfolio.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/blocks/portfolio.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/blocks/portfolio\". The page follows the document scroll; replace the name, portrait (a data URL or any picture URL), projects, stats and career in the constants at the top of the file. The contact form only validates and shows a success panel: wire `submit` to your own endpoint.",
+      "meta": {
+        "tagline": "Intro panels, projects on a manga page, skills as a character sheet, a contact form.",
+        "usage": "import { Portfolio } from \"@/components/manga/blocks/portfolio\"\n\n<Portfolio />",
         "props": [
           {
             "name": "className",
