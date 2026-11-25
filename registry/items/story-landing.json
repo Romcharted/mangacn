@@ -1,0 +1,42 @@
+{
+  "name": "story-landing",
+  "type": "registry:block",
+  "title": "Story landing",
+  "description": "A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around drawn art) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip that explains the product in four beats (a column on phones, four in a row from 40rem), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a \"Meanwhile…\" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.",
+  "categories": [
+    "blocks"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/magazine-cover",
+    "Romcharted/mangacn/chapter-title",
+    "Romcharted/mangacn/yonkoma",
+    "Romcharted/mangacn/dialogue-box",
+    "Romcharted/mangacn/scene-transition",
+    "Romcharted/mangacn/speech-bubble",
+    "Romcharted/mangacn/sfx",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/blocks/story-landing/story-landing.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/blocks/story-landing.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/blocks/story-landing\". The root fills its container and follows the page (no inner scroll). The chapter transition covers the viewport (scope \"screen\"). The art is drawn inline in the file: replace it with your own drawings.",
+  "meta": {
+    "tagline": "A product page told as a manga: cover, four-panel strip, a guide, chapters.",
+    "usage": "import { StoryLanding } from \"@/components/manga/blocks/story-landing\"\n\n<StoryLanding />",
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Size and placement of the whole interface."
+      }
+    ]
+  }
+}
