@@ -1,0 +1,70 @@
+{
+  "name": "reader-strip",
+  "type": "registry:component",
+  "title": "Reader Strip",
+  "description": "A vertical strip of page images for scroll (webtoon) reading, centred, full width on phones and at most 720px (or the widest page) on desktop. It follows the page scroll or the nearest scroll parent: no inner scroll box. Each page is a <figure> with a lazy <img> whose width and height reserve the space (no jump), framed by a 2px ink line unless gap is \"none\". Page states: loading = a paper panel of the page's ratio with a tone frame and the kit Spinner (G7); error = an accent edge-jagged panel with a \"!\" and a Retry button (G8) that asks the image again; loaded = the art pops in (G5). After the last page, an end panel (3px frame, SFX \"END\", brush mark-check, \"To be continued\"), announced to screen readers when reached. Reports progress (0-1 and the page in the middle of the view) with a requestAnimationFrame-throttled scroll listener, cleaned up on unmount. Exports ReaderStrip, ReaderPage (one page, with a status prop to freeze a state) and ReaderEnd (the end panel).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/spinner",
+    "Romcharted/mangacn/sfx"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/reader-strip.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/reader-strip.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/reader-strip\". Give every page its real width and height so the space is reserved before the image arrives. Pair it with ReadingProgress (value = ratio * 100) for a progress bar.",
+  "meta": {
+    "tagline": "Pages in a vertical strip, for scroll reading.",
+    "usage": "import { ReaderStrip } from \"@/components/manga/reader-strip\"\n\n<ReaderStrip\n  aria-label=\"Chapter 12\"\n  pages={[{ src: \"/ch12/01.webp\", alt: \"The city at night\", width: 800, height: 1200 }]}\n  onProgress={(ratio, page) => setPage(page + 1)}\n  onEnd={() => markRead()}\n/>",
+    "props": [
+      {
+        "name": "pages",
+        "type": "{ src: string; alt: string; width: number; height: number }[]",
+        "description": "The page images, in reading order. width / height reserve the space."
+      },
+      {
+        "name": "gap",
+        "type": "\"none\" | \"sm\" | \"md\"",
+        "default": "\"sm\"",
+        "description": "Space between pages; \"none\" joins them without frames."
+      },
+      {
+        "name": "onProgress",
+        "type": "(ratio: number, pageIndex: number) => void",
+        "description": "Scroll progress through the strip (0-1) and the page in the middle of the view (0-based)."
+      },
+      {
+        "name": "onEnd",
+        "type": "() => void",
+        "description": "Called each time the end panel comes into view."
+      },
+      {
+        "name": "onRetry",
+        "type": "(pageIndex: number) => void",
+        "description": "Called when the reader retries a failed page (e.g. to switch source)."
+      },
+      {
+        "name": "end",
+        "type": "ReactNode",
+        "default": "<ReaderEnd />",
+        "description": "Shown after the last page."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "default": "\"Pages\"",
+        "description": "Name of the strip (a <section>)."
+      }
+    ]
+  }
+}
