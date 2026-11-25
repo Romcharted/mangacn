@@ -82,6 +82,7 @@
     "registry/items/volume-card.json",
     "registry/items/combobox.json",
     "registry/items/input-otp.json",
+    "registry/items/calendar.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json"
   ]

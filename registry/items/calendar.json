@@ -1,0 +1,57 @@
+{
+  "name": "calendar",
+  "type": "registry:ui",
+  "title": "Calendar",
+  "description": "Manga-styled wrapper around your shadcn Calendar (react-day-picker). No frame of its own: put it in a Card, a Popover or an ink-case. Month caption and weekday heads in the uppercase lettering face; square 2px-framed nav buttons with a brush chevron (hover thickens the line, focus is ink / paper / ink). Day cells are cells of a group: hover draws a 1px line inside, focus stays inside the cell. Selected day, range start and range end are ink flats that sweep in over three frames; today is a 2px ink frame (selected wins); the middle of a range is paper with a fine ink line above and below, never a tone behind the number. Outside days keep the same ink in a lighter weight; disabled days get a dashed line-through and a not-allowed cursor. The dropdown caption draws its month and year selects with a 2px line and a brush chevron. Cells are 40px; under 640px they share the available width up to 44px, so a month fits a 360px screen; several months sit side by side from 640px and stack on phones. Same API as the stock Calendar (mode single, multiple, range).",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "calendar",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "react-day-picker"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/calendar.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/calendar.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/calendar\". It wraps your own components/ui/calendar (react-day-picker), which is the same file in Radix and Base UI projects. It has no frame: place it in a Card, a Popover or an element with the ink-case class.",
+  "meta": {
+    "tagline": "A month drawn in ink: chosen days turn to flat ink, today gets a frame.",
+    "usage": "import { Calendar } from \"@/components/ui/manga/calendar\"\n\nconst [date, setDate] = React.useState<Date | undefined>(new Date())\n\n<div className=\"relative w-fit ink-case\">\n  <Calendar mode=\"single\" selected={date} onSelect={setDate} />\n</div>",
+    "props": [
+      {
+        "name": "mode",
+        "type": "\"single\" | \"multiple\" | \"range\"",
+        "description": "How days are chosen (react-day-picker). Chosen days are ink flats; a range shows a band between its ends."
+      },
+      {
+        "name": "captionLayout",
+        "type": "\"label\" | \"dropdown\" | \"dropdown-months\" | \"dropdown-years\"",
+        "default": "\"label\"",
+        "description": "Dropdowns draw month and year selects with a 2px line and a brush chevron (use with startMonth / endMonth)."
+      },
+      {
+        "name": "numberOfMonths",
+        "type": "number",
+        "description": "Months side by side from 640px; they stack on phones."
+      },
+      {
+        "name": "disabled",
+        "type": "Matcher | Matcher[]",
+        "description": "Days that cannot be chosen: dashed line-through, not-allowed cursor."
+      },
+      {
+        "name": "CalendarDayButton",
+        "type": "component",
+        "description": "The styled day cell, for custom components={{ DayButton }}."
+      }
+    ]
+  }
+}
