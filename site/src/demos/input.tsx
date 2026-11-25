@@ -43,3 +43,12 @@ export function States() {
     </div>
   )
 }
+
+export function Thumb() {
+  return (
+    <div className="grid w-48 gap-2">
+      <Input inputSize="sm" placeholder="Pen name" aria-label="Pen name" />
+      <Input inputSize="sm" defaultValue="reader@" aria-invalid aria-label="Email" />
+    </div>
+  )
+}
