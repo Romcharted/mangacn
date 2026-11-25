@@ -1,0 +1,51 @@
+{
+  "name": "ai-chat",
+  "type": "registry:block",
+  "title": "AI chat",
+  "description": "A full chat with an AI story assistant made only with mangacn: a header with the assistant's name, a model switch (Button Group of pressed buttons that drops a Marker in the conversation) and New chat; the conversation in the Message Scroller with Message + Bubble lines (your own in ink bubbles, the assistant's in paper bubbles), Markers (\"Today\", \"Switched to a faster model\"), the reasoning folded in a Collapsible that opens a thought SpeechBubble (\"Thought for 4 s\"), tool steps in a Trace (done checks, a running Spinner), a Code Block, Reaction Picker chips, Attachments on a user line, an offered Questionnaire (\"Plan your one-shot\") that folds into a summary card, and an error shouted in an accent shout SpeechBubble with Retry. The composer: Attachments row (uploading line, remove action), attach button, Textarea (Enter sends, Shift+Enter new line), send button that shows the loading lines while the assistant answers. Sending plays a fake reply with no network: a running step, the waiting dots, then the answer types in a TypingBubble. From 48rem wide it is a 48rem frame that scrolls inside; narrower it follows the page (no inner scroller) and sending brings the composer back into view. Works in light, dark, any accent and at phone width.",
+  "categories": [
+    "blocks"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/message-scroller",
+    "Romcharted/mangacn/message",
+    "Romcharted/mangacn/bubble",
+    "Romcharted/mangacn/marker",
+    "Romcharted/mangacn/trace",
+    "Romcharted/mangacn/code-block",
+    "Romcharted/mangacn/attachment",
+    "Romcharted/mangacn/questionnaire",
+    "Romcharted/mangacn/collapsible",
+    "Romcharted/mangacn/textarea",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/button-group",
+    "Romcharted/mangacn/kbd",
+    "Romcharted/mangacn/speech-bubble",
+    "Romcharted/mangacn/typing-bubble",
+    "Romcharted/mangacn/reaction-picker",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/blocks/ai-chat/ai-chat.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/blocks/ai-chat.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/blocks/ai-chat\". The replies are fake (timers, no network): replace send() with your own call and stream the text into the TypingBubble. From 48rem wide the chat is a 48rem-tall frame; narrower it follows the page, with no inner scroller.",
+  "meta": {
+    "tagline": "Thinking in a thought bubble, errors shouted, answers typed as they come.",
+    "usage": "import { AiChat } from \"@/components/manga/blocks/ai-chat\"\n\n<AiChat />",
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Placement and width of the whole interface."
+      }
+    ]
+  }
+}
