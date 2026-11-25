@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "cn"
 
@@ -9,26 +11,43 @@ import {
   AvatarGroupCount as ShadcnAvatarGroupCount,
   AvatarImage as ShadcnAvatarImage,
 } from "@/components/ui/avatar"
+import { TonedImage, type TonedOptions } from "@/components/manga/toned-image"
+
+/* Options of the nearest toned Avatar, read by its AvatarImage. */
+const TonedContext = React.createContext<TonedOptions | null>(null)
 
 /*
  * A small square panel (only speech bubbles are round): 2px ink frame, picture inside, initials in
  * lettering on paper (no tone under them, rule A). In a group, avatars overlap with a paper gap.
+ * `toned`: the picture goes through the toned-image screentone (true, or its pattern/density options).
  */
-function Avatar({ className, ...props }: React.ComponentProps<typeof ShadcnAvatar>) {
+function Avatar({ className, toned, children, ...props }: React.ComponentProps<typeof ShadcnAvatar> & { toned?: boolean | TonedOptions }) {
+  const options = toned ? (typeof toned === "object" ? toned : {}) : null
   return (
-    <ShadcnAvatar
-      data-manga="avatar"
-      className={cn(
-        "rounded-none border-[length:var(--mg-bw)] border-border bg-background after:hidden data-[size=default]:size-9 data-[size=lg]:size-12 data-[size=sm]:size-7",
-        className,
-      )}
-      {...props}
-    />
+    <TonedContext.Provider value={options}>
+      <ShadcnAvatar
+        data-manga="avatar"
+        className={cn(
+          "relative rounded-none border-[length:var(--mg-bw)] border-border bg-background after:hidden data-[size=default]:size-9 data-[size=lg]:size-12 data-[size=sm]:size-7",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </ShadcnAvatar>
+    </TonedContext.Provider>
   )
 }
 
-function AvatarImage({ className, ...props }: React.ComponentProps<typeof ShadcnAvatarImage>) {
-  return <ShadcnAvatarImage className={cn("rounded-none grayscale contrast-125", className)} {...props} />
+/* Toned: the picture is a screentone over the fallback (the paper frame hides the initials). */
+function AvatarImage({ className, src, alt, style, ...props }: React.ComponentProps<typeof ShadcnAvatarImage>) {
+  const toned = React.useContext(TonedContext)
+  if (toned) {
+    return <TonedImage src={src ?? ""} alt={alt ?? ""} {...toned} className="absolute inset-0 size-full" />
+  }
+  return (
+    <ShadcnAvatarImage className={cn("rounded-none grayscale contrast-125", className)} src={src} alt={alt} style={style} {...props} />
+  )
 }
 
 function AvatarFallback({ className, ...props }: React.ComponentProps<typeof ShadcnAvatarFallback>) {

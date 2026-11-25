@@ -2,13 +2,14 @@
   "name": "avatar",
   "type": "registry:ui",
   "title": "Avatar",
-  "description": "Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat.",
+  "description": "Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat. Option toned: the picture goes through the toned-image screentone (dots, lines, cross or noise).",
   "categories": [
     "display"
   ],
   "registryDependencies": [
     "avatar",
-    "Romcharted/mangacn/base"
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/toned-image"
   ],
   "dependencies": [
     "cn"
@@ -24,6 +25,13 @@
   "meta": {
     "tagline": "A square panel for a face or initials.",
     "usage": "import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/manga/avatar\"\n\n<Avatar>\n  <AvatarImage src=\"/me.png\" alt=\"\" />\n  <AvatarFallback>NO</AvatarFallback>\n</Avatar>",
-    "props": []
+    "props": [
+      {
+        "name": "toned",
+        "type": "boolean | { pattern?, density?, contrast?, threshold? }",
+        "default": "false",
+        "description": "Screentone the picture (see toned-image). true uses the defaults: dots, 6px."
+      }
+    ]
   }
 }
