@@ -1,0 +1,44 @@
+{
+  "name": "manga-reader",
+  "type": "registry:block",
+  "title": "Manga Reader",
+  "description": "A webtoon-style chapter reader made only with mangacn: a series header with a cover drawn in SVG, a Chapters button opening a Sheet with the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a \"Page 3 / 9\" counter fed by the strip, a ReaderStrip of nine drawn pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Works in light, dark, any accent and at phone width.",
+  "categories": [
+    "blocks"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/reader-strip",
+    "Romcharted/mangacn/reading-progress",
+    "Romcharted/mangacn/sheet",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/button-group",
+    "Romcharted/mangacn/reaction-picker",
+    "Romcharted/mangacn/message",
+    "Romcharted/mangacn/bubble",
+    "Romcharted/mangacn/input",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/blocks/manga-reader/manga-reader.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/blocks/manga-reader.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/blocks/manga-reader\". The pages are SVG drawings made for the demo: replace chapterPages() with your own scans ({ src, alt, width, height }) and CHAPTERS with your chapter list. The reading order lives in the reader (data-reading on its root).",
+  "meta": {
+    "tagline": "A vertical strip, chapters in a sheet, progress and reading order.",
+    "usage": "import { MangaReader } from \"@/components/manga/blocks/manga-reader\"\n\n<MangaReader />",
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Size and placement of the whole reader."
+      }
+    ]
+  }
+}
