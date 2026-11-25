@@ -1,0 +1,46 @@
+{
+  "name": "versus-panel",
+  "type": "registry:component",
+  "title": "Versus Panel",
+  "description": "Two halves of a comparison split by a 3px ink diagonal, with a VS burst at the crossing. Side by side from a container width of 36rem, the halves stack below it and the split becomes a zig from left to right with the VS on it (container queries, no viewport breakpoints). Exactly two VersusSide children; highlight gives one side the ink flat with paper text (the recommended offer). Each side is a named region. Gestures: case (outer frame), flat (highlight), burst (VS mark).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/versus-panel.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/versus-panel.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/versus-panel\". Give each VersusSide an accessible name (aria-label or aria-labelledby on a heading). Put kit Buttons inside the sides; use variant=\"outline\" on the highlighted side, since its background is ink.",
+  "meta": {
+    "tagline": "Two options split by a diagonal, with a VS burst at the crossing.",
+    "usage": "import { VersusPanel, VersusSide } from \"@/components/manga/versus-panel\"\n\n<VersusPanel>\n  <VersusSide aria-labelledby=\"free\">\n    <h3 id=\"free\">Free</h3>\n  </VersusSide>\n  <VersusSide highlight aria-labelledby=\"pro\">\n    <h3 id=\"pro\">Pro</h3>\n  </VersusSide>\n</VersusPanel>",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "default": "\"VS\"",
+        "description": "Lettering on the crossing mark (decorative, aria-hidden)."
+      },
+      {
+        "name": "children",
+        "type": "two <VersusSide> elements",
+        "description": "The two halves, in order: first left (or top when stacked)."
+      },
+      {
+        "name": "highlight",
+        "type": "boolean",
+        "default": "false",
+        "description": "On VersusSide: the recommended side, an ink flat with paper text."
+      }
+    ]
+  }
+}
