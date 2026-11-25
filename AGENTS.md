@@ -93,10 +93,10 @@ The showcase has a Grammar page (`#grammar`) that replays each one.
 | --- | --- | --- | --- |
 | G1 | Case | Every container: card, panel, window, list, field | `ink-case` (paper, 3px ink line, tone shadow; needs a positioned element). Inside a case: `ink-case-inner` (2px, no shadow) |
 | G2 | Flat | Selected, checked, active, current | `ink-fill` + `fill-in` (sweeps in over three frames in the reading direction). Bars: `animate-bar-in` |
-| G3 | Hover | Every interactive element | Framed: `hover-lift` (tone shadow appears at 2px, moves to 4px). Frameless: `hover-invert` or `hover-underline`. Never a tone behind text |
-| G4 | Impact | Every click or validation | `data-[impact]:animate-hit` + `<ImpactLines />` + `withImpact(onClick)` / `punch(el)` |
+| G3 | Hover | Every interactive element | Framed: `hover-lift` (tone shadow appears at 2px, moves to 4px). Frameless: `hover-invert` or `hover-underline`. Elements of 24px or less, fields and cells of a group: `hover-thicken` (the line thickens by 1px, inside). Never a tone behind text |
+| G4 | Impact | Every click or validation | `data-[impact]:animate-hit` + `<ImpactLines />` + `withImpact(onClick)` / `punch(el)`. Without JavaScript the press still hits: explicit pressed negative, `press` (2px offset) and the lines while `:active` |
 | G5 | Pop | Whatever appears | `animate-pop` (0.9 → 1.05 → 1). Important windows: `<FocusFlash />`. Panels that slide: `animate-slide-in`; content that unfolds: `animate-drop-in` |
-| G6 | Bubble | Whatever floats and points | Tooltip / popover / hover card: a bubble with a tail. Lists and menus: `ink-case case-notch` (notch toward the trigger, from `data-side`) |
+| G6 | Bubble | Whatever floats and points | Tooltip / popover / hover card: a bubble with a tail (`<BubbleTail />`). Lists and menus: `ink-case case-notch` (notch toward the trigger, from `data-side`) |
 | G7 | Running line | Progress, waiting, value | `fill-lines`; waiting: `Spinner` (`animate-spin-steps`) |
 | G8 | Mark | Status and emotion | Error: `mark-error`, `edge-jagged` (32px+), `animate-shake`. New: `shape-burst`. Done: `mark-check`. Brush shapes: `mark-chevron`, `mark-arrow`. Manpu marks |
 
@@ -105,18 +105,26 @@ Disabled is not a gesture and does not change: dashed line, tone frame, label on
 **Control rule:** if a component needs something the grammar does not cover, do not invent it silently:
 write it in "Special cases" below and flag it.
 
-### Special cases (flagged, waiting for a decision)
+### Special cases
 
-- **Tabs index, hover:** a heavier top line instead of G3's tone shadow (one shadow per tab was ruled out).
-- **Tabs boxed and Accordion, hover:** a thick underline (G3 frameless) rather than inversion, because an
-  inverted cell would look selected (G2).
-- **Switch and Checkbox, hover:** a heavier line (and the switch thumb leans) instead of a tone shadow:
-  they are 24px or less (rule C) and `::after` is taken (stock hit area, spark).
-- **Fields (Input, Select trigger), hover and focus:** the line thickens, like Input, not a tone shadow.
-- **G5 for content:** sliding (`animate-slide-in`, tabs) and unfolding (`animate-drop-in`, accordion) are
-  variants of the pop where a scale would look wrong.
-- **G4 needs JavaScript:** the impact must outlive `:active` (and work from the keyboard), so it lives in
-  a new `gestures` item (`registry:lib`, `@/lib/manga/gestures`), pulled in by the components that use it.
+Accepted in the pilot (now covered by G3's third case): tabs `index` hover is a heavier top line; switch,
+checkbox, radio, fields and the cells of a group thicken their line on hover; G5 has sliding
+(`animate-slide-in`, `animate-sheet-in`) and unfolding (`animate-drop-in`) variants; G4 lives in the
+`gestures` item.
+
+Flagged in the second batch, waiting for a decision:
+
+- **Round shapes:** Radio Group items are diamonds and Avatars are squares, because only speech bubbles are
+  round in this kit.
+- **Spinner** does not wrap the stock one (an icon): it draws its own concentration lines, same props.
+- **Choice cards** (Field): checked is a 6px ink bar at the start, like a selected table row, not a full ink
+  flat, because the card holds a control and text that would all have to invert.
+- **Empty** uses a solid line where stock shadcn uses dashes: dashes mean "disabled" here.
+- **Stepper:** the rail ahead of the current step is a fine solid line, for the same reason.
+- **Sheet:** its shadow is an offset second frame on the open side, not a tone block.
+- **Alert Dialog:** Action and Cancel are the stock elements drawn with `buttonClassName()`; they hit on
+  click but have no burst focus (no shout variant there).
+- **Bubble (chat):** `default` is an ink bubble (your own messages); the others are paper bubbles.
 
 ## Style rules
 

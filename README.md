@@ -7,9 +7,11 @@ with one accent colour you choose.
 It does not fork shadcn. Each restyled component is a thin file that imports **your** shadcn component,
 adds classes and `data-*` attributes, and re-exports it. Works with shadcn on Radix or on Base UI.
 
-> Status: early work in progress. Available: `base`, the three fonts, `gestures`, `button`, `input`, `select`,
-> `checkbox`, `switch`, `badge`, `skeleton`, `sonner`, `card`, `tabs`, `table`, `accordion`, `dialog`, `tooltip`,
-> `speech-bubble`, `screentone`, `speed-lines`, `panel`, `sfx`.
+> Status: early work in progress. 50 items: `base`, three fonts, `gestures`; shadcn wrappers for Button, Input,
+> Textarea, Label, Field, Select, Checkbox, Radio Group, Switch, Slider, Badge, Skeleton, Spinner, Progress, Sonner,
+> Alert, Empty, Card, Tabs, Table, Accordion, Avatar, Separator, Pagination, Breadcrumb, Dialog, Alert Dialog,
+> Sheet, Popover, Hover Card, Tooltip, Dropdown Menu, Bubble, Message; manga pieces SpeechBubble, Screentone,
+> SpeedLines, Panel, Sfx, Manpu, Burst, Stamp, Banner, Stepper, Stat.
 
 ## The grammar
 
