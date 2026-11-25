@@ -43,7 +43,7 @@ function Avatar({ className, toned, children, ...props }: React.ComponentProps<t
 function AvatarImage({ className, src, alt, style, ...props }: React.ComponentProps<typeof ShadcnAvatarImage>) {
   const toned = React.useContext(TonedContext)
   if (toned) {
-    return <TonedImage src={src ?? ""} alt={alt ?? ""} {...toned} className="absolute inset-0 size-full" />
+    return <TonedImage src={typeof src === "string" ? src : ""} alt={alt ?? ""} {...toned} className="absolute inset-0 size-full" />
   }
   return (
     <ShadcnAvatarImage className={cn("rounded-none grayscale contrast-125", className)} src={src} alt={alt} style={style} {...props} />
