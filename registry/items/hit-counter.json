@@ -1,0 +1,56 @@
+{
+  "name": "hit-counter",
+  "type": "registry:component",
+  "title": "Hit Counter",
+  "description": "A number that changes with an impact: when the value changes, the number takes the three-frame hit (G4) with speed lines on both sides, and a growing value flashes a \"+n\" burst (G8) that leaves after a moment. Lettering after the number, optional icon, custom format. Sizes sm, default, lg. Reduced motion: the new number only. Built for likes, streaks and scores.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/gestures",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/hit-counter.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/hit-counter.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/hit-counter\". It uses punch() and ImpactLines from \"@/lib/manga/gestures\" (installed with the gestures item).",
+  "meta": {
+    "tagline": "A score that jumps on every hit.",
+    "usage": "import { HitCounter } from \"@/components/manga/hit-counter\"\n\n<HitCounter value={likes} label=\"likes\" />",
+    "props": [
+      {
+        "name": "value",
+        "type": "number",
+        "description": "The number. Each change plays the impact."
+      },
+      {
+        "name": "label",
+        "type": "ReactNode",
+        "description": "Lettering after the number."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"default\" | \"lg\"",
+        "default": "\"default\"",
+        "description": "Size of the number."
+      },
+      {
+        "name": "format",
+        "type": "(value: number) => string",
+        "description": "How the number is written. Default: en-US thousands."
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "description": "A small mark before the number."
+      }
+    ]
+  }
+}
