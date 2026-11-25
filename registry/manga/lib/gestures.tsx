@@ -54,7 +54,8 @@ function lines(flip: boolean) {
  */
 export function ImpactLines({ className, offset = "normal" }: { className?: string; offset?: "normal" | "far" }) {
   const side =
-    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground in-data-[impact]:animate-hit-lines"
+    // in-active: the lines also show while pressed, so the click keeps an impact without JavaScript
+    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground in-active:visible in-data-[impact]:animate-hit-lines"
   return (
     <>
       <span
@@ -91,5 +92,34 @@ export function FocusFlash({ className }: { className?: string }) {
         className,
       )}
     />
+  )
+}
+
+/**
+ * G6 Bubble: the tail of a floating bubble (tooltip, popover, hover card), pointing at the trigger.
+ * Placed from the nearest data-side (Radix and Base UI both set it on the popup). Its fill hides the
+ * bubble outline under it. `weight` matches the bubble's line (2 or 3 px).
+ */
+export function BubbleTail({ variant = "speech", weight = 2 }: { variant?: "speech" | "thought"; weight?: 2 | 3 }) {
+  const pos = cn(
+    "pointer-events-none absolute overflow-visible",
+    "in-data-[side=top]:top-full in-data-[side=top]:start-5",
+    "in-data-[side=bottom]:bottom-full in-data-[side=bottom]:start-5 in-data-[side=bottom]:-scale-y-100",
+    "in-data-[side=left]:left-full in-data-[side=left]:top-1/2 in-data-[side=left]:-translate-y-1/2 in-data-[side=left]:-rotate-90",
+    "in-data-[side=right]:right-full in-data-[side=right]:top-1/2 in-data-[side=right]:-translate-y-1/2 in-data-[side=right]:rotate-90",
+    weight === 3
+      ? "in-data-[side=top]:-mt-[4px] in-data-[side=bottom]:-mb-[4px] in-data-[side=left]:-ml-[4px] in-data-[side=right]:-mr-[4px]"
+      : "in-data-[side=top]:-mt-[3px] in-data-[side=bottom]:-mb-[3px] in-data-[side=left]:-ml-[3px] in-data-[side=right]:-mr-[3px]",
+  )
+  const style = { fill: "var(--background)", stroke: "var(--foreground)", strokeWidth: weight, strokeLinejoin: "round" as const }
+  return variant === "speech" ? (
+    <svg aria-hidden data-manga="bubble-tail" width={weight === 3 ? 22 : 16} height={weight === 3 ? 16 : 12} viewBox="0 0 16 12" className={pos}>
+      <path d="M1 0 Q4 6 3 11 Q9 7 13 0" style={style} vectorEffect="non-scaling-stroke" />
+    </svg>
+  ) : (
+    <svg aria-hidden data-manga="bubble-tail" width="16" height="20" viewBox="0 0 16 20" className={pos}>
+      <circle cx="6" cy="7" r="4" style={style} />
+      <circle cx="3" cy="16" r="2.2" style={style} />
+    </svg>
   )
 }
