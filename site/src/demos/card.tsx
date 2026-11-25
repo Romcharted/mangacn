@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Button } from "@registry/manga/ui/button"
 import { Badge } from "@registry/manga/ui/badge"
 import {
@@ -75,11 +76,17 @@ export function States() {
 }
 
 export function Thumb() {
+  const [selected, setSelected] = useState(false)
   return (
-    <Card className="w-44 gap-2 py-3 [--card-spacing:--spacing(3)]">
+    <Card
+      interactive
+      selected={selected}
+      onClick={() => setSelected((x) => !x)}
+      className="w-44 cursor-pointer gap-2 py-3 [--card-spacing:--spacing(3)]"
+    >
       <CardHeader>
         <CardTitle className="text-lg">Chapter 12</CardTitle>
-        <CardDescription className="text-sm">The long night</CardDescription>
+        <CardDescription className="text-sm">{selected ? "Selected" : "Click to select"}</CardDescription>
       </CardHeader>
     </Card>
   )

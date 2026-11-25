@@ -213,25 +213,34 @@ function Gallery({ query, category }: { query: string; category: string | null }
   )
 }
 
+// The preview is live (click, toggle, hover); only the title and the arrow open the detail page.
 function Card({ item }: { item: Item }) {
   const Thumb = demos[item.name]?.Thumb
   const font = FONT_SAMPLE[item.name]
+  const href = `#${item.name}`
   return (
-    <a
-      href={`#${item.name}`}
-      className="group relative flex h-full flex-col border-ink bg-background focus-ink hover:tone-shadow hover:[--shadow-x:5px] hover:[--shadow-y:5px]"
-    >
-      <div inert className="grid h-36 place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border p-3">
+    <article className="group relative flex h-full flex-col border-ink bg-background has-[a:hover]:tone-shadow has-[a:hover]:[--shadow-x:5px] has-[a:hover]:[--shadow-y:5px]">
+      <div className="grid h-36 place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border p-3">
         {Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>Aa</span> : null}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-3">
         <span className="flex items-baseline justify-between gap-2">
-          <span className="font-letter text-xl leading-none uppercase group-hover:underline">{item.title}</span>
+          <a href={href} className="font-letter text-xl leading-none uppercase hover:underline focus-ink">
+            {item.title}
+          </a>
           <span className="shrink-0 font-mono text-[0.7rem]">{CATEGORIES[categoryOf(item)]}</span>
         </span>
         <span className="text-sm">{item.meta?.tagline ?? item.description}</span>
+        <a
+          href={href}
+          tabIndex={-1}
+          aria-hidden
+          className="mt-auto ms-auto inline-grid size-8 place-items-center border-ink font-letter text-lg leading-none hover:ink-fill"
+        >
+          →
+        </a>
       </div>
-    </a>
+    </article>
   )
 }
 

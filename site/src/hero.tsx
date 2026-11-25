@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Button } from "@registry/manga/ui/button"
 import { SpeechBubble } from "@registry/manga/signature/speech-bubble"
 import { SpeedLines } from "@registry/manga/signature/speed-lines"
@@ -9,14 +9,24 @@ import { SpeedLines } from "@registry/manga/signature/speed-lines"
  */
 export function Hero() {
   const [hit, setHit] = useState(0)
+  const page = useRef<HTMLDivElement>(null)
+  const onHit = () => {
+    setHit((h) => h + 1)
+    // restart the shake + negative without remounting (keeps focus on the button)
+    const el = page.current
+    if (!el) return
+    el.classList.remove("animate-page-hit")
+    void el.offsetWidth
+    el.classList.add("animate-page-hit")
+  }
   return (
     <div
-      key={hit}
-      className={`grid aspect-[4/3] grid-cols-6 grid-rows-6 gap-2 ${hit ? "animate-impact" : ""}`}
+      ref={page}
+      className="grid aspect-[4/3] grid-cols-6 grid-rows-6 gap-2"
       role="group"
       aria-label="Sample manga page"
     >
-      <SpeedLines hole={0.42} className="col-span-4 col-start-1 row-span-4 row-start-1 border-ink-panel reading-rtl:col-start-3">
+      <SpeedLines hole={0.42} animated="slow" className="col-span-4 col-start-1 row-span-4 row-start-1 border-ink-panel reading-rtl:col-start-3">
         <div className="relative h-full min-h-40">
           <Figure className="absolute inset-x-0 bottom-0 mx-auto h-[74%] text-foreground" />
           <SpeechBubble className="absolute end-2 top-2 text-base reading-rtl:start-2 reading-rtl:end-auto" tail="bottom" tailAlign="start">
@@ -25,7 +35,7 @@ export function Hero() {
         </div>
       </SpeedLines>
       <div aria-hidden className="col-span-2 col-start-5 row-span-2 row-start-1 border-ink-panel tone-fade-b reading-rtl:col-start-1" />
-      <SpeedLines variant="motion" className="col-span-2 col-start-5 row-span-2 row-start-3 border-ink-panel reading-rtl:col-start-1">
+      <SpeedLines variant="motion" animated="slow" seed={5} className="col-span-2 col-start-5 row-span-2 row-start-3 border-ink-panel reading-rtl:col-start-1">
         <div className="grid h-full place-items-center">
           <span aria-hidden className="-rotate-6 font-sfx text-3xl knockout">
             ザッ
@@ -35,12 +45,17 @@ export function Hero() {
       <div className="relative col-span-6 row-span-2 row-start-5 grid place-items-center overflow-hidden border-ink-panel bg-background">
         <span aria-hidden className="absolute inset-y-0 start-0 w-1/4 border-e-[length:var(--mg-bw-fine)] border-border tone-fade-l reading-rtl:start-auto reading-rtl:end-0 reading-rtl:border-e-0 reading-rtl:border-s-[length:var(--mg-bw-fine)] reading-rtl:tone-fade-r" />
         <span aria-hidden className="absolute inset-y-0 end-0 w-1/4 border-s-[length:var(--mg-bw-fine)] border-border tone-fade-r reading-rtl:end-auto reading-rtl:start-0 reading-rtl:border-s-0 reading-rtl:border-e-[length:var(--mg-bw-fine)] reading-rtl:tone-fade-l" />
-        <Button variant="shout" size="lg" onClick={() => setHit((h) => h + 1)}>
+        <Button variant="shout" size="lg" onClick={onHit}>
           Hit me!
         </Button>
         {hit > 0 && (
-          <span aria-hidden className="absolute end-[28%] top-1 animate-sfx font-sfx text-4xl text-foreground knockout">
-            DON!
+          <span key={hit} className="contents">
+            <span aria-hidden className="pointer-events-none absolute end-[6%] top-0 rotate-6 animate-sfx font-sfx text-5xl text-foreground knockout sm:text-6xl">
+              DON!
+            </span>
+            <span aria-hidden className="pointer-events-none absolute start-[8%] bottom-1 -rotate-12 animate-sfx font-sfx text-2xl text-foreground knockout [animation-delay:83ms]">
+              ドッ
+            </span>
           </span>
         )}
       </div>

@@ -37,8 +37,11 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pb-4">
-      <TooltipBubble>Psst, a tooltip.</TooltipBubble>
+    <div className="pt-10">
+      <Tooltip>
+        <TooltipTrigger render={<Button size="sm" variant="outline" />}>Hover me</TooltipTrigger>
+        <TooltipContent>Psst, a tooltip.</TooltipContent>
+      </Tooltip>
     </div>
   )
 }

@@ -50,3 +50,30 @@ html {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* Range input for the playgrounds: a 2px ink rail and a square ink thumb. */
+.mg-range {
+  appearance: none;
+  width: 100%;
+  height: 1.25rem;
+  background: linear-gradient(var(--foreground), var(--foreground)) center / 100% 2px no-repeat;
+  cursor: pointer;
+}
+.mg-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 0.875rem;
+  height: 1.125rem;
+  background: var(--foreground);
+  border: 2px solid var(--background);
+  outline: 2px solid var(--foreground);
+}
+.mg-range::-moz-range-thumb {
+  width: 0.875rem;
+  height: 1.125rem;
+  border-radius: 0;
+  background: var(--foreground);
+  border: 2px solid var(--background);
+  outline: 2px solid var(--foreground);
+}
+.mg-range:hover::-webkit-slider-thumb { outline-width: 3px; }
+.mg-range:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
