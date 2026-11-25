@@ -96,6 +96,7 @@
     "registry/items/reader-strip.json",
     "registry/items/reading-progress.json",
     "registry/items/social-button.json",
+    "registry/items/password-strength.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json",
     "registry/items/landing-page.json",
