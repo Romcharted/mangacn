@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { Code, CopyButton } from "./copy"
+import { Examples } from "./examples"
+import { Grammar } from "./grammar"
 import { Hero } from "./hero"
 import { ACCENTS, useHash, usePrefs, type Accent } from "./prefs"
 import { CATEGORIES, GITHUB_URL, categories, categoryOf, demos, filterItems, installCommand, items, type Item } from "./registry"
@@ -16,7 +18,7 @@ export function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0 })
-  }, [current?.name])
+  }, [current?.name, hash])
 
   return (
     <>
@@ -38,7 +40,15 @@ export function App() {
         set={set}
       />
       <main id="main" className="mx-auto max-w-7xl px-4 pb-24">
-        {current ? <Detail item={current} /> : <Gallery query={query} category={category} />}
+        {hash === "grammar" ? (
+          <Grammar />
+        ) : hash === "examples" ? (
+          <Examples />
+        ) : current ? (
+          <Detail item={current} />
+        ) : (
+          <Gallery query={query} category={category} />
+        )}
       </main>
       <footer className="border-t-[length:var(--mg-bw-panel)] border-border px-4 py-6 text-center text-sm">
         MIT licensed. Not affiliated with shadcn.{" "}
@@ -83,6 +93,14 @@ function TopBar(props: {
         <a href="#" className="font-letter text-2xl leading-none tracking-wide focus-ink" aria-label="mangacn, back to the gallery">
           manga<span className="ink-fill px-1">cn</span>
         </a>
+        <nav aria-label="Guides" className="flex gap-1.5">
+          <a href="#grammar" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover-invert focus-ink">
+            Grammar
+          </a>
+          <a href="#examples" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover-invert focus-ink">
+            Examples
+          </a>
+        </nav>
         <label className="relative order-last w-full sm:order-none sm:w-56">
           <span className="sr-only">Filter components by name</span>
           <input
@@ -284,7 +302,7 @@ function Detail({ item }: { item: Item }) {
           {props.length > 0 && <TabsTrigger value="props">Props</TabsTrigger>}
         </TabsList>
         <TabsContent value="preview">
-          <div className="relative border-ink-panel bg-background p-6 tone-shadow">
+          <div className="relative border-ink-fine bg-background p-6">
             {demo?.Preview ? <demo.Preview /> : <p>No live preview for this item.</p>}
           </div>
         </TabsContent>
