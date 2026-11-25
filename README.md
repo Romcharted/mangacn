@@ -2,7 +2,7 @@
 
 shadcn/ui, inked like a manga. An open source [shadcn registry](https://ui.shadcn.com/docs/registry) that
 redraws shadcn/ui in ink and screentone — black and white, sharp lines, tones instead of grey, speed lines —
-with a second, soft and colourful **webtoon** theme.
+with one accent colour you choose.
 
 It does not fork shadcn. Each restyled component is a thin file that imports **your** shadcn component,
 adds classes and `data-*` attributes, and re-exports it. Works with shadcn on Radix or on Base UI.
@@ -31,11 +31,13 @@ npx shadcn@latest list Romcharted/mangacn
 npx shadcn@latest search Romcharted/mangacn --query bubble
 ```
 
-### Webtoon theme and dark mode
+### Dark mode, accent colour, reading order
 
-- Dark mode uses shadcn's `.dark` class. In the manga theme it is the negative of the page.
-- Add `data-theme="webtoon"` to `<html>` (or to any subtree) for the webtoon theme.
-- Reading direction follows `dir="rtl"`.
+- Dark mode uses shadcn's `.dark` class: the negative of the page.
+- One accent colour, `--mg-accent` (stamp red by default). Presets: `data-accent="indigo"`, `"pine"`, `"ochre"`.
+- Manga reading order: `data-reading="rtl"` on `<html>` and the `reading-rtl:` variant flip panels and
+  bubbles right to left; text stays left to right. Writing direction (`dir="rtl"`) is supported separately.
+- The colour webtoon theme is paused (branch `theme/webtoon`).
 
 ## Use with AI assistants
 
