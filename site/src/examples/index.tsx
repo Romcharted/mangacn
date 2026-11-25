@@ -1,4 +1,4 @@
-import { Code } from "../copy"
+import { CodeToggle } from "../copy"
 import { Chat } from "./chat"
 import chatSource from "./chat.tsx?raw"
 import { MangaPage } from "./manga-page"
@@ -46,7 +46,7 @@ export function Examples() {
         <div className="border-ink-fine p-4 sm:p-8">
           <SettingsScreen />
         </div>
-        <Code text={userPaths(settingsSource)} />
+        <CodeToggle text={userPaths(settingsSource)} />
       </section>
 
       <section aria-labelledby="ex-chat" className="mt-14 space-y-4">
@@ -57,7 +57,7 @@ export function Examples() {
         <div className="border-ink-fine p-4 sm:p-8">
           <Chat />
         </div>
-        <Code text={userPaths(chatSource)} />
+        <CodeToggle text={userPaths(chatSource)} />
       </section>
 
       <section aria-labelledby="ex-404" className="mt-14 space-y-4">
@@ -68,7 +68,7 @@ export function Examples() {
         <div className="border-ink-fine p-4 sm:p-8">
           <NotFound />
         </div>
-        <Code text={userPaths(notFoundSource)} />
+        <CodeToggle text={userPaths(notFoundSource)} />
       </section>
     </article>
   )

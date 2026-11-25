@@ -21,6 +21,25 @@ export function CopyButton({ text, className = "" }: { text: string; className?:
   )
 }
 
+/** Code behind a toggle: examples show the result first, the code on demand. */
+export function CodeToggle({ text, label = "Show the code" }: { text: string; label?: string }) {
+  const [open, setOpen] = useState(false)
+  const lines = text.split("\n").length
+  return (
+    <div className="grid gap-2">
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className="inline-flex w-fit items-center gap-2 border-ink px-3 py-1.5 font-letter text-sm uppercase hover-invert focus-ink aria-expanded:ink-fill after:mark-chevron after:text-xs aria-expanded:after:rotate-180"
+      >
+        {open ? "Hide the code" : label} <span className="font-mono text-xs normal-case">({lines} lines)</span>
+      </button>
+      {open && <Code text={text} />}
+    </div>
+  )
+}
+
 export function Code({ text }: { text: string }) {
   return (
     <div className="flex items-start border-ink">

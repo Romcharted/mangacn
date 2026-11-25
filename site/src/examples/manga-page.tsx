@@ -5,7 +5,7 @@ import { Sfx } from "@registry/manga/signature/sfx"
 import { SpeechBubble } from "@registry/manga/signature/speech-bubble"
 import { SpeedLines } from "@registry/manga/signature/speed-lines"
 import { Eyes, Figure, Runner, Skyline } from "../art"
-import { Code } from "../copy"
+import { CodeToggle } from "../copy"
 import { Choice, Flag } from "../playground"
 
 type Key = "big" | "city" | "run" | "eyes" | "talk"
@@ -178,7 +178,7 @@ export function MangaPage() {
           ))}
         </PanelGrid>
       </div>
-      <Code text={pageCode(layout, rtl)} />
+      <CodeToggle text={pageCode(layout, rtl)} />
     </div>
   )
 }
