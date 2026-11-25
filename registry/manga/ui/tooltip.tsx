@@ -9,38 +9,79 @@ import {
 } from "@/components/ui/tooltip"
 
 export type TooltipVariant = "speech" | "thought"
+export type TooltipSide = "top" | "bottom" | "left" | "right"
+
+/** Bubble body shared by the live tooltip and the static TooltipBubble. */
+const bubble =
+  "group/tt relative overflow-visible rounded-[1.1rem] border-[length:var(--mg-bw)] border-border bg-background px-3 py-1 font-letter text-base text-foreground"
+
+/**
+ * The tail, drawn like SpeechBubble's: a curved wedge whose fill hides the bubble
+ * outline under it. Thought bubbles trail two circles instead. Placed from data-side,
+ * which Radix and Base UI both set on the popup.
+ */
+function Tail({ variant }: { variant: TooltipVariant }) {
+  const pos = [
+    "pointer-events-none absolute",
+    "group-data-[side=top]/tt:top-full group-data-[side=top]/tt:start-4 group-data-[side=top]/tt:-mt-[3px]",
+    "group-data-[side=bottom]/tt:bottom-full group-data-[side=bottom]/tt:start-4 group-data-[side=bottom]/tt:-mb-[3px] group-data-[side=bottom]/tt:-scale-y-100",
+    "group-data-[side=left]/tt:left-full group-data-[side=left]/tt:top-1/2 group-data-[side=left]/tt:-ml-[3px] group-data-[side=left]/tt:-translate-y-1/2 group-data-[side=left]/tt:-rotate-90",
+    "group-data-[side=right]/tt:right-full group-data-[side=right]/tt:top-1/2 group-data-[side=right]/tt:-mr-[3px] group-data-[side=right]/tt:-translate-y-1/2 group-data-[side=right]/tt:rotate-90",
+  ].join(" ")
+  const style = { fill: "var(--background)", stroke: "var(--foreground)", strokeWidth: 2, strokeLinejoin: "round" as const }
+  return variant === "speech" ? (
+    <svg aria-hidden width="16" height="12" viewBox="0 0 16 12" className={cn(pos, "overflow-visible")}>
+      <path d="M1 0 Q4 6 3 11 Q9 7 13 0" style={style} />
+    </svg>
+  ) : (
+    <svg aria-hidden width="16" height="20" viewBox="0 0 16 20" className={cn(pos, "overflow-visible")}>
+      <circle cx="6" cy="7" r="4" style={style} />
+      <circle cx="3" cy="16" r="2.2" style={style} />
+    </svg>
+  )
+}
 
 export type TooltipContentProps = React.ComponentProps<typeof ShadcnTooltipContent> & {
-  /** speech: small bubble with an ink tail · thought: cloud bubble with two trailing circles */
+  /** speech: small bubble with a curved tail · thought: cloud bubble with two trailing circles */
   variant?: TooltipVariant
 }
 
-const thought = [
-  "[&>:last-child]:hidden",
-  "before:absolute before:size-1.5 before:rounded-full before:border-2 before:border-border before:bg-background before:content-['']",
-  "after:absolute after:size-3 after:rounded-full after:border-2 after:border-border after:bg-background after:content-['']",
-  "before:start-3 after:start-5",
-  "data-[side=top]:after:-bottom-4 data-[side=top]:before:-bottom-7",
-  "data-[side=bottom]:after:-top-4 data-[side=bottom]:before:-top-7",
-  "data-[side=left]:after:-right-4 data-[side=left]:before:-right-7 data-[side=left]:before:top-1/2 data-[side=left]:after:top-1",
-  "data-[side=right]:after:-left-4 data-[side=right]:before:-left-7 data-[side=right]:before:top-1/2 data-[side=right]:after:top-1",
-].join(" ")
-
-/** A mini speech bubble. Pops in over two frames. */
-function TooltipContent({ variant = "speech", className, ...props }: TooltipContentProps) {
+/** A mini speech bubble. Pops in over two frames; the offset leaves room for the tail. */
+function TooltipContent({ variant = "speech", className, children, sideOffset, ...props }: TooltipContentProps) {
   return (
     <ShadcnTooltipContent
       data-manga="tooltip"
       data-variant={variant}
+      sideOffset={sideOffset ?? (variant === "thought" ? 24 : 14)}
       className={cn(
-        "relative rounded-[1.1rem] border-[length:var(--mg-bw)] border-border bg-background px-3 py-1 font-letter text-base text-foreground",
+        bubble,
+        // the stock arrow is appended last: hide it, our tail replaces it
+        "[&>:last-child]:hidden",
         "duration-0 data-open:animate-pop data-[state=delayed-open]:animate-pop data-[state=instant-open]:animate-pop data-closed:animate-none data-[state=closed]:animate-none",
-        variant === "thought" && thought,
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+      <Tail variant={variant} />
+    </ShadcnTooltipContent>
   )
 }
 
-export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger }
+/** A static tooltip bubble (no trigger, no portal): for previews, docs and state grids. */
+function TooltipBubble({
+  variant = "speech",
+  side = "top",
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & { variant?: TooltipVariant; side?: TooltipSide }) {
+  return (
+    <div data-manga="tooltip" data-variant={variant} data-side={side} role="tooltip" className={cn(bubble, "inline-block", className)} {...props}>
+      {children}
+      <Tail variant={variant} />
+    </div>
+  )
+}
+
+export { Tooltip, TooltipBubble, TooltipContent, TooltipProvider, TooltipTrigger }

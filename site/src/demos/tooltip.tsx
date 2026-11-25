@@ -1,5 +1,6 @@
 import { Button } from "@registry/manga/ui/button"
-import { Tooltip, TooltipContent, TooltipTrigger, type TooltipVariant } from "@registry/manga/ui/tooltip"
+import { Tooltip, TooltipBubble, TooltipContent, TooltipTrigger } from "@registry/manga/ui/tooltip"
+import { Tile, Tiles } from "../state-grid"
 
 export function Preview() {
   return (
@@ -18,21 +19,26 @@ export function Preview() {
 
 export function States() {
   return (
-    <div className="grid grid-cols-2 gap-x-6 gap-y-24 px-4 py-20 sm:grid-cols-4">
-      {(["speech", "thought"] as TooltipVariant[]).flatMap((v) =>
-        (["top", "bottom"] as const).map((side) => (
-          <div key={v + side} className="grid place-items-center">
-            <Tooltip open>
-              <TooltipTrigger render={<Button variant="ghost" size="sm" tabIndex={-1} />}>
-                {v} · {side}
-              </TooltipTrigger>
-              <TooltipContent variant={v} side={side}>
-                {v === "speech" ? "Speech" : "Thought"}
-              </TooltipContent>
-            </Tooltip>
-          </div>
+    <Tiles>
+      {(["speech", "thought"] as const).flatMap((v) =>
+        (["top", "bottom", "left", "right"] as const).map((side) => (
+          <Tile key={v + side} label={`${v} · side ${side}`}>
+            <div className="py-6">
+              <TooltipBubble variant={v} side={side}>
+                {v === "speech" ? "Psst!" : "Hmm…"}
+              </TooltipBubble>
+            </div>
+          </Tile>
         )),
       )}
+    </Tiles>
+  )
+}
+
+export function Thumb() {
+  return (
+    <div className="pb-4">
+      <TooltipBubble>Psst, a tooltip.</TooltipBubble>
     </div>
   )
 }
