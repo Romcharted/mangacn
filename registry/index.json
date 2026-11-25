@@ -69,6 +69,7 @@
     "registry/items/toned-image.json",
     "registry/items/character-card.json",
     "registry/items/impact-counter.json",
+    "registry/items/input-group.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json"
   ]
