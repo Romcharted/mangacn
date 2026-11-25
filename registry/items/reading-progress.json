@@ -1,0 +1,63 @@
+{
+  "name": "reading-progress",
+  "type": "registry:component",
+  "title": "Reading Progress",
+  "description": "A reading progress bar: a 2px ink baseline with an ink fill-lines bar sitting on it (G7), in whole pixels; the bar shares the baseline's outer edge and grows inward, 4px of solid ink at rest and 6px with a paper speed line through it while the reader scrolls or the value changes. Measures the scroll of a target element (its own scroll, or how far the window has moved through it) or of the window, with requestAnimationFrame, cleaned up on unmount; or takes a controlled value (then the width moves in steps). Positions: fixed to the top or bottom edge of the viewport, or inline in the flow. In manga reading order (data-reading=\"rtl\") it fills from the right. Optional value text (\"42 %\" or \"Page 3 / 8\") on paper, never on the lines. role=\"progressbar\" with aria-valuenow/min/max and aria-valuetext. Reduced motion: no motion, the value still updates. Also exports useScrollProgress(target).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/reading-progress.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/reading-progress.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/reading-progress\". Without value it measures the window (or target); with value it is controlled, e.g. value={ratio * 100} from ReaderStrip's onProgress.",
+  "meta": {
+    "tagline": "How far the reader has gone, in speed lines.",
+    "usage": "import { ReadingProgress } from \"@/components/manga/reading-progress\"\n\n<ReadingProgress position=\"top\" />\n<ReadingProgress value={37.5} showValue valueText=\"Page 3 / 8\" />",
+    "props": [
+      {
+        "name": "value",
+        "type": "number",
+        "description": "0-100, controlled. Leave out to measure the scroll."
+      },
+      {
+        "name": "target",
+        "type": "RefObject<HTMLElement | null>",
+        "description": "Element whose scroll progress is measured. Default: the window."
+      },
+      {
+        "name": "position",
+        "type": "\"top\" | \"bottom\" | \"inline\"",
+        "default": "\"inline\"",
+        "description": "Fixed to that edge of the viewport, or in the flow."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "default": "\"Reading progress\"",
+        "description": "Accessible name."
+      },
+      {
+        "name": "showValue",
+        "type": "boolean",
+        "default": "false",
+        "description": "Shows the value as a small text."
+      },
+      {
+        "name": "valueText",
+        "type": "string",
+        "default": "\"42 %\"",
+        "description": "Text for the value, e.g. \"Page 3 / 8\"; also aria-valuetext."
+      }
+    ]
+  }
+}
