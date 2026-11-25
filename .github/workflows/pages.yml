@@ -25,7 +25,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - run: git diff --exit-code registry.json || (echo "registry.json is out of sync: run npm run sync" && exit 1)
+      - run: git diff --exit-code registry.json README.md site/public/llms.txt || (echo "generated files are out of sync: run npm run sync" && exit 1)
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist

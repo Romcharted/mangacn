@@ -1,6 +1,6 @@
 # mangacn
 
-> 50 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with a webtoon theme (data-theme="webtoon"). MIT. Installed with the shadcn CLI straight from GitHub.
+> 50 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
