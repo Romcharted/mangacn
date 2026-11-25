@@ -73,6 +73,12 @@ const views = [
   { name: "table", hash: "#table", full: true },
   { name: "accordion", hash: "#accordion", full: true },
   { name: "examples", hash: "#examples", full: true },
+  ...["field", "radio-group", "slider", "alert", "progress", "pagination", "breadcrumb", "empty", "bubble", "message", "avatar", "manpu", "burst", "stamp", "banner", "stepper", "stat", "gestures"].map((n) => ({ name: n, hash: "#" + n, full: true })),
+  { name: "dropdown-open", hash: "#dropdown-menu", full: false, open: (p) => p.getByRole("button", { name: "Chapter 12" }).click().then(() => p.waitForTimeout(400)) },
+  { name: "popover-open", hash: "#popover", full: false, open: (p) => p.getByRole("button", { name: "Volume details" }).click().then(() => p.waitForTimeout(400)) },
+  { name: "alert-dialog-open", hash: "#alert-dialog", full: false, open: (p) => p.getByRole("button", { name: "Delete volume" }).click().then(() => p.waitForTimeout(400)) },
+  { name: "sheet-open", hash: "#sheet", full: false, open: (p) => p.getByRole("button", { name: "From the right" }).click().then(() => p.waitForTimeout(400)) },
+  { name: "hover-card-open", hash: "#hover-card", full: false, open: (p) => p.locator("[data-slot=hover-card-trigger]").first().hover().then(() => p.waitForTimeout(900)) },
 ].filter((v) => !only || only.includes(v.name))
 
 const widthsArg = args.includes("--widths") ? args[args.indexOf("--widths") + 1].split(",").map(Number) : null
