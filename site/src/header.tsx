@@ -338,6 +338,20 @@ export function CategoryPill(props: { active: boolean; onClick: () => void; chil
   )
 }
 
+/*
+ * Word matching instead of cmdk's fuzzy score, which ranks "Atkinson" above "Tabs" for "tab": a title that
+ * starts with the query first, then a word that starts with it, then the category, then any substring.
+ */
+function match(value: string, search: string, keywords?: string[]) {
+  const q = search.trim().toLowerCase()
+  if (!q) return 1
+  const v = value.toLowerCase()
+  if (v.startsWith(q)) return 1
+  if (v.split(/[\s\-/()]+/).some((word) => word.startsWith(q))) return 0.8
+  if (keywords?.some((k) => k.toLowerCase().startsWith(q))) return 0.5
+  return v.includes(q) ? 0.3 : 0
+}
+
 /** The palette: pages, full interfaces, then every component by category. Choosing one opens it. */
 function SearchPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const go = (hash: string) => {
@@ -351,7 +365,7 @@ function SearchPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (o
       title="Search mangacn"
       description="Find a component, an example or a page."
     >
-      <Command>
+      <Command filter={match}>
         <CommandInput placeholder="Search components, examples…" />
         <CommandList>
           <CommandEmpty>Nothing matches.</CommandEmpty>
