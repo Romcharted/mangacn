@@ -52,6 +52,24 @@
     "registry/items/stamp.json",
     "registry/items/banner.json",
     "registry/items/stepper.json",
-    "registry/items/stat.json"
+    "registry/items/stat.json",
+    "registry/items/typography.json",
+    "registry/items/command.json",
+    "registry/items/toggle.json",
+    "registry/items/toggle-group.json",
+    "registry/items/button-group.json",
+    "registry/items/scroll-area.json",
+    "registry/items/collapsible.json",
+    "registry/items/navigation-menu.json",
+    "registry/items/sidebar.json",
+    "registry/items/item.json",
+    "registry/items/kbd.json",
+    "registry/items/chart.json",
+    "registry/items/data-table.json",
+    "registry/items/toned-image.json",
+    "registry/items/character-card.json",
+    "registry/items/hit-counter.json",
+    "registry/items/dashboard.json",
+    "registry/items/tasks.json"
   ]
 }

@@ -62,7 +62,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 
 <!-- items:start -->
 
-50 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+68 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
 
 ### Foundations
 
@@ -73,6 +73,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Font: Patrick Hand SC | `font-lettering` | Hand lettering for titles, buttons and badges. |
 | Font: Dela Gothic One | `font-sfx` | A heavy face for sound effects, katakana included. |
 | Gestures | `gestures` | Impact and flash primitives shared by every component. |
+| Typography | `typography` | Headings in lettering, body in the reading face, narration in a case. |
 
 ### Actions & input
 
@@ -88,6 +89,10 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Field | `field` | Labels, help text and errors with a “!” mark. |
 | Radio Group | `radio-group` | Diamonds instead of circles; the chosen one turns to ink. |
 | Slider | `slider` | A rail that fills with speed lines. |
+| Command | `command` | A notched case of commands: the highlighted row inverts to ink. |
+| Toggle | `toggle` | An ink-lined switch that floods with ink when on. |
+| Toggle Group | `toggle-group` | Toggles joined in one frame; the pressed cell floods with ink. |
+| Button Group | `button-group` | Buttons joined by one shared 2px line, like a strip of cells. |
 
 ### Feedback
 
@@ -120,6 +125,8 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Tabs | `tabs` | Chapter dividers, a thick underline or boxed tabs. |
 | Pagination | `pagination` | Cells for pages; the current one is ink. |
 | Breadcrumb | `breadcrumb` | Lettering, brush chevrons, the current page in ink. |
+| Navigation Menu | `navigation-menu` | Lettering triggers; the open one turns to ink and its panel is a case. |
+| Sidebar | `sidebar` | A ruled side panel: ink rows, an ink flat for the current one, a sheet on mobile. |
 
 ### Display
 
@@ -132,6 +139,12 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Separator | `separator` | An ink rule: 2px, fine or double. |
 | Bubble | `bubble` | Chat messages as speech bubbles. |
 | Message | `message` | A line of a conversation: avatar, name, bubbles. |
+| Scroll Area | `scroll-area` | Ink thumb in a fine track, square corners, no fade. |
+| Collapsible | `collapsible` | A lettering row that unfolds, its chevron turned to ink. |
+| Item | `item` | A list row or a case, with a square media and lettering titles. |
+| Kbd | `kbd` | A key cap in ink, with a heavier bottom edge like a pressed key. |
+| Chart | `chart` | Recharts in screentone: each series gets its own pattern, never a colour. |
+| Data Table | `data-table` | Sort, filter, select and page a list in an ink-lined table. |
 
 ### Manga pieces
 
@@ -148,6 +161,16 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Banner | `banner` | A ribbon for titles and announcements. |
 | Stepper | `stepper` | Chapter marks for a multi-step flow. |
 | Stat | `stat` | A key figure in heavy lettering. |
+| Toned Image | `toned-image` | A photo turned into a screentone, in your browser. |
+| Character Card | `character-card` | A character sheet: portrait, stats in bars, a quote. |
+| Hit Counter | `hit-counter` | A score that jumps on every hit. |
+
+### Full interfaces
+
+| Name | Item | What it looks like |
+| --- | --- | --- |
+| Dashboard | `dashboard` | Sidebar, key figures, toned charts, a data table and a command palette. |
+| Tasks | `tasks` | A task board: stamps for statuses, filters and actions on a selection. |
 
 <!-- items:end -->
 

@@ -162,6 +162,11 @@
           "backdrop-filter": "none",
           "animation": "none"
         },
+        ":where(nav, div):has(> div > [data-slot=\"navigation-menu-content\"])": {
+          "border-radius": "var(--radius)",
+          "box-shadow": "none",
+          "background-color": "transparent"
+        },
         "@property --shadow-x": {
           "syntax": "\"<length>\"",
           "inherits": "true",
@@ -2285,13 +2290,14 @@
       "name": "avatar",
       "type": "registry:ui",
       "title": "Avatar",
-      "description": "Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat.",
+      "description": "Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat. Option toned: the picture goes through the toned-image screentone (dots, lines, cross or noise).",
       "categories": [
         "display"
       ],
       "registryDependencies": [
         "avatar",
-        "Romcharted/mangacn/base"
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/toned-image"
       ],
       "dependencies": [
         "cn"
@@ -2307,7 +2313,14 @@
       "meta": {
         "tagline": "A square panel for a face or initials.",
         "usage": "import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/manga/avatar\"\n\n<Avatar>\n  <AvatarImage src=\"/me.png\" alt=\"\" />\n  <AvatarFallback>NO</AvatarFallback>\n</Avatar>",
-        "props": []
+        "props": [
+          {
+            "name": "toned",
+            "type": "boolean | { pattern?, density?, contrast?, threshold? }",
+            "default": "false",
+            "description": "Screentone the picture (see toned-image). true uses the defaults: dots, 6px."
+          }
+        ]
       }
     },
     {
@@ -2655,7 +2668,7 @@
       "name": "stamp",
       "type": "registry:component",
       "title": "Stamp",
-      "description": "A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom).",
+      "description": "A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom). tone=\"ink\" draws it in ink for everyday statuses.",
       "categories": [
         "manga"
       ],
@@ -2694,6 +2707,12 @@
             "type": "boolean",
             "default": "true",
             "description": "Lands with a stepped thump."
+          },
+          {
+            "name": "tone",
+            "type": "\"accent\" | \"ink\"",
+            "default": "\"accent\"",
+            "description": "accent for what must stand out, ink for everyday statuses."
           }
         ]
       }
@@ -2837,6 +2856,878 @@
             "type": "boolean",
             "default": "false",
             "description": "Focus lines around the case."
+          }
+        ]
+      }
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "Plain styled elements for manga text, with no state and no gesture of their own. Headings use the lettering face (TypographyH1 and H2 switch to the SFX face with the sfx prop); body text uses the reading face. Variants: TypographyH1, H2 (ink rule underneath), H3, H4, P, Lead, Large, Small, Muted (smaller, same ink, never grey), Blockquote (a narration box: a 2px case with a 6px ink bar at the start), List, InlineCode (fine frame, monospace) and Table (an ink header and 1px row rules, the kit Table look). Each accepts className and the element's props.",
+      "categories": [
+        "foundations"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/typography.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/typography.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/typography\". Plain elements: no Radix or Base UI parts are involved. Typography is a documentation recipe in shadcn; mangacn ships it as styled components.",
+      "meta": {
+        "tagline": "Headings in lettering, body in the reading face, narration in a case.",
+        "usage": "import { TypographyH1, TypographyP, TypographyBlockquote } from \"@/components/ui/manga/typography\"\n\n<TypographyH1>The long night</TypographyH1>\n<TypographyP>The harbour lamps came on one by one.</TypographyP>\n<TypographyBlockquote>The ferry left at dawn.</TypographyBlockquote>",
+        "props": [
+          {
+            "name": "sfx",
+            "type": "boolean",
+            "description": "On TypographyH1 and TypographyH2: use the SFX face instead of the lettering face."
+          },
+          {
+            "name": "TypographyTable",
+            "type": "table props",
+            "description": "Native thead / tbody / tr / th / td children, in a case with the kit Table look."
+          }
+        ]
+      }
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Manga-styled command palette (cmdk). The palette is a case (3px ink line, tone shadow) with a search row drawn like an input with a search mark and a 2px line under it. Group headings are underlined lettering; the highlighted item inverts to an ink flat; the chosen item gets a brush check; disabled items keep the label with a dashed underline. Shortcuts are mono lettering in a fine frame. CommandDialog pops in over three steps, and its case is the palette itself. Empty state uses a “…” mark. Gestures: G1 case, G2 flat, G3 hover inversion, G5 pop, G8 check.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "command",
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/dialog"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/command.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/command.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/command\". It wraps your own components/ui/command (cmdk), so the stock command and cmdk are installed with it. CommandDialog uses the manga Dialog around the stock Command.",
+      "meta": {
+        "tagline": "A notched case of commands: the highlighted row inverts to ink.",
+        "usage": "import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandShortcut } from \"@/components/ui/manga/command\"\n\n<Command>\n  <CommandInput placeholder=\"Search chapters…\" />\n  <CommandList>\n    <CommandEmpty>No page matches.</CommandEmpty>\n    <CommandGroup heading=\"Read\">\n      <CommandItem value=\"chapter-12\">\n        Chapter 12 — The rooftop\n        <CommandShortcut>1</CommandShortcut>\n      </CommandItem>\n    </CommandGroup>\n  </CommandList>\n</Command>",
+        "props": [
+          {
+            "name": "CommandDialog",
+            "type": "component",
+            "description": "The palette in a dialog (open, onOpenChange, title, description). The dialog frame is hidden: the palette draws the case."
+          },
+          {
+            "name": "CommandInput",
+            "type": "component",
+            "description": "The search row: a search mark, an input in the reading face, a 2px line under it."
+          },
+          {
+            "name": "CommandEmpty",
+            "type": "component",
+            "description": "Shown when nothing matches: a “…” mark and a short line (children override the text)."
+          },
+          {
+            "name": "CommandItem",
+            "type": "component",
+            "description": "An option. disabled keeps the label with a dashed underline; data-checked=\"true\" shows the brush check."
+          },
+          {
+            "name": "CommandShortcut",
+            "type": "component",
+            "description": "A shortcut in mono lettering inside a fine frame, at the end of an item."
+          }
+        ]
+      }
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Manga-styled on/off button (Base UI or Radix toggle). Variants: default (frameless: inverts to ink on hover) and outline (2px frame on paper: lifts its tone shadow on hover). Sizes sm, default, lg. Off is paper; on (aria-pressed or data-state=on) is an ink flat that sweeps in over three frames. Click plays the impact (speed lines, 2px recoil). Disabled: dashed line, tone frame, label on paper, not-allowed cursor. Gestures: G2 flat, G3 hover, G4 impact.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "toggle",
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/gestures"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/toggle.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/toggle.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/toggle\". It wraps your own components/ui/toggle, so Radix and Base UI both work. Also exports toggleClassName, the look as a class string, used by ToggleGroup.",
+      "meta": {
+        "tagline": "An ink-lined switch that floods with ink when on.",
+        "usage": "import { Toggle } from \"@/components/ui/manga/toggle\"\n\n<Toggle aria-label=\"Bold\" defaultPressed>Bold</Toggle>\n<Toggle variant=\"outline\" size=\"sm\">Captions</Toggle>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"outline\"",
+            "description": "default: frameless, inverts on hover · outline: 2px frame, lifts on hover."
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"default\" | \"lg\"",
+            "description": "Height 32, 40 or 48 px."
+          },
+          {
+            "name": "pressed / defaultPressed",
+            "type": "boolean",
+            "description": "Stock toggle state: on shows the ink flat."
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "description": "Dashed line, tone frame, label on paper."
+          }
+        ]
+      }
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Manga-styled group of toggles (Base UI or Radix). By default (spacing 0) the toggles share one frame, split by a 2px line like the cells of a boxed Tabs; the pressed cell is an ink flat that sweeps in; hover thickens the line of a cell. With spacing above 0 each toggle is a framed button of its own. Orientation horizontal or vertical. Single and multiple selection come from the stock API (value / defaultValue arrays, multiple). Focus stays inside its cell. Gestures: G2 flat, G3 hover on cells, G4 impact.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "toggle-group",
+        "Romcharted/mangacn/toggle",
+        "Romcharted/mangacn/gestures",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/toggle-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/toggle-group.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/toggle-group\". It wraps your own components/ui/toggle-group and the manga toggle look, so Radix and Base UI both work for the props they share (value, defaultValue, orientation, spacing, variant, size, disabled).",
+      "meta": {
+        "tagline": "Toggles joined in one frame; the pressed cell floods with ink.",
+        "usage": "import { ToggleGroup, ToggleGroupItem } from \"@/components/ui/manga/toggle-group\"\n\n<ToggleGroup aria-label=\"Alignment\" defaultValue={[\"center\"]}>\n  <ToggleGroupItem value=\"left\">Left</ToggleGroupItem>\n  <ToggleGroupItem value=\"center\">Centre</ToggleGroupItem>\n  <ToggleGroupItem value=\"right\">Right</ToggleGroupItem>\n</ToggleGroup>",
+        "props": [
+          {
+            "name": "spacing",
+            "type": "number",
+            "description": "0 (default): one joined frame. Above 0: separate framed toggles with that gap."
+          },
+          {
+            "name": "orientation",
+            "type": "\"horizontal\" | \"vertical\"",
+            "description": "Row or column. The joined lines follow the orientation."
+          },
+          {
+            "name": "multiple",
+            "type": "boolean",
+            "description": "Stock Base UI option: several cells may be pressed at once."
+          },
+          {
+            "name": "variant / size",
+            "type": "\"default\" | \"outline\" / \"sm\" | \"default\" | \"lg\"",
+            "description": "Passed to every item."
+          }
+        ]
+      }
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Manga-styled group of buttons and inputs joined in one row or column. Shared edges collapse to one 2px line; the outer corners follow the radius. A ButtonGroupSeparator is an ink rule (2px, no tone) between two buttons. ButtonGroupText is a label cell in the same frame. Works with the kit Button and Input. Vertical orientation is supported. The focused button draws its ring inside itself, never over a neighbour. Gestures: the buttons keep their own G3 hover, G4 impact and focus.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "button-group",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/button-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/button-group.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/button-group\". It wraps your own components/ui/button-group. Put the manga Button (or Input) inside. Use ButtonGroupSeparator between two buttons that should show a rule instead of a shared edge.",
+      "meta": {
+        "tagline": "Buttons joined by one shared 2px line, like a strip of cells.",
+        "usage": "import { Button } from \"@/components/ui/manga/button\"\nimport { ButtonGroup, ButtonGroupSeparator } from \"@/components/ui/manga/button-group\"\n\n<ButtonGroup aria-label=\"Pages\">\n  <Button variant=\"outline\">Prev</Button>\n  <ButtonGroupSeparator />\n  <Button variant=\"outline\">Next</Button>\n</ButtonGroup>",
+        "props": [
+          {
+            "name": "orientation",
+            "type": "\"horizontal\" | \"vertical\"",
+            "description": "Row (default) or column; the shared line follows it."
+          },
+          {
+            "name": "ButtonGroupSeparator",
+            "type": "component",
+            "description": "An ink rule between two items. orientation vertical (default) in a row, horizontal in a column."
+          },
+          {
+            "name": "ButtonGroupText",
+            "type": "component",
+            "description": "A label cell in the frame (paper, lettering)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Manga-styled wrapper around your shadcn Scroll Area. The scrollbar thumb is a flat of ink inset in a fine ink track (a 1px line on the start edge). No rounded pill, no opacity fade, a square corner. The viewport focus ring is an ink line inside the area. Keyboard and wheel behaviour are stock. Add a horizontal bar with ScrollBar orientation=\"horizontal\". Works with Radix and Base UI.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "scroll-area",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/scroll-area.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/scroll-area.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/scroll-area\". It wraps your own components/ui/scroll-area, so Radix and Base UI both work. The stock corner is left as the library draws it.",
+      "meta": {
+        "tagline": "Ink thumb in a fine track, square corners, no fade.",
+        "usage": "import { ScrollArea, ScrollBar } from \"@/components/ui/manga/scroll-area\"\n\n<ScrollArea className=\"h-56\">\n  <p>Long text goes here.</p>\n</ScrollArea>\n\n<ScrollArea className=\"w-56\">\n  <div className=\"w-[28rem]\">Wide content</div>\n  <ScrollBar orientation=\"horizontal\" />\n</ScrollArea>",
+        "props": []
+      }
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Manga-styled wrapper around your shadcn Collapsible. The trigger is a frameless lettering row: its underline thickens on hover and its brush chevron turns in two steps when open. The content unfolds with a drop-in by steps. No frame of its own, so it sits on the page or inside a case the caller adds. Disabled keeps the label on paper with a dashed underline and a not-allowed cursor. Works with Radix and Base UI.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "collapsible",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/collapsible.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/collapsible.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/collapsible\". It wraps your own components/ui/collapsible, so Radix and Base UI both work.",
+      "meta": {
+        "tagline": "A lettering row that unfolds, its chevron turned to ink.",
+        "usage": "import { Collapsible, CollapsibleContent, CollapsibleTrigger } from \"@/components/ui/manga/collapsible\"\n\n<Collapsible>\n  <CollapsibleTrigger>Chapter notes</CollapsibleTrigger>\n  <CollapsibleContent>The rooftop scenes were drawn at night.</CollapsibleContent>\n</Collapsible>",
+        "props": []
+      }
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "Manga-styled wrapper around your shadcn Navigation Menu. Top-level triggers are frameless lettering: an underline thickens on hover, and the open one is an ink flat that sweeps in, with a brush chevron that turns in two steps. The panel is an ink case that pops in, its links invert on hover and the current link is an ink flat. Focus is an ink line inside the shape. Works with Radix and Base UI: the viewport ring and shadow are removed on Radix, the stock Base UI popup keeps its own ring. Items that open a panel use NavigationMenuItem with a value; a plain NavigationMenuLink needs no panel.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "navigation-menu",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/navigation-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/navigation-menu.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/navigation-menu\". It wraps your own components/ui/navigation-menu, so Radix and Base UI both work. The notch toward the trigger (case-notch) is not drawn: the stock viewport clips it.",
+      "meta": {
+        "tagline": "Lettering triggers; the open one turns to ink and its panel is a case.",
+        "usage": "import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from \"@/components/ui/manga/navigation-menu\"\n\n<NavigationMenu>\n  <NavigationMenuList>\n    <NavigationMenuItem value=\"chapters\">\n      <NavigationMenuTrigger>Chapters</NavigationMenuTrigger>\n      <NavigationMenuContent>\n        <NavigationMenuLink href=\"/chapter-1\">The long night</NavigationMenuLink>\n      </NavigationMenuContent>\n    </NavigationMenuItem>\n  </NavigationMenuList>\n</NavigationMenu>",
+        "props": []
+      }
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Manga-styled wrapper around your shadcn Sidebar. Desktop: a case with a 3px ink edge on its open side (like Sheet), paper inside. Rows are frameless and invert to ink on hover; the current row is an ink flat that sweeps in over three frames, as in Tabs. Group labels are underlined lettering. Badges are paper plates with an ink frame. The trigger is an ink square that inverts on hover; the rail is an ink line that thickens on hover. Collapsed (icon) mode keeps square icon cells. Mobile: the same panel as a sheet that slides in from its edge, with an offset second frame. Clicks hit with the impact gesture. Disabled rows: dashed frame and tone frame, label on paper. Parts: SidebarProvider, Sidebar, SidebarTrigger, SidebarRail, SidebarInset, SidebarHeader, SidebarFooter, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton (isActive, tooltip), SidebarMenuAction, SidebarMenuBadge, SidebarMenuSub, SidebarMenuSubButton, SidebarInput, SidebarSeparator, useSidebar.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "sidebar",
+        "sheet",
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/gestures"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/sidebar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/sidebar.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/sidebar\". It wraps your own components/ui/sidebar and components/ui/sheet, so Radix and Base UI both work. Wrap the app in SidebarProvider; the desktop panel is hidden below md and the sheet takes over on mobile. Use the stock behaviour for state (collapsible, defaultOpen, open, onOpenChange).",
+      "meta": {
+        "tagline": "A ruled side panel: ink rows, an ink flat for the current one, a sheet on mobile.",
+        "usage": "import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from \"@/components/ui/manga/sidebar\"\n\n<SidebarProvider>\n  <Sidebar collapsible=\"icon\">\n    <SidebarContent>\n      <SidebarGroup>\n        <SidebarGroupLabel>Browse</SidebarGroupLabel>\n        <SidebarMenu>\n          <SidebarMenuItem>\n            <SidebarMenuButton isActive>Library</SidebarMenuButton>\n          </SidebarMenuItem>\n        </SidebarMenu>\n      </SidebarGroup>\n    </SidebarContent>\n  </Sidebar>\n  <SidebarInset>\n    <SidebarTrigger />\n  </SidebarInset>\n</SidebarProvider>",
+        "props": [
+          {
+            "name": "collapsible",
+            "type": "\"offcanvas\" | \"icon\" | \"none\"",
+            "description": "On Sidebar. icon keeps square icon cells when collapsed; offcanvas slides the panel away; none is always open."
+          },
+          {
+            "name": "side",
+            "type": "\"left\" | \"right\"",
+            "description": "On Sidebar. Puts the 3px ink edge on the open side."
+          },
+          {
+            "name": "isActive",
+            "type": "boolean",
+            "description": "On SidebarMenuButton and SidebarMenuSubButton: the current row, an ink flat."
+          },
+          {
+            "name": "tooltip",
+            "type": "string | TooltipContent props",
+            "description": "On SidebarMenuButton: shown beside the icon when the panel is collapsed to icons."
+          },
+          {
+            "name": "showOnHover",
+            "type": "boolean",
+            "description": "On SidebarMenuAction: show the star only when the row is hovered."
+          }
+        ]
+      }
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Manga-styled wrapper around your shadcn Item: a list row with a media square, a title, a description and actions at the end. Variants: default (frameless row), outline (a 2px ink case), muted (a 1px fine ink line on paper with a 6px tone band on the start edge, outside the text; no inner tone frame, so it never reads as disabled). Sizes default, sm, xs. Media is a 40px square case with a 2px ink frame. Titles are lettering; descriptions take the row's colour. Pass interactive for a row that is clicked: a frameless row inverts to ink on hover (G3), a framed or muted row thickens its line by 1px. Disabled: dashed frame with a tone frame and the label on paper. Also ItemGroup (a list), ItemSeparator (a fine ink line), ItemHeader and ItemFooter.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "item",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/item.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/item.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/item\". It wraps your own components/ui/item, so Radix and Base UI both work. Items are plain elements: to make a whole row a link, wrap it in an anchor (block) and set interactive on the Item.",
+      "meta": {
+        "tagline": "A list row or a case, with a square media and lettering titles.",
+        "usage": "import { Item, ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemActions } from \"@/components/ui/manga/item\"\n\n<Item variant=\"outline\" interactive>\n  <ItemMedia>\n    <BookOpen />\n  </ItemMedia>\n  <ItemContent>\n    <ItemTitle>Vol. 1 · The long night</ItemTitle>\n    <ItemDescription>Twelve chapters, two unread.</ItemDescription>\n  </ItemContent>\n  <ItemActions>\n    <ChevronRight />\n  </ItemActions>\n</Item>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"outline\" | \"muted\"",
+            "default": "\"default\"",
+            "description": "default: frameless row. outline: 2px ink case. muted: 1px fine line with a 6px tone band on the start edge."
+          },
+          {
+            "name": "size",
+            "type": "\"default\" | \"sm\" | \"xs\"",
+            "default": "\"default\"",
+            "description": "Padding and gap of the row."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "default": "false",
+            "description": "G3 hover: a frameless row inverts to ink, a framed or muted row thickens its line."
+          }
+        ]
+      }
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Manga-styled wrapper around your shadcn Kbd: a key cap drawn in ink. A 2px frame with a heavier 3px bottom edge, like a pressed key; paper inside; lettering inside, uppercase. KbdGroup spaces a chord (Ctrl K). No tone (under 24px). Keys are not interactive: no hover, press or focus state. Works inline in a sentence, in a tooltip and on an ink flat.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "kbd",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/kbd.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/kbd.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/kbd\". It wraps your own components/ui/kbd, so Radix and Base UI both work.",
+      "meta": {
+        "tagline": "A key cap in ink, with a heavier bottom edge like a pressed key.",
+        "usage": "import { Kbd, KbdGroup } from \"@/components/ui/manga/kbd\"\n\n<p>\n  Search with <KbdGroup><Kbd>Ctrl</Kbd><Kbd>K</Kbd></KbdGroup>\n</p>",
+        "props": [
+          {
+            "name": "KbdGroup",
+            "type": "component",
+            "description": "Spaces a chord of keys (Ctrl, Shift, K) on one line."
+          }
+        ]
+      }
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Manga-styled wrapper around the shadcn Chart (recharts). Series are told apart by screentone and hatching, never by colour: chartFill(series) gives each series a pattern (solid ink, 45° hatching, dots, horizontal lines, cross hatching, fine dots), bars and areas are outlined in 2px ink, pie slices are separated by paper gaps. Lines differ by dash and by marker (ChartMarker: square, diamond, dot). The container is a case; the tooltip is a speech bubble with a tail; the legend shows pattern swatches. Exports ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle, ChartPatterns, ChartMarker, chartFill, chartPattern, chartPatternFill and type ChartConfig. Ink and paper only, dark mode is the negative.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "chart",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "recharts"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/chart.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/chart.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/chart\". It wraps your own components/ui/chart. ChartContainer renders the pattern set itself, so chartFill(...) works in any chart inside it. Set the height with the CSS variable --chart-h (default 16rem), e.g. className=\"[--chart-h:8rem]\".",
+      "meta": {
+        "tagline": "Recharts in screentone: each series gets its own pattern, never a colour.",
+        "usage": "import { BarChart, Bar, XAxis } from \"recharts\"\nimport { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, chartFill, type ChartConfig } from \"@/components/ui/manga/chart\"\n\nconst config = { reads: { label: \"Reads\" }, sales: { label: \"Sales\" } } satisfies ChartConfig\nconst keys = Object.keys(config)\n\n<ChartContainer config={config}>\n  <BarChart data={data}>\n    <XAxis dataKey=\"month\" />\n    <ChartTooltip content={<ChartTooltipContent />} />\n    <ChartLegend content={<ChartLegendContent config={config} />} />\n    <Bar dataKey=\"reads\" fill={chartFill(\"reads\", keys)} stroke=\"currentColor\" strokeWidth={2} />\n    <Bar dataKey=\"sales\" fill={chartFill(\"sales\", keys)} stroke=\"currentColor\" strokeWidth={2} />\n  </BarChart>\n</ChartContainer>",
+        "props": [
+          {
+            "name": "ChartContainer",
+            "type": "{ config, id?, className? } + recharts children",
+            "description": "A case around the recharts container. className goes on the case; --chart-h sets the height."
+          },
+          {
+            "name": "chartFill(series, keys?)",
+            "type": "(number | string, string[]?) => string",
+            "description": "The url(#…) fill of a series: by index, or by its config key in keys. The first series is solid ink."
+          },
+          {
+            "name": "chartPattern / chartPatternFill",
+            "type": "helpers",
+            "description": "The pattern name of a series, or the fill of a named pattern (solid, paper, hatch, cross, dots, dots-fine, lines)."
+          },
+          {
+            "name": "ChartMarker",
+            "type": "{ cx, cy, kind?: \"square\" | \"diamond\" | \"dot\", size? }",
+            "description": "Point marker for a line's dot prop: a paper shape with an ink outline."
+          },
+          {
+            "name": "ChartTooltipContent",
+            "type": "recharts tooltip props",
+            "description": "Speech bubble with a tail; the indicator is hidden by default (set hideIndicator={false} to show it)."
+          },
+          {
+            "name": "ChartLegendContent",
+            "type": "{ config?, payload?, verticalAlign? }",
+            "description": "Legend with a pattern swatch per series; labels come from the config."
+          }
+        ]
+      }
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "A sortable, filterable, selectable table built on @tanstack/react-table and the mangacn Table. The table is a case with an ink header; sorted columns show a brush arrow (aria-sort); the hovered row gets its ink bar and selected rows a 6px bar. The toolbar has a filter field (filterColumn) and a column visibility menu (grouped, checkable items). Row selection uses the mangacn Checkbox, with a select-all in the header; pagination uses the mangacn Button. An empty filter result shows the \"…\" mark (TableEmpty). Props: columns, data, filterColumn?, pageSize?, onSelectionChange?(rows). Also exports selectColumn.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/table",
+        "Romcharted/mangacn/checkbox",
+        "Romcharted/mangacn/input",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/dropdown-menu",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "@tanstack/react-table@^8"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/data-table.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/data-table.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/data-table\". Column definitions use the TanStack v8 type ColumnDef<TData> (useReactTable with getCoreRowModel, getSortedRowModel, getFilteredRowModel and getPaginationRowModel). Every column with an accessorKey sorts unless enableSorting is false. Row ids are the index in data, so onSelectionChange returns the caller's own rows.",
+      "meta": {
+        "tagline": "Sort, filter, select and page a list in an ink-lined table.",
+        "usage": "import { DataTable } from \"@/components/ui/manga/data-table\"\nimport type { ColumnDef } from \"@tanstack/react-table\"\n\nconst columns: ColumnDef<Chapter>[] = [\n  { accessorKey: \"title\", header: \"Chapter\" },\n  { accessorKey: \"pages\", header: \"Pages\" },\n]\n\n<DataTable columns={columns} data={chapters} filterColumn=\"title\" pageSize={10} onSelectionChange={(rows) => setPicked(rows)} />",
+        "props": [
+          {
+            "name": "columns",
+            "type": "ColumnDef<TData, TValue>[]",
+            "description": "Column definitions. A selection column is added first by the table."
+          },
+          {
+            "name": "data",
+            "type": "TData[]",
+            "description": "The rows."
+          },
+          {
+            "name": "filterColumn",
+            "type": "string",
+            "description": "Column id searched by the toolbar filter."
+          },
+          {
+            "name": "pageSize",
+            "type": "number",
+            "description": "Rows per page (default 10)."
+          },
+          {
+            "name": "onSelectionChange",
+            "type": "(rows: TData[]) => void",
+            "description": "Called with the selected rows, in data order, when the selection changes."
+          },
+          {
+            "name": "selectColumn",
+            "type": "() => ColumnDef<TData>",
+            "description": "The leading checkbox column, for custom placement."
+          }
+        ]
+      }
+    },
+    {
+      "name": "toned-image",
+      "type": "registry:component",
+      "title": "Toned Image",
+      "description": "Any picture turned into a manga screentone: black and white, dark areas become dense dots or lines in ink, light areas stay paper. Patterns: dots (45° screen), lines, cross, noise. Settings: density (cell size in px), contrast, threshold (solid ink above a darkness level). Done with CSS only (blend modes, filters, radial and linear gradients, a feTurbulence noise tile as background): same look in Chromium, Firefox and WebKit, cross-origin pictures work, nothing uploaded. Ink is the foreground colour, paper the background; dark mode is the negative. Keeps alt text.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/toned-image.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/toned-image.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/toned-image\". The TonedOptions type is exported too; Avatar's toned option uses TonedImage with those options.",
+      "meta": {
+        "tagline": "A photo turned into a screentone, in your browser.",
+        "usage": "import { TonedImage } from \"@/components/manga/toned-image\"\n\n<TonedImage src=\"/city.jpg\" alt=\"A city at dusk\" pattern=\"dots\" density={6} className=\"aspect-[4/3] w-full border-ink\" />",
+        "props": [
+          {
+            "name": "src / alt",
+            "type": "string",
+            "description": "The picture and its text alternative (kept). Same-origin, data: or blob: URL."
+          },
+          {
+            "name": "pattern",
+            "type": "\"dots\" | \"lines\" | \"cross\" | \"noise\"",
+            "default": "\"dots\"",
+            "description": "The screen."
+          },
+          {
+            "name": "density",
+            "type": "number",
+            "default": "6",
+            "description": "Cell size in px: smaller is a finer screen. Blur and screen scale with it."
+          },
+          {
+            "name": "contrast",
+            "type": "number",
+            "default": "1",
+            "description": "Above 1 pushes shadows and lights apart."
+          },
+          {
+            "name": "threshold",
+            "type": "number (0 to 1)",
+            "default": "0",
+            "description": "0 is off. Above 0, more of the picture goes solid ink (dark areas first)."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Sets the size and the frame, e.g. aspect-[4/3] w-full border-ink."
+          }
+        ]
+      }
+    },
+    {
+      "name": "character-card",
+      "type": "registry:component",
+      "title": "Character Card",
+      "description": "A character sheet in a case: a portrait panel (toned as a screentone, or the initials on paper), the name in lettering, the role, stats as bars filled with speed lines, tags (kit Badge) and a short quote in a small speech bubble. Static by default; interactive adds the hover lift and the ink focus ring.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/badge",
+        "Romcharted/mangacn/speech-bubble",
+        "Romcharted/mangacn/toned-image"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/character-card.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/character-card.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/character-card\". The portrait goes through TonedImage; the tags use the kit Badge (outline) and the quote a SpeechBubble.",
+      "meta": {
+        "tagline": "A character sheet: portrait, stats in bars, a quote.",
+        "usage": "import { CharacterCard } from \"@/components/manga/character-card\"\n\n<CharacterCard\n  name=\"Kai Mori\"\n  role=\"Courier\"\n  image=\"/kai.jpg\"\n  stats={[{ label: \"Power\", value: 82 }, { label: \"Speed\", value: 6, max: 10 }]}\n  tags={[\"Rooftops\"]}\n  quote=\"The bridge is closed.\"\n  interactive\n/>",
+        "props": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "Set in lettering."
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "description": "Title or occupation, under the name."
+          },
+          {
+            "name": "image",
+            "type": "string",
+            "description": "Portrait URL, toned. Without it, the initials stand on paper."
+          },
+          {
+            "name": "stats",
+            "type": "{ label: string; value: number; max?: number }[]",
+            "default": "[]",
+            "description": "Bars filled with speed lines. max defaults to 100."
+          },
+          {
+            "name": "tags",
+            "type": "string[]",
+            "default": "[]",
+            "description": "Small outline badges."
+          },
+          {
+            "name": "quote",
+            "type": "string",
+            "description": "A line in a small speech bubble."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "default": "false",
+            "description": "Hover lift and focus ring; the card takes focus."
+          }
+        ]
+      }
+    },
+    {
+      "name": "hit-counter",
+      "type": "registry:component",
+      "title": "Hit Counter",
+      "description": "A number that changes with an impact: when the value changes, the number takes the three-frame hit (G4) with speed lines on both sides, and a growing value flashes a \"+n\" burst (G8) that leaves after a moment. Lettering after the number, optional icon, custom format. Sizes sm, default, lg. Reduced motion: the new number only. Built for likes, streaks and scores.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/gestures",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/hit-counter.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/hit-counter.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/hit-counter\". It uses punch() and ImpactLines from \"@/lib/manga/gestures\" (installed with the gestures item).",
+      "meta": {
+        "tagline": "A score that jumps on every hit.",
+        "usage": "import { HitCounter } from \"@/components/manga/hit-counter\"\n\n<HitCounter value={likes} label=\"likes\" />",
+        "props": [
+          {
+            "name": "value",
+            "type": "number",
+            "description": "The number. Each change plays the impact."
+          },
+          {
+            "name": "label",
+            "type": "ReactNode",
+            "description": "Lettering after the number."
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"default\" | \"lg\"",
+            "default": "\"default\"",
+            "description": "Size of the number."
+          },
+          {
+            "name": "format",
+            "type": "(value: number) => string",
+            "description": "How the number is written. Default: en-US thousands."
+          },
+          {
+            "name": "icon",
+            "type": "ReactNode",
+            "description": "A small mark before the number."
+          }
+        ]
+      }
+    },
+    {
+      "name": "dashboard",
+      "type": "registry:block",
+      "title": "Dashboard",
+      "description": "A full dashboard made only with mangacn: a collapsible Sidebar (a sheet on phones), four Stat key figures, a bar chart and a line chart in screentone patterns (Chart), a Data Table of chapters with Badge statuses, a period switch (Button Group of pressed buttons) and a Command palette opened with Ctrl/⌘ K. Works in light, dark, any accent and at phone width.",
+      "categories": [
+        "blocks"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/sidebar",
+        "Romcharted/mangacn/stat",
+        "Romcharted/mangacn/chart",
+        "Romcharted/mangacn/data-table",
+        "Romcharted/mangacn/command",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/button-group",
+        "Romcharted/mangacn/badge",
+        "Romcharted/mangacn/kbd",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "lucide-react",
+        "recharts",
+        "@tanstack/react-table@^8"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/blocks/dashboard/dashboard.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/blocks/dashboard.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/blocks/dashboard\". The root fills its container: pass className=\"h-svh\" for a whole screen.",
+      "meta": {
+        "tagline": "Sidebar, key figures, toned charts, a data table and a command palette.",
+        "usage": "import { Dashboard } from \"@/components/manga/blocks/dashboard\"\n\n<Dashboard className=\"h-svh\" />",
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Size and placement of the whole interface."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tasks",
+      "type": "registry:block",
+      "title": "Tasks",
+      "description": "A production task board made only with mangacn: a Data Table whose statuses are stamps (ink for everyday statuses, the accent colour only for Blocked), a search Input, status filters as pressed buttons, actions on the selected rows (Button Group: mark done, reopen, delete) and a HitCounter of finished tasks.",
+      "categories": [
+        "blocks"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/data-table",
+        "Romcharted/mangacn/input",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/button-group",
+        "Romcharted/mangacn/stamp",
+        "Romcharted/mangacn/hit-counter",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "@tanstack/react-table@^8"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/blocks/tasks/tasks.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/blocks/tasks.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/blocks/tasks\". The root fills its container: pass className=\"h-svh\" for a whole screen.",
+      "meta": {
+        "tagline": "A task board: stamps for statuses, filters and actions on a selection.",
+        "usage": "import { Tasks } from \"@/components/manga/blocks/tasks\"\n\n<Tasks className=\"h-svh\" />",
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Size and placement of the whole interface."
           }
         ]
       }

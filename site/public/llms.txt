@@ -1,6 +1,6 @@
 # mangacn
 
-> 50 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
+> 68 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -617,10 +617,12 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/m
 
 ### Avatar (`avatar`)
 
-Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat.
+Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat. Option toned: the picture goes through the toned-image screentone (dots, lines, cross or noise).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/avatar`
 - Categories: display
+- Props:
+  - `toned`: `boolean | { pattern?, density?, contrast?, threshold? }` (default `false`) — Screentone the picture (see toned-image). true uses the defaults: dots, 6px.
 
 ```tsx
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/manga/avatar"
@@ -805,7 +807,7 @@ import { Burst } from "@/components/manga/burst"
 
 ### Stamp (`stamp`)
 
-A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom).
+A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom). tone="ink" draws it in ink for everyday statuses.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/stamp`
 - Categories: manga
@@ -813,6 +815,7 @@ A seal in the accent colour: double square frame, heavy lettering, slightly unev
   - `rotate`: `number` (default `-8`) — Tilt in degrees.
   - `orientation`: `"horizontal" | "vertical"` (default `"horizontal"`) — Text direction.
   - `animated`: `boolean` (default `true`) — Lands with a stepped thump.
+  - `tone`: `"accent" | "ink"` (default `"accent"`) — accent for what must stand out, ink for everyday statuses.
 
 ```tsx
 import { Stamp } from "@/components/manga/stamp"
@@ -871,4 +874,409 @@ A key figure in a case: label in lettering, the number in the SFX face, a brush 
 import { Stat } from "@/components/manga/stat"
 
 <Stat label="Readers" value="12.4k" delta="+8%" trend="up" emphasis />
+```
+
+### Typography (`typography`)
+
+Plain styled elements for manga text, with no state and no gesture of their own. Headings use the lettering face (TypographyH1 and H2 switch to the SFX face with the sfx prop); body text uses the reading face. Variants: TypographyH1, H2 (ink rule underneath), H3, H4, P, Lead, Large, Small, Muted (smaller, same ink, never grey), Blockquote (a narration box: a 2px case with a 6px ink bar at the start), List, InlineCode (fine frame, monospace) and Table (an ink header and 1px row rules, the kit Table look). Each accepts className and the element's props.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/typography`
+- Categories: foundations
+- Props:
+  - `sfx`: `boolean` — On TypographyH1 and TypographyH2: use the SFX face instead of the lettering face.
+  - `TypographyTable`: `table props` — Native thead / tbody / tr / th / td children, in a case with the kit Table look.
+
+```tsx
+import { TypographyH1, TypographyP, TypographyBlockquote } from "@/components/ui/manga/typography"
+
+<TypographyH1>The long night</TypographyH1>
+<TypographyP>The harbour lamps came on one by one.</TypographyP>
+<TypographyBlockquote>The ferry left at dawn.</TypographyBlockquote>
+```
+
+### Command (`command`)
+
+Manga-styled command palette (cmdk). The palette is a case (3px ink line, tone shadow) with a search row drawn like an input with a search mark and a 2px line under it. Group headings are underlined lettering; the highlighted item inverts to an ink flat; the chosen item gets a brush check; disabled items keep the label with a dashed underline. Shortcuts are mono lettering in a fine frame. CommandDialog pops in over three steps, and its case is the palette itself. Empty state uses a “…” mark. Gestures: G1 case, G2 flat, G3 hover inversion, G5 pop, G8 check.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/command`
+- Categories: actions
+- Props:
+  - `CommandDialog`: `component` — The palette in a dialog (open, onOpenChange, title, description). The dialog frame is hidden: the palette draws the case.
+  - `CommandInput`: `component` — The search row: a search mark, an input in the reading face, a 2px line under it.
+  - `CommandEmpty`: `component` — Shown when nothing matches: a “…” mark and a short line (children override the text).
+  - `CommandItem`: `component` — An option. disabled keeps the label with a dashed underline; data-checked="true" shows the brush check.
+  - `CommandShortcut`: `component` — A shortcut in mono lettering inside a fine frame, at the end of an item.
+
+```tsx
+import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandShortcut } from "@/components/ui/manga/command"
+
+<Command>
+  <CommandInput placeholder="Search chapters…" />
+  <CommandList>
+    <CommandEmpty>No page matches.</CommandEmpty>
+    <CommandGroup heading="Read">
+      <CommandItem value="chapter-12">
+        Chapter 12 — The rooftop
+        <CommandShortcut>1</CommandShortcut>
+      </CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+### Toggle (`toggle`)
+
+Manga-styled on/off button (Base UI or Radix toggle). Variants: default (frameless: inverts to ink on hover) and outline (2px frame on paper: lifts its tone shadow on hover). Sizes sm, default, lg. Off is paper; on (aria-pressed or data-state=on) is an ink flat that sweeps in over three frames. Click plays the impact (speed lines, 2px recoil). Disabled: dashed line, tone frame, label on paper, not-allowed cursor. Gestures: G2 flat, G3 hover, G4 impact.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/toggle`
+- Categories: actions
+- Props:
+  - `variant`: `"default" | "outline"` — default: frameless, inverts on hover · outline: 2px frame, lifts on hover.
+  - `size`: `"sm" | "default" | "lg"` — Height 32, 40 or 48 px.
+  - `pressed / defaultPressed`: `boolean` — Stock toggle state: on shows the ink flat.
+  - `disabled`: `boolean` — Dashed line, tone frame, label on paper.
+
+```tsx
+import { Toggle } from "@/components/ui/manga/toggle"
+
+<Toggle aria-label="Bold" defaultPressed>Bold</Toggle>
+<Toggle variant="outline" size="sm">Captions</Toggle>
+```
+
+### Toggle Group (`toggle-group`)
+
+Manga-styled group of toggles (Base UI or Radix). By default (spacing 0) the toggles share one frame, split by a 2px line like the cells of a boxed Tabs; the pressed cell is an ink flat that sweeps in; hover thickens the line of a cell. With spacing above 0 each toggle is a framed button of its own. Orientation horizontal or vertical. Single and multiple selection come from the stock API (value / defaultValue arrays, multiple). Focus stays inside its cell. Gestures: G2 flat, G3 hover on cells, G4 impact.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/toggle-group`
+- Categories: actions
+- Props:
+  - `spacing`: `number` — 0 (default): one joined frame. Above 0: separate framed toggles with that gap.
+  - `orientation`: `"horizontal" | "vertical"` — Row or column. The joined lines follow the orientation.
+  - `multiple`: `boolean` — Stock Base UI option: several cells may be pressed at once.
+  - `variant / size`: `"default" | "outline" / "sm" | "default" | "lg"` — Passed to every item.
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/manga/toggle-group"
+
+<ToggleGroup aria-label="Alignment" defaultValue={["center"]}>
+  <ToggleGroupItem value="left">Left</ToggleGroupItem>
+  <ToggleGroupItem value="center">Centre</ToggleGroupItem>
+  <ToggleGroupItem value="right">Right</ToggleGroupItem>
+</ToggleGroup>
+```
+
+### Button Group (`button-group`)
+
+Manga-styled group of buttons and inputs joined in one row or column. Shared edges collapse to one 2px line; the outer corners follow the radius. A ButtonGroupSeparator is an ink rule (2px, no tone) between two buttons. ButtonGroupText is a label cell in the same frame. Works with the kit Button and Input. Vertical orientation is supported. The focused button draws its ring inside itself, never over a neighbour. Gestures: the buttons keep their own G3 hover, G4 impact and focus.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/button-group`
+- Categories: actions
+- Props:
+  - `orientation`: `"horizontal" | "vertical"` — Row (default) or column; the shared line follows it.
+  - `ButtonGroupSeparator`: `component` — An ink rule between two items. orientation vertical (default) in a row, horizontal in a column.
+  - `ButtonGroupText`: `component` — A label cell in the frame (paper, lettering).
+
+```tsx
+import { Button } from "@/components/ui/manga/button"
+import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/manga/button-group"
+
+<ButtonGroup aria-label="Pages">
+  <Button variant="outline">Prev</Button>
+  <ButtonGroupSeparator />
+  <Button variant="outline">Next</Button>
+</ButtonGroup>
+```
+
+### Scroll Area (`scroll-area`)
+
+Manga-styled wrapper around your shadcn Scroll Area. The scrollbar thumb is a flat of ink inset in a fine ink track (a 1px line on the start edge). No rounded pill, no opacity fade, a square corner. The viewport focus ring is an ink line inside the area. Keyboard and wheel behaviour are stock. Add a horizontal bar with ScrollBar orientation="horizontal". Works with Radix and Base UI.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/scroll-area`
+- Categories: display
+
+```tsx
+import { ScrollArea, ScrollBar } from "@/components/ui/manga/scroll-area"
+
+<ScrollArea className="h-56">
+  <p>Long text goes here.</p>
+</ScrollArea>
+
+<ScrollArea className="w-56">
+  <div className="w-[28rem]">Wide content</div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>
+```
+
+### Collapsible (`collapsible`)
+
+Manga-styled wrapper around your shadcn Collapsible. The trigger is a frameless lettering row: its underline thickens on hover and its brush chevron turns in two steps when open. The content unfolds with a drop-in by steps. No frame of its own, so it sits on the page or inside a case the caller adds. Disabled keeps the label on paper with a dashed underline and a not-allowed cursor. Works with Radix and Base UI.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/collapsible`
+- Categories: display
+
+```tsx
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/manga/collapsible"
+
+<Collapsible>
+  <CollapsibleTrigger>Chapter notes</CollapsibleTrigger>
+  <CollapsibleContent>The rooftop scenes were drawn at night.</CollapsibleContent>
+</Collapsible>
+```
+
+### Navigation Menu (`navigation-menu`)
+
+Manga-styled wrapper around your shadcn Navigation Menu. Top-level triggers are frameless lettering: an underline thickens on hover, and the open one is an ink flat that sweeps in, with a brush chevron that turns in two steps. The panel is an ink case that pops in, its links invert on hover and the current link is an ink flat. Focus is an ink line inside the shape. Works with Radix and Base UI: the viewport ring and shadow are removed on Radix, the stock Base UI popup keeps its own ring. Items that open a panel use NavigationMenuItem with a value; a plain NavigationMenuLink needs no panel.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/navigation-menu`
+- Categories: navigation
+
+```tsx
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/manga/navigation-menu"
+
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem value="chapters">
+      <NavigationMenuTrigger>Chapters</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <NavigationMenuLink href="/chapter-1">The long night</NavigationMenuLink>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+### Sidebar (`sidebar`)
+
+Manga-styled wrapper around your shadcn Sidebar. Desktop: a case with a 3px ink edge on its open side (like Sheet), paper inside. Rows are frameless and invert to ink on hover; the current row is an ink flat that sweeps in over three frames, as in Tabs. Group labels are underlined lettering. Badges are paper plates with an ink frame. The trigger is an ink square that inverts on hover; the rail is an ink line that thickens on hover. Collapsed (icon) mode keeps square icon cells. Mobile: the same panel as a sheet that slides in from its edge, with an offset second frame. Clicks hit with the impact gesture. Disabled rows: dashed frame and tone frame, label on paper. Parts: SidebarProvider, Sidebar, SidebarTrigger, SidebarRail, SidebarInset, SidebarHeader, SidebarFooter, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton (isActive, tooltip), SidebarMenuAction, SidebarMenuBadge, SidebarMenuSub, SidebarMenuSubButton, SidebarInput, SidebarSeparator, useSidebar.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/sidebar`
+- Categories: navigation
+- Props:
+  - `collapsible`: `"offcanvas" | "icon" | "none"` — On Sidebar. icon keeps square icon cells when collapsed; offcanvas slides the panel away; none is always open.
+  - `side`: `"left" | "right"` — On Sidebar. Puts the 3px ink edge on the open side.
+  - `isActive`: `boolean` — On SidebarMenuButton and SidebarMenuSubButton: the current row, an ink flat.
+  - `tooltip`: `string | TooltipContent props` — On SidebarMenuButton: shown beside the icon when the panel is collapsed to icons.
+  - `showOnHover`: `boolean` — On SidebarMenuAction: show the star only when the row is hovered.
+
+```tsx
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/manga/sidebar"
+
+<SidebarProvider>
+  <Sidebar collapsible="icon">
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>Browse</SidebarGroupLabel>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton isActive>Library</SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroup>
+    </SidebarContent>
+  </Sidebar>
+  <SidebarInset>
+    <SidebarTrigger />
+  </SidebarInset>
+</SidebarProvider>
+```
+
+### Item (`item`)
+
+Manga-styled wrapper around your shadcn Item: a list row with a media square, a title, a description and actions at the end. Variants: default (frameless row), outline (a 2px ink case), muted (a 1px fine ink line on paper with a 6px tone band on the start edge, outside the text; no inner tone frame, so it never reads as disabled). Sizes default, sm, xs. Media is a 40px square case with a 2px ink frame. Titles are lettering; descriptions take the row's colour. Pass interactive for a row that is clicked: a frameless row inverts to ink on hover (G3), a framed or muted row thickens its line by 1px. Disabled: dashed frame with a tone frame and the label on paper. Also ItemGroup (a list), ItemSeparator (a fine ink line), ItemHeader and ItemFooter.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/item`
+- Categories: display
+- Props:
+  - `variant`: `"default" | "outline" | "muted"` (default `"default"`) — default: frameless row. outline: 2px ink case. muted: 1px fine line with a 6px tone band on the start edge.
+  - `size`: `"default" | "sm" | "xs"` (default `"default"`) — Padding and gap of the row.
+  - `interactive`: `boolean` (default `false`) — G3 hover: a frameless row inverts to ink, a framed or muted row thickens its line.
+
+```tsx
+import { Item, ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemActions } from "@/components/ui/manga/item"
+
+<Item variant="outline" interactive>
+  <ItemMedia>
+    <BookOpen />
+  </ItemMedia>
+  <ItemContent>
+    <ItemTitle>Vol. 1 · The long night</ItemTitle>
+    <ItemDescription>Twelve chapters, two unread.</ItemDescription>
+  </ItemContent>
+  <ItemActions>
+    <ChevronRight />
+  </ItemActions>
+</Item>
+```
+
+### Kbd (`kbd`)
+
+Manga-styled wrapper around your shadcn Kbd: a key cap drawn in ink. A 2px frame with a heavier 3px bottom edge, like a pressed key; paper inside; lettering inside, uppercase. KbdGroup spaces a chord (Ctrl K). No tone (under 24px). Keys are not interactive: no hover, press or focus state. Works inline in a sentence, in a tooltip and on an ink flat.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/kbd`
+- Categories: display
+- Props:
+  - `KbdGroup`: `component` — Spaces a chord of keys (Ctrl, Shift, K) on one line.
+
+```tsx
+import { Kbd, KbdGroup } from "@/components/ui/manga/kbd"
+
+<p>
+  Search with <KbdGroup><Kbd>Ctrl</Kbd><Kbd>K</Kbd></KbdGroup>
+</p>
+```
+
+### Chart (`chart`)
+
+Manga-styled wrapper around the shadcn Chart (recharts). Series are told apart by screentone and hatching, never by colour: chartFill(series) gives each series a pattern (solid ink, 45° hatching, dots, horizontal lines, cross hatching, fine dots), bars and areas are outlined in 2px ink, pie slices are separated by paper gaps. Lines differ by dash and by marker (ChartMarker: square, diamond, dot). The container is a case; the tooltip is a speech bubble with a tail; the legend shows pattern swatches. Exports ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle, ChartPatterns, ChartMarker, chartFill, chartPattern, chartPatternFill and type ChartConfig. Ink and paper only, dark mode is the negative.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/chart`
+- Categories: display
+- Props:
+  - `ChartContainer`: `{ config, id?, className? } + recharts children` — A case around the recharts container. className goes on the case; --chart-h sets the height.
+  - `chartFill(series, keys?)`: `(number | string, string[]?) => string` — The url(#…) fill of a series: by index, or by its config key in keys. The first series is solid ink.
+  - `chartPattern / chartPatternFill`: `helpers` — The pattern name of a series, or the fill of a named pattern (solid, paper, hatch, cross, dots, dots-fine, lines).
+  - `ChartMarker`: `{ cx, cy, kind?: "square" | "diamond" | "dot", size? }` — Point marker for a line's dot prop: a paper shape with an ink outline.
+  - `ChartTooltipContent`: `recharts tooltip props` — Speech bubble with a tail; the indicator is hidden by default (set hideIndicator={false} to show it).
+  - `ChartLegendContent`: `{ config?, payload?, verticalAlign? }` — Legend with a pattern swatch per series; labels come from the config.
+
+```tsx
+import { BarChart, Bar, XAxis } from "recharts"
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, chartFill, type ChartConfig } from "@/components/ui/manga/chart"
+
+const config = { reads: { label: "Reads" }, sales: { label: "Sales" } } satisfies ChartConfig
+const keys = Object.keys(config)
+
+<ChartContainer config={config}>
+  <BarChart data={data}>
+    <XAxis dataKey="month" />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <ChartLegend content={<ChartLegendContent config={config} />} />
+    <Bar dataKey="reads" fill={chartFill("reads", keys)} stroke="currentColor" strokeWidth={2} />
+    <Bar dataKey="sales" fill={chartFill("sales", keys)} stroke="currentColor" strokeWidth={2} />
+  </BarChart>
+</ChartContainer>
+```
+
+### Data Table (`data-table`)
+
+A sortable, filterable, selectable table built on @tanstack/react-table and the mangacn Table. The table is a case with an ink header; sorted columns show a brush arrow (aria-sort); the hovered row gets its ink bar and selected rows a 6px bar. The toolbar has a filter field (filterColumn) and a column visibility menu (grouped, checkable items). Row selection uses the mangacn Checkbox, with a select-all in the header; pagination uses the mangacn Button. An empty filter result shows the "…" mark (TableEmpty). Props: columns, data, filterColumn?, pageSize?, onSelectionChange?(rows). Also exports selectColumn.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/data-table`
+- Categories: display
+- Props:
+  - `columns`: `ColumnDef<TData, TValue>[]` — Column definitions. A selection column is added first by the table.
+  - `data`: `TData[]` — The rows.
+  - `filterColumn`: `string` — Column id searched by the toolbar filter.
+  - `pageSize`: `number` — Rows per page (default 10).
+  - `onSelectionChange`: `(rows: TData[]) => void` — Called with the selected rows, in data order, when the selection changes.
+  - `selectColumn`: `() => ColumnDef<TData>` — The leading checkbox column, for custom placement.
+
+```tsx
+import { DataTable } from "@/components/ui/manga/data-table"
+import type { ColumnDef } from "@tanstack/react-table"
+
+const columns: ColumnDef<Chapter>[] = [
+  { accessorKey: "title", header: "Chapter" },
+  { accessorKey: "pages", header: "Pages" },
+]
+
+<DataTable columns={columns} data={chapters} filterColumn="title" pageSize={10} onSelectionChange={(rows) => setPicked(rows)} />
+```
+
+### Toned Image (`toned-image`)
+
+Any picture turned into a manga screentone: black and white, dark areas become dense dots or lines in ink, light areas stay paper. Patterns: dots (45° screen), lines, cross, noise. Settings: density (cell size in px), contrast, threshold (solid ink above a darkness level). Done with CSS only (blend modes, filters, radial and linear gradients, a feTurbulence noise tile as background): same look in Chromium, Firefox and WebKit, cross-origin pictures work, nothing uploaded. Ink is the foreground colour, paper the background; dark mode is the negative. Keeps alt text.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/toned-image`
+- Categories: manga
+- Props:
+  - `src / alt`: `string` — The picture and its text alternative (kept). Same-origin, data: or blob: URL.
+  - `pattern`: `"dots" | "lines" | "cross" | "noise"` (default `"dots"`) — The screen.
+  - `density`: `number` (default `6`) — Cell size in px: smaller is a finer screen. Blur and screen scale with it.
+  - `contrast`: `number` (default `1`) — Above 1 pushes shadows and lights apart.
+  - `threshold`: `number (0 to 1)` (default `0`) — 0 is off. Above 0, more of the picture goes solid ink (dark areas first).
+  - `className`: `string` — Sets the size and the frame, e.g. aspect-[4/3] w-full border-ink.
+
+```tsx
+import { TonedImage } from "@/components/manga/toned-image"
+
+<TonedImage src="/city.jpg" alt="A city at dusk" pattern="dots" density={6} className="aspect-[4/3] w-full border-ink" />
+```
+
+### Character Card (`character-card`)
+
+A character sheet in a case: a portrait panel (toned as a screentone, or the initials on paper), the name in lettering, the role, stats as bars filled with speed lines, tags (kit Badge) and a short quote in a small speech bubble. Static by default; interactive adds the hover lift and the ink focus ring.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/character-card`
+- Categories: manga
+- Props:
+  - `name`: `string` — Set in lettering.
+  - `role`: `string` — Title or occupation, under the name.
+  - `image`: `string` — Portrait URL, toned. Without it, the initials stand on paper.
+  - `stats`: `{ label: string; value: number; max?: number }[]` (default `[]`) — Bars filled with speed lines. max defaults to 100.
+  - `tags`: `string[]` (default `[]`) — Small outline badges.
+  - `quote`: `string` — A line in a small speech bubble.
+  - `interactive`: `boolean` (default `false`) — Hover lift and focus ring; the card takes focus.
+
+```tsx
+import { CharacterCard } from "@/components/manga/character-card"
+
+<CharacterCard
+  name="Kai Mori"
+  role="Courier"
+  image="/kai.jpg"
+  stats={[{ label: "Power", value: 82 }, { label: "Speed", value: 6, max: 10 }]}
+  tags={["Rooftops"]}
+  quote="The bridge is closed."
+  interactive
+/>
+```
+
+### Hit Counter (`hit-counter`)
+
+A number that changes with an impact: when the value changes, the number takes the three-frame hit (G4) with speed lines on both sides, and a growing value flashes a "+n" burst (G8) that leaves after a moment. Lettering after the number, optional icon, custom format. Sizes sm, default, lg. Reduced motion: the new number only. Built for likes, streaks and scores.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/hit-counter`
+- Categories: manga
+- Props:
+  - `value`: `number` — The number. Each change plays the impact.
+  - `label`: `ReactNode` — Lettering after the number.
+  - `size`: `"sm" | "default" | "lg"` (default `"default"`) — Size of the number.
+  - `format`: `(value: number) => string` — How the number is written. Default: en-US thousands.
+  - `icon`: `ReactNode` — A small mark before the number.
+
+```tsx
+import { HitCounter } from "@/components/manga/hit-counter"
+
+<HitCounter value={likes} label="likes" />
+```
+
+### Dashboard (`dashboard`)
+
+A full dashboard made only with mangacn: a collapsible Sidebar (a sheet on phones), four Stat key figures, a bar chart and a line chart in screentone patterns (Chart), a Data Table of chapters with Badge statuses, a period switch (Button Group of pressed buttons) and a Command palette opened with Ctrl/⌘ K. Works in light, dark, any accent and at phone width.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/dashboard`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { Dashboard } from "@/components/manga/blocks/dashboard"
+
+<Dashboard className="h-svh" />
+```
+
+### Tasks (`tasks`)
+
+A production task board made only with mangacn: a Data Table whose statuses are stamps (ink for everyday statuses, the accent colour only for Blocked), a search Input, status filters as pressed buttons, actions on the selected rows (Button Group: mark done, reopen, delete) and a HitCounter of finished tasks.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/tasks`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { Tasks } from "@/components/manga/blocks/tasks"
+
+<Tasks className="h-svh" />
 ```

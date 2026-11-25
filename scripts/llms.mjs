@@ -37,7 +37,7 @@ writeFileSync("site/public/llms.txt", out.join("\n"))
 console.log(`llms.txt: ${registry.items.length} items`)
 
 // README: the component list between the two markers, grouped like the showcase.
-const CATEGORIES = { foundations: "Foundations", actions: "Actions & input", feedback: "Feedback", overlays: "Overlays", navigation: "Navigation", display: "Display", manga: "Manga pieces" }
+const CATEGORIES = { foundations: "Foundations", actions: "Actions & input", feedback: "Feedback", overlays: "Overlays", navigation: "Navigation", display: "Display", manga: "Manga pieces", blocks: "Full interfaces" }
 const list = [`${registry.items.length} items. Each one installs with \`npx shadcn@latest add ${REPO}/<name>\`.`, ``]
 for (const [key, label] of Object.entries(CATEGORIES)) {
   const items = registry.items.filter((i) => i.categories?.[0] === key)
