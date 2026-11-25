@@ -1,0 +1,58 @@
+{
+  "name": "questionnaire",
+  "type": "registry:ui",
+  "title": "Questionnaire",
+  "description": "Manga-styled wrapper around your shadcn Questionnaire (one question at a time, the kind an AI agent asks). The whole form is a case (3px ink line, tone shadow). Progress reads “Question 2 of 4” in lettering beside a 2px ink rail filled with speed lines that moves in steps. Each question pops in over three frames; titles are lettering, descriptions the reading face. Each choice is a choice card: a 2px ink frame whose line thickens on hover, with the ink / paper / ink focus ring around the row; checked, a 6px ink bar grows down its start edge and the indicator fills with ink (radio = a diamond with a paper dot, checkbox = a square with a brush check that draws itself). Shortcuts are key caps. The free-text input is the kit Input. Errors: accent line, a “!” mark and one shake. Previous / Skip are outline buttons, Next / Submit ink buttons, all with the impact on click. Disabled choices: dashed line and tone frame, label on paper.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "questionnaire",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures",
+    "Romcharted/mangacn/button"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/questionnaire.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/questionnaire.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/questionnaire\". It wraps your own components/ui/questionnaire (built on @shadcn/react), so it works with the Radix and Base UI versions of shadcn alike. The progress rail reads the aria values of the progress element, so it follows any number of questions.",
+  "meta": {
+    "tagline": "One question at a time, in an inked case with a running progress rail.",
+    "usage": "import {\n  Questionnaire, QuestionnaireActions, QuestionnaireChoice, QuestionnaireChoices, QuestionnaireError,\n  QuestionnaireItem, QuestionnaireNext, QuestionnairePrevious, QuestionnaireProgress, QuestionnaireSubmit, QuestionnaireTitle,\n} from \"@/components/ui/manga/questionnaire\"\n\n<Questionnaire shortcuts=\"letters\" onSubmit={save}>\n  <QuestionnaireProgress />\n  <QuestionnaireItem name=\"genre\" required>\n    <QuestionnaireTitle>Which genre?</QuestionnaireTitle>\n    <QuestionnaireChoices>\n      <QuestionnaireChoice value=\"action\">Action</QuestionnaireChoice>\n      <QuestionnaireChoice value=\"romance\">Romance</QuestionnaireChoice>\n    </QuestionnaireChoices>\n    <QuestionnaireError />\n  </QuestionnaireItem>\n  <QuestionnaireActions>\n    <QuestionnairePrevious />\n    <QuestionnaireNext />\n    <QuestionnaireSubmit />\n  </QuestionnaireActions>\n</Questionnaire>",
+    "props": [
+      {
+        "name": "shortcuts",
+        "type": "\"letters\" | \"numbers\"",
+        "description": "On Questionnaire: shows a key cap on each choice and picks it on key press."
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "default": "false",
+        "description": "On QuestionnaireItem: square checkboxes instead of radio diamonds."
+      },
+      {
+        "name": "required / invalid",
+        "type": "boolean",
+        "description": "On QuestionnaireItem: required hides Skip; invalid shows the error look and QuestionnaireError."
+      },
+      {
+        "name": "disabled / defaultChecked",
+        "type": "boolean",
+        "description": "On QuestionnaireChoice: the dashed disabled card / a pre-checked choice."
+      },
+      {
+        "name": "variant / size",
+        "type": "shadcn Button variant / size",
+        "description": "On Previous, Skip, Next, Submit: drawn with the kit button look (outline for Previous / Skip, ink for Next / Submit by default)."
+      }
+    ]
+  }
+}
