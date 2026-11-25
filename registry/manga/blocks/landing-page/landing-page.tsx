@@ -66,6 +66,10 @@ const REVIEWS = [
   { quote: "Right to left by default, spreads that don't break. My readers noticed on day one.", name: "Jun Park", role: "Creator of Moth Lantern", initials: "JP" },
 ]
 
+// Radix's Accordion requires `type`; Base UI's ignores it (it stays a harmless attribute). Spread from a
+// loosely typed object so the same file compiles and works with both versions of shadcn.
+const FAQ_MODE = { type: "multiple" } as unknown as React.ComponentProps<typeof Accordion>
+
 const FAQ = [
   { q: "Is Panelhouse really free?", a: "Yes. The Free plan has no time limit: three series, the basic lettering kit and reader comments. Pro adds the rest when you need it." },
   { q: "Who owns my work?", a: "You do, always. Panelhouse only gets the right to show your pages to the readers you publish them for, and you can take everything back in one click." },
@@ -446,7 +450,7 @@ export function LandingPage({ className }: { className?: string }) {
           <Heading no="04" id={`${uid}-faq`}>
             FAQ
           </Heading>
-          <Accordion className="max-w-3xl">
+          <Accordion {...FAQ_MODE} className="max-w-3xl">
             {FAQ.map((f, i) => (
               <AccordionItem key={f.q} value={`q${i}`}>
                 <AccordionTrigger>{f.q}</AccordionTrigger>

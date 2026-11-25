@@ -32,7 +32,7 @@
       "target": "@components/manga/blocks/landing-page.tsx"
     }
   ],
-  "docs": "Import from \"@/components/manga/blocks/landing-page\". The root fills its container and follows the page (no inner scroll). The layout reacts to the width of the block itself (container queries), so it also works inside a narrower frame. With Radix, the Accordion is single and not collapsible unless you add type=\"single\" collapsible to it (Base UI needs nothing).",
+  "docs": "Import from \"@/components/manga/blocks/landing-page\". The root fills its container and follows the page (no inner scroll). The layout reacts to the width of the block itself (container queries), so it also works inside a narrower frame. The FAQ Accordion gets type=\"multiple\" through a loosely typed spread (FAQ_MODE): Radix requires it, Base UI ignores it, so the file works with both.",
   "meta": {
     "tagline": "An opening page, features in panels, pricing as a versus, reviews in bubbles.",
     "usage": "import { LandingPage } from \"@/components/manga/blocks/landing-page\"\n\n<LandingPage />",
