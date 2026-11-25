@@ -1,0 +1,66 @@
+{
+  "name": "social-button",
+  "type": "registry:component",
+  "title": "Social Button",
+  "description": "\"Continue with <service>\" button for third-party sign-in. An outline button (2px ink line, lettering label, hover, pressed, focus, loading and disabled exactly like the manga Button), 44px tall and full width by default. A logo slot at the start: a 20 × 20 paper plate that fits the given node in the box without recolouring it; the item ships no logo and no brand colour. AuthDivider is a horizontal fine ink rule with \"or\" in lettering in the middle. All Button props pass through; provider sets data-provider.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/social-button.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/social-button.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/social-button\". Pass your own brand mark as logo; the mark is yours to supply.",
+  "meta": {
+    "tagline": "A sign-in button with a logo plate and an “or” rule.",
+    "usage": "import { SocialButton, AuthDivider } from \"@/components/manga/social-button\"\n\n<SocialButton provider=\"google\" logo={<GoogleMark />}>Continue with Google</SocialButton>\n<AuthDivider />\n<SocialButton provider=\"apple\" logo={<AppleMark />} loading>Continue with Apple</SocialButton>",
+    "props": [
+      {
+        "name": "logo",
+        "type": "React.ReactNode",
+        "default": "undefined",
+        "description": "The brand mark, fitted into a 20 × 20 paper plate. Omit it for a button without a logo."
+      },
+      {
+        "name": "provider",
+        "type": "string",
+        "default": "undefined",
+        "description": "Sets data-provider on the button (e.g. \"google\", \"apple\")."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"outline\" | \"tone\" | \"ghost\" | \"link\" | \"destructive\" | \"shout\"",
+        "default": "\"outline\"",
+        "description": "Inherited from the manga Button."
+      },
+      {
+        "name": "fullWidth",
+        "type": "boolean",
+        "default": "true",
+        "description": "Stretches the button to the container width."
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "default": "false",
+        "description": "Inherited from the manga Button: turning lines, aria-busy, clicks ignored."
+      },
+      {
+        "name": "label (AuthDivider)",
+        "type": "string",
+        "default": "\"or\"",
+        "description": "Text in the middle of the divider; also its accessible label."
+      }
+    ]
+  }
+}
