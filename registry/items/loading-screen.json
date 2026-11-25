@@ -1,0 +1,65 @@
+{
+  "name": "loading-screen",
+  "type": "registry:component",
+  "title": "Loading Screen",
+  "description": "A waiting screen: concentration lines turning behind a paper plate, an onomatopoeia in the SFX face in the centre, an optional message and either a determinate bar filled with speed lines (progress 0 to 100) or an indeterminate turning spinner (progress omitted). role=status with aria-live=polite; the SFX is decorative. Fills its container by default; fullscreen covers the viewport (fixed, z-50). Lines stop under prefers-reduced-motion, the states stay distinct.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/speed-lines",
+    "Romcharted/mangacn/sfx",
+    "Romcharted/mangacn/spinner"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/loading-screen.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/loading-screen.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/loading-screen\". Give the container a height (the default fills it; min height 16rem). Use fullscreen only for real page-level waits.",
+  "meta": {
+    "tagline": "A waiting screen of concentration lines and a sound effect.",
+    "usage": "import { LoadingScreen } from \"@/components/manga/loading-screen\"\n\n<LoadingScreen message=\"Loading chapter 12\" progress={40} />\n\n<LoadingScreen fullscreen message=\"Hold on\" />",
+    "props": [
+      {
+        "name": "sfx",
+        "type": "string",
+        "default": "\"ドドド\"",
+        "description": "Onomatopoeia in the centre (decorative)."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "default": "\"Loading\"",
+        "description": "Screen-reader text announced as the status."
+      },
+      {
+        "name": "message",
+        "type": "ReactNode",
+        "description": "Visible line under the SFX."
+      },
+      {
+        "name": "progress",
+        "type": "number",
+        "description": "0 to 100 for a determinate bar. Omitted = indeterminate spinner."
+      },
+      {
+        "name": "fullscreen",
+        "type": "boolean",
+        "default": "false",
+        "description": "Fixed, covers the viewport above the page. Otherwise fills its container."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the root."
+      }
+    ]
+  }
+}
