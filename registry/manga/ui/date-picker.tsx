@@ -34,15 +34,9 @@ function datePickerTriggerClassName(className?: string) {
   return cn(trigger, className || "w-72")
 }
 
-/** A small calendar drawn in ink (decorative). */
+/** The kit's calendar mark (G8, `mark-calendar` from base), decorative. */
 function CalendarMark() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden className="size-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
-      <path d="M3.5 5.5h17v15h-17z" />
-      <path d="M3.5 10h17M8 2.5v5M16 2.5v5" />
-      <path d="M7 13.5h3.5V17H7z" fill="currentColor" stroke="none" />
-    </svg>
-  )
+  return <span aria-hidden className="mark-calendar shrink-0 text-xl" />
 }
 
 const NARROW = "(max-width: 639.98px)"

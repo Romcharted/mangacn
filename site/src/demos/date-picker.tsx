@@ -51,11 +51,7 @@ function OpenTwin({ label, children, wide }: { label: string; children: React.Re
   return (
     <div className="flex w-full min-w-0 flex-col items-start gap-4">
       <button type="button" aria-expanded="true" tabIndex={-1} className={datePickerTriggerClassName(wide ? "w-80" : undefined)}>
-        <svg viewBox="0 0 24 24" aria-hidden className="size-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
-          <path d="M3.5 5.5h17v15h-17z" />
-          <path d="M3.5 10h17M8 2.5v5M16 2.5v5" />
-          <path d="M7 13.5h3.5V17H7z" fill="currentColor" stroke="none" />
-        </svg>
+        <span aria-hidden className="mark-calendar shrink-0 text-xl" />
         <span className="min-w-0 truncate">{label}</span>
       </button>
       <PopoverBubble className="w-auto! max-w-full px-3! py-3! max-sm:px-1.5!">{children}</PopoverBubble>
