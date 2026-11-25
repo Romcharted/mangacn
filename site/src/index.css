@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "./shadcn.css";
+@import "../../registry/manga/base/mangacn.css";
+@import "./site.css";

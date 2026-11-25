@@ -1,0 +1,23 @@
+# mangacn
+
+> 1 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with a webtoon theme (data-theme="webtoon"). MIT. Installed with the shadcn CLI straight from GitHub.
+
+Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
+Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
+Restyled shadcn components install to `@ui/manga/<name>.tsx` and wrap the project's own `@/components/ui/<name>` (works with Radix and Base UI).
+Homepage: https://romcharted.github.io/mangacn
+
+## Items
+
+### Manga base (`base`)
+
+Shared foundation for every mangacn item: ink/paper/stamp-red tokens mapped onto shadcn variables (dark mode is the negative), a webtoon theme under data-theme="webtoon", screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b), speed-lines and focus-lines backgrounds, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged and stepped 12 fps animations (animate-impact, -shake, -pop, -spin-steps, -draw, -enter, -sfx, -wiggle, -tone-flicker). Installed automatically as a dependency of every other item; install it alone to restyle stock shadcn/ui.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/base`
+- Categories: foundations
+
+```tsx
+<div className="relative border-ink tone-shadow tone-20 p-6">
+  <h2 className="font-letter text-2xl">Chapter 1</h2>
+</div>
+```
