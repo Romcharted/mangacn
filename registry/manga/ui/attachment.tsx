@@ -83,7 +83,13 @@ function AttachmentMedia({
 }
 
 function AttachmentTitle({ className, ...props }: React.ComponentProps<typeof ShadcnAttachmentTitle>) {
-  return <ShadcnAttachmentTitle className={cn("font-sans! font-semibold text-foreground!", className)} {...props} />
+  // no stock shimmer while uploading / processing (a grey sweep): the bar and the Spinner say it instead
+  return (
+    <ShadcnAttachmentTitle
+      className={cn("font-sans! font-semibold text-foreground! animate-none! bg-none! [-webkit-text-fill-color:currentColor]!", className)}
+      {...props}
+    />
+  )
 }
 
 function AttachmentDescription({ className, ...props }: React.ComponentProps<typeof ShadcnAttachmentDescription>) {
