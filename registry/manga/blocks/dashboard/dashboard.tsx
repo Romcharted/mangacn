@@ -256,7 +256,7 @@ export function Dashboard({ className }: { className?: string }) {
             </header>
 
             <div className="grid gap-5 p-4 sm:p-5">
-              <section aria-label="Key figures" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+              <section aria-label="Key figures" className="grid grid-cols-1 gap-4 min-[440px]:grid-cols-2 lg:grid-cols-4">
                 <Stat label="Readers" value={figures.readers} delta={figures.delta} trend="up" emphasis />
                 <Stat label="Chapters out" value={figures.chapters} delta="+2" trend="up" />
                 <Stat label="Sales" value={figures.sales} delta="+3%" trend="up" />
