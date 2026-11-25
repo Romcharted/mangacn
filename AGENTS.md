@@ -105,26 +105,30 @@ Disabled is not a gesture and does not change: dashed line, tone frame, label on
 **Control rule:** if a component needs something the grammar does not cover, do not invent it silently:
 write it in "Special cases" below and flag it.
 
-### Special cases
+### Kit rules (decided cases)
 
-Accepted in the pilot (now covered by G3's third case): tabs `index` hover is a heavier top line; switch,
-checkbox, radio, fields and the cells of a group thicken their line on hover; G5 has sliding
-(`animate-slide-in`, `animate-sheet-in`) and unfolding (`animate-drop-in`) variants; G4 lives in the
-`gestures` item.
+These started as special cases and are now rules of the kit. New ones go through the control rule above.
 
-Flagged in the second batch, waiting for a decision:
-
-- **Round shapes:** Radio Group items are diamonds and Avatars are squares, because only speech bubbles are
-  round in this kit.
-- **Spinner** does not wrap the stock one (an icon): it draws its own concentration lines, same props.
+- **Hover:** tabs `index` thicken their top line (no tone shadow per tab); elements of 24px or less, fields
+  and the cells of a group use `hover-thicken` (G3, third case).
+- **Motion variants of G5:** content that slides (`animate-slide-in`, `animate-sheet-in`) or unfolds
+  (`animate-drop-in`) where a scale would look wrong.
+- **G4 needs JavaScript** for the full three frames (the `gestures` item); without it the press still shows
+  the negative, the 2px offset and the lines.
+- **Round shapes:** only speech bubbles are round. Radio Group items are diamonds; Avatars are squares.
+- **Spinner** draws its own concentration lines instead of wrapping the stock icon; same props.
 - **Choice cards** (Field): checked is a 6px ink bar at the start, like a selected table row, not a full ink
-  flat, because the card holds a control and text that would all have to invert.
-- **Empty** uses a solid line where stock shadcn uses dashes: dashes mean "disabled" here.
-- **Stepper:** the rail ahead of the current step is a fine solid line, for the same reason.
+  flat (the card holds a control and text that would all have to invert).
+- **Dashes mean "disabled", and only that:** Empty uses a solid line, the Stepper rail ahead of the current
+  step is a fine solid line.
 - **Sheet:** its shadow is an offset second frame on the open side, not a tone block.
-- **Alert Dialog:** Action and Cancel are the stock elements drawn with `buttonClassName()`; they hit on
-  click but have no burst focus (no shout variant there).
-- **Bubble (chat):** `default` is an ink bubble (your own messages); the others are paper bubbles.
+- **Alert Dialog:** Action and Cancel are the stock elements drawn with `buttonClassName()`; they hit on click
+  but have no burst focus.
+- **Bubble (chat):** `default` is an ink bubble (your own messages); the other variants are paper bubbles.
+- **Overlay veils** (dialog, alert dialog, sheet, drawer): a paper wash under wide dots, from base, so the page
+  behind goes quiet.
+- **Library-specific parts are not wrapped:** if one version of shadcn (Radix or Base UI) lacks a part, the
+  wrapper leaves it out (Progress only wraps `Progress`).
 
 ## Style rules
 
