@@ -1,0 +1,8 @@
+{
+  "name": "@mangacn",
+  "homepage": "https://romcharted.github.io/mangacn/",
+  "url": "https://romcharted.github.io/mangacn/r/{name}.json",
+  "description": "shadcn/ui, inked like a manga. Your components redrawn in ink and screentone, plus speech bubbles, panels, speed lines and SFX. Radix or Base UI.",
+  "author": "Romcharted",
+  "logo": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' fill='var(--foreground)'/><polygon points='12.0,3.8 13.3,8.0 16.0,6.2 15.5,9.4 20.1,8.7 16.6,11.7 19.7,13.5 16.2,14.3 18.5,18.0 14.5,16.3 14.0,19.2 12.0,17.0 9.4,21.1 9.5,16.3 6.0,17.6 7.8,14.3 3.7,13.6 7.4,11.7 5.4,9.4 8.5,9.4 7.3,5.0 10.7,8.0' fill='var(--background)'/></svg>"
+}
