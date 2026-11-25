@@ -1,0 +1,86 @@
+{
+  "name": "release-calendar",
+  "type": "registry:component",
+  "title": "Release Calendar",
+  "description": "Releases by day of the week. On a narrow screen a day strip drawn like boxed tabs (one frame split into seven cells, the selected day an ink flat, today marked with a corner triangle) shows the releases of one day below it, with arrow, Home and End keys. From a container of 56 rem up, seven columns show every day at once, today's header an ink flat. Each release is a case with its cover, time, title and chapter, a NEW burst or a Break stamp; rows with an href are links, rows with onSelect are buttons, both with the hover lift, the ink focus ring and the pressed offset. A day without releases shows a short line in a fine frame.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/stamp",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/release-calendar.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/release-calendar.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/release-calendar\". Weekdays are numbers, Monday first (0 = Monday, 6 = Sunday). The day strip is the narrow layout and the columns are the wide one, switched by the width of the component's container (container query, 56 rem); force one with layout=\"strip\" or layout=\"columns\". Pass today to fix the marked day, otherwise it is computed from the current date. Day labels are passed as seven short strings, Monday first. Wide columns need about 56 rem: put the component in a horizontal scroll area below that width.",
+  "meta": {
+    "tagline": "A week of releases: a day strip on phones, seven columns on wide screens.",
+    "usage": "import { ReleaseCalendar, type Release } from \"@/components/manga/release-calendar\"\n\nconst releases: Release[] = [\n  { id: \"1\", day: 0, title: \"Glass Harbor\", chapter: \"Ch. 1 · Low Tide\", time: \"06:00\", status: \"new\", href: \"/series/glass-harbor/1\" },\n  { id: \"2\", day: 2, title: \"Paper Comet\", chapter: \"Ch. 18\", time: \"18:00\", status: \"break\" },\n]\n\n<ReleaseCalendar releases={releases} today={2} onSelect={(r) => openRelease(r.id)} />",
+    "props": [
+      {
+        "name": "releases",
+        "type": "Release[]",
+        "description": "Each release: id, day (0 = Monday … 6 = Sunday), title, optional chapter, time, cover (URL or node), status (\"new\" | \"break\") and href (makes the row a link)."
+      },
+      {
+        "name": "today",
+        "type": "Weekday",
+        "default": "computed from the date",
+        "description": "The day marked with the corner triangle and the ink header."
+      },
+      {
+        "name": "day",
+        "type": "Weekday",
+        "description": "Controlled day shown on narrow screens."
+      },
+      {
+        "name": "defaultDay",
+        "type": "Weekday",
+        "default": "today",
+        "description": "Day shown first on narrow screens."
+      },
+      {
+        "name": "onDayChange",
+        "type": "(day: Weekday) => void",
+        "description": "Called when a day is picked in the strip."
+      },
+      {
+        "name": "dayLabels",
+        "type": "[string × 7]",
+        "default": "[\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"]",
+        "description": "Short day labels, Monday first."
+      },
+      {
+        "name": "onSelect",
+        "type": "(release: Release) => void",
+        "description": "Makes the rows without an href buttons."
+      },
+      {
+        "name": "empty",
+        "type": "ReactNode",
+        "default": "\"Nothing this day.\"",
+        "description": "Shown on a day without releases."
+      },
+      {
+        "name": "layout",
+        "type": "\"auto\" | \"strip\" | \"columns\"",
+        "default": "\"auto\"",
+        "description": "auto switches by the container width (56 rem); strip and columns force one layout."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the root."
+      }
+    ]
+  }
+}
