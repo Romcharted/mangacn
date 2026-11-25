@@ -1,0 +1,29 @@
+{
+  "name": "scroll-area",
+  "type": "registry:ui",
+  "title": "Scroll Area",
+  "description": "Manga-styled wrapper around your shadcn Scroll Area. The scrollbar thumb is a flat of ink inset in a fine ink track (a 1px line on the start edge). No rounded pill, no opacity fade, a square corner. The viewport focus ring is an ink line inside the area. Keyboard and wheel behaviour are stock. Add a horizontal bar with ScrollBar orientation=\"horizontal\". Works with Radix and Base UI.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "scroll-area",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/scroll-area.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/scroll-area.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/scroll-area\". It wraps your own components/ui/scroll-area, so Radix and Base UI both work. The stock corner is left as the library draws it.",
+  "meta": {
+    "tagline": "Ink thumb in a fine track, square corners, no fade.",
+    "usage": "import { ScrollArea, ScrollBar } from \"@/components/ui/manga/scroll-area\"\n\n<ScrollArea className=\"h-56\">\n  <p>Long text goes here.</p>\n</ScrollArea>\n\n<ScrollArea className=\"w-56\">\n  <div className=\"w-[28rem]\">Wide content</div>\n  <ScrollBar orientation=\"horizontal\" />\n</ScrollArea>",
+    "props": []
+  }
+}
