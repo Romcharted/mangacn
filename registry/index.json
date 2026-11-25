@@ -72,6 +72,7 @@
     "registry/items/input-group.json",
     "registry/items/native-select.json",
     "registry/items/context-menu.json",
+    "registry/items/menubar.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json"
   ]

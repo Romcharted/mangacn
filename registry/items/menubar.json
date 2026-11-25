@@ -1,0 +1,29 @@
+{
+  "name": "menubar",
+  "type": "registry:ui",
+  "title": "Menubar",
+  "description": "Manga-styled wrapper around your shadcn Menubar: a 2px frame with lettering triggers in a group. A trigger thickens its line on hover, an open trigger is an ink flat, and focus is drawn inside the cell. Menus are the Dropdown Menu panel with the notch toward the trigger. On phones the bar wraps so every trigger keeps a 44px target. Works with Base UI and Radix.",
+  "categories": [
+    "navigation"
+  ],
+  "registryDependencies": [
+    "menubar",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/menubar.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/menubar.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/menubar\". It wraps your own components/ui/menubar, so Radix and Base UI both work. MenubarTriggerTwin, MenubarTwin and MenubarTwinRow are static look-alikes for documentation and state grids.",
+  "meta": {
+    "tagline": "A lettering bar of menus; the open one turns to ink.",
+    "usage": "import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from \"@/components/ui/manga/menubar\"\n\n<Menubar>\n  <MenubarMenu>\n    <MenubarTrigger>File</MenubarTrigger>\n    <MenubarContent>\n      <MenubarItem>New volume</MenubarItem>\n      <MenubarItem variant=\"destructive\">Close volume</MenubarItem>\n    </MenubarContent>\n  </MenubarMenu>\n</Menubar>",
+    "props": []
+  }
+}
