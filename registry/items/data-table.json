@@ -2,7 +2,7 @@
   "name": "data-table",
   "type": "registry:ui",
   "title": "Data Table",
-  "description": "A sortable, filterable, selectable table built on @tanstack/react-table and the mangacn Table. The table is a case with an ink header; sorted columns show a brush arrow (aria-sort); the hovered row gets its ink bar and selected rows a 6px bar. The toolbar has a filter field (filterColumn) and a column visibility menu (grouped, checkable items). Row selection uses the mangacn Checkbox, with a select-all in the header; pagination uses the mangacn Button. An empty filter result shows the \"…\" mark (TableEmpty). Props: columns, data, filterColumn?, pageSize?, onSelectionChange?(rows). Also exports selectColumn.",
+  "description": "A sortable, filterable, selectable table built on @tanstack/react-table and the mangacn Table. The table is a case with an ink header; sorted columns show a brush arrow (aria-sort); the hovered row gets its ink bar and selected rows a 6px bar. The toolbar has a filter field (filterColumn) and a column visibility menu (grouped, checkable items). Row selection uses the mangacn Checkbox, with a select-all in the header; pagination uses the mangacn Button. An empty filter result shows the \"…\" mark (TableEmpty). Props: columns, data, filterColumn?, pageSize?, onSelectionChange?(rows). Also exports selectColumn. On phones (table narrower than 640px) rows become cards: checkbox, title, badge, labelled lines; set `meta: { card: ... }` on a column to choose.",
   "categories": [
     "display"
   ],
@@ -25,7 +25,7 @@
       "target": "@ui/manga/data-table.tsx"
     }
   ],
-  "docs": "Import from \"@/components/ui/manga/data-table\". Column definitions use the TanStack v8 type ColumnDef<TData> (useReactTable with getCoreRowModel, getSortedRowModel, getFilteredRowModel and getPaginationRowModel). Every column with an accessorKey sorts unless enableSorting is false. Row ids are the index in data, so onSelectionChange returns the caller's own rows.",
+  "docs": "Import from \"@/components/ui/manga/data-table\". Column definitions use the TanStack v8 type ColumnDef<TData> (useReactTable with getCoreRowModel, getSortedRowModel, getFilteredRowModel and getPaginationRowModel). Every column with an accessorKey sorts unless enableSorting is false. Row ids are the index in data, so onSelectionChange returns the caller's own rows.\n\nPhones: under `cardsBelow` (640px of table width) each row is a card. Per column, `meta: { card: \"title\" | \"badge\" | \"line\" | false }` sets its place (default: first column = title, others = lines).",
   "meta": {
     "tagline": "Sort, filter, select and page a list in an ink-lined table.",
     "usage": "import { DataTable } from \"@/components/ui/manga/data-table\"\nimport type { ColumnDef } from \"@tanstack/react-table\"\n\nconst columns: ColumnDef<Chapter>[] = [\n  { accessorKey: \"title\", header: \"Chapter\" },\n  { accessorKey: \"pages\", header: \"Pages\" },\n]\n\n<DataTable columns={columns} data={chapters} filterColumn=\"title\" pageSize={10} onSelectionChange={(rows) => setPicked(rows)} />",
@@ -59,6 +59,12 @@
         "name": "selectColumn",
         "type": "() => ColumnDef<TData>",
         "description": "The leading checkbox column, for custom placement."
+      },
+      {
+        "name": "cardsBelow",
+        "type": "number",
+        "default": "640",
+        "description": "Width of the table, in px, under which each row becomes a card (0 keeps the table). Columns pick their place with meta.card: \"title\", \"badge\", \"line\" or false."
       }
     ]
   }
