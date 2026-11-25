@@ -1,0 +1,52 @@
+{
+  "name": "toggle-group",
+  "type": "registry:ui",
+  "title": "Toggle Group",
+  "description": "Manga-styled group of toggles (Base UI or Radix). By default (spacing 0) the toggles share one frame, split by a 2px line like the cells of a boxed Tabs; the pressed cell is an ink flat that sweeps in; hover thickens the line of a cell. With spacing above 0 each toggle is a framed button of its own. Orientation horizontal or vertical. Single and multiple selection come from the stock API (value / defaultValue arrays, multiple). Focus stays inside its cell. Gestures: G2 flat, G3 hover on cells, G4 impact.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "toggle-group",
+    "Romcharted/mangacn/toggle",
+    "Romcharted/mangacn/gestures",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/toggle-group.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/toggle-group.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/toggle-group\". It wraps your own components/ui/toggle-group and the manga toggle look, so Radix and Base UI both work for the props they share (value, defaultValue, orientation, spacing, variant, size, disabled).",
+  "meta": {
+    "tagline": "Toggles joined in one frame; the pressed cell floods with ink.",
+    "usage": "import { ToggleGroup, ToggleGroupItem } from \"@/components/ui/manga/toggle-group\"\n\n<ToggleGroup aria-label=\"Alignment\" defaultValue={[\"center\"]}>\n  <ToggleGroupItem value=\"left\">Left</ToggleGroupItem>\n  <ToggleGroupItem value=\"center\">Centre</ToggleGroupItem>\n  <ToggleGroupItem value=\"right\">Right</ToggleGroupItem>\n</ToggleGroup>",
+    "props": [
+      {
+        "name": "spacing",
+        "type": "number",
+        "description": "0 (default): one joined frame. Above 0: separate framed toggles with that gap."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "description": "Row or column. The joined lines follow the orientation."
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "description": "Stock Base UI option: several cells may be pressed at once."
+      },
+      {
+        "name": "variant / size",
+        "type": "\"default\" | \"outline\" / \"sm\" | \"default\" | \"lg\"",
+        "description": "Passed to every item."
+      }
+    ]
+  }
+}
