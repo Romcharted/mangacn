@@ -1,6 +1,6 @@
 # mangacn
 
-> 1 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with a webtoon theme (data-theme="webtoon"). MIT. Installed with the shadcn CLI straight from GitHub.
+> 18 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with a webtoon theme (data-theme="webtoon"). MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -20,4 +20,275 @@ Shared foundation for every mangacn item: ink/paper/stamp-red tokens mapped onto
 <div className="relative border-ink tone-shadow tone-20 p-6">
   <h2 className="font-letter text-2xl">Chapter 1</h2>
 </div>
+```
+
+### Font: Atkinson Hyperlegible Next (`font-body`)
+
+Reading face for body text and form fields (SIL OFL). Sets --font-manga-body. Installed by base.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/font-body`
+- Categories: foundations
+
+### Font: Patrick Hand SC (`font-lettering`)
+
+Hand-lettering face for titles, buttons and badges (SIL OFL). Sets --font-manga-letter. Installed by base.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/font-lettering`
+- Categories: foundations
+
+### Font: Dela Gothic One (`font-sfx`)
+
+Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --font-manga-sfx. Installed by base.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/font-sfx`
+- Categories: foundations
+
+### Button (`button`)
+
+Manga-styled wrapper around your shadcn Button. Variants: default (ink flat, speed lines on hover), outline, tone (screentone fill), ghost, link (wavy underline), destructive (stamp red, jagged edge), shout (burst shape for the one call to action on a page). Sizes sm, default, lg, icon. Adds loading (turning focus lines, aria-busy) and fullWidth. Pressing shows a 2px offset and an impact frame.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/button`
+- Categories: actions
+- Props:
+  - `variant`: `"default" | "outline" | "tone" | "ghost" | "link" | "destructive" | "shout"` (default `"default"`) — Visual style.
+  - `size`: `"sm" | "default" | "lg" | "icon"` (default `"default"`) — Height and padding.
+  - `loading`: `boolean` (default `false`) — Shows turning focus lines, sets aria-busy, disables the button.
+  - `fullWidth`: `boolean` (default `false`) — Stretches to the container width.
+
+```tsx
+import { Button } from "@/components/ui/manga/button"
+
+<Button variant="shout" size="lg">Start!</Button>
+<Button variant="outline" loading>Saving</Button>
+```
+
+### Input (`input`)
+
+Manga-styled wrapper around your shadcn Input. 2px ink line that thickens to 3px on focus, italic placeholder, fine line when read-only, dashed line + light tone when disabled, and an error look on aria-invalid (stamp red, serrated bottom edge, "!" mark). Sizes via inputSize: sm, default, lg.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/input`
+- Categories: actions
+- Props:
+  - `inputSize`: `"sm" | "default" | "lg"` (default `"default"`) — Height and text size.
+  - `aria-invalid`: `boolean` — Shows the error look.
+
+```tsx
+import { Input } from "@/components/ui/manga/input"
+
+<Input placeholder="Pen name" />
+<Input aria-invalid defaultValue="reader@" />
+```
+
+### Checkbox (`checkbox`)
+
+Manga-styled wrapper around your shadcn Checkbox. Square ink box; checked is an ink flat with a brush check that draws itself in three frames; indeterminate is a thick bar; disabled is dashed with a light tone; aria-invalid turns it stamp red. Hover adds a tone, press shows an impact frame.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/checkbox`
+- Categories: actions
+
+```tsx
+import { Checkbox } from "@/components/ui/manga/checkbox"
+
+<label className="flex items-center gap-3">
+  <Checkbox defaultChecked /> Notify me
+</label>
+```
+
+### Switch (`switch`)
+
+Manga-styled wrapper around your shadcn Switch. Square track: screentone when off, ink flat when on, with a square paper thumb. Dashed when disabled, stamp red line on aria-invalid.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/switch`
+- Categories: actions
+
+```tsx
+import { Switch } from "@/components/ui/manga/switch"
+
+<Switch defaultChecked />
+```
+
+### Badge (`badge`)
+
+Manga-styled wrapper around your shadcn Badge in lettering type. Variants: default (ink flat), outline, tone (screentone), destructive (stamp red, jagged), burst ("NEW!" star) and stamp (tilted red stamp). Optional square status dot; icons via data-icon.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/badge`
+- Categories: feedback
+- Props:
+  - `variant`: `"default" | "outline" | "tone" | "destructive" | "burst" | "stamp"` (default `"default"`) — Visual style.
+  - `dot`: `boolean` (default `false`) — Square status dot before the label.
+
+```tsx
+import { Badge } from "@/components/ui/manga/badge"
+
+<Badge variant="burst">New!</Badge>
+<Badge variant="outline" dot>Live</Badge>
+```
+
+### Skeleton (`skeleton`)
+
+Manga-styled wrapper around your shadcn Skeleton: light screentone that flickers in steps instead of pulsing in opacity. Shapes: text, avatar (square frame), panel (manga panel), block. SkeletonCard composes a card placeholder.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/skeleton`
+- Categories: feedback
+- Props:
+  - `shape`: `"text" | "avatar" | "panel" | "block"` (default `"block"`) — Preset size and frame.
+
+```tsx
+import { Skeleton, SkeletonCard } from "@/components/ui/manga/skeleton"
+
+<Skeleton shape="text" />
+<SkeletonCard />
+```
+
+### Toast (Sonner) (`sonner`)
+
+Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with a screentone shadow, stepped entrance, lettering titles, ink marks for success / info / warning / error, turning focus lines while loading, a shake on error. ToastSfx adds an optional onomatopoeia as the toast icon.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/sonner`
+- Categories: feedback
+
+```tsx
+import { Toaster, toast, ToastSfx } from "@/components/ui/manga/sonner"
+
+<Toaster />
+
+toast.success("Subscribed!")
+toast("Level up!", { icon: <ToastSfx>DON!</ToastSfx> })
+```
+
+### Card (`card`)
+
+Manga-styled wrapper around your shadcn Card as a comic panel: 3px frame and an offset screentone shadow. Variants: default, bleed (first image runs to the edges), tilted (slanted panel), splash (no frame, focus lines), beta (ink flat). interactive lifts it on hover; selected adds a double ink frame. All Card parts are re-exported.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/card`
+- Categories: display
+- Props:
+  - `variant`: `"default" | "bleed" | "tilted" | "splash" | "beta"` (default `"default"`) — Panel style.
+  - `interactive`: `boolean` (default `false`) — Hover lift and longer shadow.
+  - `selected`: `boolean` (default `false`) — Double ink frame.
+
+```tsx
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/manga/card"
+
+<Card variant="tilted">
+  <CardHeader><CardTitle>Chapter 12</CardTitle></CardHeader>
+  <CardContent>The long night.</CardContent>
+</Card>
+```
+
+### Tabs (`tabs`)
+
+Manga-styled wrapper around your shadcn Tabs. Variants: index (chapter dividers, active tab is an ink flat), underline (thick ink line), pills (boxed tabs on a light tone). Works horizontal and vertical; disabled tabs are dashed with a light tone.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/tabs`
+- Categories: navigation
+- Props:
+  - `variant`: `"index" | "underline" | "pills"` (default `"index"`) — Set on <Tabs>; lists and triggers follow.
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/manga/tabs"
+
+<Tabs variant="index" defaultValue="v1">
+  <TabsList>
+    <TabsTrigger value="v1">Vol. 1</TabsTrigger>
+    <TabsTrigger value="v2">Vol. 2</TabsTrigger>
+  </TabsList>
+  <TabsContent value="v1">…</TabsContent>
+</Tabs>
+```
+
+### Dialog (`dialog`)
+
+Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow over a screentone overlay, opening on an impact frame (no fade, no blur). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. All Dialog parts are re-exported.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/dialog`
+- Categories: overlays
+- Props:
+  - `size`: `"sm" | "default" | "lg" | "full"` (default `"default"`) — On DialogContent: max width.
+
+```tsx
+import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/manga/dialog"
+
+<Dialog>
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent size="sm"><DialogTitle>Leave the chapter?</DialogTitle></DialogContent>
+</Dialog>
+```
+
+### Tooltip (`tooltip`)
+
+Manga-styled wrapper around your shadcn Tooltip as a mini speech bubble with an ink tail that follows the side. Variants: speech and thought (cloud, two trailing circles). Pops in over two frames.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/tooltip`
+- Categories: overlays
+- Props:
+  - `variant`: `"speech" | "thought"` (default `"speech"`) — On TooltipContent.
+
+```tsx
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/manga/tooltip"
+
+<Tooltip>
+  <TooltipTrigger>Hover me</TooltipTrigger>
+  <TooltipContent variant="thought">Maybe tomorrow.</TooltipContent>
+</Tooltip>
+```
+
+### Speech Bubble (`speech-bubble`)
+
+Manga speech bubble drawn in SVG at its real size, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none. BubbleGroup chains bubbles with narrow necks. Borderless in the webtoon theme.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/speech-bubble`
+- Categories: manga
+- Props:
+  - `variant`: `"speech" | "thought" | "shout" | "whisper" | "narration" | "electronic" | "wobbly"` (default `"speech"`) — Bubble shape.
+  - `tail`: `"top" | "bottom" | "start" | "end" | "none"` (default `"bottom"`) — Side the tail points to.
+  - `tailAlign`: `"start" | "center" | "end"` (default `"start"`) — Tail position along that side.
+  - `seed`: `number` (default `7`) — Seed for hand-drawn irregularities.
+
+```tsx
+import { SpeechBubble, BubbleGroup } from "@/components/manga/speech-bubble"
+
+<SpeechBubble variant="shout" tail="bottom" tailAlign="end">Get down!</SpeechBubble>
+```
+
+### Screentone (`screentone`)
+
+Screentone as a component: dots, lines, cross-hatching or noise, with density, angle and cell size, and a stepped (never smooth) fade toward any side. Use it as a background behind content (text gets a paper knockout) or as a layer over art. Coloured by --tone-ink; soft colour flats in the webtoon theme.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/screentone`
+- Categories: manga
+- Props:
+  - `pattern`: `"dots" | "lines" | "cross" | "noise"` (default `"dots"`) — Tone pattern.
+  - `density`: `number` (default `20`) — Ink coverage in percent (5–60).
+  - `angle`: `number` (default `45`) — Screen angle in degrees.
+  - `size`: `number` (default `6`) — Cell size in px.
+  - `fade`: `"none" | "top" | "bottom" | "start" | "end"` (default `"none"`) — Stepped fade direction.
+  - `as`: `"background" | "layer"` (default `"background"`) — Behind children or overlaid on the parent.
+
+```tsx
+import { Screentone } from "@/components/manga/screentone"
+
+<Screentone density={35} fade="bottom" className="h-48">Night falls</Screentone>
+```
+
+### Speed Lines (`speed-lines`)
+
+Emphasis lines drawn in SVG at the real size: focus (radial concentration lines with an empty centre and a movable origin) or motion (tapered parallel lines at any direction). Density control, optional stepped animation (off with reduced motion). Children sit on top with a paper knockout, ideal for SFX.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/speed-lines`
+- Categories: manga
+- Props:
+  - `variant`: `"focus" | "motion"` (default `"focus"`) — Radial or parallel.
+  - `originX / originY`: `number` (default `50`) — Focus origin in %.
+  - `hole`: `number` (default `0.35`) — Empty centre (fraction of half-size).
+  - `direction`: `number` (default `0`) — Motion angle in degrees.
+  - `density`: `number` (default `0.6`) — Amount of lines (0.1–1).
+  - `animated`: `boolean` (default `false`) — Redraw in steps.
+
+```tsx
+import { SpeedLines } from "@/components/manga/speed-lines"
+
+<SpeedLines className="h-56 grid place-items-center">
+  <span aria-hidden className="font-sfx text-6xl">ドン!</span>
+</SpeedLines>
 ```

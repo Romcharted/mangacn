@@ -18,10 +18,10 @@
       },
       "cssVars": {
         "theme": {
-          "font-sans": "var(--font-manga-body)",
-          "font-heading": "var(--font-manga-letter)",
-          "font-letter": "var(--font-manga-letter)",
-          "font-sfx": "var(--font-manga-sfx)",
+          "font-sans": "var(--font-manga-body, \"Atkinson Hyperlegible Next Variable\", \"Atkinson Hyperlegible Next\", ui-sans-serif, system-ui, sans-serif)",
+          "font-heading": "var(--font-manga-letter, \"Patrick Hand SC\", \"Comic Sans MS\", cursive)",
+          "font-letter": "var(--font-manga-letter, \"Patrick Hand SC\", \"Comic Sans MS\", cursive)",
+          "font-sfx": "var(--font-manga-sfx, \"Dela Gothic One\", Impact, sans-serif)",
           "color-paper": "var(--paper)",
           "color-ink": "var(--ink)",
           "color-stamp": "var(--stamp)",
@@ -70,10 +70,7 @@
           "sidebar-accent": "var(--ink)",
           "sidebar-accent-foreground": "var(--paper)",
           "sidebar-border": "var(--ink)",
-          "sidebar-ring": "var(--ink)",
-          "font-manga-body": "ui-sans-serif, system-ui, sans-serif",
-          "font-manga-letter": "\"Comic Sans MS\", \"Chalkboard SE\", ui-rounded, sans-serif",
-          "font-manga-sfx": "Impact, \"Arial Black\", sans-serif"
+          "sidebar-ring": "var(--ink)"
         },
         "dark": {
           "paper": "oklch(0.18 0.008 60)",
@@ -153,16 +150,20 @@
           "--mg-bw-panel": "1px",
           "--mg-bw-fine": "1px",
           "--tone-solid": "1",
-          "--tone-ink-10": "oklch(0.96 0.02 300)",
-          "--tone-ink-20": "oklch(0.93 0.035 300)",
-          "--tone-ink-35": "oklch(0.9 0.05 55)",
-          "--tone-ink-50": "oklch(0.86 0.07 55)",
+          "--tone-ink-10": "oklch(0.965 0.016 295)",
+          "--tone-ink-20": "oklch(0.935 0.03 295)",
+          "--tone-ink-35": "oklch(0.895 0.05 295)",
+          "--tone-ink-50": "oklch(0.85 0.075 295)",
           "--lines-ink": "oklch(0.86 0.06 300)",
           "--shadow-ink": "transparent",
           "--shadow-x": "0px",
           "--shadow-y": "0px",
           "--shadow-clip": "none",
           "--tone-knockout": "none",
+          "--bubble-stroke": "transparent",
+          "--overlay-image": "linear-gradient(oklch(0.25 0.06 295 / 45%), oklch(0.25 0.06 295 / 45%))",
+          "--bubble-fill": "oklch(1 0 0)",
+          "--bubble-shadow": "drop-shadow(0 8px 14px oklch(0.35 0.1 295 / 22%))",
           "--soft-shadow": "0 10px 28px -12px oklch(0.35 0.1 295 / 35%)"
         },
         "[data-theme=\"webtoon\"].dark, .dark [data-theme=\"webtoon\"]": {
@@ -189,12 +190,24 @@
           "--sidebar-accent-foreground": "oklch(0.94 0.012 300)",
           "--sidebar-border": "oklch(0.34 0.03 295)",
           "--sidebar-ring": "oklch(0.76 0.13 295)",
-          "--tone-ink-10": "oklch(0.25 0.025 295)",
+          "--tone-ink-10": "oklch(0.25 0.02 295)",
           "--tone-ink-20": "oklch(0.29 0.035 295)",
-          "--tone-ink-35": "oklch(0.33 0.05 50)",
-          "--tone-ink-50": "oklch(0.38 0.06 50)",
+          "--tone-ink-35": "oklch(0.335 0.05 295)",
+          "--tone-ink-50": "oklch(0.38 0.065 295)",
           "--lines-ink": "oklch(0.36 0.06 295)",
-          "--soft-shadow": "0 12px 30px -12px oklch(0 0 0 / 60%)"
+          "--soft-shadow": "0 12px 30px -12px oklch(0 0 0 / 60%)",
+          "--bubble-fill": "oklch(0.27 0.025 295)",
+          "--bubble-shadow": "drop-shadow(0 8px 16px oklch(0 0 0 / 45%))"
+        },
+        "[data-slot=\"dialog-overlay\"], [data-slot=\"alert-dialog-overlay\"], [data-slot=\"sheet-overlay\"], [data-slot=\"drawer-overlay\"]": {
+          "--_tr": "calc(var(--tone-size) * 0.236)",
+          "color": "var(--foreground)",
+          "background-color": "transparent",
+          "background-image": "var(--overlay-image, radial-gradient(circle, currentColor var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, currentColor var(--_tr), #0000 calc(var(--_tr) + 0.5px)))",
+          "background-size": "var(--tone-size) var(--tone-size)",
+          "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+          "backdrop-filter": "none",
+          "animation": "none"
         },
         "@layer base": {
           ":root": {
@@ -217,15 +230,19 @@
             "outline-color": "var(--ring)"
           },
           "body": {
-            "font-family": "var(--font-manga-body)"
+            "font-family": "var(--font-sans)"
           },
           ".bg-muted": {
+            "--tone-size": "8px",
             "--_ko": "var(--tone-paper, var(--background))",
             "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
-            "--_tr": "calc(var(--tone-size) * max(0.126, var(--tone-solid)))",
+            "--_tr": "calc(var(--tone-size) * max(0.1, var(--tone-solid)))",
             "background-image": "radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
             "background-size": "var(--tone-size) var(--tone-size)",
             "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
+          },
+          ".bg-primary, .bg-destructive, .bg-accent, [data-manga][data-variant=\"destructive\"], [data-manga][data-variant=\"shout\"], [data-manga][data-variant=\"burst\"]": {
+            "text-shadow": "none"
           },
           ":focus-visible": {
             "outline": "2px solid var(--ring)",
@@ -289,13 +306,12 @@
           "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_d": "to right",
           "--_s": "var(--tone-size)",
-          "--_c": "var(--tone-ink-35, var(--tone-ink))",
           "--_p": "var(--tone-paper, var(--background))",
           "--_r1": "calc(var(--_s) * max(0.126, var(--tone-solid)))",
           "--_r2": "calc(var(--_s) * max(0.178, var(--tone-solid)))",
           "--_r3": "calc(var(--_s) * max(0.236, var(--tone-solid)))",
           "--_r4": "calc(var(--_s) * max(0.282, var(--tone-solid)))",
-          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
           "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
           "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
           "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
@@ -305,13 +321,12 @@
           "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_d": "to left",
           "--_s": "var(--tone-size)",
-          "--_c": "var(--tone-ink-35, var(--tone-ink))",
           "--_p": "var(--tone-paper, var(--background))",
           "--_r1": "calc(var(--_s) * max(0.126, var(--tone-solid)))",
           "--_r2": "calc(var(--_s) * max(0.178, var(--tone-solid)))",
           "--_r3": "calc(var(--_s) * max(0.236, var(--tone-solid)))",
           "--_r4": "calc(var(--_s) * max(0.282, var(--tone-solid)))",
-          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
           "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
           "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
           "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
@@ -321,13 +336,12 @@
           "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_d": "to top",
           "--_s": "var(--tone-size)",
-          "--_c": "var(--tone-ink-35, var(--tone-ink))",
           "--_p": "var(--tone-paper, var(--background))",
           "--_r1": "calc(var(--_s) * max(0.126, var(--tone-solid)))",
           "--_r2": "calc(var(--_s) * max(0.178, var(--tone-solid)))",
           "--_r3": "calc(var(--_s) * max(0.236, var(--tone-solid)))",
           "--_r4": "calc(var(--_s) * max(0.282, var(--tone-solid)))",
-          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
           "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
           "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
           "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
@@ -337,13 +351,12 @@
           "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_d": "to bottom",
           "--_s": "var(--tone-size)",
-          "--_c": "var(--tone-ink-35, var(--tone-ink))",
           "--_p": "var(--tone-paper, var(--background))",
           "--_r1": "calc(var(--_s) * max(0.126, var(--tone-solid)))",
           "--_r2": "calc(var(--_s) * max(0.178, var(--tone-solid)))",
           "--_r3": "calc(var(--_s) * max(0.236, var(--tone-solid)))",
           "--_r4": "calc(var(--_s) * max(0.282, var(--tone-solid)))",
-          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
           "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
           "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
           "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
@@ -359,6 +372,12 @@
           "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_lc": "var(--lines-ink, var(--tone-ink))",
           "background-image": "radial-gradient(var(--focus-hole) at var(--focus-x) var(--focus-y), var(--tone-paper, var(--background)) calc(100% - 1px), #0000 100%), repeating-conic-gradient(from 0deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.8deg, #0000 0.8deg 4deg), repeating-conic-gradient(from 1.7deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.5deg, #0000 0.5deg 7deg)"
+        },
+        "@utility knockout": {
+          "--_ko": "var(--tone-paper, var(--background))",
+          "--_k": "max(2px, 0.06em)",
+          "--_kd": "calc(var(--_k) * 0.7)",
+          "text-shadow": "var(--tone-knockout, var(--_k) 0 var(--_ko), calc(var(--_k) * -1) 0 var(--_ko), 0 var(--_k) var(--_ko), 0 calc(var(--_k) * -1) var(--_ko), var(--_kd) var(--_kd) var(--_ko), calc(var(--_kd) * -1) calc(var(--_kd) * -1) var(--_ko), var(--_kd) calc(var(--_kd) * -1) var(--_ko), calc(var(--_kd) * -1) var(--_kd) var(--_ko), calc(var(--_k) / 2) 0 var(--_ko), calc(var(--_k) / -2) 0 var(--_ko), 0 calc(var(--_k) / 2) var(--_ko), 0 calc(var(--_k) / -2) var(--_ko))"
         },
         "@utility border-ink": {
           "border": "var(--mg-bw) solid var(--border)"
@@ -407,6 +426,17 @@
             "clip-path": "var(--shadow-clip, polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%))"
           }
         },
+        "@utility mark-error": {
+          "--_e": "var(--destructive)",
+          "padding-inline-end": "2rem",
+          "background-image": "linear-gradient(var(--_e), var(--_e)), linear-gradient(var(--_e), var(--_e)), conic-gradient(from -45deg at 50% 100%, var(--_e) 90deg, #0000 0)",
+          "background-size": "3px 0.7rem, 3px 3px, 8px 5px",
+          "background-position": "right 0.85rem top calc(50% - 0.25rem), right 0.85rem top calc(50% + 0.55rem), left bottom",
+          "background-repeat": "no-repeat, no-repeat, repeat-x",
+          "&:where([dir=\"rtl\"], [dir=\"rtl\"] *)": {
+            "background-position": "left 0.85rem top calc(50% - 0.25rem), left 0.85rem top calc(50% + 0.55rem), right bottom"
+          }
+        },
         "@utility shape-burst": {
           "clip-path": "polygon(47% 0.1%, 59.6% 14.3%, 72% 11.9%, 74.7% 25.3%, 94.7% 27.6%, 86.7% 40.2%, 96.9% 47.2%, 82.8% 58.8%, 93.3% 75%, 76.2% 76.2%, 69.2% 88.5%, 59.3% 84.8%, 53% 99.9%, 40.9% 83.8%, 27% 89.8%, 23.1% 76.9%, 5.3% 72.4%, 15.2% 59.3%, 6.1% 52.6%, 17.2% 41.2%, 7.6% 25.5%, 23.8% 23.8%, 29% 8%, 40.9% 16.2%)"
         },
@@ -417,10 +447,10 @@
         },
         "@keyframes mg-impact": {
           "from": {
-            "filter": "invert(1)"
+            "filter": "invert(1) hue-rotate(180deg)"
           },
           "to": {
-            "filter": "invert(1)"
+            "filter": "invert(1) hue-rotate(180deg)"
           }
         },
         "@keyframes mg-shake": {
@@ -514,6 +544,662 @@
             "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
           }
         }
+      },
+      "registryDependencies": [
+        "Romcharted/mangacn/font-body",
+        "Romcharted/mangacn/font-lettering",
+        "Romcharted/mangacn/font-sfx"
+      ]
+    },
+    {
+      "name": "font-body",
+      "type": "registry:font",
+      "title": "Font: Atkinson Hyperlegible Next",
+      "description": "Reading face for body text and form fields (SIL OFL). Sets --font-manga-body. Installed by base.",
+      "categories": [
+        "foundations"
+      ],
+      "font": {
+        "family": "'Atkinson Hyperlegible Next Variable', 'Atkinson Hyperlegible Next', sans-serif",
+        "provider": "google",
+        "import": "Atkinson_Hyperlegible_Next",
+        "variable": "--font-manga-body",
+        "subsets": [
+          "latin",
+          "latin-ext"
+        ],
+        "dependency": "@fontsource-variable/atkinson-hyperlegible-next"
+      }
+    },
+    {
+      "name": "font-lettering",
+      "type": "registry:font",
+      "title": "Font: Patrick Hand SC",
+      "description": "Hand-lettering face for titles, buttons and badges (SIL OFL). Sets --font-manga-letter. Installed by base.",
+      "categories": [
+        "foundations"
+      ],
+      "font": {
+        "family": "'Patrick Hand SC', cursive",
+        "provider": "google",
+        "import": "Patrick_Hand_SC",
+        "variable": "--font-manga-letter",
+        "weight": [
+          "400"
+        ],
+        "subsets": [
+          "latin",
+          "latin-ext"
+        ],
+        "dependency": "@fontsource/patrick-hand-sc"
+      }
+    },
+    {
+      "name": "font-sfx",
+      "type": "registry:font",
+      "title": "Font: Dela Gothic One",
+      "description": "Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --font-manga-sfx. Installed by base.",
+      "categories": [
+        "foundations"
+      ],
+      "font": {
+        "family": "'Dela Gothic One', sans-serif",
+        "provider": "google",
+        "import": "Dela_Gothic_One",
+        "variable": "--font-manga-sfx",
+        "weight": [
+          "400"
+        ],
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource/dela-gothic-one"
+      }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Manga-styled wrapper around your shadcn Button. Variants: default (ink flat, speed lines on hover), outline, tone (screentone fill), ghost, link (wavy underline), destructive (stamp red, jagged edge), shout (burst shape for the one call to action on a page). Sizes sm, default, lg, icon. Adds loading (turning focus lines, aria-busy) and fullWidth. Pressing shows a 2px offset and an impact frame.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "button",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/button.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/button\". It wraps your own components/ui/button, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Button } from \"@/components/ui/manga/button\"\n\n<Button variant=\"shout\" size=\"lg\">Start!</Button>\n<Button variant=\"outline\" loading>Saving</Button>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"outline\" | \"tone\" | \"ghost\" | \"link\" | \"destructive\" | \"shout\"",
+            "default": "\"default\"",
+            "description": "Visual style."
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"default\" | \"lg\" | \"icon\"",
+            "default": "\"default\"",
+            "description": "Height and padding."
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "default": "false",
+            "description": "Shows turning focus lines, sets aria-busy, disables the button."
+          },
+          {
+            "name": "fullWidth",
+            "type": "boolean",
+            "default": "false",
+            "description": "Stretches to the container width."
+          }
+        ]
+      }
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Manga-styled wrapper around your shadcn Input. 2px ink line that thickens to 3px on focus, italic placeholder, fine line when read-only, dashed line + light tone when disabled, and an error look on aria-invalid (stamp red, serrated bottom edge, \"!\" mark). Sizes via inputSize: sm, default, lg.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "input",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/input.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/input.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/input\". It wraps your own components/ui/input, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Input } from \"@/components/ui/manga/input\"\n\n<Input placeholder=\"Pen name\" />\n<Input aria-invalid defaultValue=\"reader@\" />",
+        "props": [
+          {
+            "name": "inputSize",
+            "type": "\"sm\" | \"default\" | \"lg\"",
+            "default": "\"default\"",
+            "description": "Height and text size."
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "Shows the error look."
+          }
+        ]
+      }
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Manga-styled wrapper around your shadcn Checkbox. Square ink box; checked is an ink flat with a brush check that draws itself in three frames; indeterminate is a thick bar; disabled is dashed with a light tone; aria-invalid turns it stamp red. Hover adds a tone, press shows an impact frame.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/checkbox.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/checkbox\". It wraps your own components/ui/checkbox, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Checkbox } from \"@/components/ui/manga/checkbox\"\n\n<label className=\"flex items-center gap-3\">\n  <Checkbox defaultChecked /> Notify me\n</label>",
+        "props": []
+      }
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Manga-styled wrapper around your shadcn Switch. Square track: screentone when off, ink flat when on, with a square paper thumb. Dashed when disabled, stamp red line on aria-invalid.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "switch",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/switch.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/switch.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/switch\". It wraps your own components/ui/switch, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Switch } from \"@/components/ui/manga/switch\"\n\n<Switch defaultChecked />",
+        "props": []
+      }
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Manga-styled wrapper around your shadcn Badge in lettering type. Variants: default (ink flat), outline, tone (screentone), destructive (stamp red, jagged), burst (\"NEW!\" star) and stamp (tilted red stamp). Optional square status dot; icons via data-icon.",
+      "categories": [
+        "feedback"
+      ],
+      "registryDependencies": [
+        "badge",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/badge.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/badge.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/badge\". It wraps your own components/ui/badge, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Badge } from \"@/components/ui/manga/badge\"\n\n<Badge variant=\"burst\">New!</Badge>\n<Badge variant=\"outline\" dot>Live</Badge>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"outline\" | \"tone\" | \"destructive\" | \"burst\" | \"stamp\"",
+            "default": "\"default\"",
+            "description": "Visual style."
+          },
+          {
+            "name": "dot",
+            "type": "boolean",
+            "default": "false",
+            "description": "Square status dot before the label."
+          }
+        ]
+      }
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Manga-styled wrapper around your shadcn Skeleton: light screentone that flickers in steps instead of pulsing in opacity. Shapes: text, avatar (square frame), panel (manga panel), block. SkeletonCard composes a card placeholder.",
+      "categories": [
+        "feedback"
+      ],
+      "registryDependencies": [
+        "skeleton",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/skeleton.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/skeleton.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/skeleton\". It wraps your own components/ui/skeleton, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Skeleton, SkeletonCard } from \"@/components/ui/manga/skeleton\"\n\n<Skeleton shape=\"text\" />\n<SkeletonCard />",
+        "props": [
+          {
+            "name": "shape",
+            "type": "\"text\" | \"avatar\" | \"panel\" | \"block\"",
+            "default": "\"block\"",
+            "description": "Preset size and frame."
+          }
+        ]
+      }
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Toast (Sonner)",
+      "description": "Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with a screentone shadow, stepped entrance, lettering titles, ink marks for success / info / warning / error, turning focus lines while loading, a shake on error. ToastSfx adds an optional onomatopoeia as the toast icon.",
+      "categories": [
+        "feedback"
+      ],
+      "registryDependencies": [
+        "sonner",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "sonner"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/sonner.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/sonner.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/sonner\". It wraps your own components/ui/sonner, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Toaster, toast, ToastSfx } from \"@/components/ui/manga/sonner\"\n\n<Toaster />\n\ntoast.success(\"Subscribed!\")\ntoast(\"Level up!\", { icon: <ToastSfx>DON!</ToastSfx> })",
+        "props": []
+      }
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Manga-styled wrapper around your shadcn Card as a comic panel: 3px frame and an offset screentone shadow. Variants: default, bleed (first image runs to the edges), tilted (slanted panel), splash (no frame, focus lines), beta (ink flat). interactive lifts it on hover; selected adds a double ink frame. All Card parts are re-exported.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "card",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/card.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/card\". It wraps your own components/ui/card, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Card, CardHeader, CardTitle, CardContent } from \"@/components/ui/manga/card\"\n\n<Card variant=\"tilted\">\n  <CardHeader><CardTitle>Chapter 12</CardTitle></CardHeader>\n  <CardContent>The long night.</CardContent>\n</Card>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"bleed\" | \"tilted\" | \"splash\" | \"beta\"",
+            "default": "\"default\"",
+            "description": "Panel style."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "default": "false",
+            "description": "Hover lift and longer shadow."
+          },
+          {
+            "name": "selected",
+            "type": "boolean",
+            "default": "false",
+            "description": "Double ink frame."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Manga-styled wrapper around your shadcn Tabs. Variants: index (chapter dividers, active tab is an ink flat), underline (thick ink line), pills (boxed tabs on a light tone). Works horizontal and vertical; disabled tabs are dashed with a light tone.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "tabs",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/tabs.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/tabs.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/tabs\". It wraps your own components/ui/tabs, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Tabs, TabsList, TabsTrigger, TabsContent } from \"@/components/ui/manga/tabs\"\n\n<Tabs variant=\"index\" defaultValue=\"v1\">\n  <TabsList>\n    <TabsTrigger value=\"v1\">Vol. 1</TabsTrigger>\n    <TabsTrigger value=\"v2\">Vol. 2</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"v1\">…</TabsContent>\n</Tabs>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"index\" | \"underline\" | \"pills\"",
+            "default": "\"index\"",
+            "description": "Set on <Tabs>; lists and triggers follow."
+          }
+        ]
+      }
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow over a screentone overlay, opening on an impact frame (no fade, no blur). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. All Dialog parts are re-exported.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/dialog.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/dialog.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/dialog\". It wraps your own components/ui/dialog, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Dialog, DialogTrigger, DialogContent, DialogTitle } from \"@/components/ui/manga/dialog\"\n\n<Dialog>\n  <DialogTrigger>Open</DialogTrigger>\n  <DialogContent size=\"sm\"><DialogTitle>Leave the chapter?</DialogTitle></DialogContent>\n</Dialog>",
+        "props": [
+          {
+            "name": "size",
+            "type": "\"sm\" | \"default\" | \"lg\" | \"full\"",
+            "default": "\"default\"",
+            "description": "On DialogContent: max width."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Manga-styled wrapper around your shadcn Tooltip as a mini speech bubble with an ink tail that follows the side. Variants: speech and thought (cloud, two trailing circles). Pops in over two frames.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "tooltip",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/tooltip.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/tooltip.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/tooltip\". It wraps your own components/ui/tooltip, so Radix and Base UI both work.",
+      "meta": {
+        "usage": "import { Tooltip, TooltipTrigger, TooltipContent } from \"@/components/ui/manga/tooltip\"\n\n<Tooltip>\n  <TooltipTrigger>Hover me</TooltipTrigger>\n  <TooltipContent variant=\"thought\">Maybe tomorrow.</TooltipContent>\n</Tooltip>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"speech\" | \"thought\"",
+            "default": "\"speech\"",
+            "description": "On TooltipContent."
+          }
+        ]
+      }
+    },
+    {
+      "name": "speech-bubble",
+      "type": "registry:component",
+      "title": "Speech Bubble",
+      "description": "Manga speech bubble drawn in SVG at its real size, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none. BubbleGroup chains bubbles with narrow necks. Borderless in the webtoon theme.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/speech-bubble.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/speech-bubble.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/speech-bubble\".",
+      "meta": {
+        "usage": "import { SpeechBubble, BubbleGroup } from \"@/components/manga/speech-bubble\"\n\n<SpeechBubble variant=\"shout\" tail=\"bottom\" tailAlign=\"end\">Get down!</SpeechBubble>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"speech\" | \"thought\" | \"shout\" | \"whisper\" | \"narration\" | \"electronic\" | \"wobbly\"",
+            "default": "\"speech\"",
+            "description": "Bubble shape."
+          },
+          {
+            "name": "tail",
+            "type": "\"top\" | \"bottom\" | \"start\" | \"end\" | \"none\"",
+            "default": "\"bottom\"",
+            "description": "Side the tail points to."
+          },
+          {
+            "name": "tailAlign",
+            "type": "\"start\" | \"center\" | \"end\"",
+            "default": "\"start\"",
+            "description": "Tail position along that side."
+          },
+          {
+            "name": "seed",
+            "type": "number",
+            "default": "7",
+            "description": "Seed for hand-drawn irregularities."
+          }
+        ]
+      }
+    },
+    {
+      "name": "screentone",
+      "type": "registry:component",
+      "title": "Screentone",
+      "description": "Screentone as a component: dots, lines, cross-hatching or noise, with density, angle and cell size, and a stepped (never smooth) fade toward any side. Use it as a background behind content (text gets a paper knockout) or as a layer over art. Coloured by --tone-ink; soft colour flats in the webtoon theme.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/screentone.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/screentone.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/screentone\".",
+      "meta": {
+        "usage": "import { Screentone } from \"@/components/manga/screentone\"\n\n<Screentone density={35} fade=\"bottom\" className=\"h-48\">Night falls</Screentone>",
+        "props": [
+          {
+            "name": "pattern",
+            "type": "\"dots\" | \"lines\" | \"cross\" | \"noise\"",
+            "default": "\"dots\"",
+            "description": "Tone pattern."
+          },
+          {
+            "name": "density",
+            "type": "number",
+            "default": "20",
+            "description": "Ink coverage in percent (5–60)."
+          },
+          {
+            "name": "angle",
+            "type": "number",
+            "default": "45",
+            "description": "Screen angle in degrees."
+          },
+          {
+            "name": "size",
+            "type": "number",
+            "default": "6",
+            "description": "Cell size in px."
+          },
+          {
+            "name": "fade",
+            "type": "\"none\" | \"top\" | \"bottom\" | \"start\" | \"end\"",
+            "default": "\"none\"",
+            "description": "Stepped fade direction."
+          },
+          {
+            "name": "as",
+            "type": "\"background\" | \"layer\"",
+            "default": "\"background\"",
+            "description": "Behind children or overlaid on the parent."
+          }
+        ]
+      }
+    },
+    {
+      "name": "speed-lines",
+      "type": "registry:component",
+      "title": "Speed Lines",
+      "description": "Emphasis lines drawn in SVG at the real size: focus (radial concentration lines with an empty centre and a movable origin) or motion (tapered parallel lines at any direction). Density control, optional stepped animation (off with reduced motion). Children sit on top with a paper knockout, ideal for SFX.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/speed-lines.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/speed-lines.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/speed-lines\".",
+      "meta": {
+        "usage": "import { SpeedLines } from \"@/components/manga/speed-lines\"\n\n<SpeedLines className=\"h-56 grid place-items-center\">\n  <span aria-hidden className=\"font-sfx text-6xl\">ドン!</span>\n</SpeedLines>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"focus\" | \"motion\"",
+            "default": "\"focus\"",
+            "description": "Radial or parallel."
+          },
+          {
+            "name": "originX / originY",
+            "type": "number",
+            "default": "50",
+            "description": "Focus origin in %."
+          },
+          {
+            "name": "hole",
+            "type": "number",
+            "default": "0.35",
+            "description": "Empty centre (fraction of half-size)."
+          },
+          {
+            "name": "direction",
+            "type": "number",
+            "default": "0",
+            "description": "Motion angle in degrees."
+          },
+          {
+            "name": "density",
+            "type": "number",
+            "default": "0.6",
+            "description": "Amount of lines (0.1–1)."
+          },
+          {
+            "name": "animated",
+            "type": "boolean",
+            "default": "false",
+            "description": "Redraw in steps."
+          }
+        ]
       }
     }
   ]
