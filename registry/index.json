@@ -107,6 +107,7 @@
     "registry/items/sign-in.json",
     "registry/items/verify-code.json",
     "registry/items/reset-password.json",
-    "registry/items/sign-up.json"
+    "registry/items/sign-up.json",
+    "registry/items/forgot-password.json"
   ]
 }
