@@ -47,3 +47,12 @@ export function States() {
     />
   )
 }
+
+export function Thumb() {
+  return (
+    <div className="flex items-center gap-4">
+      <Badge variant="burst">New!</Badge>
+      <Badge variant="stamp">Approved</Badge>
+    </div>
+  )
+}

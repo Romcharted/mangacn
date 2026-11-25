@@ -17,20 +17,19 @@ const VARIANTS = {
 export type BadgeVariant = keyof typeof VARIANTS
 
 export type BadgeProps = Omit<ShadcnProps, "variant"> & {
-  /** default: ink flat · outline · tone · destructive: red, jagged · burst: "NEW!" star · stamp: tilted red stamp */
+  /** default: ink flat · outline · tone: screentone tab at the start · destructive: accent flat · burst: "NEW!" star · stamp: tilted accent stamp */
   variant?: BadgeVariant
   /** Adds a small square status dot before the label. */
   dot?: boolean
 }
 
 const variants: Record<BadgeVariant, string> = {
-  default: "border-primary bg-primary text-primary-foreground [a]:hover:bg-primary [a]:hover:speed-lines [--tone-paper:var(--primary)]",
-  outline: "border-border bg-background text-foreground [a]:hover:bg-background [a]:hover:text-foreground [a]:hover:tone-20",
-  tone: "border-border bg-background text-foreground tone-20 [a]:hover:bg-background [a]:hover:tone-35",
-  destructive: [
-    "isolate border-transparent bg-transparent text-primary-foreground dark:bg-transparent [a]:hover:bg-transparent [--jag:3px]",
-    "before:absolute before:inset-0 before:-z-10 before:bg-destructive before:content-[''] before:edge-jagged",
-  ].join(" "),
+  default: "border-primary bg-primary text-primary-foreground [a]:hover:bg-primary [a]:hover:underline",
+  outline: "border-border bg-background text-foreground [a]:hover:bg-background [a]:hover:text-foreground [a]:hover:underline",
+  // the tone is a small tab at the start; the label stays on paper
+  tone: "isolate border-border bg-background ps-4 text-foreground before:absolute before:inset-y-0 before:start-0 before:-z-10 before:w-2 before:border-e-[length:var(--mg-bw-fine)] before:border-border before:tone-50 before:content-[''] [a]:hover:bg-background [a]:hover:underline",
+  // under 32px a serrated edge eats the label: badges get a clean accent flat
+  destructive: "border-destructive bg-destructive text-primary-foreground dark:bg-destructive [a]:hover:bg-destructive [a]:hover:underline",
   burst: [
     "isolate my-2 overflow-visible border-transparent bg-transparent px-3 text-primary-foreground [a]:hover:bg-transparent",
     "before:absolute before:-inset-x-2.5 before:-inset-y-3 before:-z-10 before:bg-primary before:content-[''] before:shape-burst",
