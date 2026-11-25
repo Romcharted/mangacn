@@ -1,0 +1,51 @@
+{
+  "name": "combobox",
+  "type": "registry:ui",
+  "title": "Combobox",
+  "description": "Manga-styled wrapper around your shadcn Combobox (Base UI in both shadcn versions). The input is the kit input group: a 2px ink line on paper that thickens on hover (G3, fields) and gets 3px + paper + ink on focus; aria-invalid gives an accent line, a \"!\" mark and a serrated edge; disabled gives a dashed line and a tone frame. The chevron is a brush mark (mark-chevron) that turns when open; the clear button is a small 2px square that inverts on hover. The popup is a case (3px ink line, tone shadow) with a notch toward the input, popping in over three frames. The highlighted item inverts to ink; the chosen item gets a brush check that draws itself; disabled items keep the label with a dashed underline. Group labels are underlined lettering; the separator is a fine ink rule; the empty state is a solid-line box with a \"…\" mark and lettering. Chips (multiple) are drawn like Badge (2px frame, lettering, square) with a remove cell that inverts; focus stays inside the chip; chips wrap. Rows are 44px tall under 640px. Exports the class strings of the popup, item, label, empty state and chip for static look-alikes.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "combobox",
+    "Romcharted/mangacn/input-group",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/combobox.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/combobox.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/combobox\". It wraps your own components/ui/combobox (shadcn ships the same Base UI Combobox in its Radix and Base UI versions) and reuses the look of \"@/components/ui/manga/input-group\".",
+  "meta": {
+    "tagline": "Type to find; the list pops in as a notched case and marks your pick with a brush check.",
+    "usage": "import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from \"@/components/ui/manga/combobox\"\n\n<Combobox items={series}>\n  <ComboboxInput placeholder=\"Find a series…\" />\n  <ComboboxContent>\n    <ComboboxEmpty>No series found</ComboboxEmpty>\n    <ComboboxList>\n      {(item) => <ComboboxItem key={item} value={item}>{item}</ComboboxItem>}\n    </ComboboxList>\n  </ComboboxContent>\n</Combobox>",
+    "props": [
+      {
+        "name": "showClear",
+        "type": "boolean",
+        "description": "On ComboboxInput: a small 2px square clear button."
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean",
+        "description": "On ComboboxInput or ComboboxChipsInput: the error look on the field."
+      },
+      {
+        "name": "sideOffset",
+        "type": "number",
+        "description": "On ComboboxContent: gap to the input (14 by default: room for the notch and the focus ring)."
+      },
+      {
+        "name": "ComboboxChips / ComboboxChip",
+        "type": "component",
+        "description": "Multiple selection: Badge-like chips that wrap, with a remove cell."
+      }
+    ]
+  }
+}
