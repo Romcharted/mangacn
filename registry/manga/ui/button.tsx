@@ -56,7 +56,7 @@ const disabledLook = [
 
 const variants: Record<ButtonVariant, string> = {
   default: `border-primary bg-primary text-primary-foreground hover:bg-primary ${hoverShadow} active:bg-background! active:text-foreground!`,
-  outline: `border-border bg-background text-foreground hover:bg-background hover:text-foreground dark:bg-background dark:border-border dark:hover:bg-background ${hoverShadow} active:bg-primary! active:text-primary-foreground! aria-expanded:bg-primary aria-expanded:text-primary-foreground`,
+  outline: `border-border bg-background text-foreground hover:bg-background hover:text-foreground dark:bg-background dark:border-border dark:hover:bg-background ${hoverShadow} active:bg-primary! active:text-primary-foreground! aria-expanded:bg-primary! aria-expanded:text-primary-foreground!`,
   tone: [
     "border-border bg-background text-foreground hover:bg-background hover:text-foreground dark:bg-background dark:border-border dark:hover:bg-background",
     // the tone lives on the bottom third; the label stays on paper
@@ -132,6 +132,11 @@ function ShoutFocus() {
   )
 }
 
+/** The manga look of a button, for elements that render their own button (e.g. AlertDialogAction). */
+function buttonClassName({ variant = "default", size = "default" }: { variant?: ButtonVariant; size?: ButtonSize } = {}) {
+  return cn(base, sizes[size], variants[variant], disabledLook)
+}
+
 function Button({
   variant = "default",
   size = "default",
@@ -173,4 +178,4 @@ function Button({
   )
 }
 
-export { Button, Spinner }
+export { Button, buttonClassName, Spinner }
