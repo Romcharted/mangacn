@@ -37,6 +37,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@registry": r("./registry"),
+      // registry lib files keep the import path users get after install (@/lib/manga/...)
+      "@/lib/manga": r("./registry/manga/lib"),
       "@": r("./site/src"),
     },
   },
