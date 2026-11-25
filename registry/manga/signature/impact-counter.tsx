@@ -63,7 +63,7 @@ function ImpactCounter({ value, label, size = "default", format, icon, className
           className={cn("relative inline-block font-sfx leading-none tabular-nums data-[impact]:animate-hit", NUMBER[size])}
         >
           {text}
-          <ImpactLines />
+          <ImpactLines press={false} />
         </output>
         {mark && (
           <span

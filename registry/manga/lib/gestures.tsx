@@ -51,13 +51,24 @@ function lines(flip: boolean) {
 /**
  * G4 Impact: short speed lines on both sides, outside the element, shown while their parent has
  * `data-impact` or is pressed. Put them directly inside the element that hits, which must be positioned. `offset` pushes them further out (e.g. for bursts).
+ * `press={false}` for an element that is not a control (a counter): the lines then only follow `data-impact`.
  */
-export function ImpactLines({ className, offset = "normal" }: { className?: string; offset?: "normal" | "far" }) {
-  const side =
+export function ImpactLines({
+  className,
+  offset = "normal",
+  press = true,
+}: {
+  className?: string
+  offset?: "normal" | "far"
+  press?: boolean
+}) {
+  const side = cn(
+    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground [[data-impact]>&]:animate-hit-lines",
     // Parent only, never in-*: :active matches every ancestor up to <html>, so a click anywhere on the
     // page would show the lines of every button. [:active>&]: the lines also show while the element
     // itself is pressed, so the click keeps an impact without JavaScript.
-    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground [:active>&]:visible [[data-impact]>&]:animate-hit-lines"
+    press && "[:active>&]:visible",
+  )
   return (
     <>
       <span
