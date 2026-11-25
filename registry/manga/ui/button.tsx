@@ -4,6 +4,7 @@ import * as React from "react"
 import { cn } from "cn"
 
 import { Button as ShadcnButton } from "@/components/ui/button"
+import { ImpactLines, withImpact } from "@/lib/manga/gestures"
 
 type ShadcnProps = React.ComponentProps<typeof ShadcnButton>
 
@@ -33,7 +34,7 @@ export type ButtonProps = Omit<ShadcnProps, "variant" | "size"> & {
 }
 
 // States: hover = the tone shadow appears · pressed = 2px offset + negative · disabled = dashed + tone frame.
-// Click: a three-frame impact (negative, recoil, settle) with short speed lines on both sides.
+// Click: G4 impact (negative, recoil, settle) with short speed lines on both sides.
 const base = [
   "group/button data-[impact]:animate-hit",
   "relative isolate rounded-(--radius) border-[length:var(--mg-bw)] border-border font-letter tracking-wide uppercase transition-none",
@@ -43,7 +44,8 @@ const base = [
   "aria-invalid:ring-0 aria-invalid:border-destructive",
 ].join(" ")
 
-const hoverShadow = "hover:tone-shadow hover:[--shadow-x:4px] hover:[--shadow-y:4px] active:[--shadow-x:2px] active:[--shadow-y:2px]"
+// G3 hover for framed buttons (the tone shadow appears, then shifts by 2px)
+const hoverShadow = "hover-lift"
 
 const disabledLook = [
   "disabled:cursor-not-allowed aria-disabled:cursor-not-allowed",
@@ -63,7 +65,8 @@ const variants: Record<ButtonVariant, string> = {
     "active:bg-primary! active:text-primary-foreground! active:before:hidden",
   ].join(" "),
   ghost:
-    "border-transparent bg-transparent text-foreground hover:border-border hover:bg-transparent hover:text-foreground dark:hover:bg-transparent aria-expanded:bg-transparent active:border-primary active:bg-primary! active:text-primary-foreground!",
+    // G3 frameless: ink / paper inversion on hover
+    "border-transparent bg-transparent text-foreground hover-invert hover:border-foreground hover:bg-foreground! hover:text-background! dark:hover:bg-foreground! aria-expanded:bg-transparent active:border-primary active:bg-primary! active:text-primary-foreground!",
   link: [
     "h-auto border-transparent bg-transparent px-0.5 text-foreground underline decoration-wavy decoration-2 underline-offset-[5px]",
     "hover:bg-transparent hover:decoration-[3px] hover:underline-offset-[6px] active:bg-primary active:text-primary-foreground active:no-underline",
@@ -119,34 +122,6 @@ function Spinner({ className, label }: { className?: string; label?: string }) {
   )
 }
 
-/** Short speed lines on both sides, shown for the three frames of a click. */
-function ImpactLines() {
-  const lines = (flip: boolean) => (
-    <svg viewBox="0 0 16 24" preserveAspectRatio="none" className={cn("size-full", flip ? "-scale-x-100 rtl:scale-x-100" : "rtl:-scale-x-100")} aria-hidden>
-      <path d="M2 4h12M7 9h7M0 14h14M8 19h6" stroke="currentColor" strokeWidth="1.6" fill="none" />
-    </svg>
-  )
-  const side =
-    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground group-data-[impact]/button:animate-hit-lines"
-  return (
-    <>
-      <span aria-hidden className={cn(side, "-start-6 origin-right rtl:origin-left group-data-[variant=shout]/button:-start-10")}>{lines(false)}</span>
-      <span aria-hidden className={cn(side, "-end-6 origin-left rtl:origin-right group-data-[variant=shout]/button:-end-10")}>{lines(true)}</span>
-    </>
-  )
-}
-
-/** Restarts the click impact on a button (skipped when the user prefers reduced motion). */
-const impactTimers = new WeakMap<HTMLElement, number>()
-function punch(el: HTMLElement) {
-  if (typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches) return
-  el.removeAttribute("data-impact")
-  void el.offsetWidth
-  el.setAttribute("data-impact", "")
-  window.clearTimeout(impactTimers.get(el))
-  impactTimers.set(el, window.setTimeout(() => el.removeAttribute("data-impact"), 260))
-}
-
 /** Focus ring for the burst: a larger ink burst and a paper gap, shown only on focus-visible. */
 function ShoutFocus() {
   return (
@@ -168,10 +143,7 @@ function Button({
   onClick,
   ...props
 }: ButtonProps) {
-  const handleClick: ShadcnProps["onClick"] = (event) => {
-    onClick?.(event)
-    punch(event.currentTarget as HTMLElement)
-  }
+  const handleClick = withImpact(onClick) as ShadcnProps["onClick"]
   return (
     <ShadcnButton
       data-manga="button"
@@ -194,7 +166,7 @@ function Button({
       {...props}
     >
       {variant === "shout" && <ShoutFocus />}
-      <ImpactLines />
+      <ImpactLines offset={variant === "shout" ? "far" : "normal"} />
       {loading && <Spinner />}
       {children}
     </ShadcnButton>
