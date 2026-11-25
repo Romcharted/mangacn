@@ -157,6 +157,11 @@
       "backdrop-filter": "none",
       "animation": "none"
     },
+    ":where(nav, div):has(> div > [data-slot=\"navigation-menu-content\"])": {
+      "border-radius": "var(--radius)",
+      "box-shadow": "none",
+      "background-color": "transparent"
+    },
     "@property --shadow-x": {
       "syntax": "\"<length>\"",
       "inherits": "true",

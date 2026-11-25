@@ -183,6 +183,17 @@
   animation: none;
 }
 
+/*
+ * Navigation Menu, Base UI: the popup around the content is rendered by the stock file, in a portal, with a
+ * rounded ring and a soft shadow the wrapper cannot reach. The manga content draws its own case, so the
+ * popup keeps no frame of its own. Unlayered for the same reason as the overlays.
+ */
+:where(nav, div):has(> div > [data-slot="navigation-menu-content"]) {
+  border-radius: var(--radius);
+  box-shadow: none;
+  background-color: transparent;
+}
+
 /* Registered so the hover gesture (G3) can move the tone shadow in steps. */
 @property --shadow-x {
   syntax: "<length>";
