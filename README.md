@@ -62,7 +62,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 
 <!-- items:start -->
 
-98 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+100 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
 
 ### Foundations
 
@@ -201,6 +201,8 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | AI chat | `ai-chat` | Thinking in a thought bubble, errors shouted, answers typed as they come. |
 | Manga Reader | `manga-reader` | A vertical strip, chapters in a sheet, progress and reading order. |
 | Developer portfolio | `portfolio` | Intro panels, projects on a manga page, skills as a character sheet, a contact form. |
+| Catalog | `catalog` | Volume cards, filters, tabs and search. |
+| Sign in | `sign-in` | A big manga panel beside the form, then a one-time code. |
 
 <!-- items:end -->
 

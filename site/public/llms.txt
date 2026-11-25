@@ -1,6 +1,6 @@
 # mangacn
 
-> 98 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
+> 100 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -1962,4 +1962,34 @@ A developer's portfolio made only with mangacn: a top bar whose section buttons 
 import { Portfolio } from "@/components/manga/blocks/portfolio"
 
 <Portfolio />
+```
+
+### Catalog (`catalog`)
+
+A library catalog made only with mangacn: a search field (Input Group with a search icon and a clear button), shelf Tabs in the underline variant (All / Reading / Completed / Wishlist), filters (genre Native Select, status Toggles for new / ongoing / completed / hiatus, sort Native Select), a live result count, and a grid of Volume Cards with abstract covers drawn in inline SVG (ink, paper and screentone dots). When nothing matches, the kit Empty state offers to clear the search and filters. Mobile first: one column at 360 px with two cards per row and a Filters button that opens the fields in a bottom Drawer; from 48rem of its own width (container query @3xl/main) the filters sit in a case beside a grid of three to five columns. Works with Base UI and Radix, in light, dark and any accent.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/catalog`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { Catalog } from "@/components/manga/blocks/catalog"
+
+<Catalog className="min-h-svh" />
+```
+
+### Sign in (`sign-in`)
+
+A two-step sign-in made only with mangacn. On the start side a big manga Panel: a reader drawn in SVG (ink lines, paper fills, a screentone jacket), focus SpeedLines around her, a SpeechBubble whose line changes with each step, Sfx lettering and a PanelCaption; on phones the panel shrinks to a short banner above the form. On the end side the form, in a case (G1) when there is room: email and password Fields with Input, labels and shaking FieldErrors on submit, a 'Keep me signed in' Checkbox, a Sign in Button with its loading state, a FieldSeparator divider and a sign-up link. The second step asks for a one-time code with InputOTP (6 digits), shows a resend link after a 30 s countdown and the error look (accent lines, '!' mark) for the wrong code 000000; any other code signs in and shows a brush check. No network, links do not navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/sign-in`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { SignIn } from "@/components/manga/blocks/sign-in"
+
+<SignIn className="min-h-svh" />
 ```
