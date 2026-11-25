@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Button } from "@registry/manga/ui/button"
+import { buttonClassName } from "@registry/manga/ui/button"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -23,7 +23,7 @@ export function Preview() {
   return (
     <div className="pb-96">
       <DropdownMenu>
-        <DropdownMenuTrigger render={<Button variant="outline" />}>Chapter 12</DropdownMenuTrigger>
+        <DropdownMenuTrigger className={buttonClassName({ variant: "outline" })}>Chapter 12</DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuGroup>
             <DropdownMenuLabel>Chapter</DropdownMenuLabel>
@@ -64,7 +64,7 @@ export function Preview() {
 export function Thumb() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button size="sm" variant="outline" />}>Menu</DropdownMenuTrigger>
+      <DropdownMenuTrigger className={buttonClassName({ size: "sm", variant: "outline" })}>Menu</DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuItem>Bookmark</DropdownMenuItem>
         <DropdownMenuItem>Share</DropdownMenuItem>
