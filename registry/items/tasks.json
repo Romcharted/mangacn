@@ -1,0 +1,41 @@
+{
+  "name": "tasks",
+  "type": "registry:block",
+  "title": "Tasks",
+  "description": "A production task board made only with mangacn: a Data Table whose statuses are stamps (ink for everyday statuses, the accent colour only for Blocked), a search Input, status filters as pressed buttons, actions on the selected rows (Button Group: mark done, reopen, delete) and a HitCounter of finished tasks.",
+  "categories": [
+    "blocks"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/data-table",
+    "Romcharted/mangacn/input",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/button-group",
+    "Romcharted/mangacn/stamp",
+    "Romcharted/mangacn/hit-counter",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "@tanstack/react-table@^8"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/blocks/tasks/tasks.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/blocks/tasks.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/blocks/tasks\". The root fills its container: pass className=\"h-svh\" for a whole screen.",
+  "meta": {
+    "tagline": "A task board: stamps for statuses, filters and actions on a selection.",
+    "usage": "import { Tasks } from \"@/components/manga/blocks/tasks\"\n\n<Tasks className=\"h-svh\" />",
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Size and placement of the whole interface."
+      }
+    ]
+  }
+}
