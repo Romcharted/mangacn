@@ -46,7 +46,7 @@ export function App() {
       </header>
 
       <main id="top" className="mx-auto max-w-7xl px-4">
-        <section className="grid gap-8 py-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+        <section className="grid grid-cols-[minmax(0,1fr)] gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center">
           <div className="space-y-5">
             <h1 className="font-letter text-5xl leading-[0.95] uppercase sm:text-6xl">
               shadcn/ui,
@@ -67,7 +67,7 @@ export function App() {
           <Hero />
         </section>
 
-        <div id="catalog" className="grid gap-8 pb-24 md:grid-cols-[13rem_1fr]">
+        <div id="catalog" className="grid grid-cols-[minmax(0,1fr)] gap-8 pb-24 md:grid-cols-[13rem_minmax(0,1fr)]">
           <nav aria-label="Components" className="md:sticky md:top-20 md:self-start">
             <label className="block">
               <span className="mb-1 block font-letter text-sm uppercase">Filter</span>
@@ -169,7 +169,7 @@ function ItemSection({ item }: { item: Item }) {
         </div>
       )}
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-2">
+      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
         <div>
           <h4 className="mb-2 font-letter text-lg uppercase">Install</h4>
           <Code text={cmd} />

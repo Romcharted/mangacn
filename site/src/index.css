@@ -1,6 +1,19 @@
+@import "@fontsource-variable/atkinson-hyperlegible-next";
+@import "@fontsource/patrick-hand-sc";
+@import "@fontsource/dela-gothic-one";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "./shadcn.css";
 @import "../../registry/manga/base/mangacn.css";
 @import "./site.css";
+
+/* The showcase uses the registry sources directly: let Tailwind scan them. */
+@source "../../registry";
+
+/* What the font-body / font-lettering / font-sfx items set in a user project. */
+:root {
+  --font-manga-body: "Atkinson Hyperlegible Next Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-manga-letter: "Patrick Hand SC", "Comic Sans MS", cursive;
+  --font-manga-sfx: "Dela Gothic One", Impact, sans-serif;
+}

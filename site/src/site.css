@@ -24,3 +24,9 @@ html {
 .skip-link:focus {
   top: 0.5rem;
 }
+
+/* State grids: show the impact frame of the pressed state as a still. */
+[data-force~="active"][class*="animate-impact"] {
+  animation: none;
+  filter: invert(1) hue-rotate(180deg);
+}
