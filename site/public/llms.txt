@@ -1,6 +1,6 @@
 # mangacn
 
-> 24 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with a webtoon theme (data-theme="webtoon"). MIT. Installed with the shadcn CLI straight from GitHub.
+> 50 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with a webtoon theme (data-theme="webtoon"). MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -425,4 +425,448 @@ import { Sfx } from "@/components/manga/sfx"
 
 <Sfx size="lg" rotate={-10}>ドン</Sfx>
 <Sfx variant="outline" label="Silence">シーン</Sfx>
+```
+
+### Textarea (`textarea`)
+
+Manga-styled wrapper around your shadcn Textarea, drawn like Input: 2px ink line that thickens on hover, 3px with ink / paper / ink on focus, italic placeholder, dashed line and tone frame when disabled, accent line and a "!" mark on aria-invalid.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/textarea`
+- Categories: actions
+
+```tsx
+import { Textarea } from "@/components/ui/manga/textarea"
+
+<Textarea placeholder="Your review…" />
+```
+
+### Label (`label`)
+
+Manga-styled wrapper around your shadcn Label: lettering face, uppercase, never faded when its field is disabled. Optional required asterisk.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/label`
+- Categories: actions
+- Props:
+  - `required`: `boolean` — Adds an ink asterisk.
+
+```tsx
+import { Label } from "@/components/ui/manga/label"
+
+<Label htmlFor="pen">Pen name</Label>
+```
+
+### Field (`field`)
+
+Manga-styled wrapper around your shadcn Field family (Field, FieldLabel, FieldDescription, FieldError, FieldSet, FieldLegend, FieldGroup, FieldSeparator). Labels in lettering, descriptions in ink, errors in the accent with a "!" mark and a shake. A choice card (FieldLabel wrapping a Field) is a 2px case; checked, it gets a 6px ink bar at the start.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/field`
+- Categories: actions
+
+```tsx
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/manga/field"
+
+<Field>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" aria-invalid />
+  <FieldError>Add the end of your address.</FieldError>
+</Field>
+```
+
+### Radio Group (`radio-group`)
+
+Manga-styled wrapper around your shadcn Radio Group. Each option is a small diamond (only speech bubbles are round): the line thickens on hover, the checked one is an ink flat that sweeps in with a paper dot. Dashed when disabled.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/radio-group`
+- Categories: actions
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@/components/ui/manga/radio-group"
+
+<RadioGroup defaultValue="ltr">
+  <label><RadioGroupItem value="ltr" /> Left to right</label>
+  <label><RadioGroupItem value="rtl" /> Right to left</label>
+</RadioGroup>
+```
+
+### Slider (`slider`)
+
+Manga-styled wrapper around your shadcn Slider: a 2px ink rail whose filled part runs with speed lines, and an ink block thumb with a paper gap. Hover thickens the thumb line; dashed rail when disabled.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/slider`
+- Categories: actions
+
+```tsx
+import { Slider } from "@/components/ui/manga/slider"
+
+<Slider defaultValue={[40]} max={100} />
+```
+
+### Alert (`alert`)
+
+Manga-styled wrapper around your shadcn Alert: a 3px case with a tone shadow that pops in. destructive: accent line, a "!" column at the start and a shake when it appears. Title in lettering.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/alert`
+- Categories: feedback
+- Props:
+  - `variant`: `"default" | "destructive"` (default `"default"`) — Destructive adds the accent and the “!” mark.
+
+```tsx
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/manga/alert"
+
+<Alert variant="destructive">
+  <AlertTitle>Upload failed</AlertTitle>
+  <AlertDescription>Page 15 is too large.</AlertDescription>
+</Alert>
+```
+
+### Alert Dialog (`alert-dialog`)
+
+Manga-styled wrapper around your shadcn Alert Dialog: a 3px case that pops in with a flash of concentration lines behind it, over the light screentone veil from base. Action and Cancel are drawn as manga buttons; the action hits on click (tone="destructive" for irreversible actions).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/alert-dialog`
+- Categories: overlays
+- Props:
+  - `tone`: `"default" | "destructive"` (default `"default"`) — On AlertDialogAction: the button look.
+
+```tsx
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/manga/alert-dialog"
+
+<AlertDialog>
+  <AlertDialogTrigger>Delete volume</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete Vol. 3?</AlertDialogTitle>
+      <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Keep</AlertDialogCancel>
+      <AlertDialogAction tone="destructive">Delete</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+### Popover (`popover`)
+
+Manga-styled wrapper around your shadcn Popover: a speech bubble (3px line, round corners) with a tail toward the trigger, popping in. Adds PopoverBubble, a static twin for previews.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/popover`
+- Categories: overlays
+
+```tsx
+import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "@/components/ui/manga/popover"
+
+<Popover>
+  <PopoverTrigger>Details</PopoverTrigger>
+  <PopoverContent><PopoverTitle>Vol. 3</PopoverTitle>18 pages.</PopoverContent>
+</Popover>
+```
+
+### Hover Card (`hover-card`)
+
+Manga-styled wrapper around your shadcn Hover Card: the same speech bubble as Popover, with a tail toward the trigger, popping in.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/hover-card`
+- Categories: overlays
+
+```tsx
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/manga/hover-card"
+
+<HoverCard>
+  <HoverCardTrigger href="#">@nightowl</HoverCardTrigger>
+  <HoverCardContent>Draws on Fridays.</HoverCardContent>
+</HoverCard>
+```
+
+### Dropdown Menu (`dropdown-menu`)
+
+Manga-styled wrapper around your shadcn Dropdown Menu: a case with a notch toward the trigger, popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent. Group labels in underlined lettering, sub-menus with a brush chevron.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/dropdown-menu`
+- Categories: overlays
+
+```tsx
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/manga/dropdown-menu"
+
+<DropdownMenu>
+  <DropdownMenuTrigger>Chapter</DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Bookmark</DropdownMenuItem>
+    <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+### Sheet (`sheet`)
+
+Manga-styled wrapper around your shadcn Sheet: a case docked to an edge, 3px line on the open side with an offset frame thrown onto the page, sliding in over three frames. Title in lettering; the veil comes from base.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/sheet`
+- Categories: overlays
+
+```tsx
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/manga/sheet"
+
+<Sheet>
+  <SheetTrigger>Contents</SheetTrigger>
+  <SheetContent side="right"><SheetTitle>Chapters</SheetTitle></SheetContent>
+</Sheet>
+```
+
+### Avatar (`avatar`)
+
+Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/avatar`
+- Categories: display
+
+```tsx
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/manga/avatar"
+
+<Avatar>
+  <AvatarImage src="/me.png" alt="" />
+  <AvatarFallback>NO</AvatarFallback>
+</Avatar>
+```
+
+### Progress (`progress`)
+
+Manga-styled wrapper around your shadcn Progress: a 2px ink rail filled with speed lines; the fill moves in four steps. Label in lettering, value in monospace.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/progress`
+- Categories: feedback
+
+```tsx
+import { Progress } from "@/components/ui/manga/progress"
+
+<Progress value={60} />
+```
+
+### Spinner (`spinner`)
+
+Waiting mark: concentration lines turning in steps. The stock Spinner is only an icon, so this one draws its own lines (same props: className and svg attributes; role="status").
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/spinner`
+- Categories: feedback
+
+```tsx
+import { Spinner } from "@/components/ui/manga/spinner"
+
+<Spinner />
+```
+
+### Separator (`separator`)
+
+Manga-styled wrapper around your shadcn Separator: 2px ink by default, fine (1px), or double for a break between chapters.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/separator`
+- Categories: display
+- Props:
+  - `variant`: `"ink" | "fine" | "double"` (default `"ink"`) — Line weight.
+
+```tsx
+import { Separator } from "@/components/ui/manga/separator"
+
+<Separator />
+<Separator variant="double" />
+```
+
+### Pagination (`pagination`)
+
+Manga-styled wrapper around your shadcn Pagination: page numbers are cells with a 2px frame whose line thickens on hover; the current page is an ink flat that sweeps in; previous / next carry brush arrows. In manga reading order the pages run right to left.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/pagination`
+- Categories: navigation
+
+```tsx
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/manga/pagination"
+
+<Pagination>
+  <PaginationContent>
+    <PaginationItem><PaginationPrevious href="#" /></PaginationItem>
+    <PaginationItem><PaginationLink href="#" isActive>1</PaginationLink></PaginationItem>
+    <PaginationItem><PaginationNext href="#" /></PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+### Breadcrumb (`breadcrumb`)
+
+Manga-styled wrapper around your shadcn Breadcrumb: lettering, links whose underline thickens on hover, the current page as an ink flat, brush chevrons between steps.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/breadcrumb`
+- Categories: navigation
+
+```tsx
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/manga/breadcrumb"
+
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem><BreadcrumbLink href="#">Library</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbPage>Vol. 3</BreadcrumbPage></BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+### Empty (`empty`)
+
+Manga-styled wrapper around your shadcn Empty: a 2px solid frame (dashes mean disabled in this kit), title in lettering, media in an ink frame. Adds EmptyMark, a heavy ellipsis that pops in.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/empty`
+- Categories: feedback
+
+```tsx
+import { Empty, EmptyDescription, EmptyHeader, EmptyMark, EmptyTitle } from "@/components/ui/manga/empty"
+
+<Empty>
+  <EmptyHeader>
+    <EmptyMark />
+    <EmptyTitle>No bookmarks</EmptyTitle>
+    <EmptyDescription>Tap the corner of a page to keep it.</EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+### Bubble (`bubble`)
+
+Manga-styled wrapper around your shadcn Bubble (conversation): speech bubbles with a 2px ink line and a tail at the bottom pointing at the speaker; only the last bubble of a group keeps its tail; new bubbles pop in. default is an ink bubble (your messages), secondary / muted / outline / tinted are paper bubbles, destructive adds the accent and a "!" mark.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/bubble`
+- Categories: display
+
+```tsx
+import { Bubble, BubbleContent, BubbleGroup } from "@/components/ui/manga/bubble"
+
+<BubbleGroup>
+  <Bubble variant="secondary"><BubbleContent>Did you read it?</BubbleContent></Bubble>
+  <Bubble align="end"><BubbleContent>Twice.</BubbleContent></Bubble>
+</BubbleGroup>
+```
+
+### Message (`message`)
+
+Manga-styled wrapper around your shadcn Message (conversation): square avatar frame, speaker name in lettering, time in a small monospace. Pair with Bubble.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/message`
+- Categories: display
+
+```tsx
+import { Message, MessageAvatar, MessageContent, MessageHeader } from "@/components/ui/manga/message"
+
+<Message>
+  <MessageAvatar>NO</MessageAvatar>
+  <MessageContent>
+    <MessageHeader>Night owl</MessageHeader>
+    {/* Bubble… */}
+  </MessageContent>
+</Message>
+```
+
+### Manpu (`manpu`)
+
+Emotion marks drawn for the kit (manpu): anger vein, sweat drop, surprise lines, question mark, sparkle, gloom lines, love, sigh. Ink strokes that pop in; anger and sparkle keep a small stepped motion. Decorative by default; pass label to make it spoken.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/manpu`
+- Categories: manga
+- Props:
+  - `kind`: `"anger" | "sweat" | "surprise" | "question" | "sparkle" | "gloom" | "love" | "sigh"` — Which mark.
+  - `size`: `string` (default `"1.5em"`) — Width and height.
+  - `animated`: `boolean` (default `true`) — Pop in, plus a stepped motion for some marks.
+  - `label`: `string` — Spoken meaning; without it the mark is aria-hidden.
+
+```tsx
+import { Manpu } from "@/components/manga/manpu"
+
+<Manpu kind="sweat" />
+<Manpu kind="anger" label="Angry" />
+```
+
+### Burst (`burst`)
+
+A starburst drawn in SVG (irregular spikes, 3px outline) with its content centred on the flat, never on a tone. Variants ink, paper and accent; it fidgets in steps on hover, or always.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/burst`
+- Categories: manga
+- Props:
+  - `variant`: `"ink" | "paper" | "accent"` (default `"ink"`) — Fill.
+  - `points`: `number` (default `14`) — Number of spikes.
+  - `animated`: `boolean | "always"` (default `true`) — Fidgets on hover, or all the time.
+  - `seed`: `number` — Changes the irregularity.
+
+```tsx
+import { Burst } from "@/components/manga/burst"
+
+<Burst>NEW!</Burst>
+<Burst variant="accent" animated="always">-50%</Burst>
+```
+
+### Stamp (`stamp`)
+
+A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/stamp`
+- Categories: manga
+- Props:
+  - `rotate`: `number` (default `-8`) — Tilt in degrees.
+  - `orientation`: `"horizontal" | "vertical"` (default `"horizontal"`) — Text direction.
+  - `animated`: `boolean` (default `true`) — Lands with a stepped thump.
+
+```tsx
+import { Stamp } from "@/components/manga/stamp"
+
+<Stamp>Approved</Stamp>
+<Stamp orientation="vertical">完了</Stamp>
+```
+
+### Banner (`banner`)
+
+A title ribbon for announcements and section heads: ink, paper or accent, with swallowtail or straight ends; optional speed lines running out from both ends (never under the text).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/banner`
+- Categories: manga
+- Props:
+  - `variant`: `"ink" | "paper" | "accent"` (default `"ink"`) — Ribbon colour.
+  - `ends`: `"notched" | "straight"` (default `"notched"`) — Ribbon ends.
+  - `lines`: `boolean` (default `false`) — Speed lines out of both ends.
+
+```tsx
+import { Banner } from "@/components/manga/banner"
+
+<Banner lines>Chapter 12 is out</Banner>
+```
+
+### Stepper (`stepper`)
+
+Steps as chapter marks: done steps get a brush check, the current one is an ink flat that sweeps in, the next ones are paper squares; the rail between done steps runs with speed lines. Horizontal or vertical; follows the manga reading order.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/stepper`
+- Categories: manga
+- Props:
+  - `steps`: `{ label; description? }[]` — The steps.
+  - `current`: `number` — Index of the current step.
+  - `orientation`: `"horizontal" | "vertical"` (default `"horizontal"`) — Layout.
+
+```tsx
+import { Stepper } from "@/components/manga/stepper"
+
+<Stepper current={1} steps={[{ label: "Account" }, { label: "Shelf" }, { label: "Done" }]} />
+```
+
+### Stat (`stat`)
+
+A key figure in a case: label in lettering, the number in the SFX face, a brush arrow for the trend. With emphasis, concentration lines burst around the case (never under the number).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/stat`
+- Categories: manga
+- Props:
+  - `label / value`: `ReactNode` — What and how much.
+  - `delta`: `ReactNode` — Change, e.g. "+8%".
+  - `trend`: `"up" | "down" | "flat"` (default `"flat"`) — Arrow direction.
+  - `emphasis`: `boolean` (default `false`) — Focus lines around the case.
+
+```tsx
+import { Stat } from "@/components/manga/stat"
+
+<Stat label="Readers" value="12.4k" delta="+8%" trend="up" emphasis />
 ```
