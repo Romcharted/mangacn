@@ -224,207 +224,221 @@ export function Dashboard({ className }: { className?: string }) {
         className,
       )}
     >
-      <SidebarProvider className="relative! h-full min-h-0! overflow-hidden">
-        <Sidebar collapsible="icon" className="absolute! h-full!">
-          <SidebarHeader>
-            <div className="flex items-center gap-2 px-1 py-1.5">
-              <span className="grid size-8 shrink-0 place-items-center ink-fill font-sfx text-sm">
-                イ
-              </span>
-              <span className="font-letter text-xl leading-none tracking-wide uppercase group-data-[collapsible=icon]:hidden">
-                Inkwell
-              </span>
-            </div>
-          </SidebarHeader>
-          <SidebarContent>
-            <SidebarGroup>
-              <SidebarGroupLabel>Studio</SidebarGroupLabel>
+      {/* The collapsed sidebar shows tooltips; Radix needs a provider for them. */}
+      <TooltipProvider>
+        <SidebarProvider className="relative! h-full min-h-0! overflow-hidden">
+          <Sidebar collapsible="icon" className="absolute! h-full!">
+            <SidebarHeader>
+              <div className="flex items-center gap-2 px-1 py-1.5">
+                <span className="grid size-8 shrink-0 place-items-center ink-fill font-sfx text-sm">
+                  イ
+                </span>
+                <span className="font-letter text-xl leading-none tracking-wide uppercase group-data-[collapsible=icon]:hidden">
+                  Inkwell
+                </span>
+              </div>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarGroup>
+                <SidebarGroupLabel>Studio</SidebarGroupLabel>
+                <SidebarMenu>
+                  {NAV.map(({ label, icon: Icon, badge }) => (
+                    <SidebarMenuItem key={label}>
+                      <SidebarMenuButton
+                        isActive={view === label}
+                        tooltip={label}
+                        onClick={() => setView(label)}
+                      >
+                        <Icon />
+                        <span>{label}</span>
+                      </SidebarMenuButton>
+                      {badge && <SidebarMenuBadge>{badge}</SidebarMenuBadge>}
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroup>
+            </SidebarContent>
+            <SidebarFooter>
               <SidebarMenu>
-                {NAV.map(({ label, icon: Icon, badge }) => (
-                  <SidebarMenuItem key={label}>
-                    <SidebarMenuButton
-                      isActive={view === label}
-                      tooltip={label}
-                      onClick={() => setView(label)}
-                    >
-                      <Icon />
-                      <span>{label}</span>
-                    </SidebarMenuButton>
-                    {badge && <SidebarMenuBadge>{badge}</SidebarMenuBadge>}
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroup>
-          </SidebarContent>
-          <SidebarFooter>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={view === "Settings"}
-                  tooltip="Settings"
-                  onClick={() => setView("Settings")}
-                >
-                  <Settings />
-                  <span>Settings</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarFooter>
-        </Sidebar>
-
-        <SidebarInset className="min-h-0 min-w-0 overflow-auto">
-          <header className="sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b-[length:var(--mg-bw)] border-border bg-background px-3 py-2">
-            <SidebarTrigger />
-            <h1 className="font-letter text-2xl leading-none tracking-wide uppercase">
-              {view}
-            </h1>
-            <div className="ms-auto flex flex-wrap items-center gap-2">
-              {/* Pressed buttons rather than a Toggle Group: its value API differs between Radix and Base UI. */}
-              <ButtonGroup aria-label="Period">
-                {(["7d", "30d", "90d"] as const).map((p) => (
-                  <Button
-                    key={p}
-                    size="sm"
-                    variant={period === p ? "default" : "outline"}
-                    aria-pressed={period === p}
-                    onClick={() => setPeriod(p)}
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={view === "Settings"}
+                    tooltip="Settings"
+                    onClick={() => setView("Settings")}
                   >
-                    {p.replace("d", " d")}
-                  </Button>
-                ))}
-              </ButtonGroup>
-              <Button
-                variant="outline"
-                onClick={() => setPalette(true)}
-                className="gap-3"
+                    <Settings />
+                    <span>Settings</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarFooter>
+          </Sidebar>
+
+          <SidebarInset className="min-h-0 min-w-0 overflow-auto">
+            <header className="sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b-[length:var(--mg-bw)] border-border bg-background px-3 py-2">
+              <SidebarTrigger />
+              <h1 className="font-letter text-2xl leading-none tracking-wide uppercase">
+                {view}
+              </h1>
+              <div className="ms-auto flex flex-wrap items-center gap-2">
+                {/* Pressed buttons rather than a Toggle Group: its value API differs between Radix and Base UI. */}
+                <ButtonGroup aria-label="Period">
+                  {(["7d", "30d", "90d"] as const).map((p) => (
+                    <Button
+                      key={p}
+                      size="sm"
+                      variant={period === p ? "default" : "outline"}
+                      aria-pressed={period === p}
+                      onClick={() => setPeriod(p)}
+                    >
+                      {p.replace("d", " d")}
+                    </Button>
+                  ))}
+                </ButtonGroup>
+                <Button
+                  variant="outline"
+                  onClick={() => setPalette(true)}
+                  className="gap-3"
+                >
+                  <FileText />
+                  Search
+                  <KbdGroup className="max-sm:hidden">
+                    <Kbd>Ctrl</Kbd>
+                    <Kbd>K</Kbd>
+                  </KbdGroup>
+                </Button>
+              </div>
+            </header>
+
+            <div className="grid gap-5 p-4 sm:p-5">
+              <section
+                aria-label="Key figures"
+                className="grid grid-cols-2 gap-4 lg:grid-cols-4"
               >
-                <FileText />
-                Search
-                <KbdGroup className="max-sm:hidden">
-                  <Kbd>Ctrl</Kbd>
-                  <Kbd>K</Kbd>
-                </KbdGroup>
-              </Button>
+                <Stat
+                  label="Readers"
+                  value={figures.readers}
+                  delta={figures.delta}
+                  trend="up"
+                  emphasis
+                />
+                <Stat
+                  label="Chapters out"
+                  value={figures.chapters}
+                  delta="+2"
+                  trend="up"
+                />
+                <Stat
+                  label="Sales"
+                  value={figures.sales}
+                  delta="+3%"
+                  trend="up"
+                />
+                <Stat
+                  label="Rating"
+                  value={figures.rating}
+                  delta="−0.1"
+                  trend="down"
+                />
+              </section>
+
+              <section
+                aria-label="Charts"
+                className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-2"
+              >
+                <figure className="grid gap-2">
+                  <figcaption className="font-letter text-lg uppercase">
+                    Reads and sales
+                  </figcaption>
+                  <ChartContainer config={config} className="[--chart-h:15rem]">
+                    <BarChart data={data} accessibilityLayer>
+                      <CartesianGrid vertical={false} />
+                      <XAxis
+                        dataKey="month"
+                        tickLine={false}
+                        axisLine={false}
+                      />
+                      <YAxis width={36} tickLine={false} axisLine={false} />
+                      <ChartTooltip
+                        content={<ChartTooltipContent />}
+                        cursor={{ stroke: "currentColor", strokeWidth: 1 }}
+                      />
+                      <ChartLegend
+                        content={<ChartLegendContent config={config} />}
+                      />
+                      <Bar
+                        dataKey="reads"
+                        fill={chartFill("reads", keys)}
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      />
+                      <Bar
+                        dataKey="sales"
+                        fill={chartFill("sales", keys)}
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      />
+                    </BarChart>
+                  </ChartContainer>
+                </figure>
+                <figure className="grid gap-2">
+                  <figcaption className="font-letter text-lg uppercase">
+                    Trend
+                  </figcaption>
+                  <ChartContainer config={config} className="[--chart-h:15rem]">
+                    <LineChart data={data} accessibilityLayer>
+                      <CartesianGrid vertical={false} />
+                      <XAxis
+                        dataKey="month"
+                        tickLine={false}
+                        axisLine={false}
+                      />
+                      <YAxis width={36} tickLine={false} axisLine={false} />
+                      <ChartTooltip
+                        content={<ChartTooltipContent />}
+                        cursor={{ stroke: "currentColor", strokeWidth: 1 }}
+                      />
+                      <ChartLegend
+                        content={<ChartLegendContent config={config} />}
+                      />
+                      <Line
+                        dataKey="reads"
+                        type="monotone"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        dot={{ r: 4, fill: "var(--background)" }}
+                      />
+                      <Line
+                        dataKey="sales"
+                        type="monotone"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeDasharray="8 4"
+                        dot={{ r: 4, fill: "var(--foreground)" }}
+                      />
+                    </LineChart>
+                  </ChartContainer>
+                </figure>
+              </section>
+
+              <section aria-labelledby="dash-chapters" className="grid gap-2">
+                <h2
+                  id="dash-chapters"
+                  className="font-letter text-lg uppercase"
+                >
+                  Chapters
+                </h2>
+                <DataTable
+                  columns={columns}
+                  data={CHAPTERS}
+                  filterColumn="title"
+                  pageSize={5}
+                />
+              </section>
             </div>
-          </header>
-
-          <div className="grid gap-5 p-4 sm:p-5">
-            <section
-              aria-label="Key figures"
-              className="grid grid-cols-2 gap-4 lg:grid-cols-4"
-            >
-              <Stat
-                label="Readers"
-                value={figures.readers}
-                delta={figures.delta}
-                trend="up"
-                emphasis
-              />
-              <Stat
-                label="Chapters out"
-                value={figures.chapters}
-                delta="+2"
-                trend="up"
-              />
-              <Stat
-                label="Sales"
-                value={figures.sales}
-                delta="+3%"
-                trend="up"
-              />
-              <Stat
-                label="Rating"
-                value={figures.rating}
-                delta="−0.1"
-                trend="down"
-              />
-            </section>
-
-            <section
-              aria-label="Charts"
-              className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-2"
-            >
-              <figure className="grid gap-2">
-                <figcaption className="font-letter text-lg uppercase">
-                  Reads and sales
-                </figcaption>
-                <ChartContainer config={config} className="[--chart-h:15rem]">
-                  <BarChart data={data} accessibilityLayer>
-                    <CartesianGrid vertical={false} />
-                    <XAxis dataKey="month" tickLine={false} axisLine={false} />
-                    <YAxis width={36} tickLine={false} axisLine={false} />
-                    <ChartTooltip
-                      content={<ChartTooltipContent />}
-                      cursor={{ stroke: "currentColor", strokeWidth: 1 }}
-                    />
-                    <ChartLegend
-                      content={<ChartLegendContent config={config} />}
-                    />
-                    <Bar
-                      dataKey="reads"
-                      fill={chartFill("reads", keys)}
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    />
-                    <Bar
-                      dataKey="sales"
-                      fill={chartFill("sales", keys)}
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    />
-                  </BarChart>
-                </ChartContainer>
-              </figure>
-              <figure className="grid gap-2">
-                <figcaption className="font-letter text-lg uppercase">
-                  Trend
-                </figcaption>
-                <ChartContainer config={config} className="[--chart-h:15rem]">
-                  <LineChart data={data} accessibilityLayer>
-                    <CartesianGrid vertical={false} />
-                    <XAxis dataKey="month" tickLine={false} axisLine={false} />
-                    <YAxis width={36} tickLine={false} axisLine={false} />
-                    <ChartTooltip
-                      content={<ChartTooltipContent />}
-                      cursor={{ stroke: "currentColor", strokeWidth: 1 }}
-                    />
-                    <ChartLegend
-                      content={<ChartLegendContent config={config} />}
-                    />
-                    <Line
-                      dataKey="reads"
-                      type="monotone"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      dot={{ r: 4, fill: "var(--background)" }}
-                    />
-                    <Line
-                      dataKey="sales"
-                      type="monotone"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeDasharray="8 4"
-                      dot={{ r: 4, fill: "var(--foreground)" }}
-                    />
-                  </LineChart>
-                </ChartContainer>
-              </figure>
-            </section>
-
-            <section aria-labelledby="dash-chapters" className="grid gap-2">
-              <h2 id="dash-chapters" className="font-letter text-lg uppercase">
-                Chapters
-              </h2>
-              <DataTable
-                columns={columns}
-                data={CHAPTERS}
-                filterColumn="title"
-                pageSize={5}
-              />
-            </section>
-          </div>
-        </SidebarInset>
-      </SidebarProvider>
+          </SidebarInset>
+        </SidebarProvider>
+      </TooltipProvider>
 
       <CommandDialog
         open={palette}

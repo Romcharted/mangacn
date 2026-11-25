@@ -16,6 +16,7 @@
     "Romcharted/mangacn/button-group",
     "Romcharted/mangacn/badge",
     "Romcharted/mangacn/kbd",
+    "Romcharted/mangacn/tooltip",
     "Romcharted/mangacn/base"
   ],
   "dependencies": [
