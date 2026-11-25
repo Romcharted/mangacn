@@ -1,0 +1,48 @@
+{
+  "name": "item",
+  "type": "registry:ui",
+  "title": "Item",
+  "description": "Manga-styled wrapper around your shadcn Item: a list row with a media square, a title, a description and actions at the end. Variants: default (frameless row), outline (a 2px ink case), muted (a 1px fine ink line on paper with a 6px tone band on the start edge, outside the text; no inner tone frame, so it never reads as disabled). Sizes default, sm, xs. Media is a 40px square case with a 2px ink frame. Titles are lettering; descriptions take the row's colour. Pass interactive for a row that is clicked: a frameless row inverts to ink on hover (G3), a framed or muted row thickens its line by 1px. Disabled: dashed frame with a tone frame and the label on paper. Also ItemGroup (a list), ItemSeparator (a fine ink line), ItemHeader and ItemFooter.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "item",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/item.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/item.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/item\". It wraps your own components/ui/item, so Radix and Base UI both work. Items are plain elements: to make a whole row a link, wrap it in an anchor (block) and set interactive on the Item.",
+  "meta": {
+    "tagline": "A list row or a case, with a square media and lettering titles.",
+    "usage": "import { Item, ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemActions } from \"@/components/ui/manga/item\"\n\n<Item variant=\"outline\" interactive>\n  <ItemMedia>\n    <BookOpen />\n  </ItemMedia>\n  <ItemContent>\n    <ItemTitle>Vol. 1 · The long night</ItemTitle>\n    <ItemDescription>Twelve chapters, two unread.</ItemDescription>\n  </ItemContent>\n  <ItemActions>\n    <ChevronRight />\n  </ItemActions>\n</Item>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"default\" | \"outline\" | \"muted\"",
+        "default": "\"default\"",
+        "description": "default: frameless row. outline: 2px ink case. muted: 1px fine line with a 6px tone band on the start edge."
+      },
+      {
+        "name": "size",
+        "type": "\"default\" | \"sm\" | \"xs\"",
+        "default": "\"default\"",
+        "description": "Padding and gap of the row."
+      },
+      {
+        "name": "interactive",
+        "type": "boolean",
+        "default": "false",
+        "description": "G3 hover: a frameless row inverts to ink, a framed or muted row thickens its line."
+      }
+    ]
+  }
+}
