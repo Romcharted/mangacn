@@ -139,7 +139,7 @@ export function States() {
     <SidebarProvider className="block! min-h-0! w-full!">
       <Tiles>
         <Tile size="lg" label="row· rest">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton>
                 <Library />
@@ -149,7 +149,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile size="lg" label="row· hover">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton {...force("hover")}>
                 <Library />
@@ -159,7 +159,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile size="lg" label="row· focus">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton {...force("focus")}>
                 <Library />
@@ -169,7 +169,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile size="lg" label="row· current">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton isActive>
                 <Library />
@@ -179,7 +179,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile size="lg" label="row· current · hover">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton isActive {...force("hover")}>
                 <Library />
@@ -189,7 +189,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile size="lg" label="row· disabled">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton disabled>
                 <Library />
@@ -199,7 +199,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile size="lg" label="row · with badge">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton>
                 <List />
@@ -210,7 +210,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile size="lg" label="action· rest">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton>
                 <span>Ch. 12</span>
@@ -222,7 +222,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile size="lg" label="action· hover">
-          <SidebarMenu className="w-44">
+          <SidebarMenu className="w-full max-w-44">
             <SidebarMenuItem>
               <SidebarMenuButton>
                 <span>Ch. 12</span>
@@ -234,7 +234,7 @@ export function States() {
           </SidebarMenu>
         </Tile>
         <Tile label="group label">
-          <div className="w-44">
+          <div className="w-full max-w-44">
             <SidebarGroupLabel>Volume one</SidebarGroupLabel>
           </div>
         </Tile>
