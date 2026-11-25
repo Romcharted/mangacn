@@ -47,7 +47,7 @@ export function Examples() {
           A settings screen
         </h2>
         <p className="max-w-prose">An everyday interface: Tabs, Switch, Select, Input, Button and Table.</p>
-        <div className="border-ink-fine p-4 sm:p-8">
+        <div data-demo className="border-ink-fine p-4 sm:p-8">
           <SettingsScreen />
         </div>
         <CodeToggle text={userPaths(settingsSource)} />
@@ -58,7 +58,7 @@ export function Examples() {
           A conversation
         </h2>
         <p className="max-w-prose">Message, Bubble, Input and Button: write a line and send it.</p>
-        <div className="border-ink-fine p-4 sm:p-8">
+        <div data-demo className="border-ink-fine p-4 sm:p-8">
           <Chat />
         </div>
         <CodeToggle text={userPaths(chatSource)} />
@@ -69,7 +69,7 @@ export function Examples() {
           A 404 page
         </h2>
         <p className="max-w-prose">Three panels: PanelGrid, SpeedLines, Sfx, Manpu, a thought bubble and a shout button.</p>
-        <div className="border-ink-fine p-4 sm:p-8">
+        <div data-demo className="border-ink-fine p-4 sm:p-8">
           <NotFound />
         </div>
         <CodeToggle text={userPaths(notFoundSource)} />

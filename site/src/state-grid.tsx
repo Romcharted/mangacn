@@ -22,7 +22,8 @@ export function Tile({
   onPick?: () => void
   picked?: boolean
 }) {
-  const basis = size === "full" ? "basis-full" : size === "lg" ? "grow basis-72" : "grow basis-36"
+  // Phones: a two-column grid (wide tiles take both columns); from sm up the tiles wrap freely.
+  const basis = size === "full" ? "basis-full col-span-2" : size === "lg" ? "grow basis-72 max-sm:col-span-2" : "grow basis-36"
   if (onPick)
     return (
       <button
@@ -32,8 +33,8 @@ export function Tile({
         onClick={onPick}
         className={`group flex min-w-0 cursor-pointer flex-col border-ink-fine bg-background text-start focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-ink ${basis}`}
       >
-        <span className="grid min-h-24 w-full flex-1 place-items-center p-4">{children}</span>
-        <span className="flex w-full items-center justify-between gap-2 border-t-[length:var(--mg-bw-fine)] border-border px-2 py-1 font-mono text-xs group-hover:bg-foreground group-hover:text-background group-aria-pressed:bg-foreground group-aria-pressed:text-background">
+        <span data-demo className="grid min-h-24 w-full min-w-0 flex-1 place-items-center p-3 sm:p-4">{children}</span>
+        <span className="flex w-full flex-wrap items-center justify-between gap-x-2 border-t-[length:var(--mg-bw-fine)] border-border px-2 py-1 font-mono text-xs group-hover:bg-foreground group-hover:text-background group-aria-pressed:bg-foreground group-aria-pressed:text-background">
           {label}
           <span aria-hidden>{picked ? "● shown" : "→ try it"}</span>
         </span>
@@ -41,7 +42,7 @@ export function Tile({
     )
   return (
     <figure className={`flex min-w-0 flex-col border-ink-fine bg-background ${basis}`}>
-      <div className="grid min-h-24 flex-1 place-items-center p-4">{children}</div>
+      <div data-demo className="grid min-h-24 min-w-0 flex-1 place-items-center p-3 sm:p-4">{children}</div>
       <figcaption className="border-t-[length:var(--mg-bw-fine)] border-border px-2 py-1 font-mono text-xs">{label}</figcaption>
     </figure>
   )
@@ -57,7 +58,7 @@ export function StateGrid<R extends string, C extends string>(props: {
   return (
     <div className="space-y-4">
       {props.rows.map((r) => (
-        <div key={r} className="flex flex-wrap gap-2" role="group" aria-label={props.rowLabel ? props.rowLabel(r) : r}>
+        <div key={r} className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap" role="group" aria-label={props.rowLabel ? props.rowLabel(r) : r}>
           {props.cols.map((c) => (
             <Tile key={c} label={`${props.rowLabel ? props.rowLabel(r) : r} · ${c}`}>
               {props.cell(r, c)}
@@ -70,5 +71,5 @@ export function StateGrid<R extends string, C extends string>(props: {
 }
 
 export function Tiles({ children }: { children: ReactNode }) {
-  return <div className="flex flex-wrap gap-2">{children}</div>
+  return <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">{children}</div>
 }

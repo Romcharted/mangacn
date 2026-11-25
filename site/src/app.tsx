@@ -1,23 +1,21 @@
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useEffect, useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@registry/manga/ui/tooltip"
-import { AiPanel, CopyForAi } from "./ai"
+import { CopyForAi } from "./ai"
 import { track } from "./visits"
 import { Code, CopyButton } from "./copy"
 import { Examples } from "./examples"
 import { Grammar } from "./grammar"
+import { CategoryPill, SiteHeader } from "./header"
 import { Hero } from "./hero"
-import { HomeInterfaces, InterfacePage } from "./interfaces"
+import { HomeExample, HomeInterfaces, InterfacePage } from "./interfaces"
 import { Legal } from "./legal"
-import { ACCENTS, useHash, usePrefs, type Accent } from "./prefs"
+import { useNarrow } from "./narrow"
+import { useHash, usePrefs } from "./prefs"
 import { CATEGORIES, GITHUB_URL, categories, categoryOf, demos, filterItems, installCommand, items, type Item } from "./registry"
-
-const ACCENT_LABEL: Record<Accent, string> = { stamp: "Stamp red", indigo: "Indigo", pine: "Pine", ochre: "Ochre" }
 
 export function App() {
   const [prefs, set] = usePrefs()
   const hash = useHash()
-  const [query, setQuery] = useState("")
   const [category, setCategory] = useState<string | null>(null)
   const current = items.find((i) => i.name === hash)
 
@@ -29,25 +27,17 @@ export function App() {
     if (current) track("open-item", { item: current.name })
   }, [current])
 
+  const pickCategory = (c: string | null) => {
+    setCategory(c)
+    if (hash !== "" && hash !== "/") location.hash = "/"
+  }
+
   return (
     <>
       <a href="#main" className="skip-link">
         Skip to content
       </a>
-      <TopBar
-        query={query}
-        onQuery={(q) => {
-          setQuery(q)
-          if (current) location.hash = "/"
-        }}
-        category={category}
-        onCategory={(c) => {
-          setCategory(c)
-          if (current) location.hash = "/"
-        }}
-        prefs={prefs}
-        set={set}
-      />
+      <SiteHeader hash={hash} category={category} onCategory={pickCategory} prefs={prefs} set={set} />
       <main id="main" className="mx-auto max-w-7xl px-4 pb-24">
         {hash === "grammar" ? (
           <Grammar />
@@ -60,20 +50,27 @@ export function App() {
         ) : current ? (
           <Detail item={current} />
         ) : (
-          <Gallery query={query} category={category} />
+          <Gallery category={category} onCategory={pickCategory} />
         )}
       </main>
-      <footer className="border-t-[length:var(--mg-bw-panel)] border-border px-4 py-6 text-center text-sm">
+      {/* On a component page, phones keep room for the bottom navigation bar. */}
+      <footer
+        className={`border-t-[length:var(--mg-bw-panel)] border-border px-4 py-6 text-center text-sm ${current ? "max-sm:pb-24" : ""}`}
+      >
         MIT licensed. Not affiliated with shadcn.{" "}
-        <a href="./llms.txt" className="underline">
+        <a href="./llms.txt" className="underline max-sm:inline-flex max-sm:min-h-11 max-sm:items-center">
           llms.txt
         </a>{" "}
         ·{" "}
-        <a href={GITHUB_URL} className="underline" onClick={() => track("github", { from: "footer" })}>
+        <a
+          href={GITHUB_URL}
+          className="underline max-sm:inline-flex max-sm:min-h-11 max-sm:items-center"
+          onClick={() => track("github", { from: "footer" })}
+        >
           GitHub
         </a>{" "}
         ·{" "}
-        <a href="#legal" className="underline">
+        <a href="#legal" className="underline max-sm:inline-flex max-sm:min-h-11 max-sm:items-center">
           Legal notice / Mentions légales
         </a>
       </footer>
@@ -81,159 +78,14 @@ export function App() {
   )
 }
 
-/* ---------- Top bar ---------- */
-
-function TopBar(props: {
-  query: string
-  onQuery: (q: string) => void
-  category: string | null
-  onCategory: (c: string | null) => void
-  prefs: ReturnType<typeof usePrefs>[0]
-  set: ReturnType<typeof usePrefs>[1]
-}) {
-  const input = useRef<HTMLInputElement>(null)
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const t = e.target as HTMLElement
-      if (e.key === "/" && !/input|textarea|select/i.test(t.tagName) && !t.isContentEditable) {
-        e.preventDefault()
-        input.current?.focus()
-      }
-    }
-    addEventListener("keydown", onKey)
-    return () => removeEventListener("keydown", onKey)
-  }, [])
-  const { prefs, set } = props
-  return (
-    <header className="relative z-40 sm:sticky sm:top-0 border-b-[length:var(--mg-bw-panel)] border-border bg-background">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 px-4 py-2.5">
-        <a href="#/" className="font-sfx text-xl leading-none focus-ink" aria-label="mangacn, back to the gallery">
-          manga<span className="ink-fill px-1">cn</span>
-        </a>
-        <nav aria-label="Guides" className="flex gap-1.5">
-          <a href="#grammar" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover-invert focus-ink">
-            Grammar
-          </a>
-          <a href="#examples" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover-invert focus-ink">
-            Examples
-          </a>
-        </nav>
-        <label className="relative order-last w-full sm:order-none sm:w-56">
-          <span className="sr-only">Filter components by name</span>
-          <input
-            ref={input}
-            type="search"
-            value={props.query}
-            onChange={(e) => props.onQuery(e.target.value)}
-            placeholder="Filter…"
-            className="h-9 w-full border-ink bg-background ps-3 pe-8 focus-ink"
-          />
-          <kbd aria-hidden className="pointer-events-none absolute end-2 top-1/2 -translate-y-1/2 border-ink-fine px-1.5 font-mono text-xs">
-            /
-          </kbd>
-        </label>
-        <div className="ms-auto flex flex-wrap items-center gap-2">
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <span
-                  tabIndex={0}
-                  id="accent-label"
-                  className="cursor-help font-letter text-sm uppercase underline decoration-dotted decoration-2 underline-offset-4 focus-ink"
-                />
-              }
-            >
-              Accent
-            </TooltipTrigger>
-            <TooltipContent className="max-w-64">
-              The only colour in the kit. Swap it for your brand colour: set <code className="font-mono normal-case">--mg-accent</code> in your CSS.
-            </TooltipContent>
-          </Tooltip>
-          <div role="radiogroup" aria-labelledby="accent-label" className="flex items-center gap-1">
-            {ACCENTS.map((a) => (
-              <button
-                key={a}
-                type="button"
-                role="radio"
-                aria-checked={prefs.accent === a}
-                aria-label={ACCENT_LABEL[a]}
-                title={ACCENT_LABEL[a]}
-                onClick={() => {
-                  set({ accent: a })
-                  track("accent", { accent: a })
-                }}
-                data-accent={a}
-                className="grid size-9 place-items-center border-ink-fine focus-ink aria-checked:border-ink"
-              >
-                <span className="block size-5 bg-[var(--mg-accent)]" />
-              </button>
-            ))}
-          </div>
-          <Toggle label="Dark" pressed={prefs.dark} onClick={() => set({ dark: !prefs.dark })} />
-          <Toggle
-            label={prefs.reading === "rtl" ? "Read ←" : "Read →"}
-            title="Manga reading order: panels and bubbles right to left (text stays left to right)"
-            pressed={prefs.reading === "rtl"}
-            onClick={() => set({ reading: prefs.reading === "ltr" ? "rtl" : "ltr" })}
-          />
-          <AiPanel />
-          <a
-            href={GITHUB_URL}
-            onClick={() => track("github", { from: "header" })}
-            className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink"
-          >
-            GitHub
-          </a>
-        </div>
-      </div>
-      <nav aria-label="Categories" className="mx-auto flex max-w-7xl flex-wrap gap-1.5 px-4 pb-2.5">
-        <Pill active={props.category === null} onClick={() => props.onCategory(null)}>
-          All
-        </Pill>
-        {categories.map((c) => (
-          <Pill key={c} active={props.category === c} onClick={() => props.onCategory(props.category === c ? null : c)}>
-            {CATEGORIES[c] ?? c}
-          </Pill>
-        ))}
-      </nav>
-    </header>
-  )
-}
-
-function Toggle(props: { label: string; pressed: boolean; title?: string; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      aria-pressed={props.pressed}
-      title={props.title}
-      onClick={props.onClick}
-      className="h-9 border-ink px-3 font-letter text-sm uppercase hover:border-[3px] hover:px-[11px] focus-ink aria-pressed:ink-fill"
-    >
-      {props.label}
-    </button>
-  )
-}
-
-function Pill(props: { active: boolean; onClick: () => void; children: ReactNode }) {
-  return (
-    <button
-      type="button"
-      aria-pressed={props.active}
-      onClick={props.onClick}
-      className="h-7 border-ink-fine px-2.5 font-letter text-sm uppercase hover:border-ink focus-ink aria-pressed:ink-fill"
-    >
-      {props.children}
-    </button>
-  )
-}
-
 /* ---------- Gallery ---------- */
 
 const FONT_SAMPLE: Record<string, string> = { "font-body": "font-sans", "font-lettering": "font-letter", "font-sfx": "font-sfx" }
 
-function Gallery({ query, category }: { query: string; category: string | null }) {
-  const list = filterItems(query, category)
-  const showHero = !query && !category
+function Gallery({ category, onCategory }: { category: string | null; onCategory: (c: string | null) => void }) {
+  const narrow = useNarrow()
+  const list = filterItems("", category)
+  const showHero = !category
   return (
     <>
       {showHero && (
@@ -257,35 +109,54 @@ function Gallery({ query, category }: { query: string; category: string | null }
               />
             </div>
           </div>
-          <Hero />
+          <div data-demo>
+            <Hero />
+          </div>
         </section>
       )}
-      {showHero && <HomeInterfaces />}
-      <h2 className="sr-only">Components</h2>
-      {list.length === 0 ? (
-        <p className="mt-8 border-ink p-6 font-letter text-lg uppercase">No component matches “{query}”.</p>
-      ) : (
-        <ul className="mt-6 grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-4">
+      {showHero && (narrow ? <HomeExample /> : <HomeInterfaces />)}
+
+      <section aria-labelledby="gallery-title" className="mt-6">
+        <h2 id="gallery-title" className="font-letter text-3xl uppercase">
+          {category ? CATEGORIES[category] : "Components"}
+        </h2>
+        {/* Phones: one line that scrolls sideways, bleeding to the screen edges. */}
+        <nav
+          aria-label="Categories"
+          className="-mx-4 mt-3 flex gap-1.5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
+        >
+          <CategoryPill active={category === null} onClick={() => onCategory(null)}>
+            All
+          </CategoryPill>
+          {categories.map((c) => (
+            <CategoryPill key={c} active={category === c} onClick={() => onCategory(category === c ? null : c)}>
+              {CATEGORIES[c] ?? c}
+            </CategoryPill>
+          ))}
+        </nav>
+        <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] sm:gap-4">
           {list.map((i) => (
-            <li key={i.name}>
-              <Card item={i} />
-            </li>
+            <li key={i.name}>{narrow ? <CompactCard item={i} /> : <Card item={i} />}</li>
           ))}
         </ul>
-      )}
+      </section>
     </>
   )
 }
 
-// The preview is live (click, toggle, hover); only the title and the arrow open the detail page.
-function Card({ item }: { item: Item }) {
+function Thumbnail({ item }: { item: Item }) {
   const Thumb = demos[item.name]?.Thumb
   const font = FONT_SAMPLE[item.name]
+  return Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>Aa</span> : null
+}
+
+// The preview is live (click, toggle, hover); only the title and the arrow open the detail page.
+function Card({ item }: { item: Item }) {
   const href = `#${item.name}`
   return (
     <article className="group relative flex h-full flex-col border-ink bg-background has-[a:hover]:tone-shadow has-[a:hover]:[--shadow-x:5px] has-[a:hover]:[--shadow-y:5px]">
-      <div className="grid h-36 place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border p-3">
-        {Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>Aa</span> : null}
+      <div data-demo className="grid h-36 place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border p-3">
+        <Thumbnail item={item} />
       </div>
       <div className="flex flex-1 flex-col gap-1 p-3">
         <span className="flex items-baseline justify-between gap-2">
@@ -308,36 +179,60 @@ function Card({ item }: { item: Item }) {
   )
 }
 
+// Phones: the whole card opens the page (the title link stretches over it); the preview is a still, scaled
+// down and out of the tab order. No link wraps the preview: some previews hold links of their own.
+function CompactCard({ item }: { item: Item }) {
+  return (
+    <article className="relative flex h-full flex-col border-ink bg-background has-[a:active]:ink-fill">
+      <div data-demo inert className="pointer-events-none grid h-24 place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border p-2">
+        <div className="[zoom:0.6]">
+          <Thumbnail item={item} />
+        </div>
+      </div>
+      <a
+        href={`#${item.name}`}
+        className="flex min-h-11 items-center px-2.5 py-2 font-letter text-base leading-tight uppercase after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
+      >
+        {item.title}
+      </a>
+    </article>
+  )
+}
+
 /* ---------- Detail ---------- */
 
 function Detail({ item }: { item: Item }) {
   const demo = demos[item.name]
-  const index = items.indexOf(item)
-  const prev = items[index - 1]
-  const next = items[index + 1]
+  const narrow = useNarrow()
+  const list = items.filter((i) => i.type !== "registry:block")
+  const index = list.indexOf(item)
+  const prev = list[index - 1]
+  const next = list[index + 1]
   const props = item.meta?.props ?? []
   return (
     <article aria-labelledby="detail-title" className="pt-6">
       <nav aria-label="Component navigation" className="flex flex-wrap items-center justify-between gap-2">
-        <a href="#/" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+        <a href="#/" className="inline-flex h-11 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink sm:h-9">
           ← All components
         </a>
-        <span className="flex gap-2">
-          {prev && <NavLink href={`#${prev.name}`} label={`← ${prev.title}`} />}
-          {next && <NavLink href={`#${next.name}`} label={`${next.title} →`} />}
-        </span>
+        {!narrow && (
+          <span className="flex gap-2">
+            {prev && <NavLink href={`#${prev.name}`} label={`← ${prev.title}`} />}
+            {next && <NavLink href={`#${next.name}`} label={`${next.title} →`} />}
+          </span>
+        )}
       </nav>
 
       <header className="mt-6 space-y-2">
         <p className="font-mono text-xs">{CATEGORIES[categoryOf(item)]}</p>
-        <h1 id="detail-title" className="font-letter text-5xl leading-none uppercase">
+        <h1 id="detail-title" className="font-letter text-4xl leading-none uppercase break-words sm:text-5xl">
           {item.title}
         </h1>
         <p className="max-w-prose text-lg">{item.meta?.tagline ?? item.description}</p>
       </header>
 
       <div className="mt-5 flex flex-wrap items-stretch gap-2">
-        <div className="flex min-w-0 flex-1 items-stretch border-ink">
+        <div className="flex min-w-0 flex-1 basis-64 items-stretch border-ink">
           <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand(item.name)}</code>
           <CopyButton
             text={installCommand(item.name)}
@@ -350,12 +245,22 @@ function Detail({ item }: { item: Item }) {
 
       <Tabs variant="underline" defaultValue="preview" className="mt-6">
         <TabsList>
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-          {item.meta?.usage && <TabsTrigger value="usage">Usage</TabsTrigger>}
-          {props.length > 0 && <TabsTrigger value="props">Props</TabsTrigger>}
+          <TabsTrigger value="preview" className="max-sm:min-h-11">
+            Preview
+          </TabsTrigger>
+          {item.meta?.usage && (
+            <TabsTrigger value="usage" className="max-sm:min-h-11">
+              Usage
+            </TabsTrigger>
+          )}
+          {props.length > 0 && (
+            <TabsTrigger value="props" className="max-sm:min-h-11">
+              Props
+            </TabsTrigger>
+          )}
         </TabsList>
         <TabsContent value="preview">
-          <div className="relative border-ink-fine bg-background p-6">
+          <div data-demo className="relative border-ink-fine bg-background p-4 sm:p-6">
             {demo?.Preview ? <demo.Preview /> : <p>No live preview for this item.</p>}
           </div>
         </TabsContent>
@@ -387,8 +292,36 @@ function Detail({ item }: { item: Item }) {
           <h2 id="states-title" className="mb-3 font-letter text-2xl uppercase">
             States
           </h2>
-          <demo.States />
+          <div data-demo>
+            <demo.States />
+          </div>
         </section>
+      )}
+
+      {/* Phones: previous / next in a bar along the bottom edge, within thumb reach. */}
+      {narrow && (prev || next) && (
+        <nav
+          aria-label="Previous and next component"
+          className="fixed inset-x-0 bottom-0 z-30 grid h-14 grid-cols-2 border-t-[length:var(--mg-bw-panel)] border-border bg-background"
+        >
+          {prev ? (
+            <a href={`#${prev.name}`} className="flex min-w-0 items-center gap-1 px-4 font-letter text-sm uppercase focus-ink active:ink-fill">
+              <span aria-hidden>←</span>
+              <span className="truncate">{prev.title}</span>
+            </a>
+          ) : (
+            <span />
+          )}
+          {next && (
+            <a
+              href={`#${next.name}`}
+              className="flex min-w-0 items-center justify-end gap-1 border-s-[length:var(--mg-bw)] border-border px-4 text-end font-letter text-sm uppercase focus-ink active:ink-fill"
+            >
+              <span className="truncate">{next.title}</span>
+              <span aria-hidden>→</span>
+            </a>
+          )}
+        </nav>
       )}
     </article>
   )

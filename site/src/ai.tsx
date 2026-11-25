@@ -67,7 +67,7 @@ export function AiPanel() {
         render={
           <button
             type="button"
-            className="h-9 border-ink px-3 font-letter text-sm uppercase hover:border-[3px] hover:px-[11px] focus-ink aria-expanded:ink-fill"
+            className="h-11 border-ink px-3 font-letter text-sm uppercase hover:border-[3px] hover:px-[11px] focus-ink aria-expanded:ink-fill lg:h-9"
           />
         }
       >

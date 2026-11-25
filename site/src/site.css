@@ -25,6 +25,16 @@ html {
   top: 0.5rem;
 }
 
+/*
+ * Phones: every control of the site itself is at least 44px tall. Kit components (data-slot / data-manga)
+ * and everything inside a demo keep their own sizes: they are what the page shows, not its chrome.
+ */
+@media (max-width: 639.98px) {
+  :is(a:not(p a, span a), button, input, select, summary, [role="radio"], [role="tab"]):not([data-slot], [data-manga], [data-demo] *) {
+    min-height: 2.75rem;
+  }
+}
+
 /* State grids: show the impact frame of the pressed state as a still. */
 [data-force~="active"][class*="animate-impact"] {
   animation: none;

@@ -1,4 +1,4 @@
-import type { ComponentType } from "react"
+import { useId, useState, type ComponentType } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { track } from "./visits"
 import { CodeToggle, CopyButton } from "./copy"
@@ -55,7 +55,7 @@ export function InterfacePage({ slug }: { slug: string }) {
   return (
     <article aria-labelledby="iface-title" className="pt-6">
       <nav aria-label="Examples navigation" className="flex flex-wrap gap-2">
-        <a href="#examples" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+        <a href="#examples" className="inline-flex h-11 items-center border-ink px-3 sm:h-9 font-letter text-sm uppercase hover:ink-fill focus-ink">
           ← All examples
         </a>
       </nav>
@@ -69,7 +69,7 @@ export function InterfacePage({ slug }: { slug: string }) {
         <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand(slug)}</code>
         <CopyButton text={installCommand(slug)} onCopied={() => track("copy-install", { item: slug })} className="border-s-[length:var(--mg-bw)]" />
       </div>
-      <div className="mt-6 overflow-hidden border-ink-panel bg-background">
+      <div data-demo className="mt-6 border-ink-panel bg-background md:overflow-hidden">
         <Component />
       </div>
       <div className="mt-4">
@@ -101,7 +101,7 @@ export function HomeInterfaces() {
         </TabsList>
         {shown.map((i) => (
           <TabsContent key={i.slug} value={i.slug}>
-            <div className="overflow-hidden border-ink-panel bg-background">
+            <div data-demo className="border-ink-panel bg-background md:overflow-hidden">
               <i.Component />
             </div>
             <a href={`#examples/${i.slug}`} className="mt-3 inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
@@ -128,5 +128,44 @@ export function InterfaceCards() {
         </li>
       ))}
     </ul>
+  )
+}
+
+/** Phones, home page: one interface, folded. The button unfolds it in place, the page keeps scrolling. */
+export function HomeExample() {
+  const [open, setOpen] = useState(false)
+  const id = useId()
+  const first = interfaces[0]
+  if (!first) return null
+  const { Component } = first
+  return (
+    <section aria-labelledby={`${id}-title`} className="mt-2 border-ink-panel bg-background">
+      <div className="grid gap-2 p-4">
+        <p className="font-mono text-xs">Made only with the kit</p>
+        <h2 id={`${id}-title`} className="font-letter text-3xl leading-none uppercase">
+          {first.title}
+        </h2>
+        <p>{first.summary}</p>
+        <div className="mt-1 flex flex-wrap gap-2">
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-controls={`${id}-body`}
+            onClick={() => setOpen((o) => !o)}
+            className="inline-flex h-11 items-center gap-2 border-ink px-3 font-letter text-sm uppercase focus-ink aria-expanded:ink-fill after:mark-chevron after:text-xs aria-expanded:after:rotate-180"
+          >
+            {open ? "Fold the example" : "Open the example"}
+          </button>
+          <a href="#examples" className="inline-flex h-11 items-center px-2 font-letter text-sm uppercase underline decoration-2 underline-offset-4 focus-ink">
+            All examples →
+          </a>
+        </div>
+      </div>
+      {open && (
+        <div id={`${id}-body`} data-demo className="border-t-[length:var(--mg-bw-panel)] border-border">
+          <Component />
+        </div>
+      )}
+    </section>
   )
 }

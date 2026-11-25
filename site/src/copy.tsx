@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export function CopyButton({
   text,
@@ -51,13 +51,44 @@ export function CodeToggle({ text, label = "Show the code" }: { text: string; la
   )
 }
 
+/** A code block. When lines run past the edge, an arrow strip on the end side says there is more to scroll. */
 export function Code({ text }: { text: string }) {
+  const ref = useRef<HTMLPreElement>(null)
+  const [more, setMore] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const check = () => setMore(el.scrollWidth - el.clientWidth - Math.abs(el.scrollLeft) > 4)
+    check()
+    el.addEventListener("scroll", check, { passive: true })
+    const observer = new ResizeObserver(check)
+    observer.observe(el)
+    return () => {
+      el.removeEventListener("scroll", check)
+      observer.disconnect()
+    }
+  }, [text])
   return (
     <div className="flex items-start border-ink">
-      <pre className="min-w-0 flex-1 overflow-x-auto p-3 text-sm" tabIndex={0}>
-        <code>{text}</code>
-      </pre>
-      <CopyButton text={text} className="h-9 border-s-[length:var(--mg-bw)] border-b-[length:var(--mg-bw)]" />
+      <div className="relative min-w-0 flex-1">
+        <pre
+          ref={ref}
+          className="overflow-x-auto p-3 text-sm"
+          tabIndex={0}
+          aria-label={more ? "Code, scroll sideways to read the full lines" : "Code"}
+        >
+          <code>{text}</code>
+        </pre>
+        {more && (
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 end-0 flex w-7 items-start justify-center border-s-[length:var(--mg-bw)] border-border bg-background pt-2.5 font-letter text-lg leading-none"
+          >
+            →
+          </span>
+        )}
+      </div>
+      <CopyButton text={text} className="h-11 border-s-[length:var(--mg-bw)] border-b-[length:var(--mg-bw)] sm:h-9" />
     </div>
   )
 }
