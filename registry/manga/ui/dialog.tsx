@@ -13,6 +13,7 @@ import {
   DialogTitle as ShadcnDialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { FocusFlash } from "@/lib/manga/gestures"
 
 export type DialogSize = "sm" | "default" | "lg" | "full"
 
@@ -25,7 +26,7 @@ const sizes: Record<DialogSize, string> = {
 
 // Open/close: Base UI sets data-open/data-closed, Radix sets data-state. Both are covered.
 const stepped =
-  "duration-0 data-open:animate-impact data-[state=open]:animate-impact data-closed:animate-none data-[state=closed]:animate-none"
+  "duration-0 data-open:animate-pop data-[state=open]:animate-pop data-closed:animate-none data-[state=closed]:animate-none"
 
 // The overlay look (screentone, no blur) comes from the base item, for every shadcn overlay.
 function DialogOverlay({ className, ...props }: React.ComponentProps<typeof ShadcnDialogOverlay>) {
@@ -39,21 +40,6 @@ function DialogOverlay({ className, ...props }: React.ComponentProps<typeof Shad
 
 export type DialogContentProps = React.ComponentProps<typeof ShadcnDialogContent> & {
   size?: DialogSize
-}
-
-/**
- * Concentration lines behind the window, shown for the first frames after it opens.
- * The box reaches far past the screen; its middle (the window itself) is masked out, so the
- * lines never cover the content. Hidden by default: nothing shows with reduced motion.
- */
-function OpeningLines() {
-  return (
-    <span
-      aria-hidden
-      data-manga="dialog-lines"
-      className="pointer-events-none invisible absolute -inset-[100vmax] -z-10 p-[100vmax] text-foreground focus-lines [--focus-hole:1px_1px] [mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)] animate-burst-lines"
-    />
-  )
 }
 
 /** The panel: 3px frame, tone shadow, opens on an impact frame with concentration lines. Long content goes in <DialogBody>. */
@@ -70,7 +56,7 @@ function DialogContent({ size = "default", className, children, ...props }: Dial
       )}
       {...props}
     >
-      <OpeningLines />
+      <FocusFlash />
       {children}
     </ShadcnDialogContent>
   )
