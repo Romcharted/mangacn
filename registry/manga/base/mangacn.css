@@ -46,6 +46,7 @@
   --animate-bar-in: mg-bar-in 249ms step-end backwards;
   --animate-chevron: mg-chevron 166ms step-end backwards;
   --animate-drop-in: mg-drop-in 249ms step-end backwards;
+  --animate-sheet-in: mg-sheet-in 249ms step-end backwards;
 }
 
 :root {
@@ -681,6 +682,14 @@
   }
 }
 
+/* G3 Hover, third case: elements of 24px or less, fields and cells of a group — the line thickens
+   by 1px, drawn inside (no layout shift). */
+@utility hover-thicken {
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--thicken-ink, var(--border));
+  }
+}
+
 /* G3 Hover, link: the underline thickens. */
 @utility hover-underline {
   text-decoration-line: underline;
@@ -688,6 +697,17 @@
   text-underline-offset: 4px;
   &:hover {
     text-decoration-thickness: 4px;
+  }
+}
+
+/* G4 Impact without JavaScript: while pressed, a 2px offset and the impact lines (see <ImpactLines>).
+   Pair with an explicit pressed negative on the component. */
+@utility press {
+  &:active {
+    translate: 2px 2px;
+  }
+  &:where([dir="rtl"], [dir="rtl"] *):active {
+    translate: -2px 2px;
   }
 }
 
@@ -777,4 +797,20 @@
   33% { translate: 0 -0.35rem; clip-path: inset(0 0 33% 0); }
   66% { translate: 0 0; clip-path: inset(0 0 0 0); }
   100% { translate: 0 0; clip-path: inset(0 0 0 0); }
+}
+
+/* G5 for a sheet: it slides in from its edge in three steps (--sheet-x / --sheet-y set per side). */
+@keyframes mg-sheet-in {
+  0% { translate: calc(var(--sheet-x, 0%) * 0.66) calc(var(--sheet-y, 0%) * 0.66); }
+  33% { translate: calc(var(--sheet-x, 0%) * 0.25) calc(var(--sheet-y, 0%) * 0.25); }
+  66% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+
+/* G5 for a stamp: it lands with a thump. */
+@keyframes mg-stamp {
+  0% { scale: 1.5; }
+  33% { scale: 0.92; }
+  66% { scale: 1.03; }
+  100% { scale: 1; }
 }
