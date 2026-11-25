@@ -31,7 +31,9 @@ export type ButtonProps = Omit<ShadcnProps, "variant" | "size"> & {
 }
 
 // States: hover = the tone shadow appears · pressed = 2px offset + negative · disabled = dashed + tone frame.
+// Click: a three-frame impact (negative, recoil, settle) with short speed lines on both sides.
 const base = [
+  "group/button data-[impact]:animate-hit",
   "relative isolate rounded-(--radius) border-[length:var(--mg-bw)] border-border font-letter tracking-wide uppercase transition-none",
   "active:not-aria-[haspopup]:translate-y-0.5 active:translate-x-0.5 rtl:active:-translate-x-0.5",
   "focus-visible:ring-0 focus-visible:border-border focus-ink",
@@ -75,7 +77,8 @@ const variants: Record<ButtonVariant, string> = {
   shout: [
     "border-transparent bg-transparent px-8 text-primary-foreground hover:bg-transparent",
     "before:absolute before:-inset-x-3 before:-inset-y-4 before:-z-10 before:bg-primary before:content-[''] before:shape-burst",
-    "hover:before:scale-110 hover:before:rotate-6",
+    // hover: the burst fidgets in steps
+    "hover:before:animate-jitter",
     // focus follows the shape: see <ShoutFocus> (ink burst, paper gap, then the button burst)
     "focus-visible:shadow-none! focus-visible:outline-none!",
     // pressed: paper burst with an ink rim, visible on both paper and ink backgrounds
@@ -114,6 +117,34 @@ function Spinner({ className, label }: { className?: string; label?: string }) {
   )
 }
 
+/** Short speed lines on both sides, shown for the three frames of a click. */
+function ImpactLines() {
+  const lines = (flip: boolean) => (
+    <svg viewBox="0 0 16 24" preserveAspectRatio="none" className={cn("size-full", flip ? "-scale-x-100 rtl:scale-x-100" : "rtl:-scale-x-100")} aria-hidden>
+      <path d="M2 4h12M7 9h7M0 14h14M8 19h6" stroke="currentColor" strokeWidth="1.6" fill="none" />
+    </svg>
+  )
+  const side =
+    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground group-data-[impact]/button:animate-hit-lines"
+  return (
+    <>
+      <span aria-hidden className={cn(side, "-start-6 origin-right rtl:origin-left group-data-[variant=shout]/button:-start-10")}>{lines(false)}</span>
+      <span aria-hidden className={cn(side, "-end-6 origin-left rtl:origin-right group-data-[variant=shout]/button:-end-10")}>{lines(true)}</span>
+    </>
+  )
+}
+
+/** Restarts the click impact on a button (skipped when the user prefers reduced motion). */
+const impactTimers = new WeakMap<HTMLElement, number>()
+function punch(el: HTMLElement) {
+  if (typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches) return
+  el.removeAttribute("data-impact")
+  void el.offsetWidth
+  el.setAttribute("data-impact", "")
+  window.clearTimeout(impactTimers.get(el))
+  impactTimers.set(el, window.setTimeout(() => el.removeAttribute("data-impact"), 260))
+}
+
 /** Focus ring for the burst: a larger ink burst and a paper gap, shown only on focus-visible. */
 function ShoutFocus() {
   return (
@@ -132,8 +163,13 @@ function Button({
   className,
   children,
   disabled,
+  onClick,
   ...props
 }: ButtonProps) {
+  const handleClick: ShadcnProps["onClick"] = (event) => {
+    onClick?.(event)
+    punch(event.currentTarget as HTMLElement)
+  }
   return (
     <ShadcnButton
       data-manga="button"
@@ -152,9 +188,11 @@ function Button({
         loading ? "disabled:cursor-progress" : disabledLook,
         className,
       )}
+      onClick={handleClick}
       {...props}
     >
       {variant === "shout" && <ShoutFocus />}
+      <ImpactLines />
       {loading && <Spinner />}
       {children}
     </ShadcnButton>
