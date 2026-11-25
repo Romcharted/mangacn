@@ -32,7 +32,9 @@ function FieldLabel({ className, ...props }: React.ComponentProps<typeof ShadcnF
         // choice card
         "has-[>[data-slot=field]]:rounded-(--radius) has-[>[data-slot=field]]:border-[length:var(--mg-bw)] has-[>[data-slot=field]]:border-border has-[>[data-slot=field]]:font-sans has-[>[data-slot=field]]:normal-case has-[>[data-slot=field]]:tracking-normal",
         "has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-transparent has-[>[data-slot=field]]:hover-thicken",
-        "has-data-checked:border-border has-data-checked:bg-transparent dark:has-data-checked:bg-transparent has-aria-checked:shadow-[inset_6px_0_0_var(--foreground)] rtl:has-aria-checked:shadow-[inset_-6px_0_0_var(--foreground)]",
+        "has-data-checked:border-border has-data-checked:bg-transparent dark:has-data-checked:bg-transparent",
+        // checked: the 6px bar at the start grows down in three frames (G2 bar-in), as in Questionnaire
+        "has-[>[data-slot=field]]:relative has-aria-checked:before:absolute has-aria-checked:before:inset-y-0 has-aria-checked:before:start-0 has-aria-checked:before:w-1.5 has-aria-checked:before:origin-top has-aria-checked:before:bg-foreground has-aria-checked:before:content-[''] has-aria-checked:before:animate-bar-in [--bar-from:1_0.34] [--bar-mid:1_0.67]",
         // the control sits on the first line of the label, clear of the 6px bar
         "has-[>[data-slot=field]]:[&_[data-manga=radio]]:mt-[6px]! has-[>[data-slot=field]]:[&_[data-manga=radio]]:ms-2 has-[>[data-slot=field]]:[&_[data-manga=checkbox]]:mt-0.5 has-[>[data-slot=field]]:[&_[data-manga=checkbox]]:ms-1.5",
         "has-[>[data-slot=field]]:has-[:focus-visible]:ring-0 has-[>[data-slot=field]]:has-[:focus-visible]:outline-2 has-[>[data-slot=field]]:has-[:focus-visible]:outline-offset-4 has-[>[data-slot=field]]:has-[:focus-visible]:outline-solid",
