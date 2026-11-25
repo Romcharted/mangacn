@@ -1,6 +1,16 @@
 import { useState } from "react"
 
-export function CopyButton({ text, className = "" }: { text: string; className?: string }) {
+export function CopyButton({
+  text,
+  label = "Copy",
+  onCopied,
+  className = "",
+}: {
+  text: string
+  label?: string
+  onCopied?: () => void
+  className?: string
+}) {
   const [done, setDone] = useState(false)
   return (
     <button
@@ -8,6 +18,7 @@ export function CopyButton({ text, className = "" }: { text: string; className?:
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(text)
+          onCopied?.()
           setDone(true)
           setTimeout(() => setDone(false), 1200)
         } catch {
@@ -16,7 +27,7 @@ export function CopyButton({ text, className = "" }: { text: string; className?:
       }}
       className={`shrink-0 border-border px-3 font-letter text-sm uppercase hover:ink-fill focus-ink active:animate-impact ${className}`}
     >
-      <span aria-live="polite">{done ? "Copied!" : "Copy"}</span>
+      <span aria-live="polite">{done ? "Copied!" : label}</span>
     </button>
   )
 }

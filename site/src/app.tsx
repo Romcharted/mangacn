@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@registry/manga/ui/tooltip"
+import { AiPanel, CopyForAi } from "./ai"
+import { track } from "./analytics"
 import { Code, CopyButton } from "./copy"
 import { Examples } from "./examples"
 import { Grammar } from "./grammar"
 import { Hero } from "./hero"
+import { Legal } from "./legal"
 import { ACCENTS, useHash, usePrefs, type Accent } from "./prefs"
 import { CATEGORIES, GITHUB_URL, categories, categoryOf, demos, filterItems, installCommand, items, type Item } from "./registry"
 
@@ -19,6 +23,10 @@ export function App() {
   useEffect(() => {
     window.scrollTo({ top: 0 })
   }, [current?.name, hash])
+
+  useEffect(() => {
+    if (current) track("open-item", { item: current.name })
+  }, [current])
 
   return (
     <>
@@ -42,6 +50,8 @@ export function App() {
       <main id="main" className="mx-auto max-w-7xl px-4 pb-24">
         {hash === "grammar" ? (
           <Grammar />
+        ) : hash === "legal" ? (
+          <Legal />
         ) : hash === "examples" ? (
           <Examples />
         ) : current ? (
@@ -56,8 +66,12 @@ export function App() {
           llms.txt
         </a>{" "}
         ·{" "}
-        <a href={GITHUB_URL} className="underline">
+        <a href={GITHUB_URL} className="underline" onClick={() => track("github", { from: "footer" })}>
           GitHub
+        </a>{" "}
+        ·{" "}
+        <a href="#legal" className="underline">
+          Legal notice / Mentions légales
         </a>
       </footer>
     </>
@@ -116,7 +130,23 @@ function TopBar(props: {
           </kbd>
         </label>
         <div className="ms-auto flex flex-wrap items-center gap-2">
-          <div role="radiogroup" aria-label="Accent colour" className="flex items-center gap-1">
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <span
+                  tabIndex={0}
+                  id="accent-label"
+                  className="cursor-help font-letter text-sm uppercase underline decoration-dotted decoration-2 underline-offset-4 focus-ink"
+                />
+              }
+            >
+              Accent
+            </TooltipTrigger>
+            <TooltipContent className="max-w-64">
+              The only colour in the kit. Swap it for your brand colour: set <code className="font-mono normal-case">--mg-accent</code> in your CSS.
+            </TooltipContent>
+          </Tooltip>
+          <div role="radiogroup" aria-labelledby="accent-label" className="flex items-center gap-1">
             {ACCENTS.map((a) => (
               <button
                 key={a}
@@ -125,7 +155,10 @@ function TopBar(props: {
                 aria-checked={prefs.accent === a}
                 aria-label={ACCENT_LABEL[a]}
                 title={ACCENT_LABEL[a]}
-                onClick={() => set({ accent: a })}
+                onClick={() => {
+                  set({ accent: a })
+                  track("accent", { accent: a })
+                }}
                 data-accent={a}
                 className="grid size-9 place-items-center border-ink-fine focus-ink aria-checked:border-ink"
               >
@@ -140,7 +173,12 @@ function TopBar(props: {
             pressed={prefs.reading === "rtl"}
             onClick={() => set({ reading: prefs.reading === "ltr" ? "rtl" : "ltr" })}
           />
-          <a href={GITHUB_URL} className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+          <AiPanel />
+          <a
+            href={GITHUB_URL}
+            onClick={() => track("github", { from: "header" })}
+            className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink"
+          >
             GitHub
           </a>
         </div>
@@ -209,7 +247,11 @@ function Gallery({ query, category }: { query: string; category: string | null }
             </p>
             <div className="flex max-w-xl items-stretch border-ink">
               <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand("button")}</code>
-              <CopyButton text={installCommand("button")} className="border-s-[length:var(--mg-bw)]" />
+              <CopyButton
+                text={installCommand("button")}
+                onCopied={() => track("copy-install", { item: "button" })}
+                className="border-s-[length:var(--mg-bw)]"
+              />
             </div>
           </div>
           <Hero />
@@ -290,9 +332,16 @@ function Detail({ item }: { item: Item }) {
         <p className="max-w-prose text-lg">{item.meta?.tagline ?? item.description}</p>
       </header>
 
-      <div className="mt-5 flex items-stretch border-ink">
-        <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand(item.name)}</code>
-        <CopyButton text={installCommand(item.name)} className="border-s-[length:var(--mg-bw)]" />
+      <div className="mt-5 flex flex-wrap items-stretch gap-2">
+        <div className="flex min-w-0 flex-1 items-stretch border-ink">
+          <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand(item.name)}</code>
+          <CopyButton
+            text={installCommand(item.name)}
+            onCopied={() => track("copy-install", { item: item.name })}
+            className="border-s-[length:var(--mg-bw)]"
+          />
+        </div>
+        <CopyForAi item={item} />
       </div>
 
       <Tabs variant="underline" defaultValue="preview" className="mt-6">
