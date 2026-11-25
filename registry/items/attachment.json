@@ -1,0 +1,49 @@
+{
+  "name": "attachment",
+  "type": "registry:ui",
+  "title": "Attachment",
+  "description": "Manga-styled wrapper around your shadcn Attachment (a file attached to a message or a prompt): a 2px ink frame, a fine-framed media square, title in the reading face and description in small mono. States via state: done (rest), uploading (a running line along the bottom edge), processing (the manga Spinner in the media square), error (accent line, a mark-error '!' and accent description), idle (a solid line with a '+' mark). AttachmentTrigger makes the whole card clickable (hover-lift, focus ring); AttachmentAction is a small square ink button with hover-thicken. AttachmentGroup wraps. Sizes default, sm, xs; orientation horizontal or vertical.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "attachment",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/button"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/attachment.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/attachment.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/attachment\". It wraps your own components/ui/attachment, so Radix and Base UI both work: never pass render or asChild to AttachmentTrigger.",
+  "meta": {
+    "tagline": "A file attached to a message, with its progress and errors.",
+    "usage": "import { Attachment, AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription, AttachmentActions, AttachmentAction } from \"@/components/ui/manga/attachment\"\n\n<Attachment state=\"uploading\">\n  <AttachmentMedia>…</AttachmentMedia>\n  <AttachmentContent>\n    <AttachmentTitle>page-12.png</AttachmentTitle>\n    <AttachmentDescription>Uploading 64%</AttachmentDescription>\n  </AttachmentContent>\n  <AttachmentActions>\n    <AttachmentAction aria-label=\"Remove\">×</AttachmentAction>\n  </AttachmentActions>\n</Attachment>",
+    "props": [
+      {
+        "name": "state",
+        "type": "\"idle\" | \"uploading\" | \"processing\" | \"error\" | \"done\"",
+        "default": "\"done\"",
+        "description": "The look of the file: running line, spinner, accent error or idle '+'."
+      },
+      {
+        "name": "size",
+        "type": "\"default\" | \"sm\" | \"xs\"",
+        "default": "\"default\"",
+        "description": "Stock sizes, kept."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "default": "\"horizontal\"",
+        "description": "Vertical puts the media on top."
+      }
+    ]
+  }
+}
