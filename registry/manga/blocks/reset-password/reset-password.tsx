@@ -193,7 +193,7 @@ export function ResetPassword({ className, onNavigate, email = "mika@inkwell.app
       <div className="grid gap-5 p-3 @md/main:p-6 @3xl/main:min-h-[40rem] @3xl/main:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] @3xl/main:gap-8">
         {/* Start side: the panel. 4:3 above the form on phones, full height beside it when the block is wide. */}
         <aside aria-label="Inkwell" className="grid @md/main:mx-auto @md/main:w-full @md/main:max-w-md @3xl/main:max-w-none">
-          <Panel className="aspect-[4/3] @3xl/main:aspect-auto @3xl/main:min-h-[36rem]">
+          <Panel className="aspect-[4/3] [@media(orientation:landscape)_and_(max-height:32rem)]:aspect-auto [@media(orientation:landscape)_and_(max-height:32rem)]:h-[80svh] @3xl/main:aspect-auto @3xl/main:min-h-[36rem]">
             <SpeedLines
               variant="focus"
               originX={66}
