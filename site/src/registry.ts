@@ -8,18 +8,19 @@ export const installCommand = (name: string) => `npx shadcn@latest add ${REPO}/$
 export type Prop = { name: string; type: string; default?: string; description: string }
 export type Item = {
   name: string
+  type: string
   title: string
   description: string
   categories: string[]
-  meta?: { usage?: string; props?: Prop[] }
+  meta?: { tagline?: string; usage?: string; props?: Prop[] }
 }
 
 /** Section order and labels on the page. Items themselves come only from registry.json. */
 export const CATEGORIES: Record<string, string> = {
   foundations: "Foundations",
   actions: "Actions & input",
-  feedback: "Feedback & status",
-  overlays: "Overlays & menus",
+  feedback: "Feedback",
+  overlays: "Overlays",
   navigation: "Navigation",
   display: "Display",
   manga: "Manga",
@@ -27,26 +28,27 @@ export const CATEGORIES: Record<string, string> = {
   blocks: "Blocks",
 }
 
-export const items = registry.items as Item[]
+const order = Object.keys(CATEGORIES)
+const cat = (i: Item) => i.categories[0] ?? "other"
 
-export type Demo = { Preview?: ComponentType; States?: ComponentType }
+/** Items in page order: by category, then as listed in registry.json. */
+export const items = (registry.items as Item[])
+  .map((item, index) => ({ item, index }))
+  .sort((a, b) => (order.indexOf(cat(a.item)) + 1 || 99) - (order.indexOf(cat(b.item)) + 1 || 99) || a.index - b.index)
+  .map(({ item }) => item)
+
+export const categories = order.filter((c) => items.some((i) => cat(i) === c))
+export const categoryOf = cat
+
+export type Demo = { Preview?: ComponentType; States?: ComponentType; Thumb?: ComponentType }
 const demoModules = import.meta.glob<Demo>("./demos/*.tsx", { eager: true })
 export const demos: Record<string, Demo> = Object.fromEntries(
   Object.entries(demoModules).map(([path, mod]) => [path.replace(/^.*\/(.+)\.tsx$/, "$1"), mod]),
 )
 
-export function grouped(filter: string) {
-  const q = filter.trim().toLowerCase()
-  const visible = items.filter(
-    (i) => !q || i.name.includes(q) || i.title.toLowerCase().includes(q),
+export function filterItems(query: string, category: string | null) {
+  const q = query.trim().toLowerCase()
+  return items.filter(
+    (i) => (!category || cat(i) === category) && (!q || i.name.includes(q) || i.title.toLowerCase().includes(q)),
   )
-  const known = Object.keys(CATEGORIES)
-  const cats = [...new Set(visible.map((i) => i.categories[0] ?? "other"))].sort(
-    (a, b) => (known.indexOf(a) + 1 || 99) - (known.indexOf(b) + 1 || 99),
-  )
-  return cats.map((c) => ({
-    id: c,
-    label: CATEGORIES[c] ?? c,
-    items: visible.filter((i) => (i.categories[0] ?? "other") === c),
-  }))
 }

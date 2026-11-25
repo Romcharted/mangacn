@@ -1,134 +1,143 @@
-import { useState } from "react"
-import { Hero } from "./hero"
-import { usePrefs } from "./prefs"
-import { GITHUB_URL, demos, grouped, installCommand, items, type Item } from "./registry"
+import { useEffect, useRef, useState, type ReactNode } from "react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { Code, CopyButton } from "./copy"
+import { Hero } from "./hero"
+import { ACCENTS, useHash, usePrefs, type Accent } from "./prefs"
+import { CATEGORIES, GITHUB_URL, categories, categoryOf, demos, filterItems, installCommand, items, type Item } from "./registry"
+
+const ACCENT_LABEL: Record<Accent, string> = { stamp: "Stamp red", indigo: "Indigo", pine: "Pine", ochre: "Ochre" }
 
 export function App() {
   const [prefs, set] = usePrefs()
-  const [filter, setFilter] = useState("")
-  const groups = grouped(filter)
+  const hash = useHash()
+  const [query, setQuery] = useState("")
+  const [category, setCategory] = useState<string | null>(null)
+  const current = items.find((i) => i.name === hash)
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 })
+  }, [current?.name])
 
   return (
     <>
-      <a href="#catalog" className="skip-link">
-        Skip to components
+      <a href="#main" className="skip-link">
+        Skip to content
       </a>
-      <header className="sticky top-0 z-40 border-b-[length:var(--mg-bw-panel)] border-border bg-background">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
-          <a href="#top" className="me-auto font-letter text-2xl leading-none tracking-wide focus-ink">
-            manga<span className="ink-fill px-1">cn</span>
-          </a>
-          <Toggle
-            label="Dark"
-            pressed={prefs.dark}
-            onClick={() => set({ dark: !prefs.dark })}
+      <TopBar
+        query={query}
+        onQuery={(q) => {
+          setQuery(q)
+          if (current) location.hash = ""
+        }}
+        category={category}
+        onCategory={(c) => {
+          setCategory(c)
+          if (current) location.hash = ""
+        }}
+        prefs={prefs}
+        set={set}
+      />
+      <main id="main" className="mx-auto max-w-7xl px-4 pb-24">
+        {current ? <Detail item={current} /> : <Gallery query={query} category={category} />}
+      </main>
+      <footer className="border-t-[length:var(--mg-bw-panel)] border-border px-4 py-6 text-center text-sm">
+        MIT licensed. Not affiliated with shadcn.{" "}
+        <a href="./llms.txt" className="underline">
+          llms.txt
+        </a>{" "}
+        ·{" "}
+        <a href={GITHUB_URL} className="underline">
+          GitHub
+        </a>
+      </footer>
+    </>
+  )
+}
+
+/* ---------- Top bar ---------- */
+
+function TopBar(props: {
+  query: string
+  onQuery: (q: string) => void
+  category: string | null
+  onCategory: (c: string | null) => void
+  prefs: ReturnType<typeof usePrefs>[0]
+  set: ReturnType<typeof usePrefs>[1]
+}) {
+  const input = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement
+      if (e.key === "/" && !/input|textarea|select/i.test(t.tagName) && !t.isContentEditable) {
+        e.preventDefault()
+        input.current?.focus()
+      }
+    }
+    addEventListener("keydown", onKey)
+    return () => removeEventListener("keydown", onKey)
+  }, [])
+  const { prefs, set } = props
+  return (
+    <header className="relative z-40 sm:sticky sm:top-0 border-b-[length:var(--mg-bw-panel)] border-border bg-background">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 px-4 py-2.5">
+        <a href="#" className="font-letter text-2xl leading-none tracking-wide focus-ink" aria-label="mangacn, back to the gallery">
+          manga<span className="ink-fill px-1">cn</span>
+        </a>
+        <label className="relative order-last w-full sm:order-none sm:w-56">
+          <span className="sr-only">Filter components by name</span>
+          <input
+            ref={input}
+            type="search"
+            value={props.query}
+            onChange={(e) => props.onQuery(e.target.value)}
+            placeholder="Filter…"
+            className="h-9 w-full border-ink bg-background ps-3 pe-8 focus-ink"
           />
+          <kbd aria-hidden className="pointer-events-none absolute end-2 top-1/2 -translate-y-1/2 border-ink-fine px-1.5 font-mono text-xs">
+            /
+          </kbd>
+        </label>
+        <div className="ms-auto flex flex-wrap items-center gap-2">
+          <div role="radiogroup" aria-label="Accent colour" className="flex items-center gap-1">
+            {ACCENTS.map((a) => (
+              <button
+                key={a}
+                type="button"
+                role="radio"
+                aria-checked={prefs.accent === a}
+                aria-label={ACCENT_LABEL[a]}
+                title={ACCENT_LABEL[a]}
+                onClick={() => set({ accent: a })}
+                data-accent={a}
+                className="grid size-9 place-items-center border-ink-fine focus-ink aria-checked:border-ink"
+              >
+                <span className="block size-5 bg-[var(--mg-accent)]" />
+              </button>
+            ))}
+          </div>
+          <Toggle label="Dark" pressed={prefs.dark} onClick={() => set({ dark: !prefs.dark })} />
           <Toggle
-            label={prefs.theme === "webtoon" ? "Webtoon" : "Manga"}
-            pressed={prefs.theme === "webtoon"}
-            title="Switch manga / webtoon theme"
-            onClick={() => set({ theme: prefs.theme === "manga" ? "webtoon" : "manga" })}
+            label={prefs.reading === "rtl" ? "Read ←" : "Read →"}
+            title="Manga reading order: panels and bubbles right to left (text stays left to right)"
+            pressed={prefs.reading === "rtl"}
+            onClick={() => set({ reading: prefs.reading === "ltr" ? "rtl" : "ltr" })}
           />
-          <Toggle
-            label={prefs.dir === "rtl" ? "R→L" : "L→R"}
-            pressed={prefs.dir === "rtl"}
-            title="Switch reading direction"
-            onClick={() => set({ dir: prefs.dir === "ltr" ? "rtl" : "ltr" })}
-          />
-          <a
-            href={GITHUB_URL}
-            className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink"
-          >
+          <a href={GITHUB_URL} className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
             GitHub
           </a>
         </div>
-      </header>
-
-      <main id="top" className="mx-auto max-w-7xl px-4">
-        <section className="grid grid-cols-[minmax(0,1fr)] gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center">
-          <div className="space-y-5">
-            <h1 className="font-letter text-5xl leading-[0.95] uppercase sm:text-6xl">
-              shadcn/ui,
-              <br />
-              inked like a manga.
-            </h1>
-            <p className="max-w-prose text-lg">
-              An open source registry that redraws shadcn/ui in ink and screentone — with a soft,
-              full-colour webtoon theme. Same components, same props, new lines.
-            </p>
-            <div className="flex max-w-xl items-stretch border-ink">
-              <code className="min-w-0 flex-1 overflow-x-auto px-3 py-2 text-sm whitespace-nowrap">
-                {installCommand("base")}
-              </code>
-              <CopyButton text={installCommand("base")} className="border-s-[length:var(--mg-bw)]" />
-            </div>
-          </div>
-          <Hero />
-        </section>
-
-        <div id="catalog" className="grid grid-cols-[minmax(0,1fr)] gap-8 pb-24 md:grid-cols-[13rem_minmax(0,1fr)]">
-          <nav aria-label="Components" className="md:sticky md:top-20 md:self-start">
-            <label className="block">
-              <span className="mb-1 block font-letter text-sm uppercase">Filter</span>
-              <input
-                type="search"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                placeholder="button, tabs…"
-                className="h-10 w-full border-ink bg-background px-3 focus-ink"
-              />
-            </label>
-            <ol className="mt-4 max-h-[60vh] space-y-3 overflow-y-auto text-sm">
-              {groups.map((g) => (
-                <li key={g.id}>
-                  <a href={`#cat-${g.id}`} className="font-letter uppercase hover:underline">
-                    {g.label}
-                  </a>
-                  <ul className="mt-1 space-y-0.5 border-s-[length:var(--mg-bw)] border-border ps-3">
-                    {g.items.map((i) => (
-                      <li key={i.name}>
-                        <a href={`#${i.name}`} className="block px-1 hover:ink-fill focus-ink">
-                          {i.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ol>
-            <p className="mt-4 text-xs">
-              {items.length} item{items.length > 1 ? "s" : ""} in registry.json
-            </p>
-          </nav>
-
-          <div className="min-w-0 space-y-16">
-            {groups.length === 0 && (
-              <p className="border-ink tone-10 p-6 font-letter uppercase">No item matches “{filter}”.</p>
-            )}
-            {groups.map((g) => (
-              <section key={g.id} id={`cat-${g.id}`} aria-labelledby={`cat-${g.id}-h`}>
-                <h2
-                  id={`cat-${g.id}-h`}
-                  className="mb-6 inline-block ink-fill px-3 py-1 font-letter text-xl uppercase"
-                >
-                  {g.label}
-                </h2>
-                <div className="space-y-14">
-                  {g.items.map((i) => (
-                    <ItemSection key={i.name} item={i} />
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        </div>
-      </main>
-
-      <footer className="border-t-[length:var(--mg-bw-panel)] border-border py-6 text-center text-sm">
-        MIT licensed. Not affiliated with shadcn. <a href={`./llms.txt`} className="underline">llms.txt</a>
-      </footer>
-    </>
+      </div>
+      <nav aria-label="Categories" className="mx-auto flex max-w-7xl flex-wrap gap-1.5 px-4 pb-2.5">
+        <Pill active={props.category === null} onClick={() => props.onCategory(null)}>
+          All
+        </Pill>
+        {categories.map((c) => (
+          <Pill key={c} active={props.category === c} onClick={() => props.onCategory(props.category === c ? null : c)}>
+            {CATEGORIES[c] ?? c}
+          </Pill>
+        ))}
+      </nav>
+    </header>
   )
 }
 
@@ -139,48 +148,176 @@ function Toggle(props: { label: string; pressed: boolean; title?: string; onClic
       aria-pressed={props.pressed}
       title={props.title}
       onClick={props.onClick}
-      className="h-9 border-ink px-3 font-letter text-sm uppercase hover:tone-20 focus-ink aria-pressed:ink-fill"
+      className="h-9 border-ink px-3 font-letter text-sm uppercase hover:border-[3px] hover:px-[11px] focus-ink aria-pressed:ink-fill"
     >
       {props.label}
     </button>
   )
 }
 
-function ItemSection({ item }: { item: Item }) {
-  const demo = demos[item.name]
-  const cmd = installCommand(item.name)
+function Pill(props: { active: boolean; onClick: () => void; children: ReactNode }) {
   return (
-    <article id={item.name} aria-labelledby={`${item.name}-h`} className="scroll-mt-24">
-      <h3 id={`${item.name}-h`} className="font-letter text-3xl uppercase">
-        {item.title}
-      </h3>
-      <p className="mt-1 max-w-3xl">{item.description}</p>
+    <button
+      type="button"
+      aria-pressed={props.active}
+      onClick={props.onClick}
+      className="h-7 border-ink-fine px-2.5 font-letter text-sm uppercase hover:border-ink focus-ink aria-pressed:ink-fill"
+    >
+      {props.children}
+    </button>
+  )
+}
 
-      {demo?.Preview && (
-        <div className="relative mt-5 border-ink-panel bg-background p-6 tone-shadow">
-          <demo.Preview />
-        </div>
+/* ---------- Gallery ---------- */
+
+const FONT_SAMPLE: Record<string, string> = { "font-body": "font-sans", "font-lettering": "font-letter", "font-sfx": "font-sfx" }
+
+function Gallery({ query, category }: { query: string; category: string | null }) {
+  const list = filterItems(query, category)
+  const showHero = !query && !category
+  return (
+    <>
+      {showHero && (
+        <section className="grid grid-cols-[minmax(0,1fr)] gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
+          <div className="space-y-5">
+            <h1 className="font-letter text-5xl leading-[0.95] uppercase sm:text-6xl">
+              shadcn/ui,
+              <br />
+              inked like a manga.
+            </h1>
+            <p className="max-w-prose text-lg">
+              A shadcn registry that redraws your components in ink and screentone. Same components, same props, new
+              lines.
+            </p>
+            <div className="flex max-w-xl items-stretch border-ink">
+              <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand("button")}</code>
+              <CopyButton text={installCommand("button")} className="border-s-[length:var(--mg-bw)]" />
+            </div>
+          </div>
+          <Hero />
+        </section>
       )}
+      <h2 className="sr-only">Components</h2>
+      {list.length === 0 ? (
+        <p className="mt-8 border-ink p-6 font-letter text-lg uppercase">No component matches “{query}”.</p>
+      ) : (
+        <ul className="mt-6 grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-4">
+          {list.map((i) => (
+            <li key={i.name}>
+              <Card item={i} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  )
+}
+
+function Card({ item }: { item: Item }) {
+  const Thumb = demos[item.name]?.Thumb
+  const font = FONT_SAMPLE[item.name]
+  return (
+    <a
+      href={`#${item.name}`}
+      className="group relative flex h-full flex-col border-ink bg-background focus-ink hover:tone-shadow hover:[--shadow-x:5px] hover:[--shadow-y:5px]"
+    >
+      <div inert className="grid h-36 place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border p-3">
+        {Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>Aa</span> : null}
+      </div>
+      <div className="flex flex-1 flex-col gap-1 p-3">
+        <span className="flex items-baseline justify-between gap-2">
+          <span className="font-letter text-xl leading-none uppercase group-hover:underline">{item.title}</span>
+          <span className="shrink-0 font-mono text-[0.7rem]">{CATEGORIES[categoryOf(item)]}</span>
+        </span>
+        <span className="text-sm">{item.meta?.tagline ?? item.description}</span>
+      </div>
+    </a>
+  )
+}
+
+/* ---------- Detail ---------- */
+
+function Detail({ item }: { item: Item }) {
+  const demo = demos[item.name]
+  const index = items.indexOf(item)
+  const prev = items[index - 1]
+  const next = items[index + 1]
+  const props = item.meta?.props ?? []
+  return (
+    <article aria-labelledby="detail-title" className="pt-6">
+      <nav aria-label="Component navigation" className="flex flex-wrap items-center justify-between gap-2">
+        <a href="#" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+          ← All components
+        </a>
+        <span className="flex gap-2">
+          {prev && <NavLink href={`#${prev.name}`} label={`← ${prev.title}`} />}
+          {next && <NavLink href={`#${next.name}`} label={`${next.title} →`} />}
+        </span>
+      </nav>
+
+      <header className="mt-6 space-y-2">
+        <p className="font-mono text-xs">{CATEGORIES[categoryOf(item)]}</p>
+        <h1 id="detail-title" className="font-letter text-5xl leading-none uppercase">
+          {item.title}
+        </h1>
+        <p className="max-w-prose text-lg">{item.meta?.tagline ?? item.description}</p>
+      </header>
+
+      <div className="mt-5 flex items-stretch border-ink">
+        <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installCommand(item.name)}</code>
+        <CopyButton text={installCommand(item.name)} className="border-s-[length:var(--mg-bw)]" />
+      </div>
+
+      <Tabs variant="underline" defaultValue="preview" className="mt-6">
+        <TabsList>
+          <TabsTrigger value="preview">Preview</TabsTrigger>
+          {item.meta?.usage && <TabsTrigger value="usage">Usage</TabsTrigger>}
+          {props.length > 0 && <TabsTrigger value="props">Props</TabsTrigger>}
+        </TabsList>
+        <TabsContent value="preview">
+          <div className="relative border-ink-panel bg-background p-6 tone-shadow">
+            {demo?.Preview ? <demo.Preview /> : <p>No live preview for this item.</p>}
+          </div>
+        </TabsContent>
+        {item.meta?.usage && (
+          <TabsContent value="usage">
+            <Code text={item.meta.usage} />
+          </TabsContent>
+        )}
+        {props.length > 0 && (
+          <TabsContent value="props">
+            <dl className="divide-y-[length:var(--mg-bw-fine)] divide-border border-ink">
+              {props.map((p) => (
+                <div key={p.name} className="grid gap-1 p-3 sm:grid-cols-[12rem_minmax(0,1fr)]">
+                  <dt className="font-mono text-sm font-bold break-words">{p.name}</dt>
+                  <dd className="text-sm">
+                    <code className="font-mono break-words">{p.type}</code>
+                    {p.default && <span> · default {p.default}</span>}
+                    <span className="block">{p.description}</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </TabsContent>
+        )}
+      </Tabs>
 
       {demo?.States && (
-        <div className="mt-8">
-          <h4 className="mb-3 font-letter text-lg uppercase">States</h4>
+        <section aria-labelledby="states-title" className="mt-10">
+          <h2 id="states-title" className="mb-3 font-letter text-2xl uppercase">
+            States
+          </h2>
           <demo.States />
-        </div>
+        </section>
       )}
-
-      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
-        <div>
-          <h4 className="mb-2 font-letter text-lg uppercase">Install</h4>
-          <Code text={cmd} />
-        </div>
-        {item.meta?.usage && (
-          <div>
-            <h4 className="mb-2 font-letter text-lg uppercase">Usage</h4>
-            <Code text={item.meta.usage} />
-          </div>
-        )}
-      </div>
     </article>
+  )
+}
+
+function NavLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a href={href} className="inline-flex h-9 items-center border-ink-fine px-3 font-letter text-sm uppercase hover:border-ink focus-ink">
+      {label}
+    </a>
   )
 }

@@ -30,3 +30,23 @@ html {
   animation: none;
   filter: invert(1) hue-rotate(180deg);
 }
+
+/* Ink scrollbars where something still scrolls (code blocks, long menus). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--foreground) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+  border: 2px solid var(--background);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
