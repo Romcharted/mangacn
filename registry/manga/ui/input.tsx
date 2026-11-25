@@ -29,7 +29,7 @@ function Input({ inputSize = "default", className, ...props }: InputProps) {
         // read-only: a fine line
         "read-only:not-disabled:border-[length:var(--mg-bw-fine)]",
         // disabled: dashed line + light tone, text still readable
-        "disabled:opacity-100 disabled:border-dashed disabled:bg-background disabled:text-foreground disabled:tone-10 dark:disabled:bg-background",
+        "disabled:opacity-100 disabled:border-dashed disabled:bg-background disabled:text-foreground disabled:tone-frame dark:disabled:bg-background",
         // error: stamp red, serrated bottom edge, "!" mark
         "aria-invalid:border-destructive aria-invalid:ring-0 aria-invalid:shadow-[inset_0_0_0_1px_var(--destructive)] aria-invalid:mark-error dark:aria-invalid:border-destructive",
         "aria-invalid:focus-visible:shadow-[inset_0_0_0_1px_var(--destructive),0_0_0_2px_var(--background),0_0_0_4px_var(--ring)]",
