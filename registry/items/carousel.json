@@ -1,0 +1,46 @@
+{
+  "name": "carousel",
+  "type": "registry:ui",
+  "title": "Carousel",
+  "description": "Manga-styled wrapper around your shadcn Carousel (embla). Every slide is a panel: its content gets a 2px ink frame on paper (ink-case-inner). Previous / Next are the kit outline icon button with a brush arrow: the tone shadow appears on hover, pressed is a negative with impact lines, focus is the ink / paper / ink ring, disabled is dashed with a tone frame. Under 640px they grow to 44px and sit inside the carousel width, in a row under the slides (stock places them 48px outside). Adds CarouselDots, a mangacn addition built on useCarousel: square dots, the current one an ink flat that sweeps in, 24px hit areas (44px under 640px). Manga reading order: under data-reading=\"rtl\" (or opts.direction \"rtl\", or dir=\"rtl\") embla runs right to left, slides flow right to left, the arrows and arrow keys follow; text stays left to right. Vertical orientation puts the buttons above and below and uses the up / down keys.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "carousel",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/carousel.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/carousel.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/carousel\". It wraps your own components/ui/carousel (embla, the same in Radix and Base UI) and draws Previous / Next with the kit Button. CarouselDots is mangacn's own addition (not in shadcn): place it inside Carousel, after the buttons. The carousel follows the page's manga reading order (data-reading=\"rtl\") and writing direction (dir=\"rtl\") by itself; opts.direction overrides it. From 640px the buttons sit 48px outside the slides, as in shadcn: leave room around the carousel (sm:px-12). Vertical: give CarouselContent a height and leave room above and below for the buttons (py-14). Put one element in each CarouselItem: it becomes the panel.",
+  "meta": {
+    "tagline": "Panels in a strip, turned with brush arrows.",
+    "usage": "import { Carousel, CarouselContent, CarouselDots, CarouselItem, CarouselNext, CarouselPrevious } from \"@/components/ui/manga/carousel\"\n\n<Carousel className=\"sm:mx-12\">\n  <CarouselContent>\n    <CarouselItem><div>Chapter 12</div></CarouselItem>\n    <CarouselItem><div>Chapter 13</div></CarouselItem>\n  </CarouselContent>\n  <CarouselPrevious />\n  <CarouselNext />\n  <CarouselDots />\n</Carousel>",
+    "props": [
+      {
+        "name": "CarouselDots",
+        "type": "component",
+        "description": "mangacn addition: one square dot per snap point; the current one is an ink flat. Uses useCarousel."
+      },
+      {
+        "name": "opts.direction",
+        "type": "\"ltr\" | \"rtl\"",
+        "description": "On Carousel: the flow. Defaults to the page (data-reading=\"rtl\" or dir=\"rtl\" give \"rtl\")."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "description": "On Carousel. Vertical puts the buttons above and below and uses the up / down keys."
+      }
+    ]
+  }
+}
