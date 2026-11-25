@@ -104,6 +104,7 @@
     "registry/items/manga-reader.json",
     "registry/items/portfolio.json",
     "registry/items/catalog.json",
-    "registry/items/sign-in.json"
+    "registry/items/sign-in.json",
+    "registry/items/verify-code.json"
   ]
 }
