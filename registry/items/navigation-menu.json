@@ -1,0 +1,29 @@
+{
+  "name": "navigation-menu",
+  "type": "registry:ui",
+  "title": "Navigation Menu",
+  "description": "Manga-styled wrapper around your shadcn Navigation Menu. Top-level triggers are frameless lettering: an underline thickens on hover, and the open one is an ink flat that sweeps in, with a brush chevron that turns in two steps. The panel is an ink case that pops in, its links invert on hover and the current link is an ink flat. Focus is an ink line inside the shape. Works with Radix and Base UI: the viewport ring and shadow are removed on Radix, the stock Base UI popup keeps its own ring. Items that open a panel use NavigationMenuItem with a value; a plain NavigationMenuLink needs no panel.",
+  "categories": [
+    "navigation"
+  ],
+  "registryDependencies": [
+    "navigation-menu",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/navigation-menu.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/navigation-menu.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/navigation-menu\". It wraps your own components/ui/navigation-menu, so Radix and Base UI both work. The notch toward the trigger (case-notch) is not drawn: the stock viewport clips it.",
+  "meta": {
+    "tagline": "Lettering triggers; the open one turns to ink and its panel is a case.",
+    "usage": "import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from \"@/components/ui/manga/navigation-menu\"\n\n<NavigationMenu>\n  <NavigationMenuList>\n    <NavigationMenuItem value=\"chapters\">\n      <NavigationMenuTrigger>Chapters</NavigationMenuTrigger>\n      <NavigationMenuContent>\n        <NavigationMenuLink href=\"/chapter-1\">The long night</NavigationMenuLink>\n      </NavigationMenuContent>\n    </NavigationMenuItem>\n  </NavigationMenuList>\n</NavigationMenu>",
+    "props": []
+  }
+}
