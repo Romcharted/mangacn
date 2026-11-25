@@ -1,0 +1,36 @@
+{
+  "name": "marker",
+  "type": "registry:ui",
+  "title": "Marker",
+  "description": "Manga-styled wrapper around your shadcn Marker (a line inside a conversation, such as 'Today', 'Model switched to ...' or 'Context compacted'): lettering, small, uppercase, always ink (never grey). variant separator draws a 1px ink rule on both sides; variant border draws a 1px ink rule under it. Links inside take the underline hover and the focus ring. MarkerIcon stays in ink.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "marker",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/marker.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/marker.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/marker\". It wraps your own components/ui/marker, so Radix and Base UI both work: never pass render or asChild.",
+  "meta": {
+    "tagline": "A line in the conversation: a date, a switch, a compaction.",
+    "usage": "import { Marker, MarkerIcon, MarkerContent } from \"@/components/ui/manga/marker\"\n\n<Marker variant=\"separator\">\n  <MarkerContent>Today</MarkerContent>\n</Marker>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"default\" | \"separator\" | \"border\"",
+        "default": "\"default\"",
+        "description": "separator: rules on both sides. border: a rule under the line."
+      }
+    ]
+  }
+}
