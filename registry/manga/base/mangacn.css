@@ -33,6 +33,16 @@
   --animate-sfx: mg-sfx 166ms step-end;
   --animate-wiggle: mg-wiggle 500ms step-end infinite;
   --animate-tone-flicker: mg-tone-flicker 500ms step-end infinite;
+  --animate-slide-in: mg-slide-in 249ms step-end both;
+  --animate-hit: mg-hit 249ms step-end;
+  --animate-hit-lines: mg-hit-lines 249ms step-end both;
+  --animate-jitter: mg-jitter 249ms step-end infinite;
+  --animate-trail: mg-trail 249ms step-end both;
+  --animate-spark: mg-spark 333ms step-end both;
+  --animate-burst-lines: mg-burst-lines 583ms step-end both;
+  --animate-toast-in: mg-toast-in 249ms step-end both;
+  --animate-trail-v: mg-trail-v 249ms step-end both;
+  --animate-page-hit: mg-page-hit 333ms step-end;
 }
 
 :root {
@@ -498,4 +508,84 @@
   0% { background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2); }
   50% { background-position: calc(var(--tone-size) / 2) 0, var(--tone-size) calc(var(--tone-size) / 2); }
   100% { background-position: 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2); }
+}
+
+/* A panel sliding in like a frame of a page (tabs). --slide-dir: -1 in RTL / manga reading order. */
+@keyframes mg-slide-in {
+  0% { translate: calc(2.5rem * var(--slide-dir, 1)) 0; }
+  33% { translate: calc(1rem * var(--slide-dir, 1)) 0; }
+  66% { translate: calc(0.3rem * var(--slide-dir, 1)) 0; }
+  100% { translate: 0 0; }
+}
+
+/* Click impact, three frames: negative + pop, recoil, settle. */
+@keyframes mg-hit {
+  0% { filter: invert(1) hue-rotate(180deg); scale: 1.06; rotate: -1.5deg; }
+  33% { filter: none; scale: 0.97; rotate: 1deg; }
+  66% { filter: none; scale: 1.02; rotate: 0deg; }
+  100% { filter: none; scale: 1; rotate: 0deg; }
+}
+
+/* Short speed lines on both sides of a hit (hidden by default, so reduced motion shows nothing). */
+@keyframes mg-hit-lines {
+  0% { visibility: visible; scale: 1 1; }
+  33% { visibility: visible; scale: 1.4 1; }
+  66% { visibility: hidden; }
+  100% { visibility: hidden; }
+}
+
+/* The burst of a shout button, fidgeting while hovered. */
+@keyframes mg-jitter {
+  0% { scale: 1.1; rotate: 4deg; }
+  33% { scale: 1.05; rotate: -3deg; }
+  66% { scale: 1.12; rotate: 7deg; }
+  100% { scale: 1.1; rotate: 4deg; }
+}
+
+/* Switch: a trail of speed lines that shrinks behind the thumb. */
+@keyframes mg-trail {
+  0% { visibility: visible; scale: 1 1; }
+  33% { visibility: visible; scale: 0.66 1; }
+  66% { visibility: visible; scale: 0.33 1; }
+  100% { visibility: hidden; scale: 0 1; }
+}
+
+/* Switch: a small spark when it turns on. */
+@keyframes mg-spark {
+  0% { visibility: visible; scale: 0.4; rotate: 0deg; }
+  33% { visibility: visible; scale: 1.25; rotate: 20deg; }
+  66% { visibility: visible; scale: 0.8; rotate: 45deg; }
+  100% { visibility: hidden; scale: 0.8; rotate: 45deg; }
+}
+
+/* Dialog: concentration lines behind the window when it opens, then gone. */
+@keyframes mg-burst-lines {
+  0% { visibility: visible; scale: 1.2; }
+  28% { visibility: visible; scale: 1.08; }
+  57% { visibility: visible; scale: 1; }
+  100% { visibility: hidden; scale: 1; }
+}
+
+/* Toast: enters from below in three steps, with motion lines trailing under it. */
+@keyframes mg-toast-in {
+  0% { translate: 0 32px; }
+  33% { translate: 0 12px; }
+  66% { translate: 0 3px; }
+  100% { translate: 0 0; }
+}
+
+@keyframes mg-trail-v {
+  0% { visibility: visible; scale: 1 1; }
+  33% { visibility: visible; scale: 1 0.6; }
+  66% { visibility: visible; scale: 1 0.3; }
+  100% { visibility: hidden; scale: 1 0; }
+}
+
+/* A whole page taking a hit: shake with two frames in negative. */
+@keyframes mg-page-hit {
+  0% { filter: invert(1) hue-rotate(180deg); translate: -6px 2px; }
+  25% { filter: invert(1) hue-rotate(180deg); translate: 6px -2px; }
+  50% { filter: none; translate: -4px 0; }
+  75% { filter: none; translate: 3px 0; }
+  100% { filter: none; translate: 0 0; }
 }
