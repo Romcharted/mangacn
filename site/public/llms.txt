@@ -580,7 +580,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/m
 
 ### Dropdown Menu (`dropdown-menu`)
 
-Manga-styled wrapper around your shadcn Dropdown Menu: a case with a notch toward the trigger, popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent. Group labels in underlined lettering, sub-menus with a brush chevron.
+Manga-styled wrapper around your shadcn Dropdown Menu: a case with a notch toward the trigger, popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent. Group labels in underlined lettering, sub-menus with a brush chevron. Put DropdownMenuLabel inside a DropdownMenuGroup: Base UI requires it (Radix does not).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/dropdown-menu`
 - Categories: overlays

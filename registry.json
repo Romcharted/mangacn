@@ -2196,7 +2196,7 @@
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown Menu",
-      "description": "Manga-styled wrapper around your shadcn Dropdown Menu: a case with a notch toward the trigger, popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent. Group labels in underlined lettering, sub-menus with a brush chevron.",
+      "description": "Manga-styled wrapper around your shadcn Dropdown Menu: a case with a notch toward the trigger, popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent. Group labels in underlined lettering, sub-menus with a brush chevron. Put DropdownMenuLabel inside a DropdownMenuGroup: Base UI requires it (Radix does not).",
       "categories": [
         "overlays"
       ],
