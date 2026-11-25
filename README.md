@@ -1,37 +1,55 @@
 # mangacn
 
-shadcn/ui, inked like a manga. An open source [shadcn registry](https://ui.shadcn.com/docs/registry) that
-redraws shadcn/ui in ink and screentone — black and white, sharp lines, tones instead of grey, speed lines —
-with one accent colour you choose.
+**shadcn/ui, inked like a manga.** An open source [shadcn registry](https://ui.shadcn.com/docs/registry) that
+redraws your shadcn/ui components in ink and screentone: black and white, sharp lines, tones instead of grey,
+speed lines, and one accent colour you choose.
 
-It does not fork shadcn. Each restyled component is a thin file that imports **your** shadcn component,
-adds classes and `data-*` attributes, and re-exports it. Works with shadcn on Radix or on Base UI.
+[Showcase](https://romcharted.github.io/mangacn/) ·
+[Grammar](https://romcharted.github.io/mangacn/#grammar) ·
+[Examples](https://romcharted.github.io/mangacn/#examples) ·
+[llms.txt](https://romcharted.github.io/mangacn/llms.txt)
 
-> Status: early work in progress. 50 items: `base`, three fonts, `gestures`; shadcn wrappers for Button, Input,
-> Textarea, Label, Field, Select, Checkbox, Radio Group, Switch, Slider, Badge, Skeleton, Spinner, Progress, Sonner,
-> Alert, Empty, Card, Tabs, Table, Accordion, Avatar, Separator, Pagination, Breadcrumb, Dialog, Alert Dialog,
-> Sheet, Popover, Hover Card, Tooltip, Dropdown Menu, Bubble, Message; manga pieces SpeechBubble, Screentone,
-> SpeedLines, Panel, Sfx, Manpu, Burst, Stamp, Banner, Stepper, Stat.
+[![The mangacn showcase: “shadcn/ui, inked like a manga.” next to a page of three panels](docs/hero.png)](https://romcharted.github.io/mangacn/)
 
-## The grammar
+It does not fork shadcn. Each restyled component is a thin file that imports **your** shadcn component, adds
+classes and `data-*` attributes, and re-exports it with the same props. It works whether your shadcn project
+is built on Radix or on Base UI.
 
-Every component applies the same eight gestures, written once in `base`: case (G1), flat (G2), hover (G3),
-impact (G4), pop (G5), bubble (G6), running line (G7) and mark (G8), in steps at 12 frames per second, and
-still with `prefers-reduced-motion`. See the Grammar page of the showcase and [AGENTS.md](AGENTS.md).
+![A button is hit and answers “DON!”, a manga page switches between three layouts and reads right to left, then a line is sent in a conversation](docs/demo.gif)
 
 ## Install
 
-You need a project already set up with shadcn (`npx shadcn@latest init`). Then add any item straight from GitHub:
+In a project already set up with shadcn (`npx shadcn@latest init`), one command:
 
 ```bash
-npx shadcn@latest add Romcharted/mangacn/base
+npx shadcn@latest add Romcharted/mangacn/button
 ```
 
-Every item depends on `base` (tokens, screentone utilities, animations), which the CLI installs for you,
-together with three Google Fonts under the SIL Open Font License: Atkinson Hyperlegible Next (reading),
-Patrick Hand SC (lettering) and Dela Gothic One (SFX, covers katakana).
-Restyled shadcn components go to `components/ui/manga/<name>.tsx` (your `ui` alias + `/manga`) and wrap your
-own `components/ui/<name>`; manga components (speech bubble, screentone, speed lines) go to `components/manga/`.
+That installs the manga Button and everything it needs: `base` (tokens, screentone utilities, stepped
+animations), `gestures` (impact and flash primitives) and three fonts under the SIL Open Font License:
+Atkinson Hyperlegible Next (reading), Patrick Hand SC (lettering) and Dela Gothic One (sound effects, katakana
+included). Add several items at once by listing them:
+
+```bash
+npx shadcn@latest add Romcharted/mangacn/dialog Romcharted/mangacn/tabs Romcharted/mangacn/speech-bubble
+```
+
+Where files go:
+
+- restyled shadcn components: `components/ui/manga/<name>.tsx` (your `ui` alias + `/manga`); each one wraps
+  your own `components/ui/<name>`, which the CLI adds if it is missing;
+- manga pieces (speech bubble, screentone, speed lines, panels…): `components/manga/<name>.tsx`;
+- the gestures: `lib/manga/gestures.tsx`.
+
+Then import from the manga folder:
+
+```tsx
+import { Button } from "@/components/ui/manga/button"
+
+export function Cta() {
+  return <Button variant="shout">Read chapter 1</Button>
+}
+```
 
 Browse the catalogue from the CLI:
 
@@ -40,20 +58,120 @@ npx shadcn@latest list Romcharted/mangacn
 npx shadcn@latest search Romcharted/mangacn --query bubble
 ```
 
-### Dark mode, accent colour, reading order
+## Components
+
+<!-- items:start -->
+
+50 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+
+### Foundations
+
+| Name | Item | What it looks like |
+| --- | --- | --- |
+| Manga base | `base` | Ink, paper and one accent colour, screentone, speed lines, stepped motion. |
+| Font: Atkinson Hyperlegible Next | `font-body` | The reading face for text and fields. |
+| Font: Patrick Hand SC | `font-lettering` | Hand lettering for titles, buttons and badges. |
+| Font: Dela Gothic One | `font-sfx` | A heavy face for sound effects, katakana included. |
+| Gestures | `gestures` | Impact and flash primitives shared by every component. |
+
+### Actions & input
+
+| Name | Item | What it looks like |
+| --- | --- | --- |
+| Button | `button` | Ink flats, a tone band, a burst for the one call to action. |
+| Input | `input` | A 2px ink line that thickens on focus; serrated with a “!” on error. |
+| Select | `select` | An ink-lined trigger; the list pops in as a notched case. |
+| Checkbox | `checkbox` | A square box; the brush check draws itself. |
+| Switch | `switch` | Paper track and ink thumb when off, the negative when on. |
+| Textarea | `textarea` | Input's ink line, for longer text. |
+| Label | `label` | Lettering for field labels. |
+| Field | `field` | Labels, help text and errors with a “!” mark. |
+| Radio Group | `radio-group` | Diamonds instead of circles; the chosen one turns to ink. |
+| Slider | `slider` | A rail that fills with speed lines. |
+
+### Feedback
+
+| Name | Item | What it looks like |
+| --- | --- | --- |
+| Badge | `badge` | Ink, outline, burst and a tilted stamp. |
+| Skeleton | `skeleton` | A light screentone that flickers while content loads. |
+| Toast (Sonner) | `sonner` | Toasts in a 3px panel, with room for a sound effect. |
+| Alert | `alert` | A case that pops in; errors shake with a “!”. |
+| Progress | `progress` | A rail that fills with speed lines, in steps. |
+| Spinner | `spinner` | Concentration lines turning in steps. |
+| Empty | `empty` | An empty panel with a heavy “…”. |
+
+### Overlays
+
+| Name | Item | What it looks like |
+| --- | --- | --- |
+| Dialog | `dialog` | A centred panel over a light screentone veil. |
+| Tooltip | `tooltip` | A tiny speech or thought bubble. |
+| Alert Dialog | `alert-dialog` | A case that pops in, with concentration lines behind. |
+| Popover | `popover` | A speech bubble pointing at its trigger. |
+| Hover Card | `hover-card` | A preview in a speech bubble. |
+| Dropdown Menu | `dropdown-menu` | A notched case; the row under the pointer turns to ink. |
+| Sheet | `sheet` | A case sliding in from the edge. |
+
+### Navigation
+
+| Name | Item | What it looks like |
+| --- | --- | --- |
+| Tabs | `tabs` | Chapter dividers, a thick underline or boxed tabs. |
+| Pagination | `pagination` | Cells for pages; the current one is ink. |
+| Breadcrumb | `breadcrumb` | Lettering, brush chevrons, the current page in ink. |
+
+### Display
+
+| Name | Item | What it looks like |
+| --- | --- | --- |
+| Card | `card` | A comic panel with a screentone shadow. |
+| Table | `table` | An ink header, 1px rules, and an ink bar for the hovered row. |
+| Accordion | `accordion` | Stacked cases; the open one turns to ink. |
+| Avatar | `avatar` | A square panel for a face or initials. |
+| Separator | `separator` | An ink rule: 2px, fine or double. |
+| Bubble | `bubble` | Chat messages as speech bubbles. |
+| Message | `message` | A line of a conversation: avatar, name, bubbles. |
+
+### Manga pieces
+
+| Name | Item | What it looks like |
+| --- | --- | --- |
+| Speech Bubble | `speech-bubble` | Seven bubble shapes drawn at their real size. |
+| Screentone | `screentone` | Any tone: dots, lines, cross-hatching or noise, with a stepped fade. |
+| Speed Lines | `speed-lines` | Focus or motion lines to make a moment hit. |
+| Panel | `panel` | A page grid, slanted cuts and narration boxes. |
+| Sfx | `sfx` | Sound effects in heavy lettering, with a paper knockout. |
+| Manpu | `manpu` | Emotion marks: anger, sweat, surprise… |
+| Burst | `burst` | A starburst for news and shouts. |
+| Stamp | `stamp` | A seal that lands with a thump. |
+| Banner | `banner` | A ribbon for titles and announcements. |
+| Stepper | `stepper` | Chapter marks for a multi-step flow. |
+| Stat | `stat` | A key figure in heavy lettering. |
+
+<!-- items:end -->
+
+## The grammar
+
+Every component draws its motion from the same eight gestures, written once in `base`: case (G1), flat (G2),
+hover (G3), impact (G4), pop (G5), bubble (G6), running line (G7) and mark (G8). They move in steps at
+12 frames per second and stand still under `prefers-reduced-motion`. The
+[Grammar page](https://romcharted.github.io/mangacn/#grammar) shows each one; [AGENTS.md](AGENTS.md) has the
+rules.
+
+## Dark mode, accent colour, reading order
 
 - Dark mode uses shadcn's `.dark` class: the negative of the page.
 - One accent colour, `--mg-accent` (stamp red by default). Presets: `data-accent="indigo"`, `"pine"`, `"ochre"`.
 - Manga reading order: `data-reading="rtl"` on `<html>` and the `reading-rtl:` variant flip panels and
   bubbles right to left; text stays left to right. Writing direction (`dir="rtl"`) is supported separately.
-- The colour webtoon theme is paused (branch `theme/webtoon`).
 
 ## Use with AI assistants
 
-- `llms.txt` lists every item with its install command, main props and a minimal example:
+- **llms.txt** lists every item with its install command, main props and a minimal example:
   `https://romcharted.github.io/mangacn/llms.txt`.
-- **shadcn MCP server.** The MCP server reads registries declared in `components.json`. Point a namespace
-  at the JSON files this repo publishes on GitHub Pages:
+- **shadcn MCP server.** The MCP server reads the registries declared in `components.json`. Add a namespace
+  that points at the JSON files this repo publishes:
 
   ```json
   {
@@ -63,16 +181,21 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
   }
   ```
 
-  then run `npx shadcn@latest mcp init --client claude` (or `cursor`, `vscode`, `codex`, `opencode`) and
-  restart your assistant. Try: “Show me the components in the mangacn registry”, “Add the mangacn button”.
-  With the namespace set, `npx shadcn@latest add @mangacn/<item>` works too.
+  Then set up the server for your assistant and restart it:
+
+  ```bash
+  npx shadcn@latest mcp init --client claude   # or cursor, vscode, codex, opencode
+  ```
+
+  Try: “Show me the components in the mangacn registry”, “Add the mangacn dialog and tabs”. With the
+  namespace set, `npx shadcn@latest add @mangacn/<item>` works too.
 
 ## Develop
 
 ```bash
 npm install
 npm run dev        # showcase
-npm run build      # sync base CSS + llms.txt, typecheck, build site and r/*.json
+npm run build      # sync base CSS, llms.txt and this README's list; typecheck; build the site and r/*.json
 npm run shots      # screenshots of the built site (light and dark)
 ```
 
@@ -80,5 +203,5 @@ See [AGENTS.md](AGENTS.md) for conventions, how to add a component, and the styl
 
 ## License
 
-[MIT](LICENSE). Fonts are loaded from Google Fonts under the SIL Open Font License.
-Not affiliated with shadcn.
+[MIT](LICENSE). Fonts are served by Google Fonts under the SIL Open Font License. All artwork is abstract SVG
+drawn for this repo. Not affiliated with shadcn.
