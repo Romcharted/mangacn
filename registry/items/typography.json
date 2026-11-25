@@ -1,0 +1,39 @@
+{
+  "name": "typography",
+  "type": "registry:ui",
+  "title": "Typography",
+  "description": "Plain styled elements for manga text, with no state and no gesture of their own. Headings use the lettering face (TypographyH1 and H2 switch to the SFX face with the sfx prop); body text uses the reading face. Variants: TypographyH1, H2 (ink rule underneath), H3, H4, P, Lead, Large, Small, Muted (smaller, same ink, never grey), Blockquote (a narration box: a 2px case with a 6px ink bar at the start), List, InlineCode (fine frame, monospace) and Table (an ink header and 1px row rules, the kit Table look). Each accepts className and the element's props.",
+  "categories": [
+    "foundations"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/typography.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/typography.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/typography\". Plain elements: no Radix or Base UI parts are involved. Typography is a documentation recipe in shadcn; mangacn ships it as styled components.",
+  "meta": {
+    "tagline": "Headings in lettering, body in the reading face, narration in a case.",
+    "usage": "import { TypographyH1, TypographyP, TypographyBlockquote } from \"@/components/ui/manga/typography\"\n\n<TypographyH1>The long night</TypographyH1>\n<TypographyP>The harbour lamps came on one by one.</TypographyP>\n<TypographyBlockquote>The ferry left at dawn.</TypographyBlockquote>",
+    "props": [
+      {
+        "name": "sfx",
+        "type": "boolean",
+        "description": "On TypographyH1 and TypographyH2: use the SFX face instead of the lettering face."
+      },
+      {
+        "name": "TypographyTable",
+        "type": "table props",
+        "description": "Native thead / tbody / tr / th / td children, in a case with the kit Table look."
+      }
+    ]
+  }
+}
