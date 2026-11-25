@@ -41,8 +41,23 @@ export type DialogContentProps = React.ComponentProps<typeof ShadcnDialogContent
   size?: DialogSize
 }
 
-/** The panel: 3px frame, tone shadow, opens on an impact frame. Long content goes in <DialogBody>. */
-function DialogContent({ size = "default", className, ...props }: DialogContentProps) {
+/**
+ * Concentration lines behind the window, shown for the first frames after it opens.
+ * The box reaches far past the screen; its middle (the window itself) is masked out, so the
+ * lines never cover the content. Hidden by default: nothing shows with reduced motion.
+ */
+function OpeningLines() {
+  return (
+    <span
+      aria-hidden
+      data-manga="dialog-lines"
+      className="pointer-events-none invisible absolute -inset-[100vmax] -z-10 p-[100vmax] text-foreground focus-lines [--focus-hole:1px_1px] [mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)] animate-burst-lines"
+    />
+  )
+}
+
+/** The panel: 3px frame, tone shadow, opens on an impact frame with concentration lines. Long content goes in <DialogBody>. */
+function DialogContent({ size = "default", className, children, ...props }: DialogContentProps) {
   return (
     <ShadcnDialogContent
       data-manga="dialog"
@@ -54,7 +69,10 @@ function DialogContent({ size = "default", className, ...props }: DialogContentP
         className,
       )}
       {...props}
-    />
+    >
+      <OpeningLines />
+      {children}
+    </ShadcnDialogContent>
   )
 }
 

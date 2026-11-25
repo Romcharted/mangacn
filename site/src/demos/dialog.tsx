@@ -60,13 +60,5 @@ export function States() {
 
 /** Thumbnail only: the panel look, without a portal. */
 export function Thumb() {
-  return (
-    <div className="relative w-48 border-ink-panel bg-background tone-shadow">
-      <p className="p-3 font-letter text-lg leading-none uppercase">Leave?</p>
-      <div className="flex justify-end gap-2 border-t-[length:var(--mg-bw)] border-border p-2">
-        <span className="border-ink px-2 font-letter text-sm uppercase">Stay</span>
-        <span className="ink-fill border-ink px-2 font-letter text-sm uppercase">Leave</span>
-      </div>
-    </div>
-  )
+  return <Sample label="Open" size="sm" />
 }
