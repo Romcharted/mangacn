@@ -1,0 +1,63 @@
+{
+  "name": "toned-image",
+  "type": "registry:component",
+  "title": "Toned Image",
+  "description": "Any picture turned into a manga screentone: black and white, dark areas become dense dots or lines in ink, light areas stay paper. Patterns: dots (45° screen), lines, cross, noise. Settings: density (cell size in px), contrast, threshold (solid ink above a darkness level). Done with CSS only (blend modes, filters, radial and linear gradients, a feTurbulence noise tile as background): same look in Chromium, Firefox and WebKit, cross-origin pictures work, nothing uploaded. Ink is the foreground colour, paper the background; dark mode is the negative. Keeps alt text.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/toned-image.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/toned-image.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/toned-image\". The TonedOptions type is exported too; Avatar's toned option uses TonedImage with those options.",
+  "meta": {
+    "tagline": "A photo turned into a screentone, in your browser.",
+    "usage": "import { TonedImage } from \"@/components/manga/toned-image\"\n\n<TonedImage src=\"/city.jpg\" alt=\"A city at dusk\" pattern=\"dots\" density={6} className=\"aspect-[4/3] w-full border-ink\" />",
+    "props": [
+      {
+        "name": "src / alt",
+        "type": "string",
+        "description": "The picture and its text alternative (kept). Same-origin, data: or blob: URL."
+      },
+      {
+        "name": "pattern",
+        "type": "\"dots\" | \"lines\" | \"cross\" | \"noise\"",
+        "default": "\"dots\"",
+        "description": "The screen."
+      },
+      {
+        "name": "density",
+        "type": "number",
+        "default": "6",
+        "description": "Cell size in px: smaller is a finer screen. Blur and screen scale with it."
+      },
+      {
+        "name": "contrast",
+        "type": "number",
+        "default": "1",
+        "description": "Above 1 pushes shadows and lights apart."
+      },
+      {
+        "name": "threshold",
+        "type": "number (0 to 1)",
+        "default": "0",
+        "description": "0 is off. Above 0, more of the picture goes solid ink (dark areas first)."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Sets the size and the frame, e.g. aspect-[4/3] w-full border-ink."
+      }
+    ]
+  }
+}
