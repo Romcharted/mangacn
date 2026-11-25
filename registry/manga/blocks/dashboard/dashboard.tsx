@@ -2,8 +2,8 @@
 
 /*
  * Dashboard — a full interface made only with mangacn: Sidebar, Stat, toned charts (Chart), a Data Table,
- * a Command palette (Ctrl/⌘ K), Button Group, Badge, Kbd. The page fills its container: give the root
- * a height (`className="h-svh"` for a whole screen).
+ * a Command palette (Ctrl/⌘ K), Button Group, Badge, Kbd. From md up the page fills a 48rem frame and scrolls
+ * inside it (`className="md:h-svh"` for a whole screen); on phones it follows the page and the sidebar opens as a sheet.
  */
 import * as React from "react"
 import type { ColumnDef } from "@tanstack/react-table"
@@ -129,9 +129,9 @@ const CHAPTERS: Chapter[] = [
 ].map(([title, volume, pages, reads, status], i) => ({ id: i + 1, title, volume, pages, reads, status }) as Chapter)
 
 const columns: ColumnDef<Chapter>[] = [
-  { accessorKey: "title", header: "Chapter" },
+  { accessorKey: "title", header: "Chapter", meta: { card: "title" } },
   { accessorKey: "volume", header: "Vol." },
-  { accessorKey: "pages", header: "Pages" },
+  { accessorKey: "pages", header: "Pages", meta: { card: false } },
   {
     accessorKey: "reads",
     header: "Reads",
@@ -140,6 +140,7 @@ const columns: ColumnDef<Chapter>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    meta: { card: "badge" },
     cell: ({ getValue }) => {
       const status = getValue<Chapter["status"]>()
       return <Badge variant={status === "Out" ? "default" : status === "Draft" ? "outline" : "tone"}>{status}</Badge>
@@ -184,10 +185,10 @@ export function Dashboard({ className }: { className?: string }) {
   }
 
   return (
-    <div data-manga="dashboard" className={cn("relative h-[48rem] w-full overflow-hidden bg-background", className)}>
+    <div data-manga="dashboard" className={cn("relative w-full bg-background md:h-[48rem] md:overflow-hidden", className)}>
       {/* The collapsed sidebar shows tooltips; Radix needs a provider for them. */}
       <TooltipProvider>
-        <SidebarProvider className="relative! h-full min-h-0! overflow-hidden">
+        <SidebarProvider className="relative! min-h-0! md:h-full md:overflow-hidden">
           <Sidebar collapsible="icon" className="absolute! h-full!">
             <SidebarHeader>
               <div className="flex items-center gap-2 px-1 py-1.5">
@@ -225,8 +226,8 @@ export function Dashboard({ className }: { className?: string }) {
             </SidebarFooter>
           </Sidebar>
 
-          <SidebarInset className="@container/main min-h-0 min-w-0 overflow-auto">
-            <header className="sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b-[length:var(--mg-bw)] border-border bg-background px-3 py-2">
+          <SidebarInset className="@container/main min-h-0 min-w-0 md:overflow-auto">
+            <header className="z-10 flex flex-wrap items-center gap-3 border-b-[length:var(--mg-bw)] border-border bg-background px-3 py-2 md:sticky md:top-0">
               <SidebarTrigger />
               <h1 className="font-letter text-2xl leading-none tracking-wide uppercase">{view}</h1>
               <div className="ms-auto flex flex-wrap items-center gap-2">
