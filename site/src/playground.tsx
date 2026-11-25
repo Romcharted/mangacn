@@ -5,7 +5,7 @@ import { Code } from "./copy"
 /** Preview + controls + the usage code, kept in sync. Showcase only. */
 export function Playground({ preview, controls, code }: { preview: ReactNode; controls: ReactNode; code: string }) {
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
+    <div data-playground className="grid grid-cols-[minmax(0,1fr)] gap-4">
       <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <div className="grid min-h-64 place-items-center overflow-hidden border-ink-panel bg-background p-4">{preview}</div>
         <fieldset className="grid content-start gap-4 border-ink p-3">

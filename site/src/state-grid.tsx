@@ -8,8 +8,37 @@ export type Force = "hover" | "focus" | "active"
 export const force = (state: string): { "data-force"?: Force } =>
   state === "hover" || state === "focus" || state === "active" ? { "data-force": state } : {}
 
-export function Tile({ label, children, size = "md" }: { label: string; children: ReactNode; size?: "md" | "lg" | "full" }) {
+export function Tile({
+  label,
+  children,
+  size = "md",
+  onPick,
+  picked,
+}: {
+  label: string
+  children: ReactNode
+  size?: "md" | "lg" | "full"
+  /** Makes the tile a button that loads this state into the live preview above. */
+  onPick?: () => void
+  picked?: boolean
+}) {
   const basis = size === "full" ? "basis-full" : size === "lg" ? "grow basis-72" : "grow basis-36"
+  if (onPick)
+    return (
+      <button
+        type="button"
+        aria-pressed={picked}
+        title="Load this state in the preview"
+        onClick={onPick}
+        className={`group flex min-w-0 cursor-pointer flex-col border-ink-fine bg-background text-start focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-ink ${basis}`}
+      >
+        <span className="grid min-h-24 w-full flex-1 place-items-center p-4">{children}</span>
+        <span className="flex w-full items-center justify-between gap-2 border-t-[length:var(--mg-bw-fine)] border-border px-2 py-1 font-mono text-xs group-hover:bg-foreground group-hover:text-background group-aria-pressed:bg-foreground group-aria-pressed:text-background">
+          {label}
+          <span aria-hidden>{picked ? "● shown" : "→ try it"}</span>
+        </span>
+      </button>
+    )
   return (
     <figure className={`flex min-w-0 flex-col border-ink-fine bg-background ${basis}`}>
       <div className="grid min-h-24 flex-1 place-items-center p-4">{children}</div>

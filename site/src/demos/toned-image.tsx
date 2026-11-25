@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useSyncExternalStore } from "react"
 import { cn } from "cn"
 import { Choice, Playground, Slider, jsx } from "../playground"
 import { Tile, Tiles } from "../state-grid"
@@ -10,6 +10,30 @@ const SCENE = `data:image/svg+xml,${encodeURIComponent(
 )}`
 
 const PATTERNS = ["dots", "lines", "cross", "noise"] as const
+
+/* The playground settings live outside Preview so a click on a state tile below can load them. */
+type Settings = { pattern: TonedPattern; density: number; contrast: number; threshold: number }
+const DEFAULTS: Settings = { pattern: "dots", density: 6, contrast: 1, threshold: 0 }
+let current = DEFAULTS
+const listeners = new Set<() => void>()
+const store = {
+  subscribe: (fn: () => void) => (listeners.add(fn), () => void listeners.delete(fn)),
+  get: () => current,
+  set: (patch: Partial<Settings>) => {
+    current = { ...current, ...patch }
+    listeners.forEach((fn) => fn())
+  },
+}
+const useSettings = () => useSyncExternalStore(store.subscribe, store.get)
+
+const STATES: { label: string; settings: Settings }[] = [
+  ...PATTERNS.map((pattern) => ({ label: `pattern · ${pattern}`, settings: { ...DEFAULTS, pattern } })),
+  { label: "contrast · 0.5", settings: { ...DEFAULTS, contrast: 0.5 } },
+  { label: "contrast · 2", settings: { ...DEFAULTS, contrast: 2 } },
+  { label: "threshold · 0.4", settings: { ...DEFAULTS, threshold: 0.4 } },
+]
+const same = (a: Settings, b: Settings) =>
+  a.pattern === b.pattern && a.density === b.density && a.contrast === b.contrast && a.threshold === b.threshold
 
 function DropZone({ onFile }: { onFile: (file: File) => void }) {
   const [over, setOver] = useState(false)
@@ -47,18 +71,18 @@ function DropZone({ onFile }: { onFile: (file: File) => void }) {
 }
 
 export function Preview() {
-  const [pattern, setPattern] = useState<TonedPattern>("dots")
-  const [density, setDensity] = useState(6)
-  const [contrast, setContrast] = useState(1)
-  const [threshold, setThreshold] = useState(0)
+  const settings = useSettings()
+  const { pattern, density, contrast, threshold } = settings
   const [own, setOwn] = useState<string | null>(null)
 
   // the object URL of a previous pick is released when a new one replaces it, or on unmount
-  useEffect(() => () => {
-    if (own) URL.revokeObjectURL(own)
-  }, [own])
+  useEffect(
+    () => () => {
+      if (own) URL.revokeObjectURL(own)
+    },
+    [own],
+  )
 
-  const settings = { pattern, density, contrast, threshold }
   const pick = (file: File) => {
     if (file.type.startsWith("image/")) setOwn(URL.createObjectURL(file))
   }
@@ -71,13 +95,34 @@ export function Preview() {
         }
         controls={
           <>
-            <Choice label="pattern" value={pattern} options={PATTERNS} onChange={setPattern} />
-            <Slider label="density (px)" value={density} min={3} max={20} step={1} onChange={setDensity} />
-            <Slider label="contrast" value={contrast} min={0.5} max={2} step={0.1} onChange={setContrast} />
-            <Slider label="threshold" value={threshold} min={0} max={0.9} step={0.05} onChange={setThreshold} />
+            <Choice label="pattern" value={pattern} options={PATTERNS} onChange={(pattern) => store.set({ pattern })} />
+            <Slider
+              label="density (px)"
+              value={density}
+              min={3}
+              max={20}
+              step={1}
+              onChange={(density) => store.set({ density })}
+            />
+            <Slider
+              label="contrast"
+              value={contrast}
+              min={0.5}
+              max={2}
+              step={0.1}
+              onChange={(contrast) => store.set({ contrast })}
+            />
+            <Slider
+              label="threshold"
+              value={threshold}
+              min={0}
+              max={0.9}
+              step={0.05}
+              onChange={(threshold) => store.set({ threshold })}
+            />
           </>
         }
-        code={jsx("TonedImage", { src: "/picture.jpg", alt: "Picture" }, { pattern: "dots", density: 6, contrast: 1, threshold: 0 })}
+        code={jsx("TonedImage", { src: "/picture.jpg", alt: "Picture" }, { pattern, density, contrast, threshold })}
       />
       <div className="grid max-w-sm gap-3">
         <DropZone onFile={pick} />
@@ -88,22 +133,22 @@ export function Preview() {
 }
 
 export function States() {
+  const settings = useSettings()
   return (
     <Tiles>
-      {PATTERNS.map((p) => (
-        <Tile key={p} label={`pattern · ${p}`}>
-          <TonedImage src={SCENE} alt="" pattern={p} className="size-28 border-ink" />
+      {STATES.map((state) => (
+        <Tile
+          key={state.label}
+          label={state.label}
+          picked={same(settings, state.settings)}
+          onPick={() => {
+            store.set(state.settings)
+            document.querySelector("[data-playground]")?.scrollIntoView({ behavior: "smooth", block: "center" })
+          }}
+        >
+          <TonedImage src={SCENE} alt="" {...state.settings} className="size-28 border-ink" />
         </Tile>
       ))}
-      <Tile label="contrast · 0.5">
-        <TonedImage src={SCENE} alt="" contrast={0.5} className="size-28 border-ink" />
-      </Tile>
-      <Tile label="contrast · 2">
-        <TonedImage src={SCENE} alt="" contrast={2} className="size-28 border-ink" />
-      </Tile>
-      <Tile label="threshold · 0.4">
-        <TonedImage src={SCENE} alt="" threshold={0.4} className="size-28 border-ink" />
-      </Tile>
     </Tiles>
   )
 }
