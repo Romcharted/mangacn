@@ -49,6 +49,7 @@
   --animate-chevron: mg-chevron 166ms step-end backwards;
   --animate-drop-in: mg-drop-in 249ms step-end backwards;
   --animate-sheet-in: mg-sheet-in 249ms step-end backwards;
+  --animate-dots: mg-dots 833ms step-end infinite;
 }
 
 :root {
@@ -827,6 +828,15 @@
   height: 1em;
   background-color: currentColor;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11.2 2.6c.4-.5 1.2-.5 1.6 0 2 2.6 3.8 4.6 6 6.6.6.6-.1 1.6-.9 1.2-1.4-.7-2.7-1.6-3.9-2.7.1 4.3.3 8.6.7 12.9.1.9-1.3 1.1-1.5.2-.6-4.3-.9-8.6-1-13-1.4 1.2-2.9 2.2-4.5 3-.8.4-1.5-.6-.9-1.2 1.6-2.2 3-4.6 4.4-7z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* G7 Waiting dots (TypingBubble): each dot rises for two frames, then rests; a cycle is ten frames at 12 fps.
+   Three dots share it with delays of 0, 2 and 4 frames ([animation-delay:166ms], 333ms). Reduced motion: still. */
+@keyframes mg-dots {
+  0% { translate: 0 -0.35em; }
+  10% { translate: 0 -0.15em; }
+  20% { translate: 0 0; }
+  100% { translate: 0 0; }
 }
 
 /* G5 for content that unfolds downward (accordion): three steps from above. */
