@@ -192,7 +192,8 @@ function ReactionPicker({ reactions, onReact, kinds = ALL_KINDS, max, disabled =
       role="group"
       aria-label="Reactions"
       data-manga="reaction-picker"
-      className={cn("flex max-w-full flex-wrap items-center gap-2", className)}
+      // pe-4: room for the impact lines of a chip that wraps to the end edge (no sideways scroll)
+      className={cn("flex max-w-full flex-wrap items-center gap-2 pe-4", className)}
       {...props}
     >
       {shown.map((r) => (
