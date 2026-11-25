@@ -7,8 +7,15 @@ with one accent colour you choose.
 It does not fork shadcn. Each restyled component is a thin file that imports **your** shadcn component,
 adds classes and `data-*` attributes, and re-exports it. Works with shadcn on Radix or on Base UI.
 
-> Status: early work in progress. Available: `base`, the three fonts, `button`, `input`, `checkbox`, `switch`,
-> `badge`, `skeleton`, `sonner`, `card`, `tabs`, `dialog`, `tooltip`, `speech-bubble`, `screentone`, `speed-lines`.
+> Status: early work in progress. Available: `base`, the three fonts, `gestures`, `button`, `input`, `select`,
+> `checkbox`, `switch`, `badge`, `skeleton`, `sonner`, `card`, `tabs`, `table`, `accordion`, `dialog`, `tooltip`,
+> `speech-bubble`, `screentone`, `speed-lines`, `panel`, `sfx`.
+
+## The grammar
+
+Every component applies the same eight gestures, written once in `base`: case (G1), flat (G2), hover (G3),
+impact (G4), pop (G5), bubble (G6), running line (G7) and mark (G8), in steps at 12 frames per second, and
+still with `prefers-reduced-motion`. See the Grammar page of the showcase and [AGENTS.md](AGENTS.md).
 
 ## Install
 

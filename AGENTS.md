@@ -15,7 +15,8 @@ components in a manga style; it never rewrites them. Read this file before chang
 
 ```
 registry.json                 # source of truth (items, descriptions, docs, meta.tagline/usage/props)
-registry/manga/base/          # mangacn.css -> synced into the `base` item
+registry/manga/base/          # mangacn.css -> synced into the `base` item (tokens, utilities, the grammar)
+registry/manga/lib/           # gestures.tsx: the JavaScript half of the grammar (impact, focus flash)
 registry/manga/ui/            # restyled shadcn components (thin wrappers)
 registry/manga/signature/     # manga components (SpeechBubble, Screentone, ...)
 registry/manga/webtoon/       # webtoon components (drawn in ink)
@@ -71,7 +72,51 @@ Categories (first one decides the showcase section): `foundations`, `actions`, `
 - **Overlays** (dialog, sheet, drawer) get their light screentone veil from base; never style them per component.
 - **Static twins for overlays**: export a static look-alike (`ToastCard`, `TooltipBubble`) sharing the same
   classes, so state grids can show frozen overlays.
+- **shadcn's own data-* variants:** `data-selected:`, `data-open:` and friends are redefined by
+  `shadcn/tailwind.css` (e.g. `data-selected` = `[data-selected="true"]`). Base UI sets empty attributes
+  (`data-selected=""`), so use the arbitrary form `data-[selected]:`.
+- **`!important` beats animations.** A colour set with `bg-x!` cannot be animated; `fill-in` paints with
+  background layers and `-webkit-text-fill-color` so it still works over important colours.
+- **Next.js:** files with hooks or event handlers start with `"use client"`. Next templates set
+  `--font-sans` (Geist) on `<html>`, so base sets the body font from `--font-manga-body` directly.
 - **Showcase only:** `data-force="hover|focus|active"` freezes a state in the tiles (see `vite.config.ts`).
+
+## Grammar — eight gestures
+
+A component never draws its own hover, selection or entrance: it applies a gesture. Each gesture is a
+utility in `base` or a small primitive in `gestures`. Cadence: 12 frames per second (83 ms a frame); a
+gesture lasts 2 to 4 frames (166–333 ms), always in `steps()`. With `prefers-reduced-motion` nothing
+moves and every state stays distinct (hidden effects such as lines start `invisible`).
+The showcase has a Grammar page (`#grammar`) that replays each one.
+
+| # | Gesture | When | How |
+| --- | --- | --- | --- |
+| G1 | Case | Every container: card, panel, window, list, field | `ink-case` (paper, 3px ink line, tone shadow; needs a positioned element). Inside a case: `ink-case-inner` (2px, no shadow) |
+| G2 | Flat | Selected, checked, active, current | `ink-fill` + `fill-in` (sweeps in over three frames in the reading direction). Bars: `animate-bar-in` |
+| G3 | Hover | Every interactive element | Framed: `hover-lift` (tone shadow appears at 2px, moves to 4px). Frameless: `hover-invert` or `hover-underline`. Never a tone behind text |
+| G4 | Impact | Every click or validation | `data-[impact]:animate-hit` + `<ImpactLines />` + `withImpact(onClick)` / `punch(el)` |
+| G5 | Pop | Whatever appears | `animate-pop` (0.9 → 1.05 → 1). Important windows: `<FocusFlash />`. Panels that slide: `animate-slide-in`; content that unfolds: `animate-drop-in` |
+| G6 | Bubble | Whatever floats and points | Tooltip / popover / hover card: a bubble with a tail. Lists and menus: `ink-case case-notch` (notch toward the trigger, from `data-side`) |
+| G7 | Running line | Progress, waiting, value | `fill-lines`; waiting: `Spinner` (`animate-spin-steps`) |
+| G8 | Mark | Status and emotion | Error: `mark-error`, `edge-jagged` (32px+), `animate-shake`. New: `shape-burst`. Done: `mark-check`. Brush shapes: `mark-chevron`, `mark-arrow`. Manpu marks |
+
+Disabled is not a gesture and does not change: dashed line, tone frame, label on paper, not-allowed cursor.
+
+**Control rule:** if a component needs something the grammar does not cover, do not invent it silently:
+write it in "Special cases" below and flag it.
+
+### Special cases (flagged, waiting for a decision)
+
+- **Tabs index, hover:** a heavier top line instead of G3's tone shadow (one shadow per tab was ruled out).
+- **Tabs boxed and Accordion, hover:** a thick underline (G3 frameless) rather than inversion, because an
+  inverted cell would look selected (G2).
+- **Switch and Checkbox, hover:** a heavier line (and the switch thumb leans) instead of a tone shadow:
+  they are 24px or less (rule C) and `::after` is taken (stock hit area, spark).
+- **Fields (Input, Select trigger), hover and focus:** the line thickens, like Input, not a tone shadow.
+- **G5 for content:** sliding (`animate-slide-in`, tabs) and unfolding (`animate-drop-in`, accordion) are
+  variants of the pop where a scale would look wrong.
+- **G4 needs JavaScript:** the impact must outlive `:active` (and work from the keyboard), so it lives in
+  a new `gestures` item (`registry:lib`, `@/lib/manga/gestures`), pulled in by the components that use it.
 
 ## Style rules
 
