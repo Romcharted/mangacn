@@ -83,14 +83,13 @@ const triggerVariants: Record<TabsVariant, string> = {
     "data-disabled:after:scale-x-100 data-disabled:after:h-0 data-disabled:after:bottom-0.5 data-disabled:after:border-b-2 data-disabled:after:border-dashed data-disabled:after:border-foreground data-disabled:after:bg-transparent",
     "group-data-[orientation=vertical]/mtabs:justify-start group-data-[orientation=vertical]/mtabs:pe-3 group-data-[orientation=vertical]/mtabs:after:inset-x-auto group-data-[orientation=vertical]/mtabs:after:inset-y-0 group-data-[orientation=vertical]/mtabs:after:-end-[calc(var(--mg-bw)+1.5px)] group-data-[orientation=vertical]/mtabs:after:h-auto group-data-[orientation=vertical]/mtabs:after:w-[5px] group-data-[orientation=vertical]/mtabs:after:origin-top group-data-[orientation=vertical]/mtabs:after:scale-x-100 group-data-[orientation=vertical]/mtabs:after:scale-y-0 group-data-[orientation=vertical]/mtabs:aria-selected:after:scale-y-100 group-data-[orientation=vertical]/mtabs:hover:after:scale-y-100 group-data-[orientation=vertical]/mtabs:hover:after:w-0.5",
   ].join(" "),
-  // One frame, cells split by a line, the active cell an ink flat (G2). Hover (G3, frameless): a thick underline.
+  // One frame, cells split by a line, the active cell an ink flat (G2). Hover (G3, cells of a group): the line thickens.
   boxed: [
     "relative border-0 border-s-[length:var(--mg-bw)] border-border bg-background! px-4 py-1.5 first:border-s-0",
     flat,
-    "hover:shadow-[inset_0_-3px_0_var(--background),inset_0_-6px_0_var(--foreground)] aria-selected:hover:shadow-none",
+    "hover-thicken aria-selected:hover:shadow-none",
     "group-data-[orientation=vertical]/mtabs:justify-start group-data-[orientation=vertical]/mtabs:border-s-0 group-data-[orientation=vertical]/mtabs:border-t-[length:var(--mg-bw)] group-data-[orientation=vertical]/mtabs:first:border-t-0",
     "data-disabled:underline data-disabled:decoration-dashed data-disabled:decoration-2 data-disabled:underline-offset-4 data-disabled:hover:shadow-none",
-    "data-disabled:before:pointer-events-none data-disabled:before:absolute data-disabled:before:inset-x-0 data-disabled:before:bottom-0 data-disabled:before:h-1.5 data-disabled:before:tone-35",
   ].join(" "),
 }
 
