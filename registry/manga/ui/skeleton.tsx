@@ -12,8 +12,8 @@ export type SkeletonProps = React.ComponentProps<typeof ShadcnSkeleton> & {
 
 const shapes: Record<SkeletonShape, string> = {
   text: "h-4 w-full",
-  avatar: "size-12 border-[length:var(--mg-bw)] border-border",
-  panel: "aspect-[4/3] w-full border-ink-panel",
+  avatar: "size-12",
+  panel: "aspect-[4/3] w-full border-ink-fine",
   block: "",
 }
 
@@ -24,7 +24,7 @@ function Skeleton({ shape = "block", className, ...props }: SkeletonProps) {
       data-manga="skeleton"
       data-shape={shape}
       aria-hidden
-      className={cn("rounded-(--radius) bg-muted tone-20 animate-tone-flicker", shapes[shape], className)}
+      className={cn("rounded-(--radius) bg-muted tone-10 animate-tone-flicker", shapes[shape], className)}
       {...props}
     />
   )
@@ -33,8 +33,8 @@ function Skeleton({ shape = "block", className, ...props }: SkeletonProps) {
 /** A card-shaped placeholder: panel, title line and two text lines. */
 function SkeletonCard({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-manga="skeleton-card" aria-hidden className={cn("w-full max-w-xs space-y-3 border-ink-panel p-3", className)} {...props}>
-      <Skeleton shape="panel" className="border-[length:var(--mg-bw)]" />
+    <div data-manga="skeleton-card" aria-hidden className={cn("w-full max-w-xs space-y-3 border-ink-fine p-3", className)} {...props}>
+      <Skeleton shape="panel" />
       <Skeleton shape="text" className="h-5 w-2/3" />
       <Skeleton shape="text" />
       <Skeleton shape="text" className="w-4/5" />

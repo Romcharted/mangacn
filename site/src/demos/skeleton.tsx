@@ -27,3 +27,15 @@ export function States() {
     </div>
   )
 }
+
+export function Thumb() {
+  return (
+    <div className="flex w-48 items-center gap-3">
+      <Skeleton shape="avatar" />
+      <div className="flex-1 space-y-2">
+        <Skeleton shape="text" className="w-3/4" />
+        <Skeleton shape="text" />
+      </div>
+    </div>
+  )
+}
