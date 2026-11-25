@@ -1,0 +1,65 @@
+{
+  "name": "data-table",
+  "type": "registry:ui",
+  "title": "Data Table",
+  "description": "A sortable, filterable, selectable table built on @tanstack/react-table and the mangacn Table. The table is a case with an ink header; sorted columns show a brush arrow (aria-sort); the hovered row gets its ink bar and selected rows a 6px bar. The toolbar has a filter field (filterColumn) and a column visibility menu (grouped, checkable items). Row selection uses the mangacn Checkbox, with a select-all in the header; pagination uses the mangacn Button. An empty filter result shows the \"…\" mark (TableEmpty). Props: columns, data, filterColumn?, pageSize?, onSelectionChange?(rows). Also exports selectColumn.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/table",
+    "Romcharted/mangacn/checkbox",
+    "Romcharted/mangacn/input",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/dropdown-menu",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "@tanstack/react-table@^8"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/data-table.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/data-table.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/data-table\". Column definitions use the TanStack v8 type ColumnDef<TData> (useReactTable with getCoreRowModel, getSortedRowModel, getFilteredRowModel and getPaginationRowModel). Every column with an accessorKey sorts unless enableSorting is false. Row ids are the index in data, so onSelectionChange returns the caller's own rows.",
+  "meta": {
+    "tagline": "Sort, filter, select and page a list in an ink-lined table.",
+    "usage": "import { DataTable } from \"@/components/ui/manga/data-table\"\nimport type { ColumnDef } from \"@tanstack/react-table\"\n\nconst columns: ColumnDef<Chapter>[] = [\n  { accessorKey: \"title\", header: \"Chapter\" },\n  { accessorKey: \"pages\", header: \"Pages\" },\n]\n\n<DataTable columns={columns} data={chapters} filterColumn=\"title\" pageSize={10} onSelectionChange={(rows) => setPicked(rows)} />",
+    "props": [
+      {
+        "name": "columns",
+        "type": "ColumnDef<TData, TValue>[]",
+        "description": "Column definitions. A selection column is added first by the table."
+      },
+      {
+        "name": "data",
+        "type": "TData[]",
+        "description": "The rows."
+      },
+      {
+        "name": "filterColumn",
+        "type": "string",
+        "description": "Column id searched by the toolbar filter."
+      },
+      {
+        "name": "pageSize",
+        "type": "number",
+        "description": "Rows per page (default 10)."
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(rows: TData[]) => void",
+        "description": "Called with the selected rows, in data order, when the selection changes."
+      },
+      {
+        "name": "selectColumn",
+        "type": "() => ColumnDef<TData>",
+        "description": "The leading checkbox column, for custom placement."
+      }
+    ]
+  }
+}
