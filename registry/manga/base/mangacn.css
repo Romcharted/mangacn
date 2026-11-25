@@ -163,8 +163,8 @@
 }
 
 /*
- * Overlays behind dialogs, sheets and drawers: a light, wide screentone fixed to the
- * screen (no moiré when scrolling or zooming), never blur or translucent grey.
+ * Overlays behind dialogs, sheets and drawers: a paper wash that quiets the page behind, under a light,
+ * wide screentone fixed to the screen (no moiré when scrolling or zooming). Never blur, never grey.
  * Unlayered on purpose: it must beat the stock bg-black/10 + backdrop-blur utilities.
  */
 [data-slot="dialog-overlay"],
@@ -173,7 +173,7 @@
 [data-slot="drawer-overlay"] {
   --_s: 14px;
   --_tr: 1.1px;
-  background-color: transparent;
+  background-color: color-mix(in oklch, var(--background) 72%, transparent);
   background-image: radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.6px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.6px));
   background-size: var(--_s) var(--_s);
   background-position: 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2);
