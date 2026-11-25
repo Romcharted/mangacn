@@ -48,11 +48,12 @@ function StatusStamp({ status }: { status: Status }) {
 }
 
 const columns: ColumnDef<Task>[] = [
-  { accessorKey: "title", header: "Task" },
-  { accessorKey: "chapter", header: "Chapter" },
-  { accessorKey: "artist", header: "Artist" },
-  { accessorKey: "due", header: "Due" },
-  { accessorKey: "status", header: "Status", cell: ({ getValue }) => <StatusStamp status={getValue<Status>()} /> },
+  // On phones each task is a card: the task, its stamp and the due day (chapter and artist stay in the table).
+  { accessorKey: "title", header: "Task", meta: { card: "title" } },
+  { accessorKey: "chapter", header: "Chapter", meta: { card: false } },
+  { accessorKey: "artist", header: "Artist", meta: { card: false } },
+  { accessorKey: "due", header: "Due", meta: { card: "line" } },
+  { accessorKey: "status", header: "Status", meta: { card: "badge" }, cell: ({ getValue }) => <StatusStamp status={getValue<Status>()} /> },
 ]
 
 export function Tasks({ className }: { className?: string }) {
