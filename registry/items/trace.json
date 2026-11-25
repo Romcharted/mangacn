@@ -21,7 +21,7 @@
       "target": "@ui/manga/trace.tsx"
     }
   ],
-  "docs": "Import from \"@/components/ui/manga/trace\". It wraps your own components/ui/trace (and so your Collapsible), so Radix and Base UI both work. Leave TraceIcon empty to get the status mark; pass an icon to replace it.",
+  "docs": "Import from \"@/components/ui/manga/trace\". It wraps your own components/ui/trace (and so your Collapsible), so Radix and Base UI both work.\n\nOptional status mark (a mangacn addition, not in stock shadcn): leave TraceIcon empty and it draws the mark of the line's status (done: brush check, running: Spinner, pending: hollow square, error: \"!\"). It is opt-in by leaving the icon out: pass your own icon as children, as in stock shadcn, and the automatic mark never shows.",
   "meta": {
     "tagline": "An agent's steps, inked line by line with status marks.",
     "usage": "import { Trace, TraceDescription, TraceIcon, TraceLine, TraceTitle } from \"@/components/ui/manga/trace\"\n\n<Trace>\n  <TraceLine>\n    <TraceIcon />\n    <TraceTitle>Read chapter-12.md</TraceTitle>\n    <TraceDescription>0.4s</TraceDescription>\n  </TraceLine>\n  <TraceLine status=\"running\">\n    <TraceIcon />\n    <TraceTitle>Inking page 9…</TraceTitle>\n  </TraceLine>\n</Trace>",
@@ -34,7 +34,7 @@
       {
         "name": "TraceIcon children",
         "type": "ReactNode",
-        "description": "Empty: the status mark. Any icon replaces it."
+        "description": "Optional. Your own icon, as in stock shadcn. Leave it out to get the automatic status mark (a mangacn addition): check, Spinner, hollow square or \"!\" from the line's status."
       },
       {
         "name": "TraceCollapsible",
