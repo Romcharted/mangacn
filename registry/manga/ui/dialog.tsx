@@ -73,7 +73,7 @@ function DialogBody({ className, ...props }: React.ComponentProps<"div">) {
 function DialogFooter({ className, ...props }: React.ComponentProps<typeof ShadcnDialogFooter>) {
   return (
     <ShadcnDialogFooter
-      className={cn("-mx-5 -mb-5 rounded-t-none rounded-b-(--radius) border-t-[length:var(--mg-bw)] border-border bg-background p-4 tone-10", className)}
+      className={cn("-mx-5 -mb-5 rounded-t-none rounded-b-(--radius) border-t-[length:var(--mg-bw)] border-border bg-background p-4", className)}
       {...props}
     />
   )
