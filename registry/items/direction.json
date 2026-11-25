@@ -1,0 +1,38 @@
+{
+  "name": "direction",
+  "type": "registry:ui",
+  "title": "Direction",
+  "description": "Plain re-export of shadcn's Direction provider (DirectionProvider and useDirection), with the same API. Nothing is dressed: direction has no manga effect. It always takes `direction` (\"ltr\" or \"rtl\"), which both the Base UI and the Radix versions accept. The writing direction (dir) is what the kit's logical properties and rtl: variants follow; the manga reading order (data-reading) is a separate setting.",
+  "categories": [
+    "foundations"
+  ],
+  "registryDependencies": [
+    "direction",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/manga/ui/direction.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/direction.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/direction\". It wraps your own components/ui/direction, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "Left to right or right to left, for the whole subtree.",
+    "usage": "import { DirectionProvider, useDirection } from \"@/components/ui/manga/direction\"\n\n<DirectionProvider direction=\"rtl\">\n  <div dir=\"rtl\">...</div>\n</DirectionProvider>",
+    "props": [
+      {
+        "name": "direction",
+        "type": "\"ltr\" | \"rtl\"",
+        "description": "The direction the subtree is laid out in. Set dir on the element too, so CSS follows."
+      },
+      {
+        "name": "useDirection()",
+        "type": "hook",
+        "description": "Returns the current direction from the nearest provider."
+      }
+    ]
+  }
+}
