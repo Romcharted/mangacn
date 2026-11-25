@@ -105,6 +105,7 @@
     "registry/items/portfolio.json",
     "registry/items/catalog.json",
     "registry/items/sign-in.json",
-    "registry/items/verify-code.json"
+    "registry/items/verify-code.json",
+    "registry/items/reset-password.json"
   ]
 }
