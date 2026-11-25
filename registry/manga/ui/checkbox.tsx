@@ -13,7 +13,8 @@ function Checkbox({ className, ...props }: CheckboxProps) {
       data-manga="checkbox"
       className={cn(
         "size-5 rounded-[calc(var(--radius)*0.4)] border-[length:var(--mg-bw)] border-border bg-background text-foreground shadow-none transition-none dark:bg-background",
-        "hover:tone-20 active:translate-x-0.5 active:translate-y-0.5 rtl:active:-translate-x-0.5 active:animate-impact",
+        // hover thickens the line; no screentone under 24px (rule C)
+        "hover:border-[3px] active:translate-x-0.5 active:translate-y-0.5 rtl:active:-translate-x-0.5",
         "focus-visible:border-border focus-visible:ring-0 focus-ink",
         // checked: ink flat, the brush check draws itself in 3 frames
         "aria-checked:bg-primary! aria-checked:bg-none aria-checked:text-primary-foreground aria-checked:border-primary",
@@ -21,11 +22,11 @@ function Checkbox({ className, ...props }: CheckboxProps) {
         // indeterminate: a thick ink bar
         "aria-[checked=mixed]:bg-primary! aria-[checked=mixed]:bg-none aria-[checked=mixed]:text-primary-foreground aria-[checked=mixed]:[&_svg]:hidden",
         "aria-[checked=mixed]:before:absolute aria-[checked=mixed]:before:h-[3px] aria-[checked=mixed]:before:w-2.5 aria-[checked=mixed]:before:bg-current aria-[checked=mixed]:before:content-['']",
-        // disabled: dashed line + light tone; the mark stays visible in ink
-        "data-disabled:opacity-100 disabled:opacity-100 aria-disabled:opacity-100 group-has-disabled/field:opacity-100 data-disabled:border-dashed data-disabled:border-border data-disabled:bg-background! data-disabled:text-foreground! data-disabled:tone-10",
+        // disabled: dashed line; the mark stays visible in ink
+        "data-disabled:opacity-100 disabled:opacity-100 aria-disabled:opacity-100 group-has-disabled/field:opacity-100 data-disabled:border-dashed data-disabled:border-border data-disabled:bg-background! data-disabled:text-foreground! data-disabled:cursor-not-allowed data-disabled:hover:border-[length:var(--mg-bw)]",
         "data-disabled:aria-checked:bg-background! data-disabled:aria-checked:text-foreground! data-disabled:aria-[checked=mixed]:bg-background! data-disabled:aria-[checked=mixed]:text-foreground!",
         // error: stamp red line and red tone
-        "aria-invalid:border-destructive aria-invalid:ring-0 aria-invalid:[--tone-ink:var(--destructive)] aria-invalid:tone-20 aria-invalid:aria-checked:bg-destructive! aria-invalid:aria-checked:border-destructive",
+        "aria-invalid:border-[3px] aria-invalid:border-destructive aria-invalid:ring-0 aria-invalid:aria-checked:bg-destructive! aria-invalid:aria-checked:border-destructive",
         className,
       )}
       {...props}

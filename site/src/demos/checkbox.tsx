@@ -36,3 +36,12 @@ export function States() {
     />
   )
 }
+
+export function Thumb() {
+  return (
+    <div className="grid gap-2 text-sm">
+      <label className="flex items-center gap-2"><Checkbox defaultChecked /> Notify me</label>
+      <label className="flex items-center gap-2"><Checkbox /> Spoilers</label>
+    </div>
+  )
+}
