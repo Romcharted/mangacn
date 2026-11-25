@@ -1,0 +1,35 @@
+{
+  "name": "kbd",
+  "type": "registry:ui",
+  "title": "Kbd",
+  "description": "Manga-styled wrapper around your shadcn Kbd: a key cap drawn in ink. A 2px frame with a heavier 3px bottom edge, like a pressed key; paper inside; lettering inside, uppercase. KbdGroup spaces a chord (Ctrl K). No tone (under 24px). Keys are not interactive: no hover, press or focus state. Works inline in a sentence, in a tooltip and on an ink flat.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "kbd",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/kbd.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/kbd.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/kbd\". It wraps your own components/ui/kbd, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A key cap in ink, with a heavier bottom edge like a pressed key.",
+    "usage": "import { Kbd, KbdGroup } from \"@/components/ui/manga/kbd\"\n\n<p>\n  Search with <KbdGroup><Kbd>Ctrl</Kbd><Kbd>K</Kbd></KbdGroup>\n</p>",
+    "props": [
+      {
+        "name": "KbdGroup",
+        "type": "component",
+        "description": "Spaces a chord of keys (Ctrl, Shift, K) on one line."
+      }
+    ]
+  }
+}
