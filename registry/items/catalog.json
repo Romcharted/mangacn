@@ -1,0 +1,45 @@
+{
+  "name": "catalog",
+  "type": "registry:block",
+  "title": "Catalog",
+  "description": "A library catalog made only with mangacn: a search field (Input Group with a search icon and a clear button), shelf Tabs in the underline variant (All / Reading / Completed / Wishlist), filters (genre Native Select, status Toggles for new / ongoing / completed / hiatus, sort Native Select), a live result count, and a grid of Volume Cards with abstract covers drawn in inline SVG (ink, paper and screentone dots). When nothing matches, the kit Empty state offers to clear the search and filters. Mobile first: one column at 360 px with two cards per row and a Filters button that opens the fields in a bottom Drawer; from 48rem of its own width (container query @3xl/main) the filters sit in a case beside a grid of three to five columns. Works with Base UI and Radix, in light, dark and any accent.",
+  "categories": [
+    "blocks"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/volume-card",
+    "Romcharted/mangacn/input-group",
+    "Romcharted/mangacn/tabs",
+    "Romcharted/mangacn/native-select",
+    "Romcharted/mangacn/toggle",
+    "Romcharted/mangacn/drawer",
+    "Romcharted/mangacn/empty",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/badge",
+    "Romcharted/mangacn/label",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/blocks/catalog/catalog.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/blocks/catalog.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/blocks/catalog\". The root fills its container and follows the page (no inner scroll). Replace VOLUMES with your own data and the SVG covers with image URLs (VolumeCard takes a string or a node as cover).",
+  "meta": {
+    "tagline": "Volume cards, filters, tabs and search.",
+    "usage": "import { Catalog } from \"@/components/manga/blocks/catalog\"\n\n<Catalog className=\"min-h-svh\" />",
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Size and placement of the whole interface."
+      }
+    ]
+  }
+}

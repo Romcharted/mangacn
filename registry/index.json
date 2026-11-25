@@ -100,6 +100,7 @@
     "registry/items/landing-page.json",
     "registry/items/ai-chat.json",
     "registry/items/manga-reader.json",
-    "registry/items/portfolio.json"
+    "registry/items/portfolio.json",
+    "registry/items/catalog.json"
   ]
 }
