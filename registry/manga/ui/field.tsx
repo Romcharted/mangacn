@@ -33,6 +33,8 @@ function FieldLabel({ className, ...props }: React.ComponentProps<typeof ShadcnF
         "has-[>[data-slot=field]]:rounded-(--radius) has-[>[data-slot=field]]:border-[length:var(--mg-bw)] has-[>[data-slot=field]]:border-border has-[>[data-slot=field]]:font-sans has-[>[data-slot=field]]:normal-case has-[>[data-slot=field]]:tracking-normal",
         "has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-transparent has-[>[data-slot=field]]:hover-thicken",
         "has-data-checked:border-border has-data-checked:bg-transparent dark:has-data-checked:bg-transparent has-aria-checked:shadow-[inset_6px_0_0_var(--foreground)] rtl:has-aria-checked:shadow-[inset_-6px_0_0_var(--foreground)]",
+        // the control sits on the first line of the label, clear of the 6px bar
+        "has-[>[data-slot=field]]:[&_[data-manga=radio]]:mt-[6px]! has-[>[data-slot=field]]:[&_[data-manga=radio]]:ms-2 has-[>[data-slot=field]]:[&_[data-manga=checkbox]]:mt-0.5 has-[>[data-slot=field]]:[&_[data-manga=checkbox]]:ms-1.5",
         "has-[>[data-slot=field]]:has-[:focus-visible]:ring-0 has-[>[data-slot=field]]:has-[:focus-visible]:outline-2 has-[>[data-slot=field]]:has-[:focus-visible]:outline-offset-4 has-[>[data-slot=field]]:has-[:focus-visible]:outline-solid",
         className,
       )}
