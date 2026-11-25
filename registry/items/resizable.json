@@ -1,0 +1,37 @@
+{
+  "name": "resizable",
+  "type": "registry:ui",
+  "title": "Resizable",
+  "description": "Manga-styled wrapper around your shadcn Resizable panels (react-resizable-panels v4). The handle is a 2px ink line: hover thickens it by 1px per side, focus draws the focus ring, and a grip (withHandle) is a small 2px-framed box that turns to an ink flat while dragging. The hit area is 24px wide (44px under 640 px). Put the group inside a case (ink-case) to frame the panels.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "resizable",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "react-resizable-panels"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/resizable.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/resizable.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/resizable\". The group and panel are your own shadcn parts; the handle is drawn here on the same react-resizable-panels Separator, because the stock handle classes would fight the 2px line. Panel sizes are numbers in pixels, or strings for percentages (defaultSize=\"60\").",
+  "meta": {
+    "tagline": "Panels divided by a 2px ink line with a grip to pull.",
+    "usage": "import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from \"@/components/ui/manga/resizable\"\n\n<ResizablePanelGroup orientation=\"horizontal\" className=\"ink-case relative h-80\">\n  <ResizablePanel defaultSize=\"60\">Page</ResizablePanel>\n  <ResizableHandle withHandle />\n  <ResizablePanel defaultSize=\"40\">Notes</ResizablePanel>\n</ResizablePanelGroup>",
+    "props": [
+      {
+        "name": "withHandle",
+        "type": "boolean",
+        "default": "false",
+        "description": "On ResizableHandle: draws the grip (a small 2px-framed box with two ink lines)."
+      }
+    ]
+  }
+}

@@ -73,6 +73,7 @@
     "registry/items/native-select.json",
     "registry/items/context-menu.json",
     "registry/items/menubar.json",
+    "registry/items/resizable.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json"
   ]
