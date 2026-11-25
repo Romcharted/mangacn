@@ -31,14 +31,14 @@ export function States() {
   return (
     <div className="space-y-8">
       <p className="text-sm">Each row: active · hover (Vol. 2) · focus (Vol. 3) · disabled (Vol. 4).</p>
-      {(["index", "underline", "pills"] as const).map((v) => (
+      {(["index", "underline", "boxed"] as const).map((v) => (
         <figure key={v} className="space-y-2">
           <figcaption className="font-mono text-xs">variant="{v}"</figcaption>
           <Sample variant={v} frozen />
         </figure>
       ))}
       <div className="grid gap-8 sm:grid-cols-3">
-        {(["index", "underline", "pills"] as const).map((v) => (
+        {(["index", "underline", "boxed"] as const).map((v) => (
           <figure key={v} className="space-y-2">
             <figcaption className="font-mono text-xs">variant="{v}" vertical</figcaption>
             <Sample variant={v} vertical />
@@ -51,11 +51,13 @@ export function States() {
 
 export function Thumb() {
   return (
-    <Tabs defaultValue="a">
+    <Tabs variant="boxed" defaultValue="a" className="w-48">
       <TabsList>
         <TabsTrigger value="a">Vol. 1</TabsTrigger>
         <TabsTrigger value="b">Vol. 2</TabsTrigger>
       </TabsList>
+      <TabsContent value="a" className="pt-2 text-sm">One long night.</TabsContent>
+      <TabsContent value="b" className="pt-2 text-sm">After the rain.</TabsContent>
     </Tabs>
   )
 }
