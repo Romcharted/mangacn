@@ -11,8 +11,20 @@ import { DirectionProvider as ShadcnDirectionProvider, useDirection as shadcnUse
 
 export type Direction = "ltr" | "rtl"
 
+// The Radix version types `dir` as required (it reads `direction ?? dir`); the Base UI version reads `direction`.
+// Passing both, through a loose type, compiles and works with either library.
+const Provider = ShadcnDirectionProvider as unknown as React.ComponentType<{
+  direction: Direction
+  dir: Direction
+  children?: React.ReactNode
+}>
+
 function DirectionProvider({ direction, children }: { direction: Direction; children?: React.ReactNode }) {
-  return <ShadcnDirectionProvider direction={direction}>{children}</ShadcnDirectionProvider>
+  return (
+    <Provider direction={direction} dir={direction}>
+      {children}
+    </Provider>
+  )
 }
 
 const useDirection = shadcnUseDirection
