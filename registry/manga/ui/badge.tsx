@@ -29,13 +29,15 @@ const variants: Record<BadgeVariant, string> = {
   // the tone is a small tab at the start; the label stays on paper
   tone: "isolate border-border bg-background ps-4 text-foreground before:absolute before:inset-y-0 before:start-0 before:-z-10 before:w-2 before:border-e-[length:var(--mg-bw-fine)] before:border-border before:tone-50 before:content-[''] [a]:hover:bg-background [a]:hover:underline",
   // under 32px a serrated edge eats the label: badges get a clean accent flat
-  destructive: "border-destructive bg-destructive text-primary-foreground dark:bg-destructive [a]:hover:bg-destructive [a]:hover:underline",
+  // G8 error: a "!" mark before the label
+  destructive: "before:content-['!'] before:font-sfx before:-me-0.5 border-destructive bg-destructive text-primary-foreground dark:bg-destructive [a]:hover:bg-destructive [a]:hover:underline",
   burst: [
-    "isolate my-2 overflow-visible border-transparent bg-transparent px-3 text-primary-foreground [a]:hover:bg-transparent",
+    // G8 "new": a burst, popping in (G5)
+    "isolate my-2 overflow-visible border-transparent bg-transparent px-3 text-primary-foreground animate-pop [a]:hover:bg-transparent",
     "before:absolute before:-inset-x-2.5 before:-inset-y-3 before:-z-10 before:bg-primary before:content-[''] before:shape-burst",
   ].join(" "),
   stamp: [
-    "-rotate-6 rtl:rotate-6 border-destructive bg-transparent px-2.5 font-sfx text-xs tracking-[0.15em] text-destructive",
+    "animate-pop -rotate-6 rtl:rotate-6 border-destructive bg-transparent px-2.5 font-sfx text-xs tracking-[0.15em] text-destructive",
     "shadow-[inset_0_0_0_2px_var(--background),inset_0_0_0_3px_var(--destructive)] [a]:hover:bg-transparent [a]:hover:text-destructive",
   ].join(" "),
 }

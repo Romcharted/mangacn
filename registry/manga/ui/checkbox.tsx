@@ -17,7 +17,7 @@ function Checkbox({ className, ...props }: CheckboxProps) {
         "hover:border-[3px] active:translate-x-0.5 active:translate-y-0.5 rtl:active:-translate-x-0.5",
         "focus-visible:border-border focus-visible:ring-0 focus-ink",
         // checked: ink flat, the brush check draws itself in 3 frames
-        "aria-checked:bg-primary! aria-checked:bg-none aria-checked:text-primary-foreground aria-checked:border-primary",
+        "aria-checked:bg-primary! aria-checked:bg-none aria-checked:text-primary-foreground aria-checked:border-primary aria-checked:fill-in", // G2 + G8
         "[&_svg]:size-4 [&_svg]:stroke-[3.5] [&_svg_path]:[stroke-dasharray:24] [&_svg_path]:animate-draw [--draw-length:24]",
         // indeterminate: a thick ink bar
         "aria-[checked=mixed]:bg-primary! aria-[checked=mixed]:bg-none aria-[checked=mixed]:text-primary-foreground aria-[checked=mixed]:[&_svg]:hidden",

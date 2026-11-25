@@ -13,7 +13,7 @@ export type SwitchProps = React.ComponentProps<typeof ShadcnSwitch>
 // and a small spark flies off when it turns on (data-fx, set below; skipped with reduced motion).
 const classes = [
   "relative h-6! w-11! shrink-0 rounded-(--radius) border-[length:var(--mg-bw)] border-border bg-background! px-0.5 shadow-none transition-none",
-  "aria-checked:bg-primary! aria-checked:border-primary",
+  "aria-checked:bg-primary! aria-checked:border-primary aria-checked:fill-in", // G2: the ink flat sweeps in
   // thumb
   "[&_[data-slot=switch-thumb]]:z-10 [&_[data-slot=switch-thumb]]:size-4 [&_[data-slot=switch-thumb]]:rounded-[calc(var(--radius)*0.6)] [&_[data-slot=switch-thumb]]:shadow-none",
   "[&_[data-slot=switch-thumb]]:transition-[translate]! [&_[data-slot=switch-thumb]]:duration-[249ms]! [&_[data-slot=switch-thumb]]:ease-[steps(3,jump-start)]!",
