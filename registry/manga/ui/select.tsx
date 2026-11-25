@@ -24,7 +24,7 @@ function SelectTrigger({ className, ...props }: React.ComponentProps<typeof Shad
     <ShadcnSelectTrigger
       data-manga="select-trigger"
       className={cn(
-        "relative h-10! max-w-full min-w-40 gap-3 rounded-(--radius) border-[length:var(--mg-bw)] border-input bg-background px-3 text-base text-foreground shadow-none transition-none dark:bg-background dark:hover:bg-background",
+        "relative h-10! max-w-full min-w-32 sm:min-w-40 gap-3 rounded-(--radius) border-[length:var(--mg-bw)] border-input bg-background px-3 text-base text-foreground shadow-none transition-none dark:bg-background dark:hover:bg-background",
         "data-[size=sm]:h-8! data-[size=sm]:text-sm data-placeholder:text-foreground data-placeholder:italic",
         // the stock chevron is replaced by a brush chevron that turns in two steps when open
         "[&>svg]:hidden after:mark-chevron after:shrink-0 after:text-sm aria-expanded:after:rotate-180 aria-expanded:after:animate-chevron",

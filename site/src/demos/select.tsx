@@ -85,28 +85,28 @@ export function States() {
       <Tile label="trigger · rest">
         <Select>
           <SelectTrigger aria-label="Rest">
-            <SelectValue placeholder="Pick a volume" />
+            <SelectValue placeholder="Volume" />
           </SelectTrigger>
         </Select>
       </Tile>
       <Tile label="trigger · hover">
         <Select>
           <SelectTrigger aria-label="Hover" {...force("hover")}>
-            <SelectValue placeholder="Pick a volume" />
+            <SelectValue placeholder="Volume" />
           </SelectTrigger>
         </Select>
       </Tile>
       <Tile label="trigger · focus">
         <Select>
           <SelectTrigger aria-label="Focus" {...force("focus")}>
-            <SelectValue placeholder="Pick a volume" />
+            <SelectValue placeholder="Volume" />
           </SelectTrigger>
         </Select>
       </Tile>
       <Tile label="trigger · disabled">
         <Select disabled>
           <SelectTrigger aria-label="Disabled">
-            <SelectValue placeholder="Pick a volume" />
+            <SelectValue placeholder="Volume" />
           </SelectTrigger>
         </Select>
       </Tile>
