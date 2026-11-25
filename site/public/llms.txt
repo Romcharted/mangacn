@@ -1,6 +1,6 @@
 # mangacn
 
-> 18 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with a webtoon theme (data-theme="webtoon"). MIT. Installed with the shadcn CLI straight from GitHub.
+> 24 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with a webtoon theme (data-theme="webtoon"). MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -44,6 +44,27 @@ Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --fo
 - Install: `npx shadcn@latest add Romcharted/mangacn/font-sfx`
 - Categories: foundations
 
+### Gestures (`gestures`)
+
+The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4 impact on click or keyboard validation (data-impact for ~250 ms), <ImpactLines> draws the short speed lines outside the element, <FocusFlash> flashes concentration lines behind an important window (G5). Everything is skipped with prefers-reduced-motion.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/gestures`
+- Categories: foundations
+- Props:
+  - `punch(el)`: `(el: Element) => void` — Plays the three-frame impact on an element.
+  - `withImpact(handler)`: `(handler?) => handler` — Wraps a click handler so it also plays the impact.
+  - `<ImpactLines offset>`: `"normal" | "far"` (default `"normal"`) — Speed lines on both sides; "far" for bursts.
+  - `<FocusFlash />`: `component` — Concentration lines behind a window when it opens.
+
+```tsx
+import { ImpactLines, withImpact } from "@/lib/manga/gestures"
+
+<button className="relative data-[impact]:animate-hit" onClick={withImpact(onSave)}>
+  Save
+  <ImpactLines />
+</button>
+```
+
 ### Button (`button`)
 
 Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth. A click plays a three-frame impact (negative, recoil, settle) with short speed lines on both sides; the shout burst fidgets on hover.
@@ -78,6 +99,29 @@ import { Input } from "@/components/ui/manga/input"
 
 <Input placeholder="Pen name" />
 <Input aria-invalid defaultValue="reader@" />
+```
+
+### Select (`select`)
+
+Manga-styled wrapper around your shadcn Select. The trigger is drawn like Input with a brush chevron that turns in two steps. The list is a case (3px ink line, tone shadow) with a notch toward the trigger, popping in over three frames. The highlighted option inverts to ink; the chosen option gets a brush check that draws itself. Group labels are underlined lettering; disabled options keep the label with a dashed underline. Adds SelectEmpty (a “…” mark) and SelectLoading (turning concentration lines).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/select`
+- Categories: actions
+- Props:
+  - `SelectEmpty`: `component` — Empty list: a “…” mark and a short line.
+  - `SelectLoading`: `component` — While options load: turning concentration lines.
+  - `aria-invalid`: `boolean` — On SelectTrigger: the error look.
+
+```tsx
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/manga/select"
+
+<Select>
+  <SelectTrigger><SelectValue placeholder="Pick a volume" /></SelectTrigger>
+  <SelectContent>
+    <SelectItem value="v1">Vol. 1</SelectItem>
+    <SelectItem value="v2">Vol. 2</SelectItem>
+  </SelectContent>
+</Select>
 ```
 
 ### Checkbox (`checkbox`)
@@ -198,6 +242,49 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/manga/
 </Tabs>
 ```
 
+### Table (`table`)
+
+Manga-styled wrapper around your shadcn Table. The table sits in a case; the header is an ink flat and stays in place while the body scrolls (maxHeight). Rows are split by a 1px line, never striped. Hovered row: a 3px ink bar at the row start; selected row (data-state="selected" or aria-selected): a 6px bar. Sortable headers get a brush arrow and aria-sort. Adds TableEmpty (a “…” mark) and TableLoading (flickering tone placeholders).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/table`
+- Categories: display
+- Props:
+  - `maxHeight`: `string` — On Table: height of the scroll area; the header stays in place.
+  - `sort`: `"ascending" | "descending" | "none"` — On TableHead: sortable column with a brush arrow (sets aria-sort).
+  - `onSort`: `() => void` — On TableHead: called when the arrow button is pressed.
+  - `TableEmpty / TableLoading`: `{ colSpan }` — Empty and loading rows.
+
+```tsx
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/manga/table"
+
+<Table>
+  <TableHeader>
+    <TableRow><TableHead sort="ascending">Title</TableHead><TableHead>Pages</TableHead></TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow data-state="selected"><TableCell>The long night</TableCell><TableCell>24</TableCell></TableRow>
+  </TableBody>
+</Table>
+```
+
+### Accordion (`accordion`)
+
+Manga-styled wrapper around your shadcn Accordion. Items are cases stacked so they share their lines; the open header is an ink flat that sweeps in, the content drops in by steps and the brush chevron turns in two steps. Hover thickens the label underline; disabled items keep the label on paper inside a tone frame. Radix needs type="single" | "multiple" on <Accordion>; Base UI does not.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/accordion`
+- Categories: display
+
+```tsx
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/manga/accordion"
+
+<Accordion>
+  <AccordionItem value="a">
+    <AccordionTrigger>Chapter 1</AccordionTrigger>
+    <AccordionContent>The long night.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
 ### Dialog (`dialog`)
 
 Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. Opens with concentration lines behind the window for a few frames.
@@ -292,4 +379,50 @@ import { SpeedLines } from "@/components/manga/speed-lines"
 <SpeedLines className="h-56 grid place-items-center">
   <span aria-hidden className="font-sfx text-6xl">ドン!</span>
 </SpeedLines>
+```
+
+### Panel (`panel`)
+
+Manga page layout. PanelGrid is the page (a CSS grid with gutters; cols, rows, gap, reading="rtl" for right-to-left panel order). Panel is a case placed on it (colSpan, rowSpan) with a 3px outline drawn in SVG, so a side can be cut on a slant (cut={{ side: "start" | "end", size }} in px; give the neighbour the opposite cut and the gutter stays parallel); ink panels for night scenes. PanelCaption is the narration box, a 2px case in a corner. Compose with SpeedLines, Screentone, SpeechBubble and Sfx.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/panel`
+- Categories: manga
+- Props:
+  - `cols / rows / gap`: `number / number / string` — On PanelGrid: the page grid.
+  - `reading`: `"ltr" | "rtl"` — On PanelGrid: panel order; defaults to the page setting (data-reading on <html>).
+  - `colSpan / rowSpan`: `number` — On Panel: cells covered.
+  - `cut`: `{ side: "start" | "end"; size?: number }` — On Panel: slanted side, size in px (default 32).
+  - `ink`: `boolean` — On Panel: ink background, paper lines.
+  - `position`: `"top-start" | "top-end" | "bottom-start" | "bottom-end"` (default `"top-start"`) — On PanelCaption: corner.
+
+```tsx
+import { Panel, PanelCaption, PanelGrid } from "@/components/manga/panel"
+
+<PanelGrid cols={3} rows={2} className="aspect-[4/3]">
+  <Panel colSpan={2} rowSpan={2}>…</Panel>
+  <Panel cut={{ side: "start" }}>
+    <PanelCaption>Midnight.</PanelCaption>
+  </Panel>
+  <Panel>…</Panel>
+</PanelGrid>
+```
+
+### Sfx (`sfx`)
+
+Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/sfx`
+- Categories: manga
+- Props:
+  - `size`: `"sm" | "md" | "lg" | "xl"` (default `"md"`) — Letter size.
+  - `rotate`: `number` (default `-8`) — Tilt in degrees.
+  - `variant`: `"solid" | "outline"` (default `"solid"`) — Ink letters or outlined paper letters.
+  - `animated`: `boolean` (default `true`) — Stepped pop on appear (off with reduced motion).
+  - `label`: `string` — Spoken text; without it the SFX is aria-hidden.
+
+```tsx
+import { Sfx } from "@/components/manga/sfx"
+
+<Sfx size="lg" rotate={-10}>ドン</Sfx>
+<Sfx variant="outline" label="Silence">シーン</Sfx>
 ```

@@ -28,7 +28,7 @@
           "color-accent-ink": "var(--mg-accent)",
           "animate-impact": "mg-impact 166ms linear",
           "animate-shake": "mg-shake 240ms step-end",
-          "animate-pop": "mg-pop 240ms step-end",
+          "animate-pop": "mg-pop 249ms step-end",
           "animate-spin-steps": "mg-spin 666ms steps(8) infinite",
           "animate-draw": "mg-draw 240ms steps(3) both",
           "animate-enter": "mg-enter 166ms step-end",
@@ -44,7 +44,10 @@
           "animate-burst-lines": "mg-burst-lines 583ms step-end both",
           "animate-toast-in": "mg-toast-in 249ms step-end both",
           "animate-trail-v": "mg-trail-v 249ms step-end both",
-          "animate-page-hit": "mg-page-hit 333ms step-end"
+          "animate-page-hit": "mg-page-hit 333ms step-end",
+          "animate-bar-in": "mg-bar-in 249ms step-end backwards",
+          "animate-chevron": "mg-chevron 166ms step-end backwards",
+          "animate-drop-in": "mg-drop-in 249ms step-end backwards"
         },
         "light": {
           "paper": "oklch(0.975 0.008 85)",
@@ -157,6 +160,16 @@
           "backdrop-filter": "none",
           "animation": "none"
         },
+        "@property --shadow-x": {
+          "syntax": "\"<length>\"",
+          "inherits": "true",
+          "initial-value": "6px"
+        },
+        "@property --shadow-y": {
+          "syntax": "\"<length>\"",
+          "inherits": "true",
+          "initial-value": "6px"
+        },
         "@layer base": {
           ":root": {
             "--mg-bw": "2px",
@@ -178,7 +191,7 @@
             "outline-color": "var(--ring)"
           },
           "body": {
-            "font-family": "var(--font-sans)"
+            "font-family": "var(--font-manga-body, \"Atkinson Hyperlegible Next Variable\", \"Atkinson Hyperlegible Next\", ui-sans-serif, system-ui, sans-serif)"
           },
           ".bg-muted": {
             "--_ms": "8px",
@@ -404,13 +417,13 @@
         },
         "@keyframes mg-pop": {
           "0%": {
-            "scale": "0.4"
+            "scale": "0.9"
           },
           "33%": {
-            "scale": "1.2"
+            "scale": "1.05"
           },
           "66%": {
-            "scale": "0.95"
+            "scale": "1"
           },
           "100%": {
             "scale": "1"
@@ -606,16 +619,20 @@
         },
         "@keyframes mg-toast-in": {
           "0%": {
-            "translate": "0 32px"
+            "translate": "0 32px",
+            "scale": "0.9"
           },
           "33%": {
-            "translate": "0 12px"
+            "translate": "0 10px",
+            "scale": "1.05"
           },
           "66%": {
-            "translate": "0 3px"
+            "translate": "0 2px",
+            "scale": "1"
           },
           "100%": {
-            "translate": "0 0"
+            "translate": "0 0",
+            "scale": "1"
           }
         },
         "@keyframes mg-trail-v": {
@@ -656,6 +673,221 @@
           "100%": {
             "filter": "none",
             "translate": "0 0"
+          }
+        },
+        "@utility ink-case": {
+          "--mg-bw": "var(--mg-bw-panel)",
+          "background-color": "var(--tone-paper, var(--card))",
+          "color": "var(--card-foreground)",
+          "border": "var(--mg-bw-panel) solid var(--border)",
+          "isolation": "isolate",
+          "&::after": {
+            "content": "\"\"",
+            "position": "absolute",
+            "z-index": "-1",
+            "pointer-events": "none",
+            "inset": "calc(var(--mg-bw) * -1)",
+            "border-radius": "inherit",
+            "translate": "var(--shadow-x) var(--shadow-y)",
+            "--_tr": "calc(var(--tone-size) * 0.236)",
+            "background-image": "radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+            "background-size": "var(--tone-size) var(--tone-size)",
+            "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+            "clip-path": "polygon(calc(100% - var(--shadow-x)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--shadow-y)), calc(100% - var(--shadow-x)) calc(100% - var(--shadow-y)))"
+          },
+          "&:where([dir=\"rtl\"], [dir=\"rtl\"] *)::after": {
+            "translate": "calc(var(--shadow-x) * -1) var(--shadow-y)",
+            "clip-path": "polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%)"
+          }
+        },
+        "@utility ink-case-inner": {
+          "background-color": "var(--tone-paper, var(--card))",
+          "border": "var(--mg-bw) solid var(--border)"
+        },
+        "@utility fill-in": {
+          "--_from": "0%",
+          "animation": "mg-fill-in 249ms step-end backwards",
+          "&:where([dir=\"rtl\"], [dir=\"rtl\"] *, [data-reading=\"rtl\"] *)": {
+            "--_from": "100%"
+          }
+        },
+        "@keyframes mg-fill-in": {
+          "0%": {
+            "background-image": "linear-gradient(var(--primary), var(--primary)), linear-gradient(var(--background), var(--background))",
+            "background-repeat": "no-repeat",
+            "background-position": "var(--_from) 0, 0 0",
+            "background-size": "34% 100%, 100% 100%",
+            "-webkit-text-fill-color": "var(--foreground)"
+          },
+          "33%": {
+            "background-image": "linear-gradient(var(--primary), var(--primary)), linear-gradient(var(--background), var(--background))",
+            "background-repeat": "no-repeat",
+            "background-position": "var(--_from) 0, 0 0",
+            "background-size": "67% 100%, 100% 100%",
+            "-webkit-text-fill-color": "var(--foreground)"
+          },
+          "66%": {
+            "background-image": "none",
+            "-webkit-text-fill-color": "var(--primary-foreground)"
+          },
+          "100%": {
+            "background-image": "none",
+            "-webkit-text-fill-color": "var(--primary-foreground)"
+          }
+        },
+        "@keyframes mg-bar-in": {
+          "0%": {
+            "scale": "0.34 1"
+          },
+          "33%": {
+            "scale": "0.67 1"
+          },
+          "66%": {
+            "scale": "1 1"
+          },
+          "100%": {
+            "scale": "1 1"
+          }
+        },
+        "@utility hover-lift": {
+          "--shadow-x": "2px",
+          "--shadow-y": "2px",
+          "transition": "--shadow-x 166ms steps(2, jump-none), --shadow-y 166ms steps(2, jump-none) !important",
+          "&:hover": {
+            "--shadow-x": "4px",
+            "--shadow-y": "4px",
+            "isolation": "isolate",
+            "&::after": {
+              "content": "\"\"",
+              "position": "absolute",
+              "z-index": "-1",
+              "pointer-events": "none",
+              "inset": "calc(var(--mg-bw) * -1)",
+              "border-radius": "inherit",
+              "translate": "var(--shadow-x) var(--shadow-y)",
+              "--_tr": "calc(var(--tone-size) * 0.236)",
+              "background-image": "radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+              "background-size": "var(--tone-size) var(--tone-size)",
+              "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+              "clip-path": "polygon(calc(100% - var(--shadow-x)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--shadow-y)), calc(100% - var(--shadow-x)) calc(100% - var(--shadow-y)))"
+            },
+            "&:where([dir=\"rtl\"], [dir=\"rtl\"] *)::after": {
+              "translate": "calc(var(--shadow-x) * -1) var(--shadow-y)",
+              "clip-path": "polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%)"
+            }
+          },
+          "&:active": {
+            "--shadow-x": "2px",
+            "--shadow-y": "2px"
+          }
+        },
+        "@utility hover-invert": {
+          "&:hover": {
+            "background-color": "var(--foreground)",
+            "color": "var(--background)",
+            "--tone-ink": "var(--background)"
+          }
+        },
+        "@utility hover-underline": {
+          "text-decoration-line": "underline",
+          "text-decoration-thickness": "2px",
+          "text-underline-offset": "4px",
+          "&:hover": {
+            "text-decoration-thickness": "4px"
+          }
+        },
+        "@utility case-notch": {
+          "&::before": {
+            "content": "\"\"",
+            "display": "none",
+            "position": "absolute",
+            "z-index": "1",
+            "inset-inline-start": "1.25rem",
+            "width": "12px",
+            "height": "12px",
+            "background": "var(--tone-paper, var(--popover))",
+            "border-top": "var(--mg-bw) solid var(--border)",
+            "border-left": "var(--mg-bw) solid var(--border)"
+          },
+          "&:where([data-side=\"bottom\"])::before": {
+            "display": "block",
+            "top": "calc(var(--mg-bw) * -1 - 7px)",
+            "rotate": "45deg"
+          },
+          "&:where([data-side=\"top\"])::before": {
+            "display": "block",
+            "bottom": "calc(var(--mg-bw) * -1 - 7px)",
+            "rotate": "225deg"
+          }
+        },
+        "@utility fill-lines": {
+          "background-color": "var(--primary)",
+          "background-image": "repeating-linear-gradient(to bottom, #0000 0 3px, var(--primary-foreground) 3px 4px, #0000 4px 7px, var(--primary-foreground) 7px 7.6px, #0000 7.6px 11px)",
+          "background-size": "100% 11px"
+        },
+        "@utility mark-check": {
+          "display": "inline-block",
+          "width": "1em",
+          "height": "1em",
+          "background-color": "currentColor",
+          "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3.5 13.2c1.6.9 3.4 2.6 5 4.8.3.4.9.4 1.1-.1C12 12 15.4 7.4 20.6 3.6c.5-.4 0-1.1-.6-.8C14.4 5.6 10.8 9.8 8.6 14.4c-1.2-1.4-2.6-2.4-4.2-3-1-.4-1.8 1.2-.9 1.8z'/%3E%3C/svg%3E\") center / contain no-repeat",
+          "animation": "mg-check-in 249ms step-end backwards"
+        },
+        "@keyframes mg-check-in": {
+          "0%": {
+            "clip-path": "inset(0 66% 0 0)"
+          },
+          "33%": {
+            "clip-path": "inset(0 33% 0 0)"
+          },
+          "66%": {
+            "clip-path": "inset(0 0 0 0)"
+          },
+          "100%": {
+            "clip-path": "inset(0 0 0 0)"
+          }
+        },
+        "@keyframes mg-chevron": {
+          "0%": {
+            "rotate": "0deg"
+          },
+          "50%": {
+            "rotate": "90deg"
+          },
+          "100%": {
+            "rotate": "180deg"
+          }
+        },
+        "@utility mark-chevron": {
+          "display": "inline-block",
+          "width": "1em",
+          "height": "1em",
+          "background-color": "currentColor",
+          "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2.3 8.6c-.9-.9-.2-2.6 1.1-2.2 3.1 1 5.7 3.1 8.6 5.9 2.6-2.9 5.4-5.2 8.7-6.5 1.3-.5 2.2 1.1 1.2 2-3.3 3-6 6.2-8.5 9.9-.6.9-1.9.9-2.5 0-2.7-3.5-5.4-6.5-8.6-9.1z'/%3E%3C/svg%3E\") center / contain no-repeat"
+        },
+        "@utility mark-arrow": {
+          "display": "inline-block",
+          "width": "1em",
+          "height": "1em",
+          "background-color": "currentColor",
+          "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11.2 2.6c.4-.5 1.2-.5 1.6 0 2 2.6 3.8 4.6 6 6.6.6.6-.1 1.6-.9 1.2-1.4-.7-2.7-1.6-3.9-2.7.1 4.3.3 8.6.7 12.9.1.9-1.3 1.1-1.5.2-.6-4.3-.9-8.6-1-13-1.4 1.2-2.9 2.2-4.5 3-.8.4-1.5-.6-.9-1.2 1.6-2.2 3-4.6 4.4-7z'/%3E%3C/svg%3E\") center / contain no-repeat"
+        },
+        "@keyframes mg-drop-in": {
+          "0%": {
+            "translate": "0 -0.75rem",
+            "clip-path": "inset(0 0 66% 0)"
+          },
+          "33%": {
+            "translate": "0 -0.35rem",
+            "clip-path": "inset(0 0 33% 0)"
+          },
+          "66%": {
+            "translate": "0 0",
+            "clip-path": "inset(0 0 0 0)"
+          },
+          "100%": {
+            "translate": "0 0",
+            "clip-path": "inset(0 0 0 0)"
           }
         }
       },
@@ -740,6 +972,56 @@
       }
     },
     {
+      "name": "gestures",
+      "type": "registry:lib",
+      "title": "Gestures",
+      "description": "The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4 impact on click or keyboard validation (data-impact for ~250 ms), <ImpactLines> draws the short speed lines outside the element, <FocusFlash> flashes concentration lines behind an important window (G5). Everything is skipped with prefers-reduced-motion.",
+      "categories": [
+        "foundations"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/lib/gestures.tsx",
+          "type": "registry:lib",
+          "target": "@lib/manga/gestures.tsx"
+        }
+      ],
+      "docs": "Import from \"@/lib/manga/gestures\". Installed automatically by the components that use it.",
+      "meta": {
+        "tagline": "Impact and flash primitives shared by every component.",
+        "usage": "import { ImpactLines, withImpact } from \"@/lib/manga/gestures\"\n\n<button className=\"relative data-[impact]:animate-hit\" onClick={withImpact(onSave)}>\n  Save\n  <ImpactLines />\n</button>",
+        "props": [
+          {
+            "name": "punch(el)",
+            "type": "(el: Element) => void",
+            "description": "Plays the three-frame impact on an element."
+          },
+          {
+            "name": "withImpact(handler)",
+            "type": "(handler?) => handler",
+            "description": "Wraps a click handler so it also plays the impact."
+          },
+          {
+            "name": "<ImpactLines offset>",
+            "type": "\"normal\" | \"far\"",
+            "default": "\"normal\"",
+            "description": "Speed lines on both sides; \"far\" for bursts."
+          },
+          {
+            "name": "<FocusFlash />",
+            "type": "component",
+            "description": "Concentration lines behind a window when it opens."
+          }
+        ]
+      }
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -749,7 +1031,8 @@
       ],
       "registryDependencies": [
         "button",
-        "Romcharted/mangacn/base"
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/gestures"
       ],
       "dependencies": [
         "cn"
@@ -830,6 +1113,51 @@
             "name": "aria-invalid",
             "type": "boolean",
             "description": "Shows the error look."
+          }
+        ]
+      }
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Manga-styled wrapper around your shadcn Select. The trigger is drawn like Input with a brush chevron that turns in two steps. The list is a case (3px ink line, tone shadow) with a notch toward the trigger, popping in over three frames. The highlighted option inverts to ink; the chosen option gets a brush check that draws itself. Group labels are underlined lettering; disabled options keep the label with a dashed underline. Adds SelectEmpty (a “…” mark) and SelectLoading (turning concentration lines).",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "select",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/select.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/select.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/select\". It wraps your own components/ui/select, so Radix and Base UI both work.",
+      "meta": {
+        "tagline": "An ink-lined trigger; the list pops in as a notched case.",
+        "usage": "import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from \"@/components/ui/manga/select\"\n\n<Select>\n  <SelectTrigger><SelectValue placeholder=\"Pick a volume\" /></SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"v1\">Vol. 1</SelectItem>\n    <SelectItem value=\"v2\">Vol. 2</SelectItem>\n  </SelectContent>\n</Select>",
+        "props": [
+          {
+            "name": "SelectEmpty",
+            "type": "component",
+            "description": "Empty list: a “…” mark and a short line."
+          },
+          {
+            "name": "SelectLoading",
+            "type": "component",
+            "description": "While options load: turning concentration lines."
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "On SelectTrigger: the error look."
           }
         ]
       }
@@ -1085,6 +1413,85 @@
       }
     },
     {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Manga-styled wrapper around your shadcn Table. The table sits in a case; the header is an ink flat and stays in place while the body scrolls (maxHeight). Rows are split by a 1px line, never striped. Hovered row: a 3px ink bar at the row start; selected row (data-state=\"selected\" or aria-selected): a 6px bar. Sortable headers get a brush arrow and aria-sort. Adds TableEmpty (a “…” mark) and TableLoading (flickering tone placeholders).",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "table",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/table.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/table.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/table\". It wraps your own components/ui/table, so Radix and Base UI both work.",
+      "meta": {
+        "tagline": "An ink header, 1px rules, and an ink bar for the hovered row.",
+        "usage": "import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from \"@/components/ui/manga/table\"\n\n<Table>\n  <TableHeader>\n    <TableRow><TableHead sort=\"ascending\">Title</TableHead><TableHead>Pages</TableHead></TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow data-state=\"selected\"><TableCell>The long night</TableCell><TableCell>24</TableCell></TableRow>\n  </TableBody>\n</Table>",
+        "props": [
+          {
+            "name": "maxHeight",
+            "type": "string",
+            "description": "On Table: height of the scroll area; the header stays in place."
+          },
+          {
+            "name": "sort",
+            "type": "\"ascending\" | \"descending\" | \"none\"",
+            "description": "On TableHead: sortable column with a brush arrow (sets aria-sort)."
+          },
+          {
+            "name": "onSort",
+            "type": "() => void",
+            "description": "On TableHead: called when the arrow button is pressed."
+          },
+          {
+            "name": "TableEmpty / TableLoading",
+            "type": "{ colSpan }",
+            "description": "Empty and loading rows."
+          }
+        ]
+      }
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Manga-styled wrapper around your shadcn Accordion. Items are cases stacked so they share their lines; the open header is an ink flat that sweeps in, the content drops in by steps and the brush chevron turns in two steps. Hover thickens the label underline; disabled items keep the label on paper inside a tone frame. Radix needs type=\"single\" | \"multiple\" on <Accordion>; Base UI does not.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "accordion",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/accordion.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/accordion.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/accordion\". It wraps your own components/ui/accordion, so Radix and Base UI both work.",
+      "meta": {
+        "tagline": "Stacked cases; the open one turns to ink.",
+        "usage": "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from \"@/components/ui/manga/accordion\"\n\n<Accordion>\n  <AccordionItem value=\"a\">\n    <AccordionTrigger>Chapter 1</AccordionTrigger>\n    <AccordionContent>The long night.</AccordionContent>\n  </AccordionItem>\n</Accordion>",
+        "props": []
+      }
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
@@ -1094,7 +1501,8 @@
       ],
       "registryDependencies": [
         "dialog",
-        "Romcharted/mangacn/base"
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/gestures"
       ],
       "dependencies": [
         "cn"
@@ -1335,6 +1743,124 @@
             "type": "boolean | \"slow\"",
             "default": "false",
             "description": "Redraws the lines in steps: true ≈ 6 fps, \"slow\" ≈ 2 fps. Off with reduced motion."
+          }
+        ]
+      }
+    },
+    {
+      "name": "panel",
+      "type": "registry:component",
+      "title": "Panel",
+      "description": "Manga page layout. PanelGrid is the page (a CSS grid with gutters; cols, rows, gap, reading=\"rtl\" for right-to-left panel order). Panel is a case placed on it (colSpan, rowSpan) with a 3px outline drawn in SVG, so a side can be cut on a slant (cut={{ side: \"start\" | \"end\", size }} in px; give the neighbour the opposite cut and the gutter stays parallel); ink panels for night scenes. PanelCaption is the narration box, a 2px case in a corner. Compose with SpeedLines, Screentone, SpeechBubble and Sfx.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/panel.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/panel.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/panel\".",
+      "meta": {
+        "tagline": "A page grid, slanted cuts and narration boxes.",
+        "usage": "import { Panel, PanelCaption, PanelGrid } from \"@/components/manga/panel\"\n\n<PanelGrid cols={3} rows={2} className=\"aspect-[4/3]\">\n  <Panel colSpan={2} rowSpan={2}>…</Panel>\n  <Panel cut={{ side: \"start\" }}>\n    <PanelCaption>Midnight.</PanelCaption>\n  </Panel>\n  <Panel>…</Panel>\n</PanelGrid>",
+        "props": [
+          {
+            "name": "cols / rows / gap",
+            "type": "number / number / string",
+            "description": "On PanelGrid: the page grid."
+          },
+          {
+            "name": "reading",
+            "type": "\"ltr\" | \"rtl\"",
+            "description": "On PanelGrid: panel order; defaults to the page setting (data-reading on <html>)."
+          },
+          {
+            "name": "colSpan / rowSpan",
+            "type": "number",
+            "description": "On Panel: cells covered."
+          },
+          {
+            "name": "cut",
+            "type": "{ side: \"start\" | \"end\"; size?: number }",
+            "description": "On Panel: slanted side, size in px (default 32)."
+          },
+          {
+            "name": "ink",
+            "type": "boolean",
+            "description": "On Panel: ink background, paper lines."
+          },
+          {
+            "name": "position",
+            "type": "\"top-start\" | \"top-end\" | \"bottom-start\" | \"bottom-end\"",
+            "default": "\"top-start\"",
+            "description": "On PanelCaption: corner."
+          }
+        ]
+      }
+    },
+    {
+      "name": "sfx",
+      "type": "registry:component",
+      "title": "Sfx",
+      "description": "Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/sfx.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/sfx.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/sfx\".",
+      "meta": {
+        "tagline": "Sound effects in heavy lettering, with a paper knockout.",
+        "usage": "import { Sfx } from \"@/components/manga/sfx\"\n\n<Sfx size=\"lg\" rotate={-10}>ドン</Sfx>\n<Sfx variant=\"outline\" label=\"Silence\">シーン</Sfx>",
+        "props": [
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+            "default": "\"md\"",
+            "description": "Letter size."
+          },
+          {
+            "name": "rotate",
+            "type": "number",
+            "default": "-8",
+            "description": "Tilt in degrees."
+          },
+          {
+            "name": "variant",
+            "type": "\"solid\" | \"outline\"",
+            "default": "\"solid\"",
+            "description": "Ink letters or outlined paper letters."
+          },
+          {
+            "name": "animated",
+            "type": "boolean",
+            "default": "true",
+            "description": "Stepped pop on appear (off with reduced motion)."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "description": "Spoken text; without it the SFX is aria-hidden."
           }
         ]
       }
