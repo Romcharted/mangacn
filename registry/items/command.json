@@ -21,7 +21,7 @@
       "target": "@ui/manga/command.tsx"
     }
   ],
-  "docs": "Import from \"@/components/ui/manga/command\". It wraps your own components/ui/command (cmdk), so the stock command and cmdk are installed with it. CommandDialog uses the manga Dialog around the stock Command.",
+  "docs": "Import from \"@/components/ui/manga/command\". It wraps your own components/ui/command (cmdk), so the stock command and cmdk are installed with it. CommandDialog uses the manga Dialog around the stock Command. CommandDialog, like the stock one, expects a <Command> inside it: <CommandDialog><Command><CommandInput />…</Command></CommandDialog>.",
   "meta": {
     "tagline": "A notched case of commands: the highlighted row inverts to ink.",
     "usage": "import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandShortcut } from \"@/components/ui/manga/command\"\n\n<Command>\n  <CommandInput placeholder=\"Search chapters…\" />\n  <CommandList>\n    <CommandEmpty>No page matches.</CommandEmpty>\n    <CommandGroup heading=\"Read\">\n      <CommandItem value=\"chapter-12\">\n        Chapter 12 — The rooftop\n        <CommandShortcut>1</CommandShortcut>\n      </CommandItem>\n    </CommandGroup>\n  </CommandList>\n</Command>",
