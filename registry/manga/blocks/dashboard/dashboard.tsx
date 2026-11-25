@@ -225,7 +225,7 @@ export function Dashboard({ className }: { className?: string }) {
             </SidebarFooter>
           </Sidebar>
 
-          <SidebarInset className="min-h-0 min-w-0 overflow-auto">
+          <SidebarInset className="@container/main min-h-0 min-w-0 overflow-auto">
             <header className="sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b-[length:var(--mg-bw)] border-border bg-background px-3 py-2">
               <SidebarTrigger />
               <h1 className="font-letter text-2xl leading-none tracking-wide uppercase">{view}</h1>
@@ -256,14 +256,14 @@ export function Dashboard({ className }: { className?: string }) {
             </header>
 
             <div className="grid gap-5 p-4 sm:p-5">
-              <section aria-label="Key figures" className="grid grid-cols-1 gap-4 min-[440px]:grid-cols-2 lg:grid-cols-4">
+              <section aria-label="Key figures" className="grid grid-cols-1 gap-4 @md/main:grid-cols-2 @3xl/main:grid-cols-4">
                 <Stat label="Readers" value={figures.readers} delta={figures.delta} trend="up" emphasis />
                 <Stat label="Chapters out" value={figures.chapters} delta="+2" trend="up" />
                 <Stat label="Sales" value={figures.sales} delta="+3%" trend="up" />
                 <Stat label="Rating" value={figures.rating} delta="−0.1" trend="down" />
               </section>
 
-              <section aria-label="Charts" className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-2">
+              <section aria-label="Charts" className="grid grid-cols-[minmax(0,1fr)] gap-5 @4xl/main:grid-cols-2">
                 <figure className="grid gap-2">
                   <figcaption className="font-letter text-lg uppercase">Reads and sales</figcaption>
                   <ChartContainer config={config} className="[--chart-h:15rem]">
