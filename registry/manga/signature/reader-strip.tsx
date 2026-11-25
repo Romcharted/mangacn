@@ -60,8 +60,11 @@ function ReaderPage({ page, index, count, framed = true, status: forced, onRetry
       className={cn("relative mx-auto w-full", className)}
       style={{ maxWidth: page.width }}
     >
+      {/* Dark mode: pages are printed scans and stay light, so they sit on a paper mat (the light value) with a
+          fine ink rule around the page, instead of a raw light block on the dark page. */}
+      <div className={cn("w-full bg-background dark:bg-foreground dark:p-2", framed && "border-ink")}>
       <div
-        className={cn("relative w-full overflow-hidden bg-background", framed && "border-ink")}
+        className="relative w-full overflow-hidden bg-background dark:outline-1 dark:outline-background dark:outline-solid"
         style={{ aspectRatio: `${page.width} / ${page.height}` }}
       >
         {s !== "error" && (
@@ -103,6 +106,7 @@ function ReaderPage({ page, index, count, framed = true, status: forced, onRetry
             </div>
           </div>
         )}
+      </div>
       </div>
       <figcaption className="sr-only">
         Page {n} of {count}
@@ -188,11 +192,12 @@ function ReaderStrip({
   React.useEffect(() => {
     const ol = list.current
     if (!ol) return
-    const parent = scrollParent(ol)
     const last = { ratio: -1, index: -1, atEnd: false }
     let frame = 0
     const measure = () => {
       frame = 0
+      // found again on every measure: the layout may turn a frame into a scroller (or back) at any time
+      const parent = scrollParent(ol)
       const vTop = parent ? parent.getBoundingClientRect().top + parent.clientTop : 0
       const vH = parent ? parent.clientHeight : window.innerHeight
       const box = ol.getBoundingClientRect()
@@ -222,14 +227,16 @@ function ReaderStrip({
       if (!frame) frame = requestAnimationFrame(measure)
     }
     measure()
-    const scroller: HTMLElement | Window = parent ?? window
-    scroller.addEventListener("scroll", schedule, { passive: true })
+    // capture: hears the scroll of the window and of whichever ancestor scrolls now
+    const opts = { capture: true, passive: true } as const
+    document.addEventListener("scroll", schedule, opts)
     window.addEventListener("resize", schedule)
     const ro = new ResizeObserver(schedule)
     ro.observe(ol)
+    ro.observe(document.documentElement)
     return () => {
       cancelAnimationFrame(frame)
-      scroller.removeEventListener("scroll", schedule)
+      document.removeEventListener("scroll", schedule, opts)
       window.removeEventListener("resize", schedule)
       ro.disconnect()
     }
