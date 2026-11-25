@@ -1,0 +1,29 @@
+{
+  "name": "collapsible",
+  "type": "registry:ui",
+  "title": "Collapsible",
+  "description": "Manga-styled wrapper around your shadcn Collapsible. The trigger is a frameless lettering row: its underline thickens on hover and its brush chevron turns in two steps when open. The content unfolds with a drop-in by steps. No frame of its own, so it sits on the page or inside a case the caller adds. Disabled keeps the label on paper with a dashed underline and a not-allowed cursor. Works with Radix and Base UI.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "collapsible",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/collapsible.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/collapsible.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/collapsible\". It wraps your own components/ui/collapsible, so Radix and Base UI both work.",
+  "meta": {
+    "tagline": "A lettering row that unfolds, its chevron turned to ink.",
+    "usage": "import { Collapsible, CollapsibleContent, CollapsibleTrigger } from \"@/components/ui/manga/collapsible\"\n\n<Collapsible>\n  <CollapsibleTrigger>Chapter notes</CollapsibleTrigger>\n  <CollapsibleContent>The rooftop scenes were drawn at night.</CollapsibleContent>\n</Collapsible>",
+    "props": []
+  }
+}
