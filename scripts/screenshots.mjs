@@ -63,9 +63,20 @@ const views = [
       await page.waitForTimeout(500)
     } },
   { name: "headline", path: "/fonts.html", hash: "", full: true, widths: [1280] },
+  { name: "grammar", hash: "#grammar", full: true },
+  { name: "switch", hash: "#switch", full: true },
+  { name: "select", hash: "#select", full: true },
+  { name: "select-open", hash: "#select", full: false, open: async (page) => {
+      await page.locator("[data-manga=select-trigger]").first().click()
+      await page.waitForTimeout(400)
+    } },
+  { name: "table", hash: "#table", full: true },
+  { name: "accordion", hash: "#accordion", full: true },
+  { name: "examples", hash: "#examples", full: true },
 ].filter((v) => !only || only.includes(v.name))
 
-for (const width of [375, 800, 1280, 1440]) {
+const widthsArg = args.includes("--widths") ? args[args.indexOf("--widths") + 1].split(",").map(Number) : null
+for (const width of widthsArg ?? [375, 800, 1280, 1440]) {
   for (const dark of [0, 1]) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: "reduce", deviceScaleFactor: 1 })
     for (const v of views) {
