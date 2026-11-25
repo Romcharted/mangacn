@@ -1,0 +1,46 @@
+{
+  "name": "trace",
+  "type": "registry:ui",
+  "title": "Trace",
+  "description": "Manga-styled wrapper around your shadcn Trace (the log of steps an agent ran). Every line is reading text in ink, never faded. An empty TraceIcon shows the mark of the line's status: done = a brush check, running = turning concentration lines (the kit Spinner, instead of the stock shimmer), pending = a small hollow square (no dashes: dashes mean disabled), error = accent text and a “!” mark. Lines inside a link or button are underlined; the underline thickens on hover and focus draws the ink / paper / ink ring. A collapsible group has a brush chevron that turns in two steps and content that unfolds in steps along a 1px ink rail on the start side. Durations (TraceDescription) are small mono, in ink.",
+  "categories": [
+    "feedback"
+  ],
+  "registryDependencies": [
+    "trace",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/spinner"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/trace.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/trace.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/trace\". It wraps your own components/ui/trace (and so your Collapsible), so Radix and Base UI both work. Leave TraceIcon empty to get the status mark; pass an icon to replace it.",
+  "meta": {
+    "tagline": "An agent's steps, inked line by line with status marks.",
+    "usage": "import { Trace, TraceDescription, TraceIcon, TraceLine, TraceTitle } from \"@/components/ui/manga/trace\"\n\n<Trace>\n  <TraceLine>\n    <TraceIcon />\n    <TraceTitle>Read chapter-12.md</TraceTitle>\n    <TraceDescription>0.4s</TraceDescription>\n  </TraceLine>\n  <TraceLine status=\"running\">\n    <TraceIcon />\n    <TraceTitle>Inking page 9…</TraceTitle>\n  </TraceLine>\n</Trace>",
+    "props": [
+      {
+        "name": "status",
+        "type": "\"running\" | \"error\" | \"pending\"",
+        "description": "On TraceLine. Omitted = done (brush check)."
+      },
+      {
+        "name": "TraceIcon children",
+        "type": "ReactNode",
+        "description": "Empty: the status mark. Any icon replaces it."
+      },
+      {
+        "name": "TraceCollapsible",
+        "type": "component",
+        "description": "A group of lines: TraceCollapsibleTrigger (wraps a TraceLine) and TraceCollapsibleContent."
+      }
+    ]
+  }
+}
