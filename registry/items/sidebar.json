@@ -1,0 +1,57 @@
+{
+  "name": "sidebar",
+  "type": "registry:ui",
+  "title": "Sidebar",
+  "description": "Manga-styled wrapper around your shadcn Sidebar. Desktop: a case with a 3px ink edge on its open side (like Sheet), paper inside. Rows are frameless and invert to ink on hover; the current row is an ink flat that sweeps in over three frames, as in Tabs. Group labels are underlined lettering. Badges are paper plates with an ink frame. The trigger is an ink square that inverts on hover; the rail is an ink line that thickens on hover. Collapsed (icon) mode keeps square icon cells. Mobile: the same panel as a sheet that slides in from its edge, with an offset second frame. Clicks hit with the impact gesture. Disabled rows: dashed frame and tone frame, label on paper. Parts: SidebarProvider, Sidebar, SidebarTrigger, SidebarRail, SidebarInset, SidebarHeader, SidebarFooter, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton (isActive, tooltip), SidebarMenuAction, SidebarMenuBadge, SidebarMenuSub, SidebarMenuSubButton, SidebarInput, SidebarSeparator, useSidebar.",
+  "categories": [
+    "navigation"
+  ],
+  "registryDependencies": [
+    "sidebar",
+    "sheet",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/sidebar.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/sidebar.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/sidebar\". It wraps your own components/ui/sidebar and components/ui/sheet, so Radix and Base UI both work. Wrap the app in SidebarProvider; the desktop panel is hidden below md and the sheet takes over on mobile. Use the stock behaviour for state (collapsible, defaultOpen, open, onOpenChange).",
+  "meta": {
+    "tagline": "A ruled side panel: ink rows, an ink flat for the current one, a sheet on mobile.",
+    "usage": "import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from \"@/components/ui/manga/sidebar\"\n\n<SidebarProvider>\n  <Sidebar collapsible=\"icon\">\n    <SidebarContent>\n      <SidebarGroup>\n        <SidebarGroupLabel>Browse</SidebarGroupLabel>\n        <SidebarMenu>\n          <SidebarMenuItem>\n            <SidebarMenuButton isActive>Library</SidebarMenuButton>\n          </SidebarMenuItem>\n        </SidebarMenu>\n      </SidebarGroup>\n    </SidebarContent>\n  </Sidebar>\n  <SidebarInset>\n    <SidebarTrigger />\n  </SidebarInset>\n</SidebarProvider>",
+    "props": [
+      {
+        "name": "collapsible",
+        "type": "\"offcanvas\" | \"icon\" | \"none\"",
+        "description": "On Sidebar. icon keeps square icon cells when collapsed; offcanvas slides the panel away; none is always open."
+      },
+      {
+        "name": "side",
+        "type": "\"left\" | \"right\"",
+        "description": "On Sidebar. Puts the 3px ink edge on the open side."
+      },
+      {
+        "name": "isActive",
+        "type": "boolean",
+        "description": "On SidebarMenuButton and SidebarMenuSubButton: the current row, an ink flat."
+      },
+      {
+        "name": "tooltip",
+        "type": "string | TooltipContent props",
+        "description": "On SidebarMenuButton: shown beside the icon when the panel is collapsed to icons."
+      },
+      {
+        "name": "showOnHover",
+        "type": "boolean",
+        "description": "On SidebarMenuAction: show the star only when the row is hovered."
+      }
+    ]
+  }
+}
