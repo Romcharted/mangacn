@@ -14,7 +14,7 @@ function Checkbox({ className, ...props }: CheckboxProps) {
       className={cn(
         "size-5 rounded-[calc(var(--radius)*0.4)] border-[length:var(--mg-bw)] border-border bg-background text-foreground shadow-none transition-none dark:bg-background",
         // hover thickens the line; no screentone under 24px (rule C)
-        "hover:border-[3px] active:translate-x-0.5 active:translate-y-0.5 rtl:active:-translate-x-0.5",
+        "hover-thicken active:translate-x-0.5 active:translate-y-0.5 rtl:active:-translate-x-0.5",
         "focus-visible:border-border focus-visible:ring-0 focus-ink",
         // checked: ink flat, the brush check draws itself in 3 frames
         "aria-checked:bg-primary! aria-checked:bg-none aria-checked:text-primary-foreground aria-checked:border-primary aria-checked:fill-in", // G2 + G8

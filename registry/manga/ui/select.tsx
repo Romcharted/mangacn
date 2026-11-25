@@ -28,7 +28,7 @@ function SelectTrigger({ className, ...props }: React.ComponentProps<typeof Shad
         "data-[size=sm]:h-8! data-[size=sm]:text-sm data-placeholder:text-foreground data-placeholder:italic",
         // the stock chevron is replaced by a brush chevron that turns in two steps when open
         "[&>svg]:hidden after:mark-chevron after:shrink-0 after:text-sm aria-expanded:after:rotate-180 aria-expanded:after:animate-chevron",
-        "hover:border-[3px] hover:px-[11px]",
+        "hover-thicken", // G3, third case: a field
         "focus-visible:border-ring focus-visible:ring-0 focus-visible:shadow-[inset_0_0_0_1px_var(--ring),0_0_0_2px_var(--background),0_0_0_4px_var(--ring)]",
         "aria-expanded:border-[3px] aria-expanded:px-[11px]",
         "disabled:opacity-100 disabled:border-dashed disabled:tone-frame disabled:cursor-not-allowed data-disabled:opacity-100 data-disabled:border-dashed data-disabled:tone-frame disabled:hover:border-[length:var(--mg-bw)] disabled:hover:px-3",
@@ -69,7 +69,7 @@ function SelectItem({ className, ...props }: React.ComponentProps<typeof ShadcnS
         "[&_svg]:hidden",
         "data-[selected]:after:mark-check data-[state=checked]:after:mark-check after:absolute after:end-2 after:text-lg",
         // disabled: label kept on paper, dashed underline, not-allowed cursor
-        "data-disabled:pointer-events-auto data-disabled:cursor-not-allowed data-disabled:opacity-100 data-disabled:underline data-disabled:decoration-dashed data-disabled:underline-offset-4",
+        "data-disabled:pointer-events-auto data-disabled:cursor-not-allowed data-disabled:opacity-100 data-disabled:underline data-disabled:decoration-dashed data-disabled:decoration-2 data-disabled:underline-offset-4",
         "data-disabled:data-highlighted:bg-transparent data-disabled:data-highlighted:text-foreground data-disabled:focus:bg-transparent data-disabled:focus:text-foreground",
         className,
       )}

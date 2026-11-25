@@ -20,7 +20,7 @@ const classes = [
   "[&_[data-slot=switch-thumb]]:bg-foreground! [&_[data-slot=switch-thumb]]:translate-x-0!",
   "aria-checked:[&_[data-slot=switch-thumb]]:bg-background! aria-checked:[&_[data-slot=switch-thumb]]:translate-x-5! rtl:aria-checked:[&_[data-slot=switch-thumb]]:-translate-x-5!",
   // hover: heavier frame and the thumb leans toward the other side
-  "hover:border-[3px] hover:px-[1px] hover:[&_[data-slot=switch-thumb]]:translate-x-[3px]! rtl:hover:[&_[data-slot=switch-thumb]]:-translate-x-[3px]!",
+  "hover-thicken hover:[&_[data-slot=switch-thumb]]:translate-x-[3px]! rtl:hover:[&_[data-slot=switch-thumb]]:-translate-x-[3px]!",
   "aria-checked:hover:[&_[data-slot=switch-thumb]]:translate-x-[17px]! rtl:aria-checked:hover:[&_[data-slot=switch-thumb]]:-translate-x-[17px]!",
   "active:translate-y-0.5",
   "focus-visible:border-border focus-visible:ring-0 focus-ink",
