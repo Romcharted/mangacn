@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Search } from "lucide-react"
 import { Button } from "@registry/manga/ui/button"
 import {
   Command,
@@ -132,18 +133,18 @@ export function States() {
   )
 }
 
+// A still drawing of the palette, not a live <Command>: cmdk scrolls its selected item into view when it
+// mounts, which drags the whole gallery page down to this card.
 export function Thumb() {
   return (
-    <div className="pointer-events-none w-60">
-      <Command>
-        <CommandInput placeholder="Search…" />
-        <CommandList>
-          <CommandGroup>
-            <CommandItem value="one">Chapter 12 — The rooftop</CommandItem>
-            <CommandItem value="two">Bookmark this page</CommandItem>
-          </CommandGroup>
-        </CommandList>
-      </Command>
+    <div aria-hidden className="ink-case w-60 bg-background p-1 text-base">
+      <div className="flex items-center gap-2 border-b-2 border-border px-2 py-2 italic">
+        <Search aria-hidden className="size-4" /> Search…
+      </div>
+      <div className="grid gap-0.5 p-1 pt-1.5">
+        <span className="ink-fill px-2 py-1.5">Chapter 12 — The rooftop</span>
+        <span className="px-2 py-1.5">Bookmark this page</span>
+      </div>
     </div>
   )
 }
