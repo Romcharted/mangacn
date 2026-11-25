@@ -36,7 +36,7 @@ function Sample({ variant, interactive, selected }: { variant: CardVariant; inte
 
 export function Preview() {
   return (
-    <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid items-start gap-10 sm:grid-cols-2 xl:grid-cols-3">
       <Sample variant="default" interactive />
       <Sample variant="bleed" />
       <Sample variant="tilted" />
@@ -46,7 +46,7 @@ export function Preview() {
 
 export function States() {
   return (
-    <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid items-start gap-10 sm:grid-cols-2 xl:grid-cols-3">
       {(["default", "bleed", "tilted", "splash", "beta"] as const).map((v) => (
         <figure key={v} className="space-y-3">
           <Sample variant={v} />
@@ -71,5 +71,16 @@ export function States() {
         <figcaption className="font-mono text-xs">interactive · selected</figcaption>
       </figure>
     </div>
+  )
+}
+
+export function Thumb() {
+  return (
+    <Card className="w-44 gap-2 py-3 [--card-spacing:--spacing(3)]">
+      <CardHeader>
+        <CardTitle className="text-lg">Chapter 12</CardTitle>
+        <CardDescription className="text-sm">The long night</CardDescription>
+      </CardHeader>
+    </Card>
   )
 }

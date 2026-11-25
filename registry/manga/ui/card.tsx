@@ -26,12 +26,52 @@ const variants: Record<CardVariant, string> = {
   default: "border-ink-panel bg-card tone-shadow",
   bleed:
     "border-ink-panel bg-card tone-shadow pt-0 *:[img:first-child]:w-full *:[img:first-child]:rounded-(--radius) *:[img:first-child]:border-b-[length:var(--mg-bw-panel)] *:[img:first-child]:border-border",
-  tilted: "border-ink-panel bg-card tone-shadow -rotate-1 rtl:rotate-1",
-  splash: "border-0 bg-transparent focus-lines [--focus-hole:46%_50%]",
+  // the slant is drawn by <TiltedFrame> (SVG frame + tone shadow); the content stays upright
+  tilted: "isolate border-0 bg-transparent pb-8",
+  // wide empty centre; the title sits on a paper plate
+  splash: "border-0 bg-transparent px-2 focus-lines [--focus-hole:56%_60%] **:data-[slot=card-title]:on-tone **:data-[slot=card-footer]:border-t-0",
   beta: "border-ink-panel bg-primary text-primary-foreground tone-shadow [--tone-paper:var(--primary)] **:data-[slot=card-description]:text-primary-foreground",
 }
 
-function Card({ variant = "default", interactive = false, selected = false, className, ...props }: CardProps) {
+const SLANT = 18
+
+/** Slanted-bottom panel drawn at the real size: tone shadow first, then the paper frame on top. */
+function TiltedFrame() {
+  const ref = React.useRef<SVGSVGElement>(null)
+  const [size, setSize] = React.useState({ w: 0, h: 0 })
+  const id = React.useId()
+  React.useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const update = () => setSize({ w: el.clientWidth, h: el.clientHeight })
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+  const { w, h } = size
+  const b = 1.5
+  const frame = (dx: number, dy: number) =>
+    `M${b + dx} ${b + dy}H${w - b + dx}V${h - b - SLANT + dy}L${b + dx} ${h - b + dy}Z`
+  return (
+    <svg ref={ref} aria-hidden className="pointer-events-none absolute inset-0 -z-10 size-full overflow-visible">
+      {w > 0 && (
+        <>
+          <defs>
+            <pattern id={id} width="6" height="6" patternUnits="userSpaceOnUse">
+              <circle cx="1.5" cy="1.5" r="1.4" style={{ fill: "var(--foreground)" }} />
+              <circle cx="4.5" cy="4.5" r="1.4" style={{ fill: "var(--foreground)" }} />
+            </pattern>
+          </defs>
+          <path d={frame(6, 6)} fill={`url(#${id})`} />
+          <path d={frame(0, 0)} style={{ fill: "var(--card)", stroke: "var(--border)", strokeWidth: 3, strokeLinejoin: "miter" }} />
+        </>
+      )}
+    </svg>
+  )
+}
+
+function Card({ variant = "default", interactive = false, selected = false, className, children, ...props }: CardProps) {
   return (
     <ShadcnCard
       data-manga="card"
@@ -46,7 +86,10 @@ function Card({ variant = "default", interactive = false, selected = false, clas
         className,
       )}
       {...props}
-    />
+    >
+      {variant === "tilted" && <TiltedFrame />}
+      {children}
+    </ShadcnCard>
   )
 }
 
