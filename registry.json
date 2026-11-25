@@ -30,6 +30,7 @@
           "animate-shake": "mg-shake 240ms step-end",
           "animate-pop": "mg-pop 249ms step-end",
           "animate-spin-steps": "mg-spin 666ms steps(8) infinite",
+          "animate-blink": "mg-blink 1000ms step-end infinite",
           "animate-draw": "mg-draw 240ms steps(3) both",
           "animate-enter": "mg-enter 166ms step-end",
           "animate-sfx": "mg-sfx 166ms step-end",
@@ -49,7 +50,8 @@
           "animate-bar-in": "mg-bar-in 249ms step-end backwards",
           "animate-chevron": "mg-chevron 166ms step-end backwards",
           "animate-drop-in": "mg-drop-in 249ms step-end backwards",
-          "animate-sheet-in": "mg-sheet-in 249ms step-end backwards"
+          "animate-sheet-in": "mg-sheet-in 249ms step-end backwards",
+          "animate-dots": "mg-dots 833ms step-end infinite"
         },
         "light": {
           "paper": "oklch(0.975 0.008 85)",
@@ -847,6 +849,15 @@
             "scale": "1 1"
           }
         },
+        "@utility touch-hit": {
+          "@media (pointer: coarse)": {
+            "&:not(:active, [data-fx])::after": {
+              "content": "\"\" !important",
+              "position": "absolute !important",
+              "inset": "min(0px, calc(50% - 22px)) !important"
+            }
+          }
+        },
         "@utility hover-lift": {
           "--shadow-x": "2px",
           "--shadow-y": "2px",
@@ -982,6 +993,38 @@
           "height": "1em",
           "background-color": "currentColor",
           "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11.2 2.6c.4-.5 1.2-.5 1.6 0 2 2.6 3.8 4.6 6 6.6.6.6-.1 1.6-.9 1.2-1.4-.7-2.7-1.6-3.9-2.7.1 4.3.3 8.6.7 12.9.1.9-1.3 1.1-1.5.2-.6-4.3-.9-8.6-1-13-1.4 1.2-2.9 2.2-4.5 3-.8.4-1.5-.6-.9-1.2 1.6-2.2 3-4.6 4.4-7z'/%3E%3C/svg%3E\") center / contain no-repeat"
+        },
+        "@utility mark-calendar": {
+          "display": "inline-block",
+          "width": "1em",
+          "height": "1em",
+          "background-color": "currentColor",
+          "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M3 5h18v16H3zM5.5 10.5v8h13v-8z'/%3E%3Cpath d='M7 2h2.4v5H7zM14.6 2H17v5h-2.4zM8 13h3v3H8z'/%3E%3C/svg%3E\") center / contain no-repeat"
+        },
+        "@keyframes mg-blink": {
+          "0%": {
+            "visibility": "visible"
+          },
+          "50%": {
+            "visibility": "hidden"
+          },
+          "100%": {
+            "visibility": "visible"
+          }
+        },
+        "@keyframes mg-dots": {
+          "0%": {
+            "translate": "0 -0.35em"
+          },
+          "10%": {
+            "translate": "0 -0.15em"
+          },
+          "20%": {
+            "translate": "0 0"
+          },
+          "100%": {
+            "translate": "0 0"
+          }
         },
         "@keyframes mg-drop-in": {
           "0%": {
@@ -1204,7 +1247,7 @@
             "name": "loading",
             "type": "boolean",
             "default": "false",
-            "description": "Shows turning focus lines, sets aria-busy, disables the button."
+            "description": "Shows turning focus lines, sets aria-busy and aria-disabled and ignores clicks, but stays focusable (focus never drops to the page)."
           },
           {
             "name": "fullWidth",
@@ -4299,7 +4342,7 @@
           "target": "@ui/manga/input-otp.tsx"
         }
       ],
-      "docs": "Import from \"@/components/ui/manga/input-otp\". It wraps your own components/ui/input-otp, which is the same file in Radix and Base UI projects. The caret blinks with the stock caret-blink keyframes (tw-animate-css) in steps and stops with reduced motion.",
+      "docs": "Import from \"@/components/ui/manga/input-otp\". It wraps your own components/ui/input-otp, which is the same file in Radix and Base UI projects. The caret blinks in two hard steps with the base animate-blink utility and stops with reduced motion.",
       "meta": {
         "tagline": "Code boxes joined in one ink frame, with a stepped caret.",
         "usage": "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from \"@/components/ui/manga/input-otp\"\n\n<InputOTP maxLength={6}>\n  <InputOTPGroup>\n    <InputOTPSlot index={0} />\n    <InputOTPSlot index={1} />\n    <InputOTPSlot index={2} />\n  </InputOTPGroup>\n  <InputOTPSeparator />\n  <InputOTPGroup>\n    <InputOTPSlot index={3} />\n    <InputOTPSlot index={4} />\n    <InputOTPSlot index={5} />\n  </InputOTPGroup>\n</InputOTP>",
@@ -4668,7 +4711,7 @@
           "target": "@ui/manga/trace.tsx"
         }
       ],
-      "docs": "Import from \"@/components/ui/manga/trace\". It wraps your own components/ui/trace (and so your Collapsible), so Radix and Base UI both work. Leave TraceIcon empty to get the status mark; pass an icon to replace it.",
+      "docs": "Import from \"@/components/ui/manga/trace\". It wraps your own components/ui/trace (and so your Collapsible), so Radix and Base UI both work.\n\nOptional status mark (a mangacn addition, not in stock shadcn): leave TraceIcon empty and it draws the mark of the line's status (done: brush check, running: Spinner, pending: hollow square, error: \"!\"). It is opt-in by leaving the icon out: pass your own icon as children, as in stock shadcn, and the automatic mark never shows.",
       "meta": {
         "tagline": "An agent's steps, inked line by line with status marks.",
         "usage": "import { Trace, TraceDescription, TraceIcon, TraceLine, TraceTitle } from \"@/components/ui/manga/trace\"\n\n<Trace>\n  <TraceLine>\n    <TraceIcon />\n    <TraceTitle>Read chapter-12.md</TraceTitle>\n    <TraceDescription>0.4s</TraceDescription>\n  </TraceLine>\n  <TraceLine status=\"running\">\n    <TraceIcon />\n    <TraceTitle>Inking page 9…</TraceTitle>\n  </TraceLine>\n</Trace>",
@@ -4681,7 +4724,7 @@
           {
             "name": "TraceIcon children",
             "type": "ReactNode",
-            "description": "Empty: the status mark. Any icon replaces it."
+            "description": "Optional. Your own icon, as in stock shadcn. Leave it out to get the automatic status mark (a mangacn addition): check, Spinner, hollow square or \"!\" from the line's status."
           },
           {
             "name": "TraceCollapsible",
@@ -5246,7 +5289,7 @@
       "name": "manga-reader",
       "type": "registry:block",
       "title": "Manga Reader",
-      "description": "A webtoon-style chapter reader made only with mangacn: a series header with a cover drawn in SVG, a Chapters button opening a Sheet with the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a \"Page 3 / 9\" counter fed by the strip, a ReaderStrip of nine drawn pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Works in light, dark, any accent and at phone width.",
+      "description": "A webtoon-style chapter reader made only with mangacn: a top bar with the series and chapter, a Full screen toggle (pressed button) and a Chapters button opening a Sheet headed by a VolumeCard of the current volume (drawn SVG cover, ongoing status, chapters read / out as a running-line bar) above the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a \"Page 3 / 9\" counter fed by the strip, a ReaderStrip of nine drawn pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Full screen makes the reader root fixed inset-0 with its own scroll (data-fullscreen=\"immersive\", also the fallback when the Fullscreen API is missing or refused, e.g. iOS Safari) and asks the browser for full screen on the document element (data-fullscreen=\"native\"), so the Sheet still opens above it; Escape or the button leaves. Works in light, dark, any accent and at phone width.",
       "categories": [
         "blocks"
       ],
@@ -5260,6 +5303,7 @@
         "Romcharted/mangacn/message",
         "Romcharted/mangacn/bubble",
         "Romcharted/mangacn/input",
+        "Romcharted/mangacn/volume-card",
         "Romcharted/mangacn/base"
       ],
       "dependencies": [
@@ -5273,7 +5317,7 @@
           "target": "@components/manga/blocks/manga-reader.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/manga-reader\". The pages are SVG drawings made for the demo: replace chapterPages() with your own scans ({ src, alt, width, height }) and CHAPTERS with your chapter list. The reading order lives in the reader (data-reading on its root).",
+      "docs": "Import from \"@/components/manga/blocks/manga-reader\". The pages are SVG drawings made for the demo: replace chapterPages() with your own scans ({ src, alt, width, height }) and CHAPTERS with your chapter list. The reading order lives in the reader (data-reading on its root). Full screen needs no setup: the reader asks for the Fullscreen API and falls back to a fixed, self-scrolling immersive mode.",
       "meta": {
         "tagline": "A vertical strip, chapters in a sheet, progress and reading order.",
         "usage": "import { MangaReader } from \"@/components/manga/blocks/manga-reader\"\n\n<MangaReader />",

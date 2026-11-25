@@ -25,6 +25,7 @@
       "animate-shake": "mg-shake 240ms step-end",
       "animate-pop": "mg-pop 249ms step-end",
       "animate-spin-steps": "mg-spin 666ms steps(8) infinite",
+      "animate-blink": "mg-blink 1000ms step-end infinite",
       "animate-draw": "mg-draw 240ms steps(3) both",
       "animate-enter": "mg-enter 166ms step-end",
       "animate-sfx": "mg-sfx 166ms step-end",
@@ -44,7 +45,8 @@
       "animate-bar-in": "mg-bar-in 249ms step-end backwards",
       "animate-chevron": "mg-chevron 166ms step-end backwards",
       "animate-drop-in": "mg-drop-in 249ms step-end backwards",
-      "animate-sheet-in": "mg-sheet-in 249ms step-end backwards"
+      "animate-sheet-in": "mg-sheet-in 249ms step-end backwards",
+      "animate-dots": "mg-dots 833ms step-end infinite"
     },
     "light": {
       "paper": "oklch(0.975 0.008 85)",
@@ -842,6 +844,15 @@
         "scale": "1 1"
       }
     },
+    "@utility touch-hit": {
+      "@media (pointer: coarse)": {
+        "&:not(:active, [data-fx])::after": {
+          "content": "\"\" !important",
+          "position": "absolute !important",
+          "inset": "min(0px, calc(50% - 22px)) !important"
+        }
+      }
+    },
     "@utility hover-lift": {
       "--shadow-x": "2px",
       "--shadow-y": "2px",
@@ -977,6 +988,38 @@
       "height": "1em",
       "background-color": "currentColor",
       "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11.2 2.6c.4-.5 1.2-.5 1.6 0 2 2.6 3.8 4.6 6 6.6.6.6-.1 1.6-.9 1.2-1.4-.7-2.7-1.6-3.9-2.7.1 4.3.3 8.6.7 12.9.1.9-1.3 1.1-1.5.2-.6-4.3-.9-8.6-1-13-1.4 1.2-2.9 2.2-4.5 3-.8.4-1.5-.6-.9-1.2 1.6-2.2 3-4.6 4.4-7z'/%3E%3C/svg%3E\") center / contain no-repeat"
+    },
+    "@utility mark-calendar": {
+      "display": "inline-block",
+      "width": "1em",
+      "height": "1em",
+      "background-color": "currentColor",
+      "mask": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M3 5h18v16H3zM5.5 10.5v8h13v-8z'/%3E%3Cpath d='M7 2h2.4v5H7zM14.6 2H17v5h-2.4zM8 13h3v3H8z'/%3E%3C/svg%3E\") center / contain no-repeat"
+    },
+    "@keyframes mg-blink": {
+      "0%": {
+        "visibility": "visible"
+      },
+      "50%": {
+        "visibility": "hidden"
+      },
+      "100%": {
+        "visibility": "visible"
+      }
+    },
+    "@keyframes mg-dots": {
+      "0%": {
+        "translate": "0 -0.35em"
+      },
+      "10%": {
+        "translate": "0 -0.15em"
+      },
+      "20%": {
+        "translate": "0 0"
+      },
+      "100%": {
+        "translate": "0 0"
+      }
     },
     "@keyframes mg-drop-in": {
       "0%": {
