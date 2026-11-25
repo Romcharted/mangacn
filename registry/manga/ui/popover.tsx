@@ -17,9 +17,10 @@ import { BubbleTail } from "@/lib/manga/gestures"
 const bubble =
   "relative overflow-visible rounded-[1.4rem] border-[length:var(--mg-bw-panel)] border-border bg-popover px-4 py-3 text-base text-popover-foreground shadow-none ring-0 duration-0 data-open:animate-pop data-[state=open]:animate-pop data-closed:animate-none data-[state=closed]:animate-none"
 
-function PopoverContent({ className, children, sideOffset = 18, ...props }: React.ComponentProps<typeof ShadcnPopoverContent>) {
+// align="start" by default: the bubble grows from its trigger instead of overflowing on both sides.
+function PopoverContent({ className, children, sideOffset = 16, align = "start", ...props }: React.ComponentProps<typeof ShadcnPopoverContent>) {
   return (
-    <ShadcnPopoverContent data-manga="popover" sideOffset={sideOffset} className={cn(bubble, className)} {...props}>
+    <ShadcnPopoverContent data-manga="popover" sideOffset={sideOffset} align={align} className={cn(bubble, className)} {...props}>
       {children}
       <BubbleTail weight={3} />
     </ShadcnPopoverContent>

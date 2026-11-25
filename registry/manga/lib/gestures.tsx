@@ -113,7 +113,7 @@ export function BubbleTail({ variant = "speech", weight = 2 }: { variant?: "spee
   )
   const style = { fill: "var(--background)", stroke: "var(--foreground)", strokeWidth: weight, strokeLinejoin: "round" as const }
   return variant === "speech" ? (
-    <svg aria-hidden data-manga="bubble-tail" width={weight === 3 ? 22 : 16} height={weight === 3 ? 16 : 12} viewBox="0 0 16 12" className={pos}>
+    <svg aria-hidden data-manga="bubble-tail" width="16" height="12" viewBox="0 0 16 12" className={pos}>
       <path d="M1 0 Q4 6 3 11 Q9 7 13 0" style={style} vectorEffect="non-scaling-stroke" />
     </svg>
   ) : (
