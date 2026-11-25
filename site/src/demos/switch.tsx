@@ -26,3 +26,12 @@ export function States() {
     />
   )
 }
+
+export function Thumb() {
+  return (
+    <div className="flex items-center gap-4">
+      <Switch aria-label="Off" />
+      <Switch defaultChecked aria-label="On" />
+    </div>
+  )
+}
