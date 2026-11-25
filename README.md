@@ -4,18 +4,20 @@
 redraws your shadcn/ui components in ink and screentone: black and white, sharp lines, tones instead of grey,
 speed lines, and one accent colour you choose.
 
-[Showcase](https://romcharted.github.io/mangacn/) ·
-[Grammar](https://romcharted.github.io/mangacn/#grammar) ·
-[Examples](https://romcharted.github.io/mangacn/#examples) ·
-[llms.txt](https://romcharted.github.io/mangacn/llms.txt)
+[Showcase](https://DOMAIN/) ·
+[Grammar](https://DOMAIN/#grammar) ·
+[Examples](https://DOMAIN/#examples) ·
+[llms.txt](https://DOMAIN/llms.txt)
 
-[![The mangacn showcase: “shadcn/ui, inked like a manga.” next to a page of three panels](docs/hero.png)](https://romcharted.github.io/mangacn/)
+> `DOMAIN` stands for the showcase address, set when the site goes live.
+
+[![The mangacn showcase: “shadcn/ui, inked like a manga.” next to a page of three panels](docs/hero.png)](https://DOMAIN/)
 
 It does not fork shadcn. Each restyled component is a thin file that imports **your** shadcn component, adds
 classes and `data-*` attributes, and re-exports it with the same props. It works whether your shadcn project
 is built on Radix or on Base UI.
 
-![A button is hit and answers “DON!”, a manga page switches between three layouts and reads right to left, then a line is sent in a conversation](docs/demo.gif)
+![A button is hit and answers “DON!”, a landing page jumps to its pricing and switches billing, an AI chat types its answer, then a catalog changes shelf and finds a title](docs/demo.gif)
 
 ## Install
 
@@ -217,7 +219,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 Every component draws its motion from the same eight gestures, written once in `base`: case (G1), flat (G2),
 hover (G3), impact (G4), pop (G5), bubble (G6), running line (G7) and mark (G8). They move in steps at
 12 frames per second and stand still under `prefers-reduced-motion`. The
-[Grammar page](https://romcharted.github.io/mangacn/#grammar) shows each one; [AGENTS.md](AGENTS.md) has the
+[Grammar page](https://DOMAIN/#grammar) shows each one; [AGENTS.md](AGENTS.md) has the
 rules.
 
 ## Dark mode, accent colour, reading order
@@ -230,14 +232,14 @@ rules.
 ## Use with AI assistants
 
 - **llms.txt** lists every item with its install command, main props and a minimal example:
-  `https://romcharted.github.io/mangacn/llms.txt`.
+  `https://DOMAIN/llms.txt`.
 - **shadcn MCP server.** The MCP server reads the registries declared in `components.json`. Add a namespace
   that points at the JSON files this repo publishes:
 
   ```json
   {
     "registries": {
-      "@mangacn": "https://romcharted.github.io/mangacn/r/{name}.json"
+      "@mangacn": "https://DOMAIN/r/{name}.json"
     }
   }
   ```
