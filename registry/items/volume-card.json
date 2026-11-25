@@ -1,0 +1,80 @@
+{
+  "name": "volume-card",
+  "type": "registry:component",
+  "title": "Volume Card",
+  "description": "A manga volume in a case: a 2:3 cover framed in ink with the volume number as a lettering tag on its corner, the title in lettering, the author, a status (new as a burst, ongoing as an ink flat, completed with a brush check, hiatus as an outline) and reading progress as a bar filled with speed lines with the count. Static by default; with href it is a link, with onSelect a button, both with the hover lift, the ink focus ring and a pressed offset. Works in a two-column grid at 360 px.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/volume-card.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/volume-card.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/volume-card\". The cover is an image URL or any node (a 2:3 box is drawn for you); without a cover a screentone is shown.",
+  "meta": {
+    "tagline": "A manga volume with its cover, status and reading progress.",
+    "usage": "import { VolumeCard } from \"@/components/manga/volume-card\"\n\n<VolumeCard\n  title=\"Night Rail\"\n  volume={2}\n  cover=\"/covers/night-rail-2.jpg\"\n  author=\"M. Oda\"\n  status=\"ongoing\"\n  read={18}\n  total={40}\n  href=\"/volumes/2\"\n/>",
+    "props": [
+      {
+        "name": "title",
+        "type": "ReactNode",
+        "description": "Set in lettering."
+      },
+      {
+        "name": "volume",
+        "type": "number | string",
+        "description": "Shown as \"Vol. 12\" on the cover corner."
+      },
+      {
+        "name": "cover",
+        "type": "string | ReactNode",
+        "description": "An image URL, or any node drawn as the cover. Without it, a screentone."
+      },
+      {
+        "name": "author",
+        "type": "ReactNode",
+        "description": "Author or subtitle, under the title."
+      },
+      {
+        "name": "status",
+        "type": "\"new\" | \"ongoing\" | \"completed\" | \"hiatus\"",
+        "description": "Status mark: burst, ink flat, brush check or outline."
+      },
+      {
+        "name": "read",
+        "type": "number",
+        "default": "0",
+        "description": "Chapters read. Shown with total."
+      },
+      {
+        "name": "total",
+        "type": "number",
+        "description": "Chapters in the volume. Shows the progress bar when set."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "description": "Makes the card a link."
+      },
+      {
+        "name": "onSelect",
+        "type": "() => void",
+        "description": "Makes the card a button."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the card."
+      }
+    ]
+  }
+}
