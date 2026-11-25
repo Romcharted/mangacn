@@ -2,6 +2,8 @@ import { CodeToggle } from "../copy"
 import { InterfaceCards, interfaces, userPaths } from "../interfaces"
 import { Chat } from "./chat"
 import chatSource from "./chat.tsx?raw"
+import { LearnJapanese } from "./learn-japanese"
+import learnJapaneseSource from "./learn-japanese.tsx?raw"
 import { MangaPage } from "./manga-page"
 import { NotFound } from "./not-found"
 import notFoundSource from "./not-found.tsx?raw"
@@ -62,6 +64,17 @@ export function Examples() {
           <Chat />
         </div>
         <CodeToggle text={userPaths(chatSource)} />
+      </section>
+
+      <section aria-labelledby="ex-japanese" className="mt-14 space-y-4">
+        <h2 id="ex-japanese" className="font-letter text-3xl uppercase">
+          Learn Japanese
+        </h2>
+        <p className="max-w-prose">A vocabulary card: Ruby over the word, VerticalText, and a BilingualBubble for the example line.</p>
+        <div data-demo className="border-ink-fine p-4 sm:p-8">
+          <LearnJapanese />
+        </div>
+        <CodeToggle text={userPaths(learnJapaneseSource)} />
       </section>
 
       <section aria-labelledby="ex-404" className="mt-14 space-y-4">
