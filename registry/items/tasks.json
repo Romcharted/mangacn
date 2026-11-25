@@ -2,7 +2,7 @@
   "name": "tasks",
   "type": "registry:block",
   "title": "Tasks",
-  "description": "A production task board made only with mangacn: a Data Table whose statuses are stamps (ink for everyday statuses, the accent colour only for Blocked), a search Input, status filters as pressed buttons, actions on the selected rows (Button Group: mark done, reopen, delete) and a HitCounter of finished tasks.",
+  "description": "A production task board made only with mangacn: a Data Table whose statuses are stamps (ink for everyday statuses, the accent colour only for Blocked), a search Input, status filters as pressed buttons, actions on the selected rows (Button Group: mark done, reopen, delete) and a ImpactCounter of finished tasks.",
   "categories": [
     "blocks"
   ],
@@ -12,7 +12,7 @@
     "Romcharted/mangacn/button",
     "Romcharted/mangacn/button-group",
     "Romcharted/mangacn/stamp",
-    "Romcharted/mangacn/hit-counter",
+    "Romcharted/mangacn/impact-counter",
     "Romcharted/mangacn/base"
   ],
   "dependencies": [

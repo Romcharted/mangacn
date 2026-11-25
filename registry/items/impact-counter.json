@@ -1,7 +1,7 @@
 {
-  "name": "hit-counter",
+  "name": "impact-counter",
   "type": "registry:component",
-  "title": "Hit Counter",
+  "title": "Impact Counter",
   "description": "A number that changes with an impact: when the value changes, the number takes the three-frame hit (G4) with speed lines on both sides, and a growing value flashes a \"+n\" burst (G8) that leaves after a moment. Lettering after the number, optional icon, custom format. Sizes sm, default, lg. Reduced motion: the new number only. Built for likes, streaks and scores.",
   "categories": [
     "manga"
@@ -15,15 +15,15 @@
   ],
   "files": [
     {
-      "path": "registry/manga/signature/hit-counter.tsx",
+      "path": "registry/manga/signature/impact-counter.tsx",
       "type": "registry:component",
-      "target": "@components/manga/hit-counter.tsx"
+      "target": "@components/manga/impact-counter.tsx"
     }
   ],
-  "docs": "Import from \"@/components/manga/hit-counter\". It uses punch() and ImpactLines from \"@/lib/manga/gestures\" (installed with the gestures item).",
+  "docs": "Import from \"@/components/manga/impact-counter\". It uses punch() and ImpactLines from \"@/lib/manga/gestures\" (installed with the gestures item).",
   "meta": {
     "tagline": "A score that jumps on every hit.",
-    "usage": "import { HitCounter } from \"@/components/manga/hit-counter\"\n\n<HitCounter value={likes} label=\"likes\" />",
+    "usage": "import { ImpactCounter } from \"@/components/manga/impact-counter\"\n\n<ImpactCounter value={likes} label=\"likes\" />",
     "props": [
       {
         "name": "value",

@@ -163,7 +163,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Stat | `stat` | A key figure in heavy lettering. |
 | Toned Image | `toned-image` | A photo turned into a screentone, in your browser. |
 | Character Card | `character-card` | A character sheet: portrait, stats in bars, a quote. |
-| Hit Counter | `hit-counter` | A score that jumps on every hit. |
+| Impact Counter | `impact-counter` | A score that jumps on every hit. |
 
 ### Full interfaces
 

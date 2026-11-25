@@ -1,5 +1,5 @@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@registry/manga/ui/sheet"
-import { track } from "./analytics"
+import { track } from "./visits"
 import { Code, CopyButton } from "./copy"
 import { REPO, installCommand, type Item } from "./registry"
 

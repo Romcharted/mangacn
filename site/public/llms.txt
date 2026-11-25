@@ -1232,11 +1232,11 @@ import { CharacterCard } from "@/components/manga/character-card"
 />
 ```
 
-### Hit Counter (`hit-counter`)
+### Impact Counter (`impact-counter`)
 
 A number that changes with an impact: when the value changes, the number takes the three-frame hit (G4) with speed lines on both sides, and a growing value flashes a "+n" burst (G8) that leaves after a moment. Lettering after the number, optional icon, custom format. Sizes sm, default, lg. Reduced motion: the new number only. Built for likes, streaks and scores.
 
-- Install: `npx shadcn@latest add Romcharted/mangacn/hit-counter`
+- Install: `npx shadcn@latest add Romcharted/mangacn/impact-counter`
 - Categories: manga
 - Props:
   - `value`: `number` — The number. Each change plays the impact.
@@ -1246,9 +1246,9 @@ A number that changes with an impact: when the value changes, the number takes t
   - `icon`: `ReactNode` — A small mark before the number.
 
 ```tsx
-import { HitCounter } from "@/components/manga/hit-counter"
+import { ImpactCounter } from "@/components/manga/impact-counter"
 
-<HitCounter value={likes} label="likes" />
+<ImpactCounter value={likes} label="likes" />
 ```
 
 ### Dashboard (`dashboard`)
@@ -1268,7 +1268,7 @@ import { Dashboard } from "@/components/manga/blocks/dashboard"
 
 ### Tasks (`tasks`)
 
-A production task board made only with mangacn: a Data Table whose statuses are stamps (ink for everyday statuses, the accent colour only for Blocked), a search Input, status filters as pressed buttons, actions on the selected rows (Button Group: mark done, reopen, delete) and a HitCounter of finished tasks.
+A production task board made only with mangacn: a Data Table whose statuses are stamps (ink for everyday statuses, the accent colour only for Blocked), a search Input, status filters as pressed buttons, actions on the selected rows (Button Group: mark done, reopen, delete) and a ImpactCounter of finished tasks.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/tasks`
 - Categories: blocks

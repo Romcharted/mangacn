@@ -68,7 +68,7 @@
     "registry/items/data-table.json",
     "registry/items/toned-image.json",
     "registry/items/character-card.json",
-    "registry/items/hit-counter.json",
+    "registry/items/impact-counter.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json"
   ]

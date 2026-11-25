@@ -1,6 +1,6 @@
 import type { ComponentType } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
-import { track } from "./analytics"
+import { track } from "./visits"
 import { CodeToggle, CopyButton } from "./copy"
 import { installCommand } from "./registry"
 

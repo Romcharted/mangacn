@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/manga/button"
 import { ButtonGroup } from "@/components/ui/manga/button-group"
 import { DataTable } from "@/components/ui/manga/data-table"
 import { Input } from "@/components/ui/manga/input"
-import { HitCounter } from "@/components/manga/hit-counter"
+import { ImpactCounter } from "@/components/manga/impact-counter"
 import { Stamp } from "@/components/manga/stamp"
 import { cn } from "cn"
 
@@ -87,7 +87,7 @@ export function Tasks({ className }: { className?: string }) {
           <p className="font-mono text-xs">Studio Inkwell · Chapter 13</p>
           <h1 className="font-letter text-4xl leading-none tracking-wide uppercase">Tasks</h1>
         </div>
-        <HitCounter value={done} label={`of ${tasks.length} done`} />
+        <ImpactCounter value={done} label={`of ${tasks.length} done`} />
       </header>
 
       <div className="flex flex-wrap items-center gap-3">

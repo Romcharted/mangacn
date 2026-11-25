@@ -5,20 +5,20 @@ import { cn } from "cn"
 
 import { ImpactLines, prefersReducedMotion, punch } from "@/lib/manga/gestures"
 
-export type HitCounterSize = "sm" | "default" | "lg"
+export type ImpactCounterSize = "sm" | "default" | "lg"
 
-export type HitCounterProps = Omit<React.ComponentProps<"span">, "children"> & {
+export type ImpactCounterProps = Omit<React.ComponentProps<"span">, "children"> & {
   value: number
   /** Lettering after the number: likes, hits, points. */
   label?: React.ReactNode
-  size?: HitCounterSize
+  size?: ImpactCounterSize
   /** How the number is written (default: en-US thousands). */
   format?: (value: number) => string
   /** A small mark before the number. */
   icon?: React.ReactNode
 }
 
-const NUMBER: Record<HitCounterSize, string> = {
+const NUMBER: Record<ImpactCounterSize, string> = {
   sm: "text-2xl",
   default: "text-4xl",
   lg: "text-5xl sm:text-6xl",
@@ -29,7 +29,7 @@ const NUMBER: Record<HitCounterSize, string> = {
  * with speed lines on both sides. Going up also flashes a "+n" burst (G8), which leaves after ~0.6 s.
  * Reduced motion: only the new number. The number is a live output for screen readers.
  */
-function HitCounter({ value, label, size = "default", format, icon, className, ...props }: HitCounterProps) {
+function ImpactCounter({ value, label, size = "default", format, icon, className, ...props }: ImpactCounterProps) {
   const numberRef = React.useRef<HTMLOutputElement>(null)
   const previous = React.useRef(value)
   const [mark, setMark] = React.useState<{ id: number; delta: number } | null>(null)
@@ -50,7 +50,7 @@ function HitCounter({ value, label, size = "default", format, icon, className, .
   const text = format ? format(value) : value.toLocaleString("en-US")
 
   return (
-    <span data-manga="hit-counter" data-size={size} className={cn("inline-flex max-w-full flex-wrap items-center gap-x-3 gap-y-1", className)} {...props}>
+    <span data-manga="impact-counter" data-size={size} className={cn("inline-flex max-w-full flex-wrap items-center gap-x-3 gap-y-1", className)} {...props}>
       {icon && (
         <span aria-hidden className="inline-grid size-9 place-items-center">
           {icon}
@@ -80,4 +80,4 @@ function HitCounter({ value, label, size = "default", format, icon, className, .
   )
 }
 
-export { HitCounter }
+export { ImpactCounter }

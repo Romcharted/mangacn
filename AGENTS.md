@@ -95,6 +95,9 @@ Categories (first one decides the showcase section): `foundations`, `actions`, `
 - **Segments of a group keep their focus inside** (tabs, toggle groups, button groups, pagination cells):
   `focus-visible:outline-2! focus-visible:outline-offset-[-Npx]! focus-visible:shadow-none!`, so the ring never
   overlaps a neighbour or the panel.
+- **Names that ad blockers stop:** no file or item called hit-counter, counter, analytics, tracking, ads or
+  advert. A blocked module leaves the whole showcase blank in development, and a blocked `r/<name>.json`
+  cannot be installed. (HitCounter became ImpactCounter for this reason.)
 - **Restate the outline style when you move a focus ring.** Stock classes can set `outline-style: none`;
   overriding only the width and offset leaves no ring at all. Write `focus-visible:outline-solid!` (and the
   colour) with the offset, then check the focus tile.
