@@ -2,7 +2,7 @@
   "name": "manga-reader",
   "type": "registry:block",
   "title": "Manga Reader",
-  "description": "A webtoon-style chapter reader made only with mangacn: a series header with a cover drawn in SVG, a Chapters button opening a Sheet with the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a \"Page 3 / 9\" counter fed by the strip, a ReaderStrip of nine drawn pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Works in light, dark, any accent and at phone width.",
+  "description": "A webtoon-style chapter reader made only with mangacn: a top bar with the series and chapter, a Full screen toggle (pressed button) and a Chapters button opening a Sheet headed by a VolumeCard of the current volume (drawn SVG cover, ongoing status, chapters read / out as a running-line bar) above the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a \"Page 3 / 9\" counter fed by the strip, a ReaderStrip of nine drawn pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Full screen makes the reader root fixed inset-0 with its own scroll (data-fullscreen=\"immersive\", also the fallback when the Fullscreen API is missing or refused, e.g. iOS Safari) and asks the browser for full screen on the document element (data-fullscreen=\"native\"), so the Sheet still opens above it; Escape or the button leaves. Works in light, dark, any accent and at phone width.",
   "categories": [
     "blocks"
   ],
@@ -16,6 +16,7 @@
     "Romcharted/mangacn/message",
     "Romcharted/mangacn/bubble",
     "Romcharted/mangacn/input",
+    "Romcharted/mangacn/volume-card",
     "Romcharted/mangacn/base"
   ],
   "dependencies": [
@@ -29,7 +30,7 @@
       "target": "@components/manga/blocks/manga-reader.tsx"
     }
   ],
-  "docs": "Import from \"@/components/manga/blocks/manga-reader\". The pages are SVG drawings made for the demo: replace chapterPages() with your own scans ({ src, alt, width, height }) and CHAPTERS with your chapter list. The reading order lives in the reader (data-reading on its root).",
+  "docs": "Import from \"@/components/manga/blocks/manga-reader\". The pages are SVG drawings made for the demo: replace chapterPages() with your own scans ({ src, alt, width, height }) and CHAPTERS with your chapter list. The reading order lives in the reader (data-reading on its root). Full screen needs no setup: the reader asks for the Fullscreen API and falls back to a fixed, self-scrolling immersive mode.",
   "meta": {
     "tagline": "A vertical strip, chapters in a sheet, progress and reading order.",
     "usage": "import { MangaReader } from \"@/components/manga/blocks/manga-reader\"\n\n<MangaReader />",

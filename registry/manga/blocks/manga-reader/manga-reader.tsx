@@ -1,18 +1,23 @@
 "use client"
 
 /*
- * Manga Reader — a webtoon-style reader made only with mangacn: a series header with a drawn cover, the
- * chapter list in a Sheet (current chapter an ink flat, read ones with a brush check), a reading-order
+ * Manga Reader — a webtoon-style reader made only with mangacn: a top bar (series, chapter, a Full screen
+ * toggle), the chapter list in a Sheet headed by a VolumeCard of the current volume (cover, status, chapters
+ * read / out) — current chapter an ink flat, read ones with a brush check — a reading-order
  * switch (pressed buttons: Manga RTL / Western LTR, it sets data-reading on the root and flips the chapter
  * buttons), a ReadingProgress bar with the page counter, a ReaderStrip of nine drawn pages with its end
  * panel, previous / next chapter, and a comments strip (Message, Bubble, ReactionPicker, Input).
  * From @md/main up (on screens at least 36rem tall) the reader fills a 46rem frame and scrolls inside it,
  * the progress bar sticks to the top of the frame and measures it (`target`). On phones it follows the page
  * and the progress bar sticks to the bottom edge, within thumb reach.
+ * Full screen: the reader becomes `fixed inset-0` with its own scroll (the "immersive" mode, also the fallback
+ * when the Fullscreen API is missing or refused, as on iOS Safari) and asks the browser for full screen on the
+ * document element — not on the reader root, so the Sheet (portalled into body) still shows above it.
+ * Escape or the button leaves it; the progress bar and the strip then measure the reader root.
  * The pages are SVG scans drawn for this repo: replace `chapterPages()` with your own { src, alt, width, height }.
  */
 import * as React from "react"
-import { ListOrdered } from "lucide-react"
+import { ListOrdered, Maximize, Minimize } from "lucide-react"
 
 import { Bubble, BubbleContent } from "@/components/ui/manga/bubble"
 import { Button } from "@/components/ui/manga/button"
@@ -24,6 +29,7 @@ import type { ManpuKind } from "@/components/manga/manpu"
 import { ReactionPicker, type Reaction } from "@/components/manga/reaction-picker"
 import { ReaderStrip, type ReaderStripPage } from "@/components/manga/reader-strip"
 import { ReadingProgress } from "@/components/manga/reading-progress"
+import { VolumeCard } from "@/components/manga/volume-card"
 import { cn } from "cn"
 
 /* ---------- Drawings (made for this repo). A page is a scan: ink on paper in both themes. ---------- */
@@ -132,7 +138,7 @@ const moon = (cx: number, cy: number, r: number) =>
 
 type Chapter = { n: number; title: string; date: string }
 
-const SERIES = { title: "Night Run", author: "Story and art by Aki Mori", volume: "Vol. 2" }
+const SERIES = { title: "Night Run", author: "Aki Mori", volume: 2 }
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 const CHAPTERS: Chapter[] = [
   "The last train",
@@ -236,18 +242,18 @@ function chapterPages(chapter: Chapter): ReaderStripPage[] {
   return pages.map(({ height, alt, body }) => ({ src: svg(height, body), alt, width: W, height }))
 }
 
-/** The series cover, drawn with the theme tokens: ink line, paper, a tone band. */
-function Cover({ className }: { className?: string }) {
+/** The volume cover, drawn with the theme tokens: paper, a tone band, ink. The VolumeCard draws its case. */
+function Cover() {
   const id = React.useId()
   return (
-    <svg viewBox="0 0 60 84" aria-hidden className={className}>
+    <svg viewBox="0 0 60 84" preserveAspectRatio="xMidYMid slice" aria-hidden className="block size-full">
       <defs>
         <pattern id={id} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <circle cx="1.25" cy="1.25" r="0.8" fill="var(--foreground)" />
           <circle cx="3.75" cy="3.75" r="0.8" fill="var(--foreground)" />
         </pattern>
       </defs>
-      <rect x="1" y="1" width="58" height="82" fill="var(--background)" stroke="var(--foreground)" strokeWidth="2" />
+      <rect width="60" height="84" fill="var(--background)" />
       <rect x="2" y="2" width="56" height="34" fill={`url(#${id})`} />
       <circle cx="42" cy="17" r="9" fill="var(--background)" stroke="var(--foreground)" strokeWidth="1.5" />
       <path d="M2 40V30h6v-6h6v6h4V20h8v10h4v-4h8v6h6v-8h6v6h8v10z" fill="var(--foreground)" />
@@ -352,6 +358,8 @@ function ChapterTalk({ chapter }: { chapter: Chapter }) {
 /* ---------- The reader ---------- */
 
 type Order = "rtl" | "ltr"
+/** off · immersive: fixed over the page with its own scroll (also the fallback) · native: plus the Fullscreen API */
+type Screen = "off" | "immersive" | "native"
 
 /** A brush arrow (the base `mark-arrow` points up). */
 function Arrow({ to }: { to: "left" | "right" }) {
@@ -364,7 +372,14 @@ export function MangaReader({ className }: { className?: string }) {
   const [read, setRead] = React.useState(() => new Set(CHAPTERS.filter((c) => c.n < 11).map((c) => c.n)))
   const [page, setPage] = React.useState(0)
   const [open, setOpen] = React.useState(false)
+  const [screen, setScreen] = React.useState<Screen>("off")
+  const rootRef = React.useRef<HTMLDivElement>(null)
   const frameRef = React.useRef<HTMLDivElement>(null)
+  const full = screen !== "off"
+  // mirrors for async callbacks and layout effects
+  const wantFull = React.useRef(false)
+  const pageRef = React.useRef(0)
+  pageRef.current = page
 
   const chapter = CHAPTERS[current - 1]
   const pages = React.useMemo(() => chapterPages(chapter), [chapter])
@@ -372,12 +387,79 @@ export function MangaReader({ className }: { className?: string }) {
   const next = CHAPTERS[current]
   const rtl = order === "rtl"
 
+  /* Full screen: immersive layout at once (the fallback), then the browser's full screen if it agrees. */
+  const enterFull = () => {
+    wantFull.current = true
+    setScreen("immersive")
+    const doc = document.documentElement
+    if (!document.fullscreenEnabled || typeof doc.requestFullscreen !== "function") return
+    doc.requestFullscreen().then(
+      () => {
+        if (wantFull.current) setScreen("native")
+        else void document.exitFullscreen().catch(() => {})
+      },
+      () => {}, // refused: stay immersive
+    )
+  }
+  const exitFull = () => {
+    wantFull.current = false
+    setScreen("off")
+    if (document.fullscreenElement === document.documentElement) void document.exitFullscreen().catch(() => {})
+  }
+
+  // the browser left full screen (Escape, F11, gesture): leave with it
+  React.useEffect(() => {
+    if (screen !== "native") return
+    const onChange = () => {
+      if (!document.fullscreenElement) {
+        wantFull.current = false
+        setScreen("off")
+      }
+    }
+    document.addEventListener("fullscreenchange", onChange)
+    return () => document.removeEventListener("fullscreenchange", onChange)
+  }, [screen])
+
+  // immersive fallback: Escape leaves (unless it is closing the Sheet)
+  React.useEffect(() => {
+    if (screen !== "immersive" || open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || e.defaultPrevented) return
+      wantFull.current = false
+      setScreen("off")
+    }
+    document.addEventListener("keydown", onKey)
+    return () => document.removeEventListener("keydown", onKey)
+  }, [screen, open])
+
+  // leaving the page while in full screen gives the screen back
+  React.useEffect(
+    () => () => {
+      if (wantFull.current && document.fullscreenElement === document.documentElement) void document.exitFullscreen().catch(() => {})
+    },
+    [],
+  )
+
+  // entering or leaving changes the scroll container: keep the page being read in view
+  const firstLayout = React.useRef(true)
+  React.useLayoutEffect(() => {
+    if (firstLayout.current) {
+      firstLayout.current = false
+      return
+    }
+    const root = rootRef.current
+    if (!root) return
+    const figure = root.querySelectorAll<HTMLElement>("[data-slot=reader-page]")[pageRef.current]
+    if (full && pageRef.current === 0) root.scrollTo({ top: 0 })
+    else if (pageRef.current > 0) figure?.scrollIntoView({ block: "start" })
+  }, [full])
+
   const go = (n: number) => {
     setCurrent(n)
     setPage(0)
     setOpen(false)
-    // back to the first page: the frame scrolls inside from @md up, the page scrolls on phones
-    const el = frameRef.current
+    // back to the first page: the root scrolls in full screen, the frame from @md up, the page on phones
+    const el = full ? rootRef.current : frameRef.current
     if (!el) return
     if (el.scrollHeight - el.clientHeight > 1 && getComputedStyle(el).overflowY !== "visible") el.scrollTo({ top: 0 })
     else if (el.getBoundingClientRect().top < 0) el.scrollIntoView({ block: "start" })
@@ -418,26 +500,57 @@ export function MangaReader({ className }: { className?: string }) {
 
   return (
     <div
+      ref={rootRef}
       data-manga="manga-reader"
       data-reading={order}
-      className={cn("@container/main w-full bg-background text-foreground", className)}
+      data-fullscreen={full ? screen : undefined}
+      className={cn(
+        "@container/main w-full bg-background text-foreground",
+        full && "fixed inset-0 z-50 overflow-x-hidden overflow-y-auto overscroll-contain",
+        className,
+      )}
     >
+      {/* In full screen the top bar scrolls away with the pages: a way out stays in the corner (iOS has no Escape). */}
+      {full && (
+        <Button
+          size="icon"
+          aria-label="Exit full screen"
+          onClick={exitFull}
+          className="fixed end-3 top-3 z-20 size-11"
+        >
+          <Minimize />
+        </Button>
+      )}
       <div
         ref={frameRef}
-        className="relative flex flex-col @md/main:[@media(min-height:36rem)]:h-[46rem] @md/main:[@media(min-height:36rem)]:overflow-x-hidden @md/main:[@media(min-height:36rem)]:overflow-y-auto"
+        className={
+          full
+            ? "relative flex min-h-full flex-col"
+            : "relative flex flex-col @md/main:[@media(min-height:36rem)]:h-[46rem] @md/main:[@media(min-height:36rem)]:overflow-x-hidden @md/main:[@media(min-height:36rem)]:overflow-y-auto"
+        }
       >
         <header className="grid gap-3 border-b-[length:var(--mg-bw-panel)] border-border p-3 sm:p-4">
-          <div className="flex items-center gap-3">
-            <Cover className="w-12 shrink-0 @md/main:w-14" />
+          <div className="flex items-start gap-3">
             <div className="grid min-w-0 flex-1 gap-1">
               <p className="font-mono text-xs">
-                {SERIES.volume} · {SERIES.author}
+                Vol. {SERIES.volume} · {SERIES.author}
               </p>
               <h1 className="font-letter text-3xl leading-none tracking-wide uppercase">{SERIES.title}</h1>
               <p className="truncate font-letter text-lg leading-tight uppercase">
                 Ch. {chapter.n} · {chapter.title}
               </p>
             </div>
+            {/* One name, a pressed state: the icon says which way it goes. */}
+            <Button
+              variant={full ? "default" : "outline"}
+              size="icon"
+              aria-label="Full screen"
+              aria-pressed={full}
+              onClick={full ? exitFull : enterFull}
+              className="shrink-0 max-sm:size-11"
+            >
+              {full ? <Minimize /> : <Maximize />}
+            </Button>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" onClick={() => setOpen(true)} aria-haspopup="dialog" aria-expanded={open} className="max-sm:min-h-11">
@@ -470,7 +583,7 @@ export function MangaReader({ className }: { className?: string }) {
         {/* Phones: the last thing in the reader, stuck to the bottom edge. From @md up: stuck to the top of the frame. */}
         <div className="sticky bottom-0 z-20 order-last border-t-[length:var(--mg-bw)] border-border bg-background px-3 py-3 sm:px-4 @md/main:[@media(min-height:36rem)]:top-0 @md/main:[@media(min-height:36rem)]:bottom-auto @md/main:[@media(min-height:36rem)]:order-none @md/main:[@media(min-height:36rem)]:border-t-0 @md/main:[@media(min-height:36rem)]:border-b-[length:var(--mg-bw)]">
           <ReadingProgress
-            target={frameRef}
+            target={full ? rootRef : frameRef}
             label={`Chapter ${chapter.n} progress`}
             showValue
             valueText={`Page ${Math.min(page + 1, pages.length)} / ${pages.length}`}
@@ -479,7 +592,8 @@ export function MangaReader({ className }: { className?: string }) {
 
         <div className="grid gap-6 px-3 pt-4 pb-8 sm:px-4">
           <ReaderStrip
-            key={`strip-${chapter.n}`}
+            // the strip finds its scroll parent when it mounts: a new one in and out of full screen
+            key={`strip-${chapter.n}-${full ? "full" : "page"}`}
             aria-label={`Chapter ${chapter.n}, ${chapter.title}`}
             pages={pages}
             gap="sm"
@@ -504,32 +618,57 @@ export function MangaReader({ className }: { className?: string }) {
               {SERIES.title} · {CHAPTERS.length} chapters out · {read.size} read
             </SheetDescription>
           </SheetHeader>
-          <ol className="grid min-h-0 flex-1 content-start gap-2 overflow-y-auto px-4 pt-1 pe-5 pb-5">
-            {CHAPTERS.map((c) => {
-              const isCurrent = c.n === current
-              return (
-                <li key={c.n}>
-                  <button
-                    type="button"
-                    aria-current={isCurrent ? "true" : undefined}
-                    onClick={() => go(c.n)}
-                    className={cn(
-                      "relative flex min-h-11 w-full items-center gap-3 border-ink bg-background px-3 py-2 text-start text-foreground hover-lift focus-ink press",
-                      "active:bg-foreground active:text-background",
-                      "aria-[current=true]:ink-fill aria-[current=true]:fill-in aria-[current=true]:active:bg-background aria-[current=true]:active:text-foreground",
-                    )}
-                  >
-                    <span className="w-6 shrink-0 font-mono text-sm tabular-nums">{String(c.n).padStart(2, "0")}</span>
-                    <span className="grid min-w-0 flex-1">
-                      <span className="truncate font-letter text-base leading-tight tracking-wide uppercase">{c.title}</span>
-                      <span className="font-mono text-xs">{isCurrent ? "Reading now" : c.date}</span>
-                    </span>
-                    {read.has(c.n) && <span role="img" aria-label="Read" className="mark-check shrink-0 text-xl" />}
-                  </button>
-                </li>
-              )
-            })}
-          </ol>
+          {/* The volume and the list scroll together: on a short phone the list stays in reach. */}
+          <div className="grid min-h-0 flex-1 content-start gap-4 overflow-y-auto px-4 pt-1 pe-5 pb-5">
+            <div className="flex items-start gap-3">
+              <div className="w-32 shrink-0">
+                <VolumeCard
+                  volume={SERIES.volume}
+                  title={SERIES.title}
+                  author={SERIES.author}
+                  status="ongoing"
+                  read={read.size}
+                  total={CHAPTERS.length}
+                  cover={<Cover />}
+                />
+              </div>
+              <div className="grid min-w-0 gap-1 pt-1">
+                <p className="font-mono text-xs">Reading now</p>
+                <p className="font-letter text-lg leading-tight tracking-wide uppercase break-words">
+                  Ch. {chapter.n} · {chapter.title}
+                </p>
+                <p className="font-mono text-xs">
+                  Page {Math.min(page + 1, pages.length)} / {pages.length}
+                </p>
+              </div>
+            </div>
+            <ol aria-label="Chapter list" className="grid content-start gap-2">
+              {CHAPTERS.map((c) => {
+                const isCurrent = c.n === current
+                return (
+                  <li key={c.n}>
+                    <button
+                      type="button"
+                      aria-current={isCurrent ? "true" : undefined}
+                      onClick={() => go(c.n)}
+                      className={cn(
+                        "relative flex min-h-11 w-full items-center gap-3 border-ink bg-background px-3 py-2 text-start text-foreground hover-lift focus-ink press",
+                        "active:bg-foreground active:text-background",
+                        "aria-[current=true]:ink-fill aria-[current=true]:fill-in aria-[current=true]:active:bg-background aria-[current=true]:active:text-foreground",
+                      )}
+                    >
+                      <span className="w-6 shrink-0 font-mono text-sm tabular-nums">{String(c.n).padStart(2, "0")}</span>
+                      <span className="grid min-w-0 flex-1">
+                        <span className="truncate font-letter text-base leading-tight tracking-wide uppercase">{c.title}</span>
+                        <span className="font-mono text-xs">{isCurrent ? "Reading now" : c.date}</span>
+                      </span>
+                      {read.has(c.n) && <span role="img" aria-label="Read" className="mark-check shrink-0 text-xl" />}
+                    </button>
+                  </li>
+                )
+              })}
+            </ol>
+          </div>
         </SheetContent>
       </Sheet>
     </div>
