@@ -25,7 +25,7 @@ export type ToggleProps = Omit<ShadcnProps, "className"> & {
  */
 const base = [
   "group/toggle data-[impact]:animate-hit",
-  "relative isolate rounded-(--radius) border-[length:var(--mg-bw)] font-letter tracking-wide uppercase text-foreground transition-none",
+  "touch-hit relative isolate rounded-(--radius) border-[length:var(--mg-bw)] font-letter tracking-wide uppercase text-foreground transition-none",
   "active:translate-x-0.5 active:translate-y-0.5 rtl:active:-translate-x-0.5",
   "focus-visible:ring-0 focus-visible:border-border focus-ink focus-visible:outline-solid!",
   "aria-pressed:ink-fill aria-pressed:fill-in aria-pressed:border-primary aria-pressed:bg-primary! aria-pressed:text-primary-foreground!",

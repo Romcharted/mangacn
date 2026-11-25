@@ -23,6 +23,8 @@ const classes = [
   "hover-thicken hover:[&_[data-slot=switch-thumb]]:translate-x-[3px]! rtl:hover:[&_[data-slot=switch-thumb]]:-translate-x-[3px]!",
   "aria-checked:hover:[&_[data-slot=switch-thumb]]:translate-x-[17px]! rtl:aria-checked:hover:[&_[data-slot=switch-thumb]]:-translate-x-[17px]!",
   "active:translate-y-0.5",
+  // touch screens: a 44px hit area around the track (not during the trail and spark, which use the pseudo-elements)
+  "touch-hit",
   "focus-visible:border-border focus-visible:ring-0 focus-ink",
   // trail: three horizontal speed lines between the start and the end of the run
   "before:pointer-events-none before:invisible before:absolute before:inset-y-[5px] before:w-4 before:content-['']",

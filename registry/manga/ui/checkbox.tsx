@@ -12,7 +12,7 @@ function Checkbox({ className, ...props }: CheckboxProps) {
     <ShadcnCheckbox
       data-manga="checkbox"
       className={cn(
-        "size-5 rounded-[calc(var(--radius)*0.4)] border-[length:var(--mg-bw)] border-border bg-background text-foreground shadow-none transition-none dark:bg-background",
+        "touch-hit size-5 rounded-[calc(var(--radius)*0.4)] border-[length:var(--mg-bw)] border-border bg-background text-foreground shadow-none transition-none dark:bg-background",
         // hover thickens the line; no screentone under 24px (rule C)
         "hover-thicken active:translate-x-0.5 active:translate-y-0.5 rtl:active:-translate-x-0.5",
         "focus-visible:border-border focus-visible:ring-0 focus-ink",

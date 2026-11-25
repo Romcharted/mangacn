@@ -37,7 +37,7 @@ export type ButtonProps = Omit<ShadcnProps, "variant" | "size"> & {
 // Click: G4 impact (negative, recoil, settle) with short speed lines on both sides.
 const base = [
   "group/button data-[impact]:animate-hit",
-  "relative isolate rounded-(--radius) border-[length:var(--mg-bw)] border-border font-letter tracking-wide uppercase transition-none",
+  "touch-hit relative isolate rounded-(--radius) border-[length:var(--mg-bw)] border-border font-letter tracking-wide uppercase transition-none",
   "active:not-aria-[haspopup]:translate-y-0.5 active:translate-x-0.5 rtl:active:-translate-x-0.5",
   "focus-visible:ring-0 focus-visible:border-border focus-ink",
   "disabled:opacity-100 aria-disabled:opacity-100",

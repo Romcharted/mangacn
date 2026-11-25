@@ -17,7 +17,7 @@ function RadioGroupItem({ className, ...props }: React.ComponentProps<typeof Sha
     <ShadcnRadioGroupItem
       data-manga="radio"
       className={cn(
-        "m-0.5 size-4! rotate-45 rounded-none border-[length:var(--mg-bw)] border-border bg-background shadow-none transition-none dark:bg-background",
+        "touch-hit m-0.5 size-4! rotate-45 rounded-none border-[length:var(--mg-bw)] border-border bg-background shadow-none transition-none dark:bg-background",
         "hover-thicken active:translate-y-px",
         "focus-visible:border-border focus-visible:ring-0 focus-ink",
         "aria-checked:border-primary aria-checked:bg-primary! aria-checked:fill-in",

@@ -213,6 +213,12 @@ Large batches are built by subagents, 4 or 5 at a time, each with 3 to 5 compone
 - **Shadows**: no blur, ever. A shadow is an offset block of tone (`tone-shadow`). No solid black offset
   shadow with bright colours: that is neo-brutalism, not this kit.
 - **Selected / active / checked**: a flat of ink with paper text (`ink-fill`).
+- **Touch targets**: designed at 375 px first. On touch screens (`pointer: coarse`) every small control
+  (Checkbox, Radio, Switch, Toggle, Button of any size) carries `touch-hit`: an invisible `::after` grows the hit
+  area to at least 44 × 44 px around its centre, without changing the drawing. The element must be `relative`.
+  A component that draws with `::after` only while pressed or during an effect (`:active`, `data-fx`) keeps it:
+  `touch-hit` steps aside then. A new small control gets `touch-hit` too; the showcase's own controls are 44 px
+  tall under 640 px.
 - **Energy**: `speed-lines`, `focus-lines`, `shape-burst` — around content, never under a label.
 - **Type**: reading face for body and fields (`font-sans`), lettering face for titles, buttons, badges
   (`font-letter`), SFX face that covers katakana (`font-sfx`). Google Fonts, OFL only.

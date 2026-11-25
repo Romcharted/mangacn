@@ -679,6 +679,22 @@
   100% { scale: 1 1; }
 }
 
+/*
+ * Touch screens (pointer: coarse): the hit area of a small control grows to at least 44px around its centre,
+ * through an invisible ::after; the drawing does not change. Controls that draw with ::after while pressed
+ * (Button shout / destructive) or during an effect (Switch spark, data-fx) get it back for that moment.
+ * The element must be positioned (relative).
+ */
+@utility touch-hit {
+  @media (pointer: coarse) {
+    &:not(:active, [data-fx])::after {
+      content: "" !important;
+      position: absolute !important;
+      inset: min(0px, calc(50% - 22px)) !important;
+    }
+  }
+}
+
 /* G3 Hover, framed element: the tone shadow appears at 2px, then moves to 4px (two frames). */
 @utility hover-lift {
   --shadow-x: 2px;
