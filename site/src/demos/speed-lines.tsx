@@ -1,6 +1,56 @@
+import { Choice, Flag, Playground, Slider, jsx } from "../playground"
+import { useState } from "react"
 import { SpeedLines } from "@registry/manga/signature/speed-lines"
 
 export function Preview() {
+  const [variant, setVariant] = useState<"focus" | "motion">("focus")
+  const [density, setDensity] = useState(0.6)
+  const [originX, setOriginX] = useState(50)
+  const [originY, setOriginY] = useState(50)
+  const [hole, setHole] = useState(0.35)
+  const [direction, setDirection] = useState(0)
+  const [animated, setAnimated] = useState(true)
+  const focus = variant === "focus"
+  const props = focus ? { variant, density, originX, originY, hole, animated } : { variant, density, direction, animated }
+  return (
+    <div className="grid gap-8">
+      <Playground
+        preview={
+          <SpeedLines {...props} className="grid h-60 w-full max-w-md place-items-center border-ink">
+            <span aria-hidden className="font-sfx text-5xl">
+              {focus ? "ドン!" : "ZOOM"}
+            </span>
+          </SpeedLines>
+        }
+        controls={
+          <>
+            <Choice label="variant" value={variant} options={["focus", "motion"] as const} onChange={setVariant} />
+            <Slider label="density" value={density} min={0.1} max={1} step={0.05} onChange={setDensity} />
+            {focus ? (
+              <>
+                <Slider label="originX (%)" value={originX} min={0} max={100} onChange={setOriginX} />
+                <Slider label="originY (%)" value={originY} min={0} max={100} onChange={setOriginY} />
+                <Slider label="hole" value={hole} min={0} max={0.9} step={0.05} onChange={setHole} />
+              </>
+            ) : (
+              <Slider label="direction (°)" value={direction} min={-90} max={90} onChange={setDirection} />
+            )}
+            <Flag label="animated" checked={animated} onChange={setAnimated} />
+          </>
+        }
+        code={jsx(
+          "SpeedLines",
+          { ...props, className: "grid h-60 place-items-center" },
+          { variant: "focus", density: 0.6, originX: 50, originY: 50, hole: 0.35, direction: 0, animated: false },
+          `<span aria-hidden className="font-sfx text-5xl">${focus ? "ドン!" : "ZOOM"}</span>`,
+        )}
+      />
+      <Examples />
+    </div>
+  )
+}
+
+function Examples() {
   return (
     <div className="grid gap-6 sm:grid-cols-2">
       <SpeedLines animated className="grid h-56 place-items-center border-ink-panel">
@@ -40,8 +90,14 @@ export function States() {
 }
 
 export function Thumb() {
+  const [hover, setHover] = useState(false)
   return (
-    <SpeedLines className="grid h-28 w-48 place-items-center border-ink">
+    <SpeedLines
+      animated={hover}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className="grid h-28 w-48 place-items-center border-ink"
+    >
       <span aria-hidden className="font-sfx text-3xl">ドン!</span>
     </SpeedLines>
   )

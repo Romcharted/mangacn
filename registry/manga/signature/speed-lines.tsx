@@ -13,8 +13,8 @@ export type SpeedLinesProps = React.ComponentProps<"div"> & {
   direction?: number
   /** Amount of lines (0.1–1). */
   density?: number
-  /** Redraws the lines in steps (~6 fps). Off when the user prefers reduced motion. */
-  animated?: boolean
+  /** Redraws the lines in steps: true ≈ 6 fps, "slow" ≈ 2 fps (for backgrounds). Off when the user prefers reduced motion. */
+  animated?: boolean | "slow"
   seed?: number
 }
 
@@ -33,11 +33,11 @@ function useSize<T extends HTMLElement>() {
   return [ref, size] as const
 }
 
-function useFrame(animated: boolean) {
+function useFrame(animated: boolean | "slow") {
   const [frame, setFrame] = React.useState(0)
   React.useEffect(() => {
     if (!animated || matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    const id = setInterval(() => setFrame((x) => (x + 1) % 3), 166)
+    const id = setInterval(() => setFrame((x) => (x + 1) % 3), animated === "slow" ? 500 : 166)
     return () => clearInterval(id)
   }, [animated])
   return frame
@@ -120,6 +120,7 @@ function SpeedLines({
       ref={ref}
       data-manga="speed-lines"
       data-variant={variant}
+      data-animated={animated || undefined}
       className={cn("relative isolate overflow-hidden bg-[var(--tone-paper,var(--background))]", className)}
       {...props}
     >
