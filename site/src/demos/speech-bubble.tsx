@@ -61,3 +61,11 @@ export function States() {
     </div>
   )
 }
+
+export function Thumb() {
+  return (
+    <SpeechBubble variant="shout" tail="none" className="px-10 py-6 text-base">
+      Bam!
+    </SpeechBubble>
+  )
+}
