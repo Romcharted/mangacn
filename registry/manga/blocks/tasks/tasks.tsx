@@ -65,7 +65,9 @@ export function Tasks({ className }: { className?: string }) {
   const shown = React.useMemo(
     () =>
       tasks.filter(
-        (t) => (filter === "All" || t.status === filter) && (!query || `${t.title} ${t.chapter} ${t.artist}`.toLowerCase().includes(query.toLowerCase())),
+        (t) =>
+          (filter === "All" || t.status === filter) &&
+          (!query || `${t.title} ${t.chapter} ${t.artist}`.toLowerCase().includes(query.toLowerCase())),
       ),
     [tasks, filter, query],
   )
@@ -99,7 +101,13 @@ export function Tasks({ className }: { className?: string }) {
         />
         <ButtonGroup aria-label="Status" className="flex-wrap">
           {(["All", ...STATUSES] as const).map((s) => (
-            <Button key={s} size="sm" variant={filter === s ? "default" : "outline"} aria-pressed={filter === s} onClick={() => setFilter(s)}>
+            <Button
+              key={s}
+              size="sm"
+              variant={filter === s ? "default" : "outline"}
+              aria-pressed={filter === s}
+              onClick={() => setFilter(s)}
+            >
               {s}
             </Button>
           ))}
