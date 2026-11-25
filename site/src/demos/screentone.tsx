@@ -1,7 +1,39 @@
+import { Choice, Playground, Slider, jsx } from "../playground"
+import { useState } from "react"
 import { Screentone, type ScreentonePattern } from "@registry/manga/signature/screentone"
 import { Tile, Tiles } from "../state-grid"
 
+const PATTERNS = ["dots", "lines", "cross", "noise"] as const
+const FADES = ["none", "top", "bottom", "start", "end"] as const
+
 export function Preview() {
+  const [pattern, setPattern] = useState<ScreentonePattern>("dots")
+  const [density, setDensity] = useState(35)
+  const [angle, setAngle] = useState(45)
+  const [size, setSize] = useState(6)
+  const [fade, setFade] = useState<(typeof FADES)[number]>("bottom")
+  const props = { pattern, density, angle, size, fade }
+  return (
+    <div className="grid gap-8">
+      <Playground
+        preview={<Screentone {...props} className="h-56 w-full max-w-md border-ink" />}
+        controls={
+          <>
+            <Choice label="pattern" value={pattern} options={PATTERNS} onChange={setPattern} />
+            <Slider label="density (%)" value={density} min={5} max={60} onChange={setDensity} />
+            <Slider label="angle (°)" value={angle} min={0} max={90} onChange={setAngle} />
+            <Slider label="size (px)" value={size} min={4} max={14} onChange={setSize} />
+            <Choice label="fade" value={fade} options={FADES} onChange={setFade} />
+          </>
+        }
+        code={jsx("Screentone", { ...props, className: "h-56 border-ink" }, { pattern: "dots", density: 20, angle: 45, size: 6, fade: "none" })}
+      />
+      <Examples />
+    </div>
+  )
+}
+
+function Examples() {
   return (
     <div className="grid gap-6 sm:grid-cols-2">
       <Screentone density={35} fade="bottom" className="grid h-48 place-items-center border-ink-panel">
@@ -43,5 +75,14 @@ export function States() {
 }
 
 export function Thumb() {
-  return <Screentone density={40} fade="bottom" className="h-28 w-48 border-ink" />
+  const [hover, setHover] = useState(false)
+  return (
+    <Screentone
+      density={hover ? 60 : 30}
+      fade="bottom"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className="h-28 w-48 border-ink"
+    />
+  )
 }
