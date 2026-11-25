@@ -97,6 +97,14 @@
     "registry/items/reading-progress.json",
     "registry/items/social-button.json",
     "registry/items/password-strength.json",
+    "registry/items/yonkoma.json",
+    "registry/items/dialogue-box.json",
+    "registry/items/chapter-title.json",
+    "registry/items/magazine-cover.json",
+    "registry/items/scene-transition.json",
+    "registry/items/ruby.json",
+    "registry/items/vertical-text.json",
+    "registry/items/bilingual-bubble.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json",
     "registry/items/landing-page.json",
@@ -108,6 +116,7 @@
     "registry/items/verify-code.json",
     "registry/items/reset-password.json",
     "registry/items/sign-up.json",
-    "registry/items/forgot-password.json"
+    "registry/items/forgot-password.json",
+    "registry/items/story-landing.json"
   ]
 }
