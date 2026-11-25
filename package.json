@@ -11,7 +11,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "build": "npm run sync && npm run typecheck && vite build && shadcn build -o site/dist/r",
     "preview": "vite preview",
-    "shots": "node scripts/screenshots.mjs"
+    "shots": "node scripts/screenshots.mjs",
+    "check": "node scripts/check-items.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

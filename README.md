@@ -197,6 +197,7 @@ npm install
 npm run dev        # showcase
 npm run build      # sync base CSS, llms.txt and this README's list; typecheck; build the site and r/*.json
 npm run shots      # screenshots of the built site (light and dark)
+npm run check      # every item complete: files, meta, llms.txt, README, built JSON, demo
 ```
 
 See [AGENTS.md](AGENTS.md) for conventions, how to add a component, and the style rules.
