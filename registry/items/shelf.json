@@ -1,0 +1,39 @@
+{
+  "name": "shelf",
+  "type": "registry:component",
+  "title": "Shelf",
+  "description": "Manga volumes standing spine out on a shelf. Each spine is a 2px case at least 44 px wide (three thicknesses, slightly varied heights) with the volume number on an ink flat at the top, the title in vertical lettering and an optional tone band or tone ends (never under text); the plank is a 3px ink edge, a band of tone lines and another edge. Hover lifts the spine's tone shadow, focus is the ink ring, pressed the 2px offset. Pulling a volume (click, Enter) turns its spine into an ink flat raised by 16px in two steps and drops its VolumeCard in under the shelf (cover, status, reading progress) with Open and Put back buttons. Arrows move along the row, Home / End, Escape puts the volume back and returns the focus to its spine. The row scrolls sideways when it is wider than the screen; in manga order volume 1 stands at the right end. Controlled or not (selected / onSelectedChange).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/volume-card",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/shelf.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/shelf.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/shelf\". Covers are image URLs or any node; they only show on the pulled volume's card. onOpen receives the volume: navigate to its reader there.",
+  "meta": {
+    "tagline": "Volumes on a shelf, spine out: pull one to open it.",
+    "usage": "import { Shelf } from \"@/components/manga/shelf\"\n\n<Shelf\n  volumes={[\n    { id: \"ls-1\", title: \"Lantern Street\", volume: 1, cover: \"/covers/ls-1.jpg\", status: \"completed\", read: 8, total: 8 },\n    { id: \"ls-2\", title: \"Lantern Street\", volume: 2, cover: \"/covers/ls-2.jpg\", status: \"ongoing\", read: 3, total: 8, spine: \"band\" },\n  ]}\n  openLabel=\"Read\"\n  onOpen={(v) => router.push(`/read/${v.id}`)}\n/>",
+    "props": [
+      { "name": "volumes", "type": "ShelfVolume[]", "description": "{ id, title, volume, author?, cover?, status?, read?, total?, thickness?: 1 | 2 | 3, spine?: \"plain\" | \"band\" | \"tone\" }." },
+      { "name": "selected", "type": "string | null", "description": "Id of the pulled volume, controlled." },
+      { "name": "defaultSelected", "type": "string | null", "default": "null", "description": "Pulled volume, uncontrolled." },
+      { "name": "onSelectedChange", "type": "(id: string | null) => void", "description": "Called when a volume is pulled or put back." },
+      { "name": "onOpen", "type": "(volume: ShelfVolume) => void", "description": "Called by the Open button of the pulled volume." },
+      { "name": "openLabel", "type": "string", "default": "\"Open\"", "description": "Label of that button." },
+      { "name": "direction", "type": "\"ltr\" | \"rtl\"", "default": "\"ltr\"", "description": "Volume 1 at the left, or at the right (manga order)." },
+      { "name": "className", "type": "string", "description": "Added to the root." }
+    ]
+  }
+}
