@@ -1,0 +1,34 @@
+{
+  "name": "aspect-ratio",
+  "type": "registry:ui",
+  "title": "Aspect Ratio",
+  "description": "Manga-styled wrapper around your shadcn Aspect Ratio. No manga effect: it is a layout tool, so only the data-manga hook is added. Same API: pass a ratio (width / height) and the child fills the box.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "aspect-ratio",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/manga/ui/aspect-ratio.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/aspect-ratio.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/aspect-ratio\". It wraps your own components/ui/aspect-ratio, so Radix and Base UI both work with the same ratio prop.",
+  "meta": {
+    "tagline": "A box of a fixed ratio for covers, panels and frames.",
+    "usage": "import { AspectRatio } from \"@/components/ui/manga/aspect-ratio\"\n\n<AspectRatio ratio={16 / 9}>\n  <img src=\"/cover.jpg\" alt=\"Cover\" className=\"size-full object-cover\" />\n</AspectRatio>",
+    "props": [
+      {
+        "name": "ratio",
+        "type": "number",
+        "default": "-",
+        "description": "Width divided by height (16 / 9, 2 / 3, 1)."
+      }
+    ]
+  }
+}
