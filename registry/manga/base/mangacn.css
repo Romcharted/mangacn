@@ -14,7 +14,8 @@
  */
 
 /* Manga reading order (right-to-left panels) without touching the writing direction. */
-@custom-variant reading-rtl (&:where([data-reading="rtl"], [data-reading="rtl"] *));
+/* The nearest data-reading wins: a block set to "ltr" inside an RTL page stays left to right. */
+@custom-variant reading-rtl (&:where([data-reading="rtl"], [data-reading="rtl"] *):not(:where([data-reading="ltr"], [data-reading="rtl"] [data-reading="ltr"] *)));
 
 @theme inline {
   --font-sans: var(--font-manga-body, "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif);

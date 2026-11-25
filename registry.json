@@ -199,7 +199,7 @@
           "--sidebar-border": "var(--ink)",
           "--sidebar-ring": "var(--ink)"
         },
-        "@custom-variant reading-rtl (&:where([data-reading=\"rtl\"], [data-reading=\"rtl\"] *))": {},
+        "@custom-variant reading-rtl (&:where([data-reading=\"rtl\"], [data-reading=\"rtl\"] *):not(:where([data-reading=\"ltr\"], [data-reading=\"rtl\"] [data-reading=\"ltr\"] *)))": {},
         "[data-accent=\"stamp\"]": {
           "--mg-accent": "oklch(0.52 0.2 27)"
         },
