@@ -55,7 +55,7 @@ export function Thumb() {
       <PaginationContent>
         {[1, 2, 3].map((p) => (
           <PaginationItem key={p}>
-            <PaginationLink href="#pagination" isActive={p === 2}>
+            <PaginationLink href="#" isActive={p === 2}>
               {p}
             </PaginationLink>
           </PaginationItem>

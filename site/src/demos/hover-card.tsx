@@ -4,7 +4,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@registry/manga/u
 function Sample() {
   return (
     <HoverCard>
-      <HoverCardTrigger href="#hover-card" className="font-letter text-lg uppercase hover-underline">
+      <HoverCardTrigger href="#" className="font-letter text-lg uppercase hover-underline">
         @nightowl
       </HoverCardTrigger>
       <HoverCardContent className="w-64">

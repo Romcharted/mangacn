@@ -17,7 +17,7 @@ const userPaths = (src: string) =>
 export function Examples() {
   return (
     <article className="pt-6" aria-labelledby="examples-title">
-      <a href="#" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+      <a href="#/" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
         ← All components
       </a>
       <header className="mt-6 max-w-prose space-y-2">

@@ -43,12 +43,29 @@ export function usePrefs() {
 }
 
 /** Current hash without "#", kept in sync with the address bar. */
+/** The route after "#": "" and "/" are the gallery. */
+function readHash() {
+  return decodeURIComponent(location.hash.slice(1)).replace(/^\/$/, "")
+}
+
+/**
+ * Hash router. A click on a link whose href is exactly "#" (demo links, placeholders) is ignored, so a
+ * demo never throws the visitor back to the gallery; links home use "#/". Back and forward still work.
+ */
 export function useHash() {
-  const [hash, setHash] = useState(() => decodeURIComponent(location.hash.slice(1)))
+  const [hash, setHash] = useState(readHash)
   useEffect(() => {
-    const on = () => setHash(decodeURIComponent(location.hash.slice(1)))
+    const on = () => setHash(readHash())
+    const empty = (e: MouseEvent) => {
+      const a = (e.target as Element | null)?.closest?.("a")
+      if (a?.getAttribute("href") === "#") e.preventDefault()
+    }
     addEventListener("hashchange", on)
-    return () => removeEventListener("hashchange", on)
+    document.addEventListener("click", empty)
+    return () => {
+      removeEventListener("hashchange", on)
+      document.removeEventListener("click", empty)
+    }
   }, [])
   return hash
 }

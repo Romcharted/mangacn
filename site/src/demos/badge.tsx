@@ -39,7 +39,7 @@ export function States() {
             <Star data-icon="inline-start" /> Badge
           </Badge>
         ) : (
-          <Badge variant={v} render={<a href="#badge" tabIndex={-1} />}>
+          <Badge variant={v} render={<a href="#" tabIndex={-1} />}>
             Link
           </Badge>
         )

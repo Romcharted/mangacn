@@ -29,12 +29,12 @@ export function App() {
         query={query}
         onQuery={(q) => {
           setQuery(q)
-          if (current) location.hash = ""
+          if (current) location.hash = "/"
         }}
         category={category}
         onCategory={(c) => {
           setCategory(c)
-          if (current) location.hash = ""
+          if (current) location.hash = "/"
         }}
         prefs={prefs}
         set={set}
@@ -90,7 +90,7 @@ function TopBar(props: {
   return (
     <header className="relative z-40 sm:sticky sm:top-0 border-b-[length:var(--mg-bw-panel)] border-border bg-background">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 px-4 py-2.5">
-        <a href="#" className="font-sfx text-xl leading-none focus-ink" aria-label="mangacn, back to the gallery">
+        <a href="#/" className="font-sfx text-xl leading-none focus-ink" aria-label="mangacn, back to the gallery">
           manga<span className="ink-fill px-1">cn</span>
         </a>
         <nav aria-label="Guides" className="flex gap-1.5">
@@ -273,7 +273,7 @@ function Detail({ item }: { item: Item }) {
   return (
     <article aria-labelledby="detail-title" className="pt-6">
       <nav aria-label="Component navigation" className="flex flex-wrap items-center justify-between gap-2">
-        <a href="#" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+        <a href="#/" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
           ← All components
         </a>
         <span className="flex gap-2">
