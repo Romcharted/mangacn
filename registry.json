@@ -3468,7 +3468,7 @@
       "name": "data-table",
       "type": "registry:ui",
       "title": "Data Table",
-      "description": "A sortable, filterable, selectable table built on @tanstack/react-table and the mangacn Table. The table is a case with an ink header; sorted columns show a brush arrow (aria-sort); the hovered row gets its ink bar and selected rows a 6px bar. The toolbar has a filter field (filterColumn) and a column visibility menu (grouped, checkable items). Row selection uses the mangacn Checkbox, with a select-all in the header; pagination uses the mangacn Button. An empty filter result shows the \"…\" mark (TableEmpty). Props: columns, data, filterColumn?, pageSize?, onSelectionChange?(rows). Also exports selectColumn.",
+      "description": "A sortable, filterable, selectable table built on @tanstack/react-table and the mangacn Table. The table is a case with an ink header; sorted columns show a brush arrow (aria-sort); the hovered row gets its ink bar and selected rows a 6px bar. The toolbar has a filter field (filterColumn) and a column visibility menu (grouped, checkable items). Row selection uses the mangacn Checkbox, with a select-all in the header; pagination uses the mangacn Button. An empty filter result shows the \"…\" mark (TableEmpty). Props: columns, data, filterColumn?, pageSize?, onSelectionChange?(rows). Also exports selectColumn. On phones (table narrower than 640px) rows become cards: checkbox, title, badge, labelled lines; set `meta: { card: ... }` on a column to choose.",
       "categories": [
         "display"
       ],
@@ -3491,7 +3491,7 @@
           "target": "@ui/manga/data-table.tsx"
         }
       ],
-      "docs": "Import from \"@/components/ui/manga/data-table\". Column definitions use the TanStack v8 type ColumnDef<TData> (useReactTable with getCoreRowModel, getSortedRowModel, getFilteredRowModel and getPaginationRowModel). Every column with an accessorKey sorts unless enableSorting is false. Row ids are the index in data, so onSelectionChange returns the caller's own rows.",
+      "docs": "Import from \"@/components/ui/manga/data-table\". Column definitions use the TanStack v8 type ColumnDef<TData> (useReactTable with getCoreRowModel, getSortedRowModel, getFilteredRowModel and getPaginationRowModel). Every column with an accessorKey sorts unless enableSorting is false. Row ids are the index in data, so onSelectionChange returns the caller's own rows.\n\nPhones: under `cardsBelow` (640px of table width) each row is a card. Per column, `meta: { card: \"title\" | \"badge\" | \"line\" | false }` sets its place (default: first column = title, others = lines).",
       "meta": {
         "tagline": "Sort, filter, select and page a list in an ink-lined table.",
         "usage": "import { DataTable } from \"@/components/ui/manga/data-table\"\nimport type { ColumnDef } from \"@tanstack/react-table\"\n\nconst columns: ColumnDef<Chapter>[] = [\n  { accessorKey: \"title\", header: \"Chapter\" },\n  { accessorKey: \"pages\", header: \"Pages\" },\n]\n\n<DataTable columns={columns} data={chapters} filterColumn=\"title\" pageSize={10} onSelectionChange={(rows) => setPicked(rows)} />",
@@ -3525,6 +3525,12 @@
             "name": "selectColumn",
             "type": "() => ColumnDef<TData>",
             "description": "The leading checkbox column, for custom placement."
+          },
+          {
+            "name": "cardsBelow",
+            "type": "number",
+            "default": "640",
+            "description": "Width of the table, in px, under which each row becomes a card (0 keeps the table). Columns pick their place with meta.card: \"title\", \"badge\", \"line\" or false."
           }
         ]
       }
@@ -3714,6 +3720,746 @@
             "name": "icon",
             "type": "ReactNode",
             "description": "A small mark before the number."
+          }
+        ]
+      }
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Manga-styled wrapper around your shadcn Input Group. The whole group is drawn like Input: a 2px ink line on paper; the inner input or textarea has no line of its own. Hover thickens the group's line (G3, fields); focus on the control thickens it to 3px with a paper gap and an ink ring around the group; aria-invalid on the control gives an accent line, a \"!\" mark and a serrated bottom edge; a disabled control gives a dashed line and a tone frame with the text on paper. Addons and InputGroupText read in ink in the reading face. InputGroupButton is a small kit button (2px frame, lettering, hover inverts to ink, pressed is a negative with a 2px offset, focus ring kept inside the group). Block addons (block-start / block-end) are separated by a fine ink rule. At least 44px tall under 640px. Exports inputGroupClassName for components whose input is an input group (Combobox).",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "input-group",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/input-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/input-group.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/input-group\". It wraps your own components/ui/input-group, so Radix and Base UI both work. Put aria-invalid and disabled on the InputGroupInput / InputGroupTextarea: the group reads them.",
+      "meta": {
+        "tagline": "One ink line around a field and its addons, with a small lettered button inside.",
+        "usage": "import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from \"@/components/ui/manga/input-group\"\n\n<InputGroup>\n  <InputGroupAddon>\n    <InputGroupText>https://</InputGroupText>\n  </InputGroupAddon>\n  <InputGroupInput placeholder=\"your-circle.example\" />\n  <InputGroupAddon align=\"inline-end\">\n    <InputGroupButton>Check</InputGroupButton>\n  </InputGroupAddon>\n</InputGroup>",
+        "props": [
+          {
+            "name": "align",
+            "type": "\"inline-start\" | \"inline-end\" | \"block-start\" | \"block-end\"",
+            "description": "On InputGroupAddon: where the addon sits. Block addons get a fine ink rule."
+          },
+          {
+            "name": "size",
+            "type": "\"xs\" | \"sm\" | \"icon-xs\" | \"icon-sm\"",
+            "description": "On InputGroupButton: the button size (a 44px touch target under 640px)."
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "On InputGroupInput / InputGroupTextarea: the error look on the whole group."
+          },
+          {
+            "name": "inputGroupClassName",
+            "type": "string",
+            "description": "The group look, for a stock input group you do not render yourself."
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Manga-styled wrapper around your shadcn Native Select (a real <select>). Drawn like the kit Select trigger: a 2px ink line on paper and a brush chevron (mark-chevron) in place of the stock icon. Hover thickens the line (G3, fields); focus thickens it to 3px with a paper gap and an ink ring; aria-invalid gives an accent line, a \"!\" mark before the chevron and a serrated bottom edge; disabled gives a dashed line and a tone frame with the label on paper and a not-allowed cursor. Sizes default and sm, both 44px tall under 640px. The options keep the browser's native popup.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "native-select",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/native-select.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/native-select.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/native-select\". It wraps your own components/ui/native-select, so Radix and Base UI both work. className goes on the wrapper (as in the stock component); every other prop goes on the <select>.",
+      "meta": {
+        "tagline": "A real select, drawn in ink with a brush chevron.",
+        "usage": "import { NativeSelect, NativeSelectOption } from \"@/components/ui/manga/native-select\"\n\n<NativeSelect defaultValue=\"rtl\">\n  <NativeSelectOption value=\"rtl\">Right to left</NativeSelectOption>\n  <NativeSelectOption value=\"ltr\">Left to right</NativeSelectOption>\n</NativeSelect>",
+        "props": [
+          {
+            "name": "size",
+            "type": "\"sm\" | \"default\"",
+            "description": "Height and text size (44px tall under 640px either way)."
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "The error look: accent line, \"!\" mark, serrated bottom edge."
+          },
+          {
+            "name": "NativeSelectOptGroup",
+            "type": "component",
+            "description": "A labelled group of options (native optgroup)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Manga-styled wrapper around your shadcn Context Menu: a case that opens at the pointer (no notch), popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent; sub-menus have a brush chevron. Rows are 44px tall under 640 px. Put ContextMenuLabel inside a ContextMenuGroup: Base UI requires it (Radix does not). Works with Base UI and Radix.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "context-menu",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/context-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/context-menu.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/context-menu\". It wraps your own components/ui/context-menu, so Radix and Base UI both work. ContextMenuTwin and ContextMenuTwinRow are static look-alikes for documentation and state grids.",
+      "meta": {
+        "tagline": "A case that opens at the pointer; the row under it turns to ink.",
+        "usage": "import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from \"@/components/ui/manga/context-menu\"\n\n<ContextMenu>\n  <ContextMenuTrigger>Right-click this page</ContextMenuTrigger>\n  <ContextMenuContent>\n    <ContextMenuItem>Bookmark</ContextMenuItem>\n    <ContextMenuItem variant=\"destructive\">Delete</ContextMenuItem>\n  </ContextMenuContent>\n</ContextMenu>",
+        "props": []
+      }
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Manga-styled wrapper around your shadcn Menubar: a 2px frame with lettering triggers in a group. A trigger thickens its line on hover, an open trigger is an ink flat, and focus is drawn inside the cell. Menus are the Dropdown Menu panel with the notch toward the trigger. On phones the bar wraps so every trigger keeps a 44px target. Works with Base UI and Radix.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "menubar",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/menubar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/menubar.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/menubar\". It wraps your own components/ui/menubar, so Radix and Base UI both work. MenubarTriggerTwin, MenubarTwin and MenubarTwinRow are static look-alikes for documentation and state grids.",
+      "meta": {
+        "tagline": "A lettering bar of menus; the open one turns to ink.",
+        "usage": "import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from \"@/components/ui/manga/menubar\"\n\n<Menubar>\n  <MenubarMenu>\n    <MenubarTrigger>File</MenubarTrigger>\n    <MenubarContent>\n      <MenubarItem>New volume</MenubarItem>\n      <MenubarItem variant=\"destructive\">Close volume</MenubarItem>\n    </MenubarContent>\n  </MenubarMenu>\n</Menubar>",
+        "props": []
+      }
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Manga-styled wrapper around your shadcn Resizable panels (react-resizable-panels v4). The handle is a 2px ink line: hover thickens it by 1px per side, focus draws the focus ring, and a grip (withHandle) is a small 2px-framed box that turns to an ink flat while dragging. The hit area is 24px wide (44px under 640 px). Put the group inside a case (ink-case) to frame the panels.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "resizable",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "react-resizable-panels"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/resizable.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/resizable.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/resizable\". The group and panel are your own shadcn parts; the handle is drawn here on the same react-resizable-panels Separator, because the stock handle classes would fight the 2px line. Panel sizes are numbers in pixels, or strings for percentages (defaultSize=\"60\").",
+      "meta": {
+        "tagline": "Panels divided by a 2px ink line with a grip to pull.",
+        "usage": "import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from \"@/components/ui/manga/resizable\"\n\n<ResizablePanelGroup orientation=\"horizontal\" className=\"ink-case relative h-80\">\n  <ResizablePanel defaultSize=\"60\">Page</ResizablePanel>\n  <ResizableHandle withHandle />\n  <ResizablePanel defaultSize=\"40\">Notes</ResizablePanel>\n</ResizablePanelGroup>",
+        "props": [
+          {
+            "name": "withHandle",
+            "type": "boolean",
+            "default": "false",
+            "description": "On ResizableHandle: draws the grip (a small 2px-framed box with two ink lines)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Manga-styled wrapper around your shadcn Aspect Ratio. No manga effect: it is a layout tool, so only the data-manga hook is added. Same API: pass a ratio (width / height) and the child fills the box.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "aspect-ratio",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/manga/ui/aspect-ratio.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/aspect-ratio.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/aspect-ratio\". It wraps your own components/ui/aspect-ratio, so Radix and Base UI both work with the same ratio prop.",
+      "meta": {
+        "tagline": "A box of a fixed ratio for covers, panels and frames.",
+        "usage": "import { AspectRatio } from \"@/components/ui/manga/aspect-ratio\"\n\n<AspectRatio ratio={16 / 9}>\n  <img src=\"/cover.jpg\" alt=\"Cover\" className=\"size-full object-cover\" />\n</AspectRatio>",
+        "props": [
+          {
+            "name": "ratio",
+            "type": "number",
+            "default": "-",
+            "description": "Width divided by height (16 / 9, 2 / 3, 1)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Manga-styled wrapper around your shadcn Drawer (Base UI drawer or vaul). Like Sheet docked to an edge: paper, a 3px ink line on the open side and an offset second frame thrown onto the page as its shadow, in all four directions. The grab handle is a 2px ink bar with square ends, 64px wide; the title is in lettering; the footer sits above a 2px rule. The library keeps its own slide and drag transforms; the wrapper only makes their timing stepped (steps(5)), so swiping still follows the finger, and nothing moves with reduced motion. The veil comes from base. Adds DrawerCard, a static look-alike of an open drawer for previews and frozen states. Buttons inside are the kit Button.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "drawer",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/drawer.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/drawer.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/drawer\". It wraps your own components/ui/drawer, so Radix (vaul) and Base UI both work. The side keeps each library's own prop: swipeDirection=\"down|up|left|right\" on Base UI, direction=\"bottom|top|left|right\" on vaul. The grab handle is styled in both: vaul draws it on bottom drawers; on Base UI pass showSwipeHandle to Drawer. DrawerSwipeHandle (Base UI only) is not re-exported. Put the kit Button inside for actions.",
+      "meta": {
+        "tagline": "A case that slides up from the edge, with an ink grab bar.",
+        "usage": "import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from \"@/components/ui/manga/drawer\"\nimport { Button } from \"@/components/ui/manga/button\"\n\n<Drawer>\n  <DrawerTrigger>Reading goal</DrawerTrigger>\n  <DrawerContent>\n    <DrawerHeader>\n      <DrawerTitle>Daily reading goal</DrawerTitle>\n      <DrawerDescription>How many chapters a day?</DrawerDescription>\n    </DrawerHeader>\n    <DrawerFooter><Button>Set the goal</Button></DrawerFooter>\n  </DrawerContent>\n</Drawer>",
+        "props": [
+          {
+            "name": "swipeDirection / direction",
+            "type": "\"down\" | \"up\" | \"left\" | \"right\" (Base UI) · \"bottom\" | \"top\" | \"left\" | \"right\" (vaul)",
+            "description": "On Drawer: the edge it slides from, with each library's own prop. The 3px line and the offset frame follow it."
+          },
+          {
+            "name": "DrawerCard",
+            "type": "component",
+            "description": "Static twin of an open drawer: side, handle, title, description, footer, children. No portal, no veil."
+          }
+        ]
+      }
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Manga-styled wrapper around your shadcn Carousel (embla). Every slide is a panel: its content gets a 2px ink frame on paper (ink-case-inner). Previous / Next are the kit outline icon button with a brush arrow: the tone shadow appears on hover, pressed is a negative with impact lines, focus is the ink / paper / ink ring, disabled is dashed with a tone frame. Under 640px they grow to 44px and sit inside the carousel width, in a row under the slides (stock places them 48px outside). Adds CarouselDots, a mangacn addition built on useCarousel: square dots, the current one an ink flat that sweeps in, 24px hit areas (44px under 640px). Manga reading order: under data-reading=\"rtl\" (or opts.direction \"rtl\", or dir=\"rtl\") embla runs right to left, slides flow right to left, the arrows and arrow keys follow; text stays left to right. Vertical orientation puts the buttons above and below and uses the up / down keys.",
+      "categories": [
+        "display"
+      ],
+      "registryDependencies": [
+        "carousel",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/carousel.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/carousel.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/carousel\". It wraps your own components/ui/carousel (embla, the same in Radix and Base UI) and draws Previous / Next with the kit Button. CarouselDots is mangacn's own addition (not in shadcn): place it inside Carousel, after the buttons. The carousel follows the page's manga reading order (data-reading=\"rtl\") and writing direction (dir=\"rtl\") by itself; opts.direction overrides it. From 640px the buttons sit 48px outside the slides, as in shadcn: leave room around the carousel (sm:px-12). Vertical: give CarouselContent a height and leave room above and below for the buttons (py-14). Put one element in each CarouselItem: it becomes the panel.",
+      "meta": {
+        "tagline": "Panels in a strip, turned with brush arrows.",
+        "usage": "import { Carousel, CarouselContent, CarouselDots, CarouselItem, CarouselNext, CarouselPrevious } from \"@/components/ui/manga/carousel\"\n\n<Carousel className=\"sm:mx-12\">\n  <CarouselContent>\n    <CarouselItem><div>Chapter 12</div></CarouselItem>\n    <CarouselItem><div>Chapter 13</div></CarouselItem>\n  </CarouselContent>\n  <CarouselPrevious />\n  <CarouselNext />\n  <CarouselDots />\n</Carousel>",
+        "props": [
+          {
+            "name": "CarouselDots",
+            "type": "component",
+            "description": "mangacn addition: one square dot per snap point; the current one is an ink flat. Uses useCarousel."
+          },
+          {
+            "name": "opts.direction",
+            "type": "\"ltr\" | \"rtl\"",
+            "description": "On Carousel: the flow. Defaults to the page (data-reading=\"rtl\" or dir=\"rtl\" give \"rtl\")."
+          },
+          {
+            "name": "orientation",
+            "type": "\"horizontal\" | \"vertical\"",
+            "description": "On Carousel. Vertical puts the buttons above and below and uses the up / down keys."
+          }
+        ]
+      }
+    },
+    {
+      "name": "versus-panel",
+      "type": "registry:component",
+      "title": "Versus Panel",
+      "description": "Two halves of a comparison split by a 3px ink diagonal, with a VS burst at the crossing. Side by side from a container width of 36rem, the halves stack below it and the split becomes a zig from left to right with the VS on it (container queries, no viewport breakpoints). Exactly two VersusSide children; highlight gives one side the ink flat with paper text (the recommended offer). Each side is a named region. Gestures: case (outer frame), flat (highlight), burst (VS mark).",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/versus-panel.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/versus-panel.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/versus-panel\". Give each VersusSide an accessible name (aria-label or aria-labelledby on a heading). Put kit Buttons inside the sides; use variant=\"outline\" on the highlighted side, since its background is ink.",
+      "meta": {
+        "tagline": "Two options split by a diagonal, with a VS burst at the crossing.",
+        "usage": "import { VersusPanel, VersusSide } from \"@/components/manga/versus-panel\"\n\n<VersusPanel>\n  <VersusSide aria-labelledby=\"free\">\n    <h3 id=\"free\">Free</h3>\n  </VersusSide>\n  <VersusSide highlight aria-labelledby=\"pro\">\n    <h3 id=\"pro\">Pro</h3>\n  </VersusSide>\n</VersusPanel>",
+        "props": [
+          {
+            "name": "label",
+            "type": "string",
+            "default": "\"VS\"",
+            "description": "Lettering on the crossing mark (decorative, aria-hidden)."
+          },
+          {
+            "name": "children",
+            "type": "two <VersusSide> elements",
+            "description": "The two halves, in order: first left (or top when stacked)."
+          },
+          {
+            "name": "highlight",
+            "type": "boolean",
+            "default": "false",
+            "description": "On VersusSide: the recommended side, an ink flat with paper text."
+          }
+        ]
+      }
+    },
+    {
+      "name": "loading-screen",
+      "type": "registry:component",
+      "title": "Loading Screen",
+      "description": "A waiting screen: concentration lines turning behind a paper plate, an onomatopoeia in the SFX face in the centre, an optional message and either a determinate bar filled with speed lines (progress 0 to 100) or an indeterminate turning spinner (progress omitted). role=status with aria-live=polite; the SFX is decorative. Fills its container by default; fullscreen covers the viewport (fixed, z-50). Lines stop under prefers-reduced-motion, the states stay distinct.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/speed-lines",
+        "Romcharted/mangacn/sfx",
+        "Romcharted/mangacn/spinner"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/loading-screen.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/loading-screen.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/loading-screen\". Give the container a height (the default fills it; min height 16rem). Use fullscreen only for real page-level waits.",
+      "meta": {
+        "tagline": "A waiting screen of concentration lines and a sound effect.",
+        "usage": "import { LoadingScreen } from \"@/components/manga/loading-screen\"\n\n<LoadingScreen message=\"Loading chapter 12\" progress={40} />\n\n<LoadingScreen fullscreen message=\"Hold on\" />",
+        "props": [
+          {
+            "name": "sfx",
+            "type": "string",
+            "default": "\"ドドド\"",
+            "description": "Onomatopoeia in the centre (decorative)."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "default": "\"Loading\"",
+            "description": "Screen-reader text announced as the status."
+          },
+          {
+            "name": "message",
+            "type": "ReactNode",
+            "description": "Visible line under the SFX."
+          },
+          {
+            "name": "progress",
+            "type": "number",
+            "description": "0 to 100 for a determinate bar. Omitted = indeterminate spinner."
+          },
+          {
+            "name": "fullscreen",
+            "type": "boolean",
+            "default": "false",
+            "description": "Fixed, covers the viewport above the page. Otherwise fills its container."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root."
+          }
+        ]
+      }
+    },
+    {
+      "name": "volume-card",
+      "type": "registry:component",
+      "title": "Volume Card",
+      "description": "A manga volume in a case: a 2:3 cover framed in ink with the volume number as a lettering tag on its corner, the title in lettering, the author, a status (new as a burst, ongoing as an ink flat, completed with a brush check, hiatus as an outline) and reading progress as a bar filled with speed lines with the count. Static by default; with href it is a link, with onSelect a button, both with the hover lift, the ink focus ring and a pressed offset. Works in a two-column grid at 360 px.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/volume-card.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/volume-card.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/volume-card\". The cover is an image URL or any node (a 2:3 box is drawn for you); without a cover a screentone is shown.",
+      "meta": {
+        "tagline": "A manga volume with its cover, status and reading progress.",
+        "usage": "import { VolumeCard } from \"@/components/manga/volume-card\"\n\n<VolumeCard\n  title=\"Night Rail\"\n  volume={2}\n  cover=\"/covers/night-rail-2.jpg\"\n  author=\"M. Oda\"\n  status=\"ongoing\"\n  read={18}\n  total={40}\n  href=\"/volumes/2\"\n/>",
+        "props": [
+          {
+            "name": "title",
+            "type": "ReactNode",
+            "description": "Set in lettering."
+          },
+          {
+            "name": "volume",
+            "type": "number | string",
+            "description": "Shown as \"Vol. 12\" on the cover corner."
+          },
+          {
+            "name": "cover",
+            "type": "string | ReactNode",
+            "description": "An image URL, or any node drawn as the cover. Without it, a screentone."
+          },
+          {
+            "name": "author",
+            "type": "ReactNode",
+            "description": "Author or subtitle, under the title."
+          },
+          {
+            "name": "status",
+            "type": "\"new\" | \"ongoing\" | \"completed\" | \"hiatus\"",
+            "description": "Status mark: burst, ink flat, brush check or outline."
+          },
+          {
+            "name": "read",
+            "type": "number",
+            "default": "0",
+            "description": "Chapters read. Shown with total."
+          },
+          {
+            "name": "total",
+            "type": "number",
+            "description": "Chapters in the volume. Shows the progress bar when set."
+          },
+          {
+            "name": "href",
+            "type": "string",
+            "description": "Makes the card a link."
+          },
+          {
+            "name": "onSelect",
+            "type": "() => void",
+            "description": "Makes the card a button."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the card."
+          }
+        ]
+      }
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Manga-styled wrapper around your shadcn Combobox (Base UI in both shadcn versions). The input is the kit input group: a 2px ink line on paper that thickens on hover (G3, fields) and gets 3px + paper + ink on focus; aria-invalid gives an accent line, a \"!\" mark and a serrated edge; disabled gives a dashed line and a tone frame. The chevron is a brush mark (mark-chevron) that turns when open; the clear button is a small 2px square that inverts on hover. The popup is a case (3px ink line, tone shadow) with a notch toward the input, popping in over three frames. The highlighted item inverts to ink; the chosen item gets a brush check that draws itself; disabled items keep the label with a dashed underline. Group labels are underlined lettering; the separator is a fine ink rule; the empty state is a solid-line box with a \"…\" mark and lettering. Chips (multiple) are drawn like Badge (2px frame, lettering, square) with a remove cell that inverts; focus stays inside the chip; chips wrap. Rows are 44px tall under 640px. Exports the class strings of the popup, item, label, empty state and chip for static look-alikes.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "combobox",
+        "Romcharted/mangacn/input-group",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/combobox.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/combobox.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/combobox\". It wraps your own components/ui/combobox (shadcn ships the same Base UI Combobox in its Radix and Base UI versions) and reuses the look of \"@/components/ui/manga/input-group\".",
+      "meta": {
+        "tagline": "Type to find; the list pops in as a notched case and marks your pick with a brush check.",
+        "usage": "import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from \"@/components/ui/manga/combobox\"\n\n<Combobox items={series}>\n  <ComboboxInput placeholder=\"Find a series…\" />\n  <ComboboxContent>\n    <ComboboxEmpty>No series found</ComboboxEmpty>\n    <ComboboxList>\n      {(item) => <ComboboxItem key={item} value={item}>{item}</ComboboxItem>}\n    </ComboboxList>\n  </ComboboxContent>\n</Combobox>",
+        "props": [
+          {
+            "name": "showClear",
+            "type": "boolean",
+            "description": "On ComboboxInput: a small 2px square clear button."
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "On ComboboxInput or ComboboxChipsInput: the error look on the field."
+          },
+          {
+            "name": "sideOffset",
+            "type": "number",
+            "description": "On ComboboxContent: gap to the input (14 by default: room for the notch and the focus ring)."
+          },
+          {
+            "name": "ComboboxChips / ComboboxChip",
+            "type": "component",
+            "description": "Multiple selection: Badge-like chips that wrap, with a remove cell."
+          }
+        ]
+      }
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Manga-styled wrapper around your shadcn Input OTP (input-otp). The slots are joined 44px cells in one 2px ink frame (shared lines collapse to one 2px rule), each character large in the lettering face. Hover thickens the frame; the active slot gets a 3px line inside (never over its neighbours) and a 2px ink caret blinking in steps; focus adds ink / paper / ink around the group. The separator is a short 2px dash. aria-invalid (on InputOTP or on a slot) turns the lines to the accent and adds a \"!\" mark beside the group; disabled is dashed with a tone frame in each cell, characters kept on paper. Six slots and a separator fit a 360px screen.",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "input-otp",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "input-otp"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/input-otp.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/input-otp.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/input-otp\". It wraps your own components/ui/input-otp, which is the same file in Radix and Base UI projects. The caret blinks with the stock caret-blink keyframes (tw-animate-css) in steps and stops with reduced motion.",
+      "meta": {
+        "tagline": "Code boxes joined in one ink frame, with a stepped caret.",
+        "usage": "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from \"@/components/ui/manga/input-otp\"\n\n<InputOTP maxLength={6}>\n  <InputOTPGroup>\n    <InputOTPSlot index={0} />\n    <InputOTPSlot index={1} />\n    <InputOTPSlot index={2} />\n  </InputOTPGroup>\n  <InputOTPSeparator />\n  <InputOTPGroup>\n    <InputOTPSlot index={3} />\n    <InputOTPSlot index={4} />\n    <InputOTPSlot index={5} />\n  </InputOTPGroup>\n</InputOTP>",
+        "props": [
+          {
+            "name": "maxLength",
+            "type": "number",
+            "description": "Number of characters (one InputOTPSlot each)."
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": "Allowed characters, e.g. REGEXP_ONLY_DIGITS from input-otp."
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "On InputOTP (or a slot): accent lines and a \"!\" mark beside the group."
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "description": "Dashed lines and a tone frame in each cell."
+          },
+          {
+            "name": "InputOTPSeparator",
+            "type": "component",
+            "description": "A short 2px ink dash between groups."
+          }
+        ]
+      }
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Manga-styled wrapper around your shadcn Calendar (react-day-picker). No frame of its own: put it in a Card, a Popover or an ink-case. Month caption and weekday heads in the uppercase lettering face; square 2px-framed nav buttons with a brush chevron (hover thickens the line, focus is ink / paper / ink). Day cells are cells of a group: hover draws a 1px line inside, focus stays inside the cell. Selected day, range start and range end are ink flats that sweep in over three frames; today is a 2px ink frame (selected wins); the middle of a range is paper with a fine ink line above and below, never a tone behind the number. Outside days keep the same ink in a lighter weight; disabled days get a dashed line-through and a not-allowed cursor. The dropdown caption draws its month and year selects with a 2px line and a brush chevron. Cells are 40px; under 640px they share the available width up to 44px, so a month fits a 360px screen; several months sit side by side from 640px and stack on phones. Same API as the stock Calendar (mode single, multiple, range).",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "calendar",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "react-day-picker"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/calendar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/calendar.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/calendar\". It wraps your own components/ui/calendar (react-day-picker), which is the same file in Radix and Base UI projects. It has no frame: place it in a Card, a Popover or an element with the ink-case class.",
+      "meta": {
+        "tagline": "A month drawn in ink: chosen days turn to flat ink, today gets a frame.",
+        "usage": "import { Calendar } from \"@/components/ui/manga/calendar\"\n\nconst [date, setDate] = React.useState<Date | undefined>(new Date())\n\n<div className=\"relative w-fit ink-case\">\n  <Calendar mode=\"single\" selected={date} onSelect={setDate} />\n</div>",
+        "props": [
+          {
+            "name": "mode",
+            "type": "\"single\" | \"multiple\" | \"range\"",
+            "description": "How days are chosen (react-day-picker). Chosen days are ink flats; a range shows a band between its ends."
+          },
+          {
+            "name": "captionLayout",
+            "type": "\"label\" | \"dropdown\" | \"dropdown-months\" | \"dropdown-years\"",
+            "default": "\"label\"",
+            "description": "Dropdowns draw month and year selects with a 2px line and a brush chevron (use with startMonth / endMonth)."
+          },
+          {
+            "name": "numberOfMonths",
+            "type": "number",
+            "description": "Months side by side from 640px; they stack on phones."
+          },
+          {
+            "name": "disabled",
+            "type": "Matcher | Matcher[]",
+            "description": "Days that cannot be chosen: dashed line-through, not-allowed cursor."
+          },
+          {
+            "name": "CalendarDayButton",
+            "type": "component",
+            "description": "The styled day cell, for custom components={{ DayButton }}."
+          }
+        ]
+      }
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "mangacn's own Date Picker (shadcn documents it as a recipe, not an item): DatePicker (one date) and DateRangePicker (from / to), built on the manga Popover and Calendar. The trigger is a field like the Select trigger: 2px ink line, a drawn calendar mark, the placeholder in the same ink (italic, never grey), the date formatted with date-fns. Hover thickens the line, focus is ink / paper / ink, the line goes to 3px while open, disabled is dashed with a tone frame, aria-invalid adds the accent line and a \"!\" mark. The calendar opens in a speech bubble with a tail toward the trigger and pops in; choosing a day closes it (single). The range picker shows two months from 640px and one on phones, so the bubble fits a 360px screen. Works with Radix and Base UI (the trigger only gets a className).",
+      "categories": [
+        "actions"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/calendar",
+        "Romcharted/mangacn/popover",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "date-fns",
+        "react-day-picker"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/ui/date-picker.tsx",
+          "type": "registry:ui",
+          "target": "@ui/manga/date-picker.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/ui/manga/date-picker\". It uses the manga Popover and Calendar (installed with it), so Radix and Base UI both work. Pass calendarProps for the caption dropdowns (captionLayout=\"dropdown\" with startMonth / endMonth), disabled days or a locale. className replaces the default trigger width (w-72, w-80 for the range).",
+      "meta": {
+        "tagline": "An ink field that opens a calendar in a speech bubble.",
+        "usage": "import { DatePicker, DateRangePicker } from \"@/components/ui/manga/date-picker\"\n\n<DatePicker placeholder=\"Release day\" onValueChange={(date) => console.log(date)} />\n<DateRangePicker placeholder=\"Trip dates\" />",
+        "props": [
+          {
+            "name": "value / defaultValue",
+            "type": "Date (DatePicker) · DateRange (DateRangePicker)",
+            "description": "Controlled or initial value."
+          },
+          {
+            "name": "onValueChange",
+            "type": "(value) => void",
+            "description": "Called with the new date or range (undefined when cleared)."
+          },
+          {
+            "name": "placeholder",
+            "type": "string",
+            "default": "\"Pick a date\" · \"Pick dates\"",
+            "description": "Shown in the same ink, italic, while nothing is chosen."
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "description": "Dashed line and tone frame; the calendar cannot open."
+          },
+          {
+            "name": "formatString",
+            "type": "string",
+            "default": "\"LLL d, y\"",
+            "description": "date-fns format of each date in the trigger."
+          },
+          {
+            "name": "calendarProps",
+            "type": "Partial<PropsBase>",
+            "description": "Extra Calendar props: captionLayout, startMonth, endMonth, disabled days, locale…"
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "The error look: accent line and a \"!\" mark."
+          },
+          {
+            "name": "datePickerTriggerClassName",
+            "type": "(className?) => string",
+            "description": "The trigger look, for a static twin or a trigger of your own."
           }
         ]
       }

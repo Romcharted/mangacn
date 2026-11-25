@@ -62,7 +62,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 
 <!-- items:start -->
 
-68 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+83 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
 
 ### Foundations
 
@@ -93,6 +93,12 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Toggle | `toggle` | An ink-lined switch that floods with ink when on. |
 | Toggle Group | `toggle-group` | Toggles joined in one frame; the pressed cell floods with ink. |
 | Button Group | `button-group` | Buttons joined by one shared 2px line, like a strip of cells. |
+| Input Group | `input-group` | One ink line around a field and its addons, with a small lettered button inside. |
+| Native Select | `native-select` | A real select, drawn in ink with a brush chevron. |
+| Combobox | `combobox` | Type to find; the list pops in as a notched case and marks your pick with a brush check. |
+| Input OTP | `input-otp` | Code boxes joined in one ink frame, with a stepped caret. |
+| Calendar | `calendar` | A month drawn in ink: chosen days turn to flat ink, today gets a frame. |
+| Date Picker | `date-picker` | An ink field that opens a calendar in a speech bubble. |
 
 ### Feedback
 
@@ -117,6 +123,8 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Hover Card | `hover-card` | A preview in a speech bubble. |
 | Dropdown Menu | `dropdown-menu` | A notched case; the row under the pointer turns to ink. |
 | Sheet | `sheet` | A case sliding in from the edge. |
+| Context Menu | `context-menu` | A case that opens at the pointer; the row under it turns to ink. |
+| Drawer | `drawer` | A case that slides up from the edge, with an ink grab bar. |
 
 ### Navigation
 
@@ -127,6 +135,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Breadcrumb | `breadcrumb` | Lettering, brush chevrons, the current page in ink. |
 | Navigation Menu | `navigation-menu` | Lettering triggers; the open one turns to ink and its panel is a case. |
 | Sidebar | `sidebar` | A ruled side panel: ink rows, an ink flat for the current one, a sheet on mobile. |
+| Menubar | `menubar` | A lettering bar of menus; the open one turns to ink. |
 
 ### Display
 
@@ -145,6 +154,9 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Kbd | `kbd` | A key cap in ink, with a heavier bottom edge like a pressed key. |
 | Chart | `chart` | Recharts in screentone: each series gets its own pattern, never a colour. |
 | Data Table | `data-table` | Sort, filter, select and page a list in an ink-lined table. |
+| Resizable | `resizable` | Panels divided by a 2px ink line with a grip to pull. |
+| Aspect Ratio | `aspect-ratio` | A box of a fixed ratio for covers, panels and frames. |
+| Carousel | `carousel` | Panels in a strip, turned with brush arrows. |
 
 ### Manga pieces
 
@@ -164,6 +176,9 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Toned Image | `toned-image` | A photo turned into a screentone, in your browser. |
 | Character Card | `character-card` | A character sheet: portrait, stats in bars, a quote. |
 | Impact Counter | `impact-counter` | A score that jumps on every hit. |
+| Versus Panel | `versus-panel` | Two options split by a diagonal, with a VS burst at the crossing. |
+| Loading Screen | `loading-screen` | A waiting screen of concentration lines and a sound effect. |
+| Volume Card | `volume-card` | A manga volume with its cover, status and reading progress. |
 
 ### Full interfaces
 
