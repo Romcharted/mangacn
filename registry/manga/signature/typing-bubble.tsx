@@ -24,14 +24,11 @@ export type TypingDotsProps = Omit<React.ComponentProps<"span">, "children"> & {
   label?: string
 }
 
-/** Three ink squares that rise one after another (two frames each, then a rest). Still with reduced motion. */
+/**
+ * Three ink squares that rise one after another (two frames each, then a rest): pure CSS, the base
+ * `animate-dots` keyframes with a two-frame delay per dot. Still with reduced motion.
+ */
 function TypingDots({ label = "Typing", className, ...props }: TypingDotsProps) {
-  const [frame, setFrame] = React.useState(-1)
-  React.useEffect(() => {
-    if (reducedMotion()) return
-    const id = window.setInterval(() => setFrame((f) => (f + 1) % 10), FRAME)
-    return () => window.clearInterval(id)
-  }, [])
   return (
     <span
       role="status"
@@ -40,17 +37,9 @@ function TypingDots({ label = "Typing", className, ...props }: TypingDotsProps) 
       className={cn("inline-flex h-[1.375em] items-center gap-[0.3em] px-[0.15em] align-middle", className)}
       {...props}
     >
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          aria-hidden
-          className={cn(
-            "block size-[0.38em] bg-current",
-            frame === i * 2 && "-translate-y-[0.35em]",
-            frame === i * 2 + 1 && "-translate-y-[0.15em]",
-          )}
-        />
-      ))}
+      <span aria-hidden className="block size-[0.38em] animate-dots bg-current" />
+      <span aria-hidden className="block size-[0.38em] animate-dots bg-current [animation-delay:166ms]" />
+      <span aria-hidden className="block size-[0.38em] animate-dots bg-current [animation-delay:333ms]" />
     </span>
   )
 }
