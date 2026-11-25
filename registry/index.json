@@ -75,6 +75,7 @@
     "registry/items/menubar.json",
     "registry/items/resizable.json",
     "registry/items/aspect-ratio.json",
+    "registry/items/drawer.json",
     "registry/items/dashboard.json",
     "registry/items/tasks.json"
   ]

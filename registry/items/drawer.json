@@ -1,0 +1,40 @@
+{
+  "name": "drawer",
+  "type": "registry:ui",
+  "title": "Drawer",
+  "description": "Manga-styled wrapper around your shadcn Drawer (Base UI drawer or vaul). Like Sheet docked to an edge: paper, a 3px ink line on the open side and an offset second frame thrown onto the page as its shadow, in all four directions. The grab handle is a 2px ink bar with square ends, 64px wide; the title is in lettering; the footer sits above a 2px rule. The library keeps its own slide and drag transforms; the wrapper only makes their timing stepped (steps(5)), so swiping still follows the finger, and nothing moves with reduced motion. The veil comes from base. Adds DrawerCard, a static look-alike of an open drawer for previews and frozen states. Buttons inside are the kit Button.",
+  "categories": [
+    "overlays"
+  ],
+  "registryDependencies": [
+    "drawer",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/drawer.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/drawer.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/drawer\". It wraps your own components/ui/drawer, so Radix (vaul) and Base UI both work. The side keeps each library's own prop: swipeDirection=\"down|up|left|right\" on Base UI, direction=\"bottom|top|left|right\" on vaul. The grab handle is styled in both: vaul draws it on bottom drawers; on Base UI pass showSwipeHandle to Drawer. DrawerSwipeHandle (Base UI only) is not re-exported. Put the kit Button inside for actions.",
+  "meta": {
+    "tagline": "A case that slides up from the edge, with an ink grab bar.",
+    "usage": "import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from \"@/components/ui/manga/drawer\"\nimport { Button } from \"@/components/ui/manga/button\"\n\n<Drawer>\n  <DrawerTrigger>Reading goal</DrawerTrigger>\n  <DrawerContent>\n    <DrawerHeader>\n      <DrawerTitle>Daily reading goal</DrawerTitle>\n      <DrawerDescription>How many chapters a day?</DrawerDescription>\n    </DrawerHeader>\n    <DrawerFooter><Button>Set the goal</Button></DrawerFooter>\n  </DrawerContent>\n</Drawer>",
+    "props": [
+      {
+        "name": "swipeDirection / direction",
+        "type": "\"down\" | \"up\" | \"left\" | \"right\" (Base UI) · \"bottom\" | \"top\" | \"left\" | \"right\" (vaul)",
+        "description": "On Drawer: the edge it slides from, with each library's own prop. The 3px line and the offset frame follow it."
+      },
+      {
+        "name": "DrawerCard",
+        "type": "component",
+        "description": "Static twin of an open drawer: side, handle, title, description, footer, children. No portal, no veil."
+      }
+    ]
+  }
+}
