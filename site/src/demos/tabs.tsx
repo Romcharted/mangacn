@@ -48,3 +48,14 @@ export function States() {
     </div>
   )
 }
+
+export function Thumb() {
+  return (
+    <Tabs defaultValue="a">
+      <TabsList>
+        <TabsTrigger value="a">Vol. 1</TabsTrigger>
+        <TabsTrigger value="b">Vol. 2</TabsTrigger>
+      </TabsList>
+    </Tabs>
+  )
+}

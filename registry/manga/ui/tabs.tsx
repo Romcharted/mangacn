@@ -55,17 +55,17 @@ function TabsList({ className, ...props }: React.ComponentProps<typeof ShadcnTab
 
 const triggerVariants: Record<TabsVariant, string> = {
   index: [
-    "-mb-[var(--mg-bw)] border-[length:var(--mg-bw)] border-b-0 border-border bg-background px-4 py-1.5 hover:tone-20",
+    "-mb-[var(--mg-bw)] border-[length:var(--mg-bw)] border-b-0 border-border bg-background px-4 py-1.5 hover:-translate-y-0.5 hover:border-t-4",
     "group-data-[orientation=vertical]/mtabs:mb-0 group-data-[orientation=vertical]/mtabs:-me-[var(--mg-bw)] group-data-[orientation=vertical]/mtabs:border-b-[length:var(--mg-bw)] group-data-[orientation=vertical]/mtabs:border-e-0",
     "aria-selected:bg-primary! aria-selected:bg-none! aria-selected:pt-3 aria-selected:text-primary-foreground! aria-selected:border-primary!",
   ].join(" "),
   underline: [
-    "border-0 border-b-4 border-transparent px-1 pt-1 pb-1.5 hover:speed-lines focus-visible:border-transparent",
+    "border-0 border-b-4 border-transparent px-1 pt-1 pb-1.5 hover:border-b-foreground hover:[border-bottom-style:double] focus-visible:border-transparent",
     "group-data-[orientation=vertical]/mtabs:border-b-0 group-data-[orientation=vertical]/mtabs:border-e-4 group-data-[orientation=vertical]/mtabs:pe-3",
     "aria-selected:border-foreground! aria-selected:bg-transparent!",
   ].join(" "),
   pills:
-    "border-[length:var(--mg-bw)] border-transparent bg-background px-3 py-1 hover:border-border hover:tone-10 aria-selected:bg-primary! aria-selected:bg-none! aria-selected:text-primary-foreground! aria-selected:border-primary!",
+    "border-[length:var(--mg-bw)] border-transparent bg-background px-3 py-1 hover:border-border aria-selected:bg-primary! aria-selected:bg-none! aria-selected:text-primary-foreground! aria-selected:border-primary!",
 }
 
 // Active tab: Radix and Base UI both set aria-selected="true".
@@ -77,7 +77,7 @@ function TabsTrigger({ className, ...props }: React.ComponentProps<typeof Shadcn
       className={cn(
         "h-auto flex-none rounded-(--radius) font-letter text-base tracking-wide text-foreground! uppercase shadow-none transition-none after:hidden",
         "focus-visible:ring-0 focus-ink active:animate-impact aria-selected:[text-shadow:none]!",
-        "data-disabled:border-dashed data-disabled:opacity-100 disabled:opacity-100 aria-disabled:opacity-100 data-disabled:tone-10",
+        "data-disabled:border-dashed data-disabled:border-border data-disabled:opacity-100 disabled:opacity-100 aria-disabled:opacity-100 data-disabled:tone-frame data-disabled:[--frame-w:4px] data-disabled:cursor-not-allowed data-disabled:hover:translate-y-0",
         triggerVariants[variant],
         "aria-selected:text-primary-foreground!",
         variant === "underline" && "aria-selected:text-foreground!",
