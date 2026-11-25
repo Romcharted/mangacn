@@ -1,0 +1,56 @@
+{
+  "name": "input-otp",
+  "type": "registry:ui",
+  "title": "Input OTP",
+  "description": "Manga-styled wrapper around your shadcn Input OTP (input-otp). The slots are joined 44px cells in one 2px ink frame (shared lines collapse to one 2px rule), each character large in the lettering face. Hover thickens the frame; the active slot gets a 3px line inside (never over its neighbours) and a 2px ink caret blinking in steps; focus adds ink / paper / ink around the group. The separator is a short 2px dash. aria-invalid (on InputOTP or on a slot) turns the lines to the accent and adds a \"!\" mark beside the group; disabled is dashed with a tone frame in each cell, characters kept on paper. Six slots and a separator fit a 360px screen.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "input-otp",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "input-otp"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/input-otp.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/input-otp.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/input-otp\". It wraps your own components/ui/input-otp, which is the same file in Radix and Base UI projects. The caret blinks with the stock caret-blink keyframes (tw-animate-css) in steps and stops with reduced motion.",
+  "meta": {
+    "tagline": "Code boxes joined in one ink frame, with a stepped caret.",
+    "usage": "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from \"@/components/ui/manga/input-otp\"\n\n<InputOTP maxLength={6}>\n  <InputOTPGroup>\n    <InputOTPSlot index={0} />\n    <InputOTPSlot index={1} />\n    <InputOTPSlot index={2} />\n  </InputOTPGroup>\n  <InputOTPSeparator />\n  <InputOTPGroup>\n    <InputOTPSlot index={3} />\n    <InputOTPSlot index={4} />\n    <InputOTPSlot index={5} />\n  </InputOTPGroup>\n</InputOTP>",
+    "props": [
+      {
+        "name": "maxLength",
+        "type": "number",
+        "description": "Number of characters (one InputOTPSlot each)."
+      },
+      {
+        "name": "pattern",
+        "type": "string",
+        "description": "Allowed characters, e.g. REGEXP_ONLY_DIGITS from input-otp."
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean",
+        "description": "On InputOTP (or a slot): accent lines and a \"!\" mark beside the group."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Dashed lines and a tone frame in each cell."
+      },
+      {
+        "name": "InputOTPSeparator",
+        "type": "component",
+        "description": "A short 2px ink dash between groups."
+      }
+    ]
+  }
+}
