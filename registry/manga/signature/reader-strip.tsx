@@ -241,7 +241,8 @@ function ReaderStrip({
       data-manga="reader-strip"
       data-gap={gap}
       aria-label={ariaLabel}
-      className={cn("mx-auto w-full", className)}
+      // relative: the sr-only captions and live region stay inside the strip (inside a scroll frame too)
+      className={cn("relative mx-auto w-full", className)}
       style={{ maxWidth: widest ? `min(45rem, ${widest}px)` : "45rem", ...style }}
       {...props}
     >
