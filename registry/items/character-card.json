@@ -1,0 +1,70 @@
+{
+  "name": "character-card",
+  "type": "registry:component",
+  "title": "Character Card",
+  "description": "A character sheet in a case: a portrait panel (toned as a screentone, or the initials on paper), the name in lettering, the role, stats as bars filled with speed lines, tags (kit Badge) and a short quote in a small speech bubble. Static by default; interactive adds the hover lift and the ink focus ring.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/badge",
+    "Romcharted/mangacn/speech-bubble",
+    "Romcharted/mangacn/toned-image"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/character-card.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/character-card.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/character-card\". The portrait goes through TonedImage; the tags use the kit Badge (outline) and the quote a SpeechBubble.",
+  "meta": {
+    "tagline": "A character sheet: portrait, stats in bars, a quote.",
+    "usage": "import { CharacterCard } from \"@/components/manga/character-card\"\n\n<CharacterCard\n  name=\"Kai Mori\"\n  role=\"Courier\"\n  image=\"/kai.jpg\"\n  stats={[{ label: \"Power\", value: 82 }, { label: \"Speed\", value: 6, max: 10 }]}\n  tags={[\"Rooftops\"]}\n  quote=\"The bridge is closed.\"\n  interactive\n/>",
+    "props": [
+      {
+        "name": "name",
+        "type": "string",
+        "description": "Set in lettering."
+      },
+      {
+        "name": "role",
+        "type": "string",
+        "description": "Title or occupation, under the name."
+      },
+      {
+        "name": "image",
+        "type": "string",
+        "description": "Portrait URL, toned. Without it, the initials stand on paper."
+      },
+      {
+        "name": "stats",
+        "type": "{ label: string; value: number; max?: number }[]",
+        "default": "[]",
+        "description": "Bars filled with speed lines. max defaults to 100."
+      },
+      {
+        "name": "tags",
+        "type": "string[]",
+        "default": "[]",
+        "description": "Small outline badges."
+      },
+      {
+        "name": "quote",
+        "type": "string",
+        "description": "A line in a small speech bubble."
+      },
+      {
+        "name": "interactive",
+        "type": "boolean",
+        "default": "false",
+        "description": "Hover lift and focus ring; the card takes focus."
+      }
+    ]
+  }
+}
