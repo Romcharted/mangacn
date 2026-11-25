@@ -58,7 +58,13 @@ const toastClasses = {
     "shadow-[6px_6px_0_-2px_var(--background),6px_6px_0_0_var(--foreground)] rtl:shadow-[-6px_6px_0_-2px_var(--background),-6px_6px_0_0_var(--foreground)]",
     "data-[type=error]:border-destructive",
   ),
-  title: "font-letter text-lg leading-tight tracking-wide uppercase",
+  // The title also carries the entrance's motion lines (under the toast, hidden once it has landed).
+  title: cn(
+    "font-letter text-lg leading-tight tracking-wide uppercase",
+    "before:pointer-events-none before:invisible before:absolute before:inset-x-6 before:top-[calc(100%+6px)] before:h-10 before:origin-top before:text-foreground before:content-['']",
+    "before:[background-image:repeating-linear-gradient(to_right,currentColor_0_2px,transparent_2px_13px),repeating-linear-gradient(to_right,transparent_0_6px,currentColor_6px_7px,transparent_7px_21px)]",
+    "before:[background-size:100%_100%,100%_60%] before:bg-no-repeat",
+  ),
   description: "text-sm text-popover-foreground!",
   // a column of its own, wide enough for an SFX
   icon: "m-0! flex h-auto! w-auto! min-w-6 shrink-0 items-center justify-center",
@@ -81,7 +87,7 @@ function Toaster({ toastOptions, ...props }: ToasterProps) {
         ...toastOptions,
         classNames: {
           ...toastClasses,
-          toast: cn(toastClasses.toast, "transition-none! animate-enter data-[type=error]:animate-shake"),
+          toast: cn(toastClasses.toast, "transition-none! animate-toast-in data-[type=error]:animate-shake [&_[data-title]]:before:animate-trail-v"),
           ...toastOptions?.classNames,
         },
       }}

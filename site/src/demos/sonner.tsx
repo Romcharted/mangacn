@@ -66,5 +66,12 @@ export function States() {
 }
 
 export function Thumb() {
-  return <ToastCard className="w-52 p-3" type="success" title="Subscribed!" />
+  return (
+    <div className="grid justify-items-center gap-3">
+      <ToastCard className="w-52 p-3" type="success" title="Subscribed!" />
+      <Button size="sm" variant="outline" onClick={() => toast.success("Subscribed!")}>
+        Send one
+      </Button>
+    </div>
+  )
 }
