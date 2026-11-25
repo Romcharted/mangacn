@@ -1,0 +1,29 @@
+{
+  "name": "context-menu",
+  "type": "registry:ui",
+  "title": "Context Menu",
+  "description": "Manga-styled wrapper around your shadcn Context Menu: a case that opens at the pointer (no notch), popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent; sub-menus have a brush chevron. Rows are 44px tall under 640 px. Put ContextMenuLabel inside a ContextMenuGroup: Base UI requires it (Radix does not). Works with Base UI and Radix.",
+  "categories": [
+    "overlays"
+  ],
+  "registryDependencies": [
+    "context-menu",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/context-menu.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/context-menu.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/context-menu\". It wraps your own components/ui/context-menu, so Radix and Base UI both work. ContextMenuTwin and ContextMenuTwinRow are static look-alikes for documentation and state grids.",
+  "meta": {
+    "tagline": "A case that opens at the pointer; the row under it turns to ink.",
+    "usage": "import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from \"@/components/ui/manga/context-menu\"\n\n<ContextMenu>\n  <ContextMenuTrigger>Right-click this page</ContextMenuTrigger>\n  <ContextMenuContent>\n    <ContextMenuItem>Bookmark</ContextMenuItem>\n    <ContextMenuItem variant=\"destructive\">Delete</ContextMenuItem>\n  </ContextMenuContent>\n</ContextMenu>",
+    "props": []
+  }
+}
