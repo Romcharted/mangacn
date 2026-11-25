@@ -7,7 +7,8 @@ with a second, soft and colourful **webtoon** theme.
 It does not fork shadcn. Each restyled component is a thin file that imports **your** shadcn component,
 adds classes and `data-*` attributes, and re-exports it. Works with shadcn on Radix or on Base UI.
 
-> Status: early work in progress. Only the `base` item exists so far.
+> Status: early work in progress. Available: `base`, the three fonts, `button`, `input`, `checkbox`, `switch`,
+> `badge`, `skeleton`, `sonner`, `card`, `tabs`, `dialog`, `tooltip`, `speech-bubble`, `screentone`, `speed-lines`.
 
 ## Install
 
@@ -17,8 +18,11 @@ You need a project already set up with shadcn (`npx shadcn@latest init`). Then a
 npx shadcn@latest add Romcharted/mangacn/base
 ```
 
-Every item depends on `base` (tokens, screentone utilities, animations), which the CLI installs for you.
-Restyled components go to `components/ui/manga/<name>.tsx` (your `ui` alias + `/manga`).
+Every item depends on `base` (tokens, screentone utilities, animations), which the CLI installs for you,
+together with three Google Fonts under the SIL Open Font License: Atkinson Hyperlegible Next (reading),
+Patrick Hand SC (lettering) and Dela Gothic One (SFX, covers katakana).
+Restyled shadcn components go to `components/ui/manga/<name>.tsx` (your `ui` alias + `/manga`) and wrap your
+own `components/ui/<name>`; manga components (speech bubble, screentone, speed lines) go to `components/manga/`.
 
 Browse the catalogue from the CLI:
 

@@ -59,7 +59,25 @@ and run `npm run sync`.
    ```
    A bare name (`button`) is the official shadcn item. An item from this repo is always `Romcharted/mangacn/<item>`.
 4. Add `site/src/demos/<name>.tsx` exporting `Preview` (live) and `States` (every variant × state, frozen).
-5. `npm run build && npm run shots`, look at the screenshots, then commit (one commit per component).
+5. `npm run build && npm run shots -- --sections <name>`, look at the screenshots (light, dark, webtoon),
+   then commit (one commit per component). Overlays: `node scripts/overlay-shots.mjs`.
+
+### Wrapper pitfalls (learned the hard way)
+
+- **Write every class literally.** Tailwind scans source text: `${prefix}:rounded-none` is never generated.
+- **Cover both libraries' state hooks.** Prefer ARIA (`aria-checked`, `aria-selected`, `aria-invalid`,
+  `aria-disabled`), which Radix and Base UI both set. Base UI marks disabled tabs with `aria-disabled`, and
+  stock shadcn fades it with `aria-disabled:opacity-50`: always add `aria-disabled:opacity-100`.
+- **Stock classes keep their opacity/blur.** Override every `/50`, `opacity-50`, `ring-*/50`, `backdrop-blur`,
+  `animate-in fade-*` you inherit. Use `!` for state looks that must win over stock state classes.
+- **Corners follow `--radius`** (`rounded-(--radius)`): 0 in manga, 12px in webtoon. Never `rounded-none`.
+- **Shapes that clip** (`shape-burst`, `edge-jagged`) go on a `::before` fill, so the focus ring is not clipped.
+- **Text on a tone** inherits a paper knockout. Solid flats reset it (base handles `.bg-primary`,
+  `.bg-destructive`, `.bg-accent`); add `[text-shadow:none]` to other flats. Small labels stay on paper.
+- **`tone-shadow` uses `::after`.** Do not use it where the library owns the pseudo-elements (Sonner toasts
+  use an offset second frame instead).
+- **Overlays** (dialog, sheet, drawer) get their screentone from base; never style them per component.
+- **Showcase only:** `data-force="hover|focus|active"` freezes a state in the grids (see `vite.config.ts`).
 
 Categories (first one decides the showcase section): `foundations`, `actions`, `feedback`, `overlays`,
 `navigation`, `display`, `manga`, `webtoon`, `blocks`.
