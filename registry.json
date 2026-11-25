@@ -7,13 +7,14 @@
       "name": "base",
       "type": "registry:theme",
       "title": "Manga base",
-      "description": "Shared foundation for every mangacn item: ink/paper/stamp-red tokens mapped onto shadcn variables (dark mode is the negative), a webtoon theme under data-theme=\"webtoon\", screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b), speed-lines and focus-lines backgrounds, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged and stepped 12 fps animations (animate-impact, -shake, -pop, -spin-steps, -draw, -enter, -sfx, -wiggle, -tone-flicker). Installed automatically as a dependency of every other item; install it alone to restyle stock shadcn/ui.",
+      "description": "Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn variables (dark mode is the negative) and one accent colour, --mg-accent (stamp red by default; presets via data-accent=\"indigo|pine|ochre\"), which also drives --destructive. Screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b, tone-frame), on-tone (paper plate for labels over tones), knockout (outline for heavy SFX), speed-lines and focus-lines, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged, mark-error, a reading-rtl: variant for manga reading order (data-reading=\"rtl\"), a screentone veil for every shadcn overlay, and stepped 12 fps animations. Installed automatically as a dependency of every other item.",
       "categories": [
         "foundations"
       ],
-      "docs": "mangacn base installed. Tones: tone-10|20|35|50, tone-lines, tone-cross, tone-fade-r|l|t|b. Energy: speed-lines, focus-lines. Ink: border-ink, ink-fill, focus-ink, tone-shadow (needs a positioned element). Webtoon theme: add data-theme=\"webtoon\" to <html>. Fonts: set --font-manga-body, --font-manga-letter, --font-manga-sfx.",
+      "docs": "mangacn base installed. Tones: tone-10|20|35|50, tone-lines, tone-cross, tone-fade-r|l|t|b, tone-frame; labels over tones go on an on-tone plate. Energy: speed-lines, focus-lines. Ink: border-ink, ink-fill, focus-ink, tone-shadow (positioned element). Accent: --mg-accent or data-accent=\"indigo|pine|ochre\". Manga reading order: data-reading=\"rtl\" + the reading-rtl: variant.",
       "meta": {
-        "usage": "<div className=\"relative border-ink tone-shadow tone-20 p-6\">\n  <h2 className=\"font-letter text-2xl\">Chapter 1</h2>\n</div>",
+        "tagline": "Ink, paper and one accent colour, screentone, speed lines, stepped motion.",
+        "usage": "<div className=\"relative border-ink tone-shadow p-6\">\n  <div className=\"tone-fade-b h-24\" />\n  <h2 className=\"on-tone font-letter text-2xl\">Chapter 1</h2>\n</div>",
         "props": []
       },
       "cssVars": {
@@ -24,7 +25,7 @@
           "font-sfx": "var(--font-manga-sfx, \"Dela Gothic One\", Impact, sans-serif)",
           "color-paper": "var(--paper)",
           "color-ink": "var(--ink)",
-          "color-stamp": "var(--stamp)",
+          "color-accent-ink": "var(--mg-accent)",
           "animate-impact": "mg-impact 166ms linear",
           "animate-shake": "mg-shake 240ms step-end",
           "animate-pop": "mg-pop 240ms step-end",
@@ -38,7 +39,7 @@
         "light": {
           "paper": "oklch(0.975 0.008 85)",
           "ink": "oklch(0.2 0.012 60)",
-          "stamp": "oklch(0.52 0.2 27)",
+          "mg-accent": "oklch(0.52 0.2 27)",
           "background": "var(--paper)",
           "foreground": "var(--ink)",
           "card": "var(--paper)",
@@ -53,7 +54,7 @@
           "muted-foreground": "var(--ink)",
           "accent": "var(--ink)",
           "accent-foreground": "var(--paper)",
-          "destructive": "var(--stamp)",
+          "destructive": "var(--mg-accent)",
           "border": "var(--ink)",
           "input": "var(--ink)",
           "ring": "var(--ink)",
@@ -75,7 +76,7 @@
         "dark": {
           "paper": "oklch(0.18 0.008 60)",
           "ink": "oklch(0.95 0.012 85)",
-          "stamp": "oklch(0.68 0.19 27)",
+          "mg-accent": "oklch(0.68 0.19 27)",
           "background": "var(--paper)",
           "foreground": "var(--ink)",
           "card": "var(--paper)",
@@ -90,7 +91,7 @@
           "muted-foreground": "var(--ink)",
           "accent": "var(--ink)",
           "accent-foreground": "var(--paper)",
-          "destructive": "var(--stamp)",
+          "destructive": "var(--mg-accent)",
           "border": "var(--ink)",
           "input": "var(--ink)",
           "ring": "var(--ink)",
@@ -110,102 +111,39 @@
         }
       },
       "css": {
-        "[data-theme=\"webtoon\"]": {
-          "--paper": "oklch(0.985 0.008 300)",
-          "--ink": "oklch(0.27 0.03 295)",
-          "--stamp": "oklch(0.58 0.19 18)",
-          "--background": "var(--paper)",
-          "--foreground": "var(--ink)",
-          "--card": "oklch(1 0 0)",
-          "--card-foreground": "var(--ink)",
-          "--popover": "oklch(1 0 0)",
-          "--popover-foreground": "var(--ink)",
-          "--primary": "oklch(0.52 0.17 295)",
-          "--primary-foreground": "oklch(0.99 0.005 300)",
-          "--secondary": "oklch(0.93 0.045 55)",
-          "--secondary-foreground": "oklch(0.35 0.06 45)",
-          "--muted": "oklch(0.95 0.018 300)",
-          "--muted-foreground": "oklch(0.45 0.03 295)",
-          "--accent": "oklch(0.93 0.04 300)",
-          "--accent-foreground": "oklch(0.3 0.08 295)",
-          "--destructive": "var(--stamp)",
-          "--border": "oklch(0.88 0.02 300)",
-          "--input": "oklch(0.86 0.025 300)",
-          "--ring": "oklch(0.52 0.17 295)",
-          "--chart-1": "oklch(0.52 0.17 295)",
-          "--chart-2": "oklch(0.72 0.12 55)",
-          "--chart-3": "oklch(0.65 0.12 185)",
-          "--chart-4": "oklch(0.68 0.15 350)",
-          "--chart-5": "oklch(0.8 0.12 95)",
-          "--radius": "0.75rem",
-          "--sidebar": "oklch(0.97 0.012 300)",
-          "--sidebar-foreground": "var(--ink)",
-          "--sidebar-primary": "oklch(0.52 0.17 295)",
-          "--sidebar-primary-foreground": "oklch(0.99 0.005 300)",
-          "--sidebar-accent": "oklch(0.93 0.04 300)",
-          "--sidebar-accent-foreground": "oklch(0.3 0.08 295)",
-          "--sidebar-border": "oklch(0.88 0.02 300)",
-          "--sidebar-ring": "oklch(0.52 0.17 295)",
-          "--mg-bw": "1px",
-          "--mg-bw-panel": "1px",
-          "--mg-bw-fine": "1px",
-          "--tone-solid": "1",
-          "--tone-ink-10": "oklch(0.965 0.016 295)",
-          "--tone-ink-20": "oklch(0.935 0.03 295)",
-          "--tone-ink-35": "oklch(0.895 0.05 295)",
-          "--tone-ink-50": "oklch(0.85 0.075 295)",
-          "--lines-ink": "oklch(0.86 0.06 300)",
-          "--shadow-ink": "transparent",
-          "--shadow-x": "0px",
-          "--shadow-y": "0px",
-          "--shadow-clip": "none",
-          "--tone-knockout": "none",
-          "--bubble-stroke": "transparent",
-          "--overlay-image": "linear-gradient(oklch(0.25 0.06 295 / 45%), oklch(0.25 0.06 295 / 45%))",
-          "--bubble-fill": "oklch(1 0 0)",
-          "--bubble-shadow": "drop-shadow(0 8px 14px oklch(0.35 0.1 295 / 22%))",
-          "--soft-shadow": "0 10px 28px -12px oklch(0.35 0.1 295 / 35%)"
+        "@custom-variant reading-rtl (&:where([data-reading=\"rtl\"], [data-reading=\"rtl\"] *))": {},
+        "[data-accent=\"stamp\"]": {
+          "--mg-accent": "oklch(0.52 0.2 27)"
         },
-        "[data-theme=\"webtoon\"].dark, .dark [data-theme=\"webtoon\"]": {
-          "--paper": "oklch(0.2 0.02 295)",
-          "--ink": "oklch(0.94 0.012 300)",
-          "--stamp": "oklch(0.7 0.17 18)",
-          "--card": "oklch(0.25 0.025 295)",
-          "--popover": "oklch(0.25 0.025 295)",
-          "--primary": "oklch(0.76 0.13 295)",
-          "--primary-foreground": "oklch(0.2 0.03 295)",
-          "--secondary": "oklch(0.36 0.05 50)",
-          "--secondary-foreground": "oklch(0.94 0.03 60)",
-          "--muted": "oklch(0.27 0.025 295)",
-          "--muted-foreground": "oklch(0.78 0.03 300)",
-          "--accent": "oklch(0.32 0.05 295)",
-          "--accent-foreground": "oklch(0.94 0.012 300)",
-          "--border": "oklch(0.34 0.03 295)",
-          "--input": "oklch(0.38 0.035 295)",
-          "--ring": "oklch(0.76 0.13 295)",
-          "--sidebar": "oklch(0.23 0.022 295)",
-          "--sidebar-primary": "oklch(0.76 0.13 295)",
-          "--sidebar-primary-foreground": "oklch(0.2 0.03 295)",
-          "--sidebar-accent": "oklch(0.32 0.05 295)",
-          "--sidebar-accent-foreground": "oklch(0.94 0.012 300)",
-          "--sidebar-border": "oklch(0.34 0.03 295)",
-          "--sidebar-ring": "oklch(0.76 0.13 295)",
-          "--tone-ink-10": "oklch(0.25 0.02 295)",
-          "--tone-ink-20": "oklch(0.29 0.035 295)",
-          "--tone-ink-35": "oklch(0.335 0.05 295)",
-          "--tone-ink-50": "oklch(0.38 0.065 295)",
-          "--lines-ink": "oklch(0.36 0.06 295)",
-          "--soft-shadow": "0 12px 30px -12px oklch(0 0 0 / 60%)",
-          "--bubble-fill": "oklch(0.27 0.025 295)",
-          "--bubble-shadow": "drop-shadow(0 8px 16px oklch(0 0 0 / 45%))"
+        "[data-accent=\"indigo\"]": {
+          "--mg-accent": "oklch(0.45 0.19 275)"
+        },
+        "[data-accent=\"pine\"]": {
+          "--mg-accent": "oklch(0.47 0.12 160)"
+        },
+        "[data-accent=\"ochre\"]": {
+          "--mg-accent": "oklch(0.5 0.13 60)"
+        },
+        ".dark[data-accent=\"stamp\"], .dark [data-accent=\"stamp\"]": {
+          "--mg-accent": "oklch(0.68 0.19 27)"
+        },
+        ".dark[data-accent=\"indigo\"], .dark [data-accent=\"indigo\"]": {
+          "--mg-accent": "oklch(0.72 0.14 275)"
+        },
+        ".dark[data-accent=\"pine\"], .dark [data-accent=\"pine\"]": {
+          "--mg-accent": "oklch(0.74 0.13 160)"
+        },
+        ".dark[data-accent=\"ochre\"], .dark [data-accent=\"ochre\"]": {
+          "--mg-accent": "oklch(0.78 0.13 75)"
         },
         "[data-slot=\"dialog-overlay\"], [data-slot=\"alert-dialog-overlay\"], [data-slot=\"sheet-overlay\"], [data-slot=\"drawer-overlay\"]": {
-          "--_tr": "calc(var(--tone-size) * 0.236)",
-          "color": "var(--foreground)",
+          "--_s": "14px",
+          "--_tr": "1.1px",
           "background-color": "transparent",
-          "background-image": "var(--overlay-image, radial-gradient(circle, currentColor var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, currentColor var(--_tr), #0000 calc(var(--_tr) + 0.5px)))",
-          "background-size": "var(--tone-size) var(--tone-size)",
-          "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+          "background-image": "radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.6px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.6px))",
+          "background-size": "var(--_s) var(--_s)",
+          "background-position": "0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
+          "background-attachment": "fixed",
           "backdrop-filter": "none",
           "animation": "none"
         },
@@ -217,14 +155,14 @@
             "--frame": "83ms",
             "--tone-size": "6px",
             "--tone-ink": "currentColor",
-            "--tone-solid": "0",
             "--speed-angle": "0deg",
             "--focus-x": "50%",
             "--focus-y": "50%",
             "--focus-hole": "26% 30%",
             "--shadow-x": "6px",
             "--shadow-y": "6px",
-            "--jag": "4px"
+            "--jag": "4px",
+            "--stamp": "var(--mg-accent)"
           },
           "*": {
             "outline-color": "var(--ring)"
@@ -233,16 +171,11 @@
             "font-family": "var(--font-sans)"
           },
           ".bg-muted": {
-            "--tone-size": "8px",
-            "--_ko": "var(--tone-paper, var(--background))",
-            "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
-            "--_tr": "calc(var(--tone-size) * max(0.1, var(--tone-solid)))",
-            "background-image": "radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
-            "background-size": "var(--tone-size) var(--tone-size)",
-            "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
-          },
-          ".bg-primary, .bg-destructive, .bg-accent, [data-manga][data-variant=\"destructive\"], [data-manga][data-variant=\"shout\"], [data-manga][data-variant=\"burst\"]": {
-            "text-shadow": "none"
+            "--_ms": "8px",
+            "--_tr": "0.8px",
+            "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+            "background-size": "var(--_ms) var(--_ms)",
+            "background-position": "0 0, calc(var(--_ms) / 2) calc(var(--_ms) / 2)"
           },
           ":focus-visible": {
             "outline": "2px solid var(--ring)",
@@ -256,120 +189,112 @@
           }
         },
         "@utility tone-10": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
-          "--_tr": "calc(var(--tone-size) * max(0.126, var(--tone-solid)))",
-          "background-image": "radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+          "--_tr": "calc(var(--tone-size) * 0.126)",
+          "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
           "background-size": "var(--tone-size) var(--tone-size)",
           "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
         },
         "@utility tone-20": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
-          "--_tr": "calc(var(--tone-size) * max(0.178, var(--tone-solid)))",
-          "background-image": "radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+          "--_tr": "calc(var(--tone-size) * 0.178)",
+          "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
           "background-size": "var(--tone-size) var(--tone-size)",
           "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
         },
         "@utility tone-35": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
-          "--_tr": "calc(var(--tone-size) * max(0.236, var(--tone-solid)))",
-          "background-image": "radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+          "--_tr": "calc(var(--tone-size) * 0.236)",
+          "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
           "background-size": "var(--tone-size) var(--tone-size)",
           "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
         },
         "@utility tone-50": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
-          "--_tr": "calc(var(--tone-size) * max(0.282, var(--tone-solid)))",
-          "background-image": "radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+          "--_tr": "calc(var(--tone-size) * 0.282)",
+          "background-image": "radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
           "background-size": "var(--tone-size) var(--tone-size)",
           "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)"
         },
         "@utility tone-lines": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
-          "--_lc": "var(--tone-ink-20, var(--tone-ink))",
-          "background-image": "repeating-linear-gradient(var(--tone-angle, 45deg), var(--_lc) 0 1px, #0000 1px var(--tone-size))",
-          "background-size": "auto"
+          "background-image": "repeating-linear-gradient(var(--tone-angle, 45deg), var(--tone-ink) 0 1px, #0000 1px var(--tone-size))"
         },
         "@utility tone-cross": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
-          "--_lc": "var(--tone-ink-20, var(--tone-ink))",
-          "background-image": "repeating-linear-gradient(45deg, var(--_lc) 0 1px, #0000 1px var(--tone-size)), repeating-linear-gradient(-45deg, var(--_lc) 0 1px, #0000 1px var(--tone-size))",
-          "background-size": "auto"
+          "background-image": "repeating-linear-gradient(45deg, var(--tone-ink) 0 1px, #0000 1px var(--tone-size)), repeating-linear-gradient(-45deg, var(--tone-ink) 0 1px, #0000 1px var(--tone-size))"
         },
         "@utility tone-fade-r": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_d": "to right",
           "--_s": "var(--tone-size)",
+          "--_c": "var(--tone-ink)",
           "--_p": "var(--tone-paper, var(--background))",
-          "--_r1": "calc(var(--_s) * max(0.126, var(--tone-solid)))",
-          "--_r2": "calc(var(--_s) * max(0.178, var(--tone-solid)))",
-          "--_r3": "calc(var(--_s) * max(0.236, var(--tone-solid)))",
-          "--_r4": "calc(var(--_s) * max(0.282, var(--tone-solid)))",
-          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+          "--_r1": "calc(var(--_s) * 0.126)",
+          "--_r2": "calc(var(--_s) * 0.178)",
+          "--_r3": "calc(var(--_s) * 0.236)",
+          "--_r4": "calc(var(--_s) * 0.282)",
+          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
           "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
           "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
           "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
         },
         "@utility tone-fade-l": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_d": "to left",
           "--_s": "var(--tone-size)",
+          "--_c": "var(--tone-ink)",
           "--_p": "var(--tone-paper, var(--background))",
-          "--_r1": "calc(var(--_s) * max(0.126, var(--tone-solid)))",
-          "--_r2": "calc(var(--_s) * max(0.178, var(--tone-solid)))",
-          "--_r3": "calc(var(--_s) * max(0.236, var(--tone-solid)))",
-          "--_r4": "calc(var(--_s) * max(0.282, var(--tone-solid)))",
-          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+          "--_r1": "calc(var(--_s) * 0.126)",
+          "--_r2": "calc(var(--_s) * 0.178)",
+          "--_r3": "calc(var(--_s) * 0.236)",
+          "--_r4": "calc(var(--_s) * 0.282)",
+          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
           "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
           "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
           "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
         },
         "@utility tone-fade-t": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_d": "to top",
           "--_s": "var(--tone-size)",
+          "--_c": "var(--tone-ink)",
           "--_p": "var(--tone-paper, var(--background))",
-          "--_r1": "calc(var(--_s) * max(0.126, var(--tone-solid)))",
-          "--_r2": "calc(var(--_s) * max(0.178, var(--tone-solid)))",
-          "--_r3": "calc(var(--_s) * max(0.236, var(--tone-solid)))",
-          "--_r4": "calc(var(--_s) * max(0.282, var(--tone-solid)))",
-          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+          "--_r1": "calc(var(--_s) * 0.126)",
+          "--_r2": "calc(var(--_s) * 0.178)",
+          "--_r3": "calc(var(--_s) * 0.236)",
+          "--_r4": "calc(var(--_s) * 0.282)",
+          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
           "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
           "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
           "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
         },
         "@utility tone-fade-b": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_d": "to bottom",
           "--_s": "var(--tone-size)",
+          "--_c": "var(--tone-ink)",
           "--_p": "var(--tone-paper, var(--background))",
-          "--_r1": "calc(var(--_s) * max(0.126, var(--tone-solid)))",
-          "--_r2": "calc(var(--_s) * max(0.178, var(--tone-solid)))",
-          "--_r3": "calc(var(--_s) * max(0.236, var(--tone-solid)))",
-          "--_r4": "calc(var(--_s) * max(0.282, var(--tone-solid)))",
-          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--tone-ink-10, var(--tone-ink)) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--tone-ink-20, var(--tone-ink)) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--tone-ink-35, var(--tone-ink)) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--tone-ink-50, var(--tone-ink)) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
+          "--_r1": "calc(var(--_s) * 0.126)",
+          "--_r2": "calc(var(--_s) * 0.178)",
+          "--_r3": "calc(var(--_s) * 0.236)",
+          "--_r4": "calc(var(--_s) * 0.282)",
+          "background-image": "linear-gradient(var(--_d), #0000 80%, var(--_p) 80%), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r1), #0000 calc(var(--_r1) + 0.5px)), linear-gradient(var(--_d), #0000 60%, var(--_p) 60%), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r2), #0000 calc(var(--_r2) + 0.5px)), linear-gradient(var(--_d), #0000 40%, var(--_p) 40%), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r3), #0000 calc(var(--_r3) + 0.5px)), linear-gradient(var(--_d), #0000 20%, var(--_p) 20%), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px)), radial-gradient(circle, var(--_c) var(--_r4), #0000 calc(var(--_r4) + 0.5px))",
           "background-size": "100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s), 100% 100%, var(--_s) var(--_s), var(--_s) var(--_s)",
           "background-position": "0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2), 0 0, 0 0, calc(var(--_s) / 2) calc(var(--_s) / 2)",
           "background-repeat": "no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat, no-repeat, repeat, repeat"
         },
+        "@utility tone-frame": {
+          "--_fw": "var(--frame-w, 5px)",
+          "--_p": "var(--tone-paper, var(--background))",
+          "--_tr": "calc(var(--tone-size) * 0.16)",
+          "background-image": "linear-gradient(var(--_p), var(--_p)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--tone-ink) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+          "background-size": "calc(100% - 2 * var(--_fw)) calc(100% - 2 * var(--_fw)), var(--tone-size) var(--tone-size), var(--tone-size) var(--tone-size)",
+          "background-position": "center, 0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
+          "background-repeat": "no-repeat, repeat, repeat"
+        },
+        "@utility on-tone": {
+          "background-color": "var(--tone-paper, var(--background))",
+          "padding": "2px 6px",
+          "-webkit-box-decoration-break": "clone",
+          "box-decoration-break": "clone",
+          "text-shadow": "none"
+        },
         "@utility speed-lines": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_lc": "var(--lines-ink, var(--tone-ink))",
           "background-image": "repeating-linear-gradient(var(--speed-angle), var(--_lc) 0 1px, #0000 1px 9px), repeating-linear-gradient(var(--speed-angle), #0000 0 4px, var(--_lc) 4px 6px, #0000 6px 19px), repeating-linear-gradient(var(--speed-angle), #0000 0 13px, var(--_lc) 13px 16px, #0000 16px 37px)"
         },
         "@utility focus-lines": {
-          "--_ko": "var(--tone-paper, var(--background))",
-          "text-shadow": "var(--tone-knockout, 2px 0px var(--_ko), -2px 0px var(--_ko), 0px 2px var(--_ko), 0px -2px var(--_ko), 1.5px 1.5px var(--_ko), -1.5px -1.5px var(--_ko), 1.5px -1.5px var(--_ko), -1.5px 1.5px var(--_ko), 1px 0px var(--_ko), -1px 0px var(--_ko), 0px 1px var(--_ko), 0px -1px var(--_ko))",
           "--_lc": "var(--lines-ink, var(--tone-ink))",
           "background-image": "radial-gradient(var(--focus-hole) at var(--focus-x) var(--focus-y), var(--tone-paper, var(--background)) calc(100% - 1px), #0000 100%), repeating-conic-gradient(from 0deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.8deg, #0000 0.8deg 4deg), repeating-conic-gradient(from 1.7deg at var(--focus-x) var(--focus-y), var(--_lc) 0 0.5deg, #0000 0.5deg 7deg)"
         },
@@ -377,7 +302,7 @@
           "--_ko": "var(--tone-paper, var(--background))",
           "--_k": "max(2px, 0.06em)",
           "--_kd": "calc(var(--_k) * 0.7)",
-          "text-shadow": "var(--tone-knockout, var(--_k) 0 var(--_ko), calc(var(--_k) * -1) 0 var(--_ko), 0 var(--_k) var(--_ko), 0 calc(var(--_k) * -1) var(--_ko), var(--_kd) var(--_kd) var(--_ko), calc(var(--_kd) * -1) calc(var(--_kd) * -1) var(--_ko), var(--_kd) calc(var(--_kd) * -1) var(--_ko), calc(var(--_kd) * -1) var(--_kd) var(--_ko), calc(var(--_k) / 2) 0 var(--_ko), calc(var(--_k) / -2) 0 var(--_ko), 0 calc(var(--_k) / 2) var(--_ko), 0 calc(var(--_k) / -2) var(--_ko))"
+          "text-shadow": "var(--_k) 0 var(--_ko), calc(var(--_k) * -1) 0 var(--_ko), 0 var(--_k) var(--_ko), 0 calc(var(--_k) * -1) var(--_ko), var(--_kd) var(--_kd) var(--_ko), calc(var(--_kd) * -1) calc(var(--_kd) * -1) var(--_ko), var(--_kd) calc(var(--_kd) * -1) var(--_ko), calc(var(--_kd) * -1) var(--_kd) var(--_ko), calc(var(--_k) / 2) 0 var(--_ko), calc(var(--_k) / -2) 0 var(--_ko), 0 calc(var(--_k) / 2) var(--_ko), 0 calc(var(--_k) / -2) var(--_ko)"
         },
         "@utility border-ink": {
           "border": "var(--mg-bw) solid var(--border)"
@@ -390,11 +315,10 @@
           "border": "var(--mg-bw-fine) solid var(--border)"
         },
         "@utility ink-fill": {
-          "--tone-paper": "var(--primary)",
-          "text-shadow": "none",
           "background-color": "var(--primary)",
           "color": "var(--primary-foreground)",
-          "--tone-ink": "var(--primary-foreground)"
+          "--tone-ink": "var(--primary-foreground)",
+          "--tone-paper": "var(--primary)"
         },
         "@utility focus-ink": {
           "&:focus-visible": {
@@ -413,17 +337,15 @@
             "inset": "calc(var(--mg-bw) * -1)",
             "border-radius": "inherit",
             "translate": "var(--shadow-x) var(--shadow-y)",
-            "box-shadow": "var(--soft-shadow, none)",
             "--_tr": "calc(var(--tone-size) * 0.236)",
-            "--_sc": "var(--shadow-ink, var(--foreground))",
-            "background-image": "radial-gradient(circle, var(--_sc) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--_sc) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
+            "background-image": "radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px)), radial-gradient(circle, var(--foreground) var(--_tr), #0000 calc(var(--_tr) + 0.5px))",
             "background-size": "var(--tone-size) var(--tone-size)",
             "background-position": "0 0, calc(var(--tone-size) / 2) calc(var(--tone-size) / 2)",
-            "clip-path": "var(--shadow-clip, polygon(calc(100% - var(--shadow-x)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--shadow-y)), calc(100% - var(--shadow-x)) calc(100% - var(--shadow-y))))"
+            "clip-path": "polygon(calc(100% - var(--shadow-x)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--shadow-y)), calc(100% - var(--shadow-x)) calc(100% - var(--shadow-y)))"
           },
           "&:where([dir=\"rtl\"], [dir=\"rtl\"] *)::after": {
             "translate": "calc(var(--shadow-x) * -1) var(--shadow-y)",
-            "clip-path": "var(--shadow-clip, polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%))"
+            "clip-path": "polygon(0 0, var(--shadow-x) 0, var(--shadow-x) calc(100% - var(--shadow-y)), 100% calc(100% - var(--shadow-y)), 100% 100%, 0 100%)"
           }
         },
         "@utility mark-error": {
@@ -569,6 +491,9 @@
           "latin-ext"
         ],
         "dependency": "@fontsource-variable/atkinson-hyperlegible-next"
+      },
+      "meta": {
+        "tagline": "The reading face for text and fields."
       }
     },
     {
@@ -592,6 +517,9 @@
           "latin-ext"
         ],
         "dependency": "@fontsource/patrick-hand-sc"
+      },
+      "meta": {
+        "tagline": "Hand lettering for titles, buttons and badges."
       }
     },
     {
@@ -614,13 +542,16 @@
           "latin"
         ],
         "dependency": "@fontsource/dela-gothic-one"
+      },
+      "meta": {
+        "tagline": "A heavy face for sound effects, katakana included."
       }
     },
     {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Manga-styled wrapper around your shadcn Button. Variants: default (ink flat, speed lines on hover), outline, tone (screentone fill), ghost, link (wavy underline), destructive (stamp red, jagged edge), shout (burst shape for the one call to action on a page). Sizes sm, default, lg, icon. Adds loading (turning focus lines, aria-busy) and fullWidth. Pressing shows a 2px offset and an impact frame.",
+      "description": "Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth.",
       "categories": [
         "actions"
       ],
@@ -640,6 +571,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/button\". It wraps your own components/ui/button, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "Ink flats, a tone band, a burst for the one call to action.",
         "usage": "import { Button } from \"@/components/ui/manga/button\"\n\n<Button variant=\"shout\" size=\"lg\">Start!</Button>\n<Button variant=\"outline\" loading>Saving</Button>",
         "props": [
           {
@@ -693,6 +625,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/input\". It wraps your own components/ui/input, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "A 2px ink line that thickens on focus; serrated with a “!” on error.",
         "usage": "import { Input } from \"@/components/ui/manga/input\"\n\n<Input placeholder=\"Pen name\" />\n<Input aria-invalid defaultValue=\"reader@\" />",
         "props": [
           {
@@ -713,7 +646,7 @@
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
-      "description": "Manga-styled wrapper around your shadcn Checkbox. Square ink box; checked is an ink flat with a brush check that draws itself in three frames; indeterminate is a thick bar; disabled is dashed with a light tone; aria-invalid turns it stamp red. Hover adds a tone, press shows an impact frame.",
+      "description": "Manga-styled wrapper around your shadcn Checkbox. Square ink box; hover thickens the line (no screentone under 24px); checked is an ink flat with a brush check that draws itself in three frames; indeterminate is a thick bar; disabled is dashed; aria-invalid uses the accent colour.",
       "categories": [
         "actions"
       ],
@@ -733,6 +666,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/checkbox\". It wraps your own components/ui/checkbox, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "A square box; the brush check draws itself.",
         "usage": "import { Checkbox } from \"@/components/ui/manga/checkbox\"\n\n<label className=\"flex items-center gap-3\">\n  <Checkbox defaultChecked /> Notify me\n</label>",
         "props": []
       }
@@ -741,7 +675,7 @@
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
-      "description": "Manga-styled wrapper around your shadcn Switch. Square track: screentone when off, ink flat when on, with a square paper thumb. Dashed when disabled, stamp red line on aria-invalid.",
+      "description": "Manga-styled wrapper around your shadcn Switch, 44 × 24 px. Off: paper track and ink thumb. On: ink track and paper thumb. Hover thickens the line, disabled is dashed, aria-invalid uses the accent colour.",
       "categories": [
         "actions"
       ],
@@ -761,6 +695,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/switch\". It wraps your own components/ui/switch, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "Paper track and ink thumb when off, the negative when on.",
         "usage": "import { Switch } from \"@/components/ui/manga/switch\"\n\n<Switch defaultChecked />",
         "props": []
       }
@@ -769,7 +704,7 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Manga-styled wrapper around your shadcn Badge in lettering type. Variants: default (ink flat), outline, tone (screentone), destructive (stamp red, jagged), burst (\"NEW!\" star) and stamp (tilted red stamp). Optional square status dot; icons via data-icon.",
+      "description": "Manga-styled wrapper around your shadcn Badge in lettering type. Variants: default (ink flat), outline, tone (screentone tab at the start, label on paper), destructive (clean accent flat), burst (\"NEW!\" star) and stamp (tilted accent stamp). Optional square status dot; icons via data-icon.",
       "categories": [
         "feedback"
       ],
@@ -789,6 +724,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/badge\". It wraps your own components/ui/badge, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "Ink, outline, burst and a tilted stamp.",
         "usage": "import { Badge } from \"@/components/ui/manga/badge\"\n\n<Badge variant=\"burst\">New!</Badge>\n<Badge variant=\"outline\" dot>Live</Badge>",
         "props": [
           {
@@ -810,7 +746,7 @@
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
-      "description": "Manga-styled wrapper around your shadcn Skeleton: light screentone that flickers in steps instead of pulsing in opacity. Shapes: text, avatar (square frame), panel (manga panel), block. SkeletonCard composes a card placeholder.",
+      "description": "Manga-styled wrapper around your shadcn Skeleton: a light screentone (tone-10) that flickers in steps instead of pulsing in opacity, no heavy frame. Shapes: text, avatar, panel, block. SkeletonCard composes a card placeholder.",
       "categories": [
         "feedback"
       ],
@@ -830,6 +766,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/skeleton\". It wraps your own components/ui/skeleton, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "A light screentone that flickers while content loads.",
         "usage": "import { Skeleton, SkeletonCard } from \"@/components/ui/manga/skeleton\"\n\n<Skeleton shape=\"text\" />\n<SkeletonCard />",
         "props": [
           {
@@ -845,7 +782,7 @@
       "name": "sonner",
       "type": "registry:ui",
       "title": "Toast (Sonner)",
-      "description": "Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with a screentone shadow, stepped entrance, lettering titles, ink marks for success / info / warning / error, turning focus lines while loading, a shake on error. ToastSfx adds an optional onomatopoeia as the toast icon.",
+      "description": "Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with an offset second frame, stepped entrance, lettering titles, ink marks for success / info / warning / error, concentration lines while loading, a shake on error. ToastSfx adds an onomatopoeia in its own column. ToastCard renders a static toast with the same look for previews and docs.",
       "categories": [
         "feedback"
       ],
@@ -866,6 +803,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/sonner\". It wraps your own components/ui/sonner, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "Toasts in a 3px panel, with room for a sound effect.",
         "usage": "import { Toaster, toast, ToastSfx } from \"@/components/ui/manga/sonner\"\n\n<Toaster />\n\ntoast.success(\"Subscribed!\")\ntoast(\"Level up!\", { icon: <ToastSfx>DON!</ToastSfx> })",
         "props": []
       }
@@ -874,7 +812,7 @@
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
-      "description": "Manga-styled wrapper around your shadcn Card as a comic panel: 3px frame and an offset screentone shadow. Variants: default, bleed (first image runs to the edges), tilted (slanted panel), splash (no frame, focus lines), beta (ink flat). interactive lifts it on hover; selected adds a double ink frame. All Card parts are re-exported.",
+      "description": "Manga-styled wrapper around your shadcn Card as a comic panel: 3px frame and an offset screentone shadow. Variants: default, bleed (first image runs to the edges), tilted (slanted bottom edge drawn in SVG; the content stays upright), splash (focus lines around a wide empty centre, title on a paper plate), beta (ink flat). interactive lifts it on hover; selected adds a double ink frame.",
       "categories": [
         "display"
       ],
@@ -894,6 +832,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/card\". It wraps your own components/ui/card, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "A comic panel with a screentone shadow.",
         "usage": "import { Card, CardHeader, CardTitle, CardContent } from \"@/components/ui/manga/card\"\n\n<Card variant=\"tilted\">\n  <CardHeader><CardTitle>Chapter 12</CardTitle></CardHeader>\n  <CardContent>The long night.</CardContent>\n</Card>",
         "props": [
           {
@@ -921,7 +860,7 @@
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
-      "description": "Manga-styled wrapper around your shadcn Tabs. Variants: index (chapter dividers, active tab is an ink flat), underline (thick ink line), pills (boxed tabs on a light tone). Works horizontal and vertical; disabled tabs are dashed with a light tone.",
+      "description": "Manga-styled wrapper around your shadcn Tabs. Variants: index (chapter dividers, active tab is an ink flat), underline (thick ink line), pills (paper tabs on a light tone). Labels always sit on paper. Horizontal and vertical; disabled tabs are dashed with a tone frame.",
       "categories": [
         "navigation"
       ],
@@ -941,6 +880,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/tabs\". It wraps your own components/ui/tabs, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "Chapter dividers, a thick underline or boxed tabs.",
         "usage": "import { Tabs, TabsList, TabsTrigger, TabsContent } from \"@/components/ui/manga/tabs\"\n\n<Tabs variant=\"index\" defaultValue=\"v1\">\n  <TabsList>\n    <TabsTrigger value=\"v1\">Vol. 1</TabsTrigger>\n    <TabsTrigger value=\"v2\">Vol. 2</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"v1\">…</TabsContent>\n</Tabs>",
         "props": [
           {
@@ -956,7 +896,7 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow over a screentone overlay, opening on an impact frame (no fade, no blur). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. All Dialog parts are re-exported.",
+      "description": "Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside.",
       "categories": [
         "overlays"
       ],
@@ -976,6 +916,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/dialog\". It wraps your own components/ui/dialog, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "A centred panel over a light screentone veil.",
         "usage": "import { Dialog, DialogTrigger, DialogContent, DialogTitle } from \"@/components/ui/manga/dialog\"\n\n<Dialog>\n  <DialogTrigger>Open</DialogTrigger>\n  <DialogContent size=\"sm\"><DialogTitle>Leave the chapter?</DialogTitle></DialogContent>\n</Dialog>",
         "props": [
           {
@@ -991,7 +932,7 @@
       "name": "tooltip",
       "type": "registry:ui",
       "title": "Tooltip",
-      "description": "Manga-styled wrapper around your shadcn Tooltip as a mini speech bubble with an ink tail that follows the side. Variants: speech and thought (cloud, two trailing circles). Pops in over two frames.",
+      "description": "Manga-styled wrapper around your shadcn Tooltip as a mini speech bubble with a curved tail (or two circles for thought) that follows the side; the offset leaves room for the tail. TooltipBubble renders a static bubble for previews and docs.",
       "categories": [
         "overlays"
       ],
@@ -1011,6 +952,7 @@
       ],
       "docs": "Import from \"@/components/ui/manga/tooltip\". It wraps your own components/ui/tooltip, so Radix and Base UI both work.",
       "meta": {
+        "tagline": "A tiny speech or thought bubble.",
         "usage": "import { Tooltip, TooltipTrigger, TooltipContent } from \"@/components/ui/manga/tooltip\"\n\n<Tooltip>\n  <TooltipTrigger>Hover me</TooltipTrigger>\n  <TooltipContent variant=\"thought\">Maybe tomorrow.</TooltipContent>\n</Tooltip>",
         "props": [
           {
@@ -1026,7 +968,7 @@
       "name": "speech-bubble",
       "type": "registry:component",
       "title": "Speech Bubble",
-      "description": "Manga speech bubble drawn in SVG at its real size, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none. BubbleGroup chains bubbles with narrow necks. Borderless in the webtoon theme.",
+      "description": "Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin. BubbleGroup chains bubbles through a neck that hides both outlines.",
       "categories": [
         "manga"
       ],
@@ -1045,6 +987,7 @@
       ],
       "docs": "Import from \"@/components/manga/speech-bubble\".",
       "meta": {
+        "tagline": "Seven bubble shapes drawn at their real size.",
         "usage": "import { SpeechBubble, BubbleGroup } from \"@/components/manga/speech-bubble\"\n\n<SpeechBubble variant=\"shout\" tail=\"bottom\" tailAlign=\"end\">Get down!</SpeechBubble>",
         "props": [
           {
@@ -1078,7 +1021,7 @@
       "name": "screentone",
       "type": "registry:component",
       "title": "Screentone",
-      "description": "Screentone as a component: dots, lines, cross-hatching or noise, with density, angle and cell size, and a stepped (never smooth) fade toward any side. Use it as a background behind content (text gets a paper knockout) or as a layer over art. Coloured by --tone-ink; soft colour flats in the webtoon theme.",
+      "description": "Screentone as a component: dots, lines, cross-hatching or noise, with density, angle and cell size (SVG patterns with patternTransform), and a stepped (never smooth) fade toward any side. Use it as a background (put labels on a plate with on-tone) or as a layer over art. Coloured by --tone-ink.",
       "categories": [
         "manga"
       ],
@@ -1097,6 +1040,7 @@
       ],
       "docs": "Import from \"@/components/manga/screentone\".",
       "meta": {
+        "tagline": "Any tone: dots, lines, cross-hatching or noise, with a stepped fade.",
         "usage": "import { Screentone } from \"@/components/manga/screentone\"\n\n<Screentone density={35} fade=\"bottom\" className=\"h-48\">Night falls</Screentone>",
         "props": [
           {
@@ -1161,6 +1105,7 @@
       ],
       "docs": "Import from \"@/components/manga/speed-lines\".",
       "meta": {
+        "tagline": "Focus or motion lines to make a moment hit.",
         "usage": "import { SpeedLines } from \"@/components/manga/speed-lines\"\n\n<SpeedLines className=\"h-56 grid place-items-center\">\n  <span aria-hidden className=\"font-sfx text-6xl\">ドン!</span>\n</SpeedLines>",
         "props": [
           {

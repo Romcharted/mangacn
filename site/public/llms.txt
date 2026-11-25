@@ -11,14 +11,15 @@ Homepage: https://romcharted.github.io/mangacn
 
 ### Manga base (`base`)
 
-Shared foundation for every mangacn item: ink/paper/stamp-red tokens mapped onto shadcn variables (dark mode is the negative), a webtoon theme under data-theme="webtoon", screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b), speed-lines and focus-lines backgrounds, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged and stepped 12 fps animations (animate-impact, -shake, -pop, -spin-steps, -draw, -enter, -sfx, -wiggle, -tone-flicker). Installed automatically as a dependency of every other item; install it alone to restyle stock shadcn/ui.
+Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn variables (dark mode is the negative) and one accent colour, --mg-accent (stamp red by default; presets via data-accent="indigo|pine|ochre"), which also drives --destructive. Screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b, tone-frame), on-tone (paper plate for labels over tones), knockout (outline for heavy SFX), speed-lines and focus-lines, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged, mark-error, a reading-rtl: variant for manga reading order (data-reading="rtl"), a screentone veil for every shadcn overlay, and stepped 12 fps animations. Installed automatically as a dependency of every other item.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/base`
 - Categories: foundations
 
 ```tsx
-<div className="relative border-ink tone-shadow tone-20 p-6">
-  <h2 className="font-letter text-2xl">Chapter 1</h2>
+<div className="relative border-ink tone-shadow p-6">
+  <div className="tone-fade-b h-24" />
+  <h2 className="on-tone font-letter text-2xl">Chapter 1</h2>
 </div>
 ```
 
@@ -45,7 +46,7 @@ Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --fo
 
 ### Button (`button`)
 
-Manga-styled wrapper around your shadcn Button. Variants: default (ink flat, speed lines on hover), outline, tone (screentone fill), ghost, link (wavy underline), destructive (stamp red, jagged edge), shout (burst shape for the one call to action on a page). Sizes sm, default, lg, icon. Adds loading (turning focus lines, aria-busy) and fullWidth. Pressing shows a 2px offset and an impact frame.
+Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/button`
 - Categories: actions
@@ -81,7 +82,7 @@ import { Input } from "@/components/ui/manga/input"
 
 ### Checkbox (`checkbox`)
 
-Manga-styled wrapper around your shadcn Checkbox. Square ink box; checked is an ink flat with a brush check that draws itself in three frames; indeterminate is a thick bar; disabled is dashed with a light tone; aria-invalid turns it stamp red. Hover adds a tone, press shows an impact frame.
+Manga-styled wrapper around your shadcn Checkbox. Square ink box; hover thickens the line (no screentone under 24px); checked is an ink flat with a brush check that draws itself in three frames; indeterminate is a thick bar; disabled is dashed; aria-invalid uses the accent colour.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/checkbox`
 - Categories: actions
@@ -96,7 +97,7 @@ import { Checkbox } from "@/components/ui/manga/checkbox"
 
 ### Switch (`switch`)
 
-Manga-styled wrapper around your shadcn Switch. Square track: screentone when off, ink flat when on, with a square paper thumb. Dashed when disabled, stamp red line on aria-invalid.
+Manga-styled wrapper around your shadcn Switch, 44 × 24 px. Off: paper track and ink thumb. On: ink track and paper thumb. Hover thickens the line, disabled is dashed, aria-invalid uses the accent colour.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/switch`
 - Categories: actions
@@ -109,7 +110,7 @@ import { Switch } from "@/components/ui/manga/switch"
 
 ### Badge (`badge`)
 
-Manga-styled wrapper around your shadcn Badge in lettering type. Variants: default (ink flat), outline, tone (screentone), destructive (stamp red, jagged), burst ("NEW!" star) and stamp (tilted red stamp). Optional square status dot; icons via data-icon.
+Manga-styled wrapper around your shadcn Badge in lettering type. Variants: default (ink flat), outline, tone (screentone tab at the start, label on paper), destructive (clean accent flat), burst ("NEW!" star) and stamp (tilted accent stamp). Optional square status dot; icons via data-icon.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/badge`
 - Categories: feedback
@@ -126,7 +127,7 @@ import { Badge } from "@/components/ui/manga/badge"
 
 ### Skeleton (`skeleton`)
 
-Manga-styled wrapper around your shadcn Skeleton: light screentone that flickers in steps instead of pulsing in opacity. Shapes: text, avatar (square frame), panel (manga panel), block. SkeletonCard composes a card placeholder.
+Manga-styled wrapper around your shadcn Skeleton: a light screentone (tone-10) that flickers in steps instead of pulsing in opacity, no heavy frame. Shapes: text, avatar, panel, block. SkeletonCard composes a card placeholder.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/skeleton`
 - Categories: feedback
@@ -142,7 +143,7 @@ import { Skeleton, SkeletonCard } from "@/components/ui/manga/skeleton"
 
 ### Toast (Sonner) (`sonner`)
 
-Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with a screentone shadow, stepped entrance, lettering titles, ink marks for success / info / warning / error, turning focus lines while loading, a shake on error. ToastSfx adds an optional onomatopoeia as the toast icon.
+Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with an offset second frame, stepped entrance, lettering titles, ink marks for success / info / warning / error, concentration lines while loading, a shake on error. ToastSfx adds an onomatopoeia in its own column. ToastCard renders a static toast with the same look for previews and docs.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sonner`
 - Categories: feedback
@@ -158,7 +159,7 @@ toast("Level up!", { icon: <ToastSfx>DON!</ToastSfx> })
 
 ### Card (`card`)
 
-Manga-styled wrapper around your shadcn Card as a comic panel: 3px frame and an offset screentone shadow. Variants: default, bleed (first image runs to the edges), tilted (slanted panel), splash (no frame, focus lines), beta (ink flat). interactive lifts it on hover; selected adds a double ink frame. All Card parts are re-exported.
+Manga-styled wrapper around your shadcn Card as a comic panel: 3px frame and an offset screentone shadow. Variants: default, bleed (first image runs to the edges), tilted (slanted bottom edge drawn in SVG; the content stays upright), splash (focus lines around a wide empty centre, title on a paper plate), beta (ink flat). interactive lifts it on hover; selected adds a double ink frame.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/card`
 - Categories: display
@@ -178,7 +179,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/manga/
 
 ### Tabs (`tabs`)
 
-Manga-styled wrapper around your shadcn Tabs. Variants: index (chapter dividers, active tab is an ink flat), underline (thick ink line), pills (boxed tabs on a light tone). Works horizontal and vertical; disabled tabs are dashed with a light tone.
+Manga-styled wrapper around your shadcn Tabs. Variants: index (chapter dividers, active tab is an ink flat), underline (thick ink line), pills (paper tabs on a light tone). Labels always sit on paper. Horizontal and vertical; disabled tabs are dashed with a tone frame.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/tabs`
 - Categories: navigation
@@ -199,7 +200,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/manga/
 
 ### Dialog (`dialog`)
 
-Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow over a screentone overlay, opening on an impact frame (no fade, no blur). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. All Dialog parts are re-exported.
+Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow, opening on an impact frame; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/dialog`
 - Categories: overlays
@@ -217,7 +218,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/
 
 ### Tooltip (`tooltip`)
 
-Manga-styled wrapper around your shadcn Tooltip as a mini speech bubble with an ink tail that follows the side. Variants: speech and thought (cloud, two trailing circles). Pops in over two frames.
+Manga-styled wrapper around your shadcn Tooltip as a mini speech bubble with a curved tail (or two circles for thought) that follows the side; the offset leaves room for the tail. TooltipBubble renders a static bubble for previews and docs.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/tooltip`
 - Categories: overlays
@@ -235,7 +236,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/manga/t
 
 ### Speech Bubble (`speech-bubble`)
 
-Manga speech bubble drawn in SVG at its real size, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none. BubbleGroup chains bubbles with narrow necks. Borderless in the webtoon theme.
+Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin. BubbleGroup chains bubbles through a neck that hides both outlines.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/speech-bubble`
 - Categories: manga
@@ -253,7 +254,7 @@ import { SpeechBubble, BubbleGroup } from "@/components/manga/speech-bubble"
 
 ### Screentone (`screentone`)
 
-Screentone as a component: dots, lines, cross-hatching or noise, with density, angle and cell size, and a stepped (never smooth) fade toward any side. Use it as a background behind content (text gets a paper knockout) or as a layer over art. Coloured by --tone-ink; soft colour flats in the webtoon theme.
+Screentone as a component: dots, lines, cross-hatching or noise, with density, angle and cell size (SVG patterns with patternTransform), and a stepped (never smooth) fade toward any side. Use it as a background (put labels on a plate with on-tone) or as a layer over art. Coloured by --tone-ink.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/screentone`
 - Categories: manga
