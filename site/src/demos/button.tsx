@@ -70,3 +70,12 @@ export function States() {
     </div>
   )
 }
+
+export function Thumb() {
+  return (
+    <div className="flex items-center gap-6">
+      <Button size="sm">Read</Button>
+      <Button size="sm" variant="shout">Go!</Button>
+    </div>
+  )
+}
