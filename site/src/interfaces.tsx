@@ -1,4 +1,4 @@
-import { useId, useState, type ComponentType } from "react"
+import { Suspense, lazy, useId, useState, type ComponentType, type ReactNode } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { track } from "./visits"
 import { CodeToggle, CopyButton } from "./copy"
@@ -7,11 +7,28 @@ import { installCommand } from "./registry"
 /*
  * Full interfaces (registry:block items): each one lives in registry/manga/blocks/<slug>/<slug>.tsx,
  * exports a component named in PascalCase, and is listed here. Route: #examples/<slug>.
+ * Blocks and their sources load on demand: an interface's code arrives when it is shown, its source text
+ * when "Show the code" is opened.
  */
-export type Interface = { slug: string; title: string; summary: string; Component: ComponentType; source: string }
+export type Interface = { slug: string; title: string; summary: string; Component: ComponentType; source: () => Promise<string> }
 
-const modules = import.meta.glob<Record<string, ComponentType>>("../../registry/manga/blocks/*/*.tsx", { eager: true })
-const sources = import.meta.glob<string>("../../registry/manga/blocks/*/*.tsx", { eager: true, query: "?raw", import: "default" })
+const modules = import.meta.glob<Record<string, ComponentType>>("../../registry/manga/blocks/*/*.tsx")
+const sources = import.meta.glob<string>("../../registry/manga/blocks/*/*.tsx", { query: "?raw", import: "default" })
+
+/** A block while its chunk loads: a frame of about its size, so the page does not jump. */
+function Pending({ children }: { children: ReactNode }) {
+  return (
+    <Suspense
+      fallback={
+        <div role="status" className="grid min-h-[32rem] place-items-center font-letter text-sm uppercase">
+          Inking…
+        </div>
+      }
+    >
+      {children}
+    </Suspense>
+  )
+}
 
 /** Order and copy of the interfaces; an entry shows only once its block file exists. */
 const CATALOG: { slug: string; title: string; summary: string }[] = [
@@ -29,8 +46,10 @@ const pascal = (slug: string) => slug.replace(/(^|-)(\w)/g, (_, __, c: string) =
 
 export const interfaces: Interface[] = CATALOG.flatMap((entry) => {
   const path = `../../registry/manga/blocks/${entry.slug}/${entry.slug}.tsx`
-  const Component = modules[path]?.[pascal(entry.slug)]
-  return Component ? [{ ...entry, Component, source: sources[path] }] : []
+  const load = modules[path]
+  if (!load) return []
+  const Component = lazy(() => load().then((mod) => ({ default: mod[pascal(entry.slug)] })))
+  return [{ ...entry, Component, source: () => sources[path]().then(userPaths) }]
 })
 
 // Show the import paths a user gets after installing, not the showcase's own aliases.
@@ -70,10 +89,12 @@ export function InterfacePage({ slug }: { slug: string }) {
         <CopyButton text={installCommand(slug)} onCopied={() => track("copy-install", { item: slug })} className="border-s-[length:var(--mg-bw)]" />
       </div>
       <div data-demo className="mt-6 border-ink-panel bg-background md:overflow-clip">
-        <Component />
+        <Pending>
+          <Component />
+        </Pending>
       </div>
       <div className="mt-4">
-        <CodeToggle text={userPaths(source)} />
+        <CodeToggle load={source} />
       </div>
     </article>
   )
@@ -102,7 +123,9 @@ export function HomeInterfaces() {
         {shown.map((i) => (
           <TabsContent key={i.slug} value={i.slug}>
             <div data-demo className="border-ink-panel bg-background md:overflow-clip">
-              <i.Component />
+              <Pending>
+                <i.Component />
+              </Pending>
             </div>
             <a href={`#examples/${i.slug}`} className="mt-3 inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
               Open {i.title} with its code →
@@ -163,7 +186,9 @@ export function HomeExample() {
       </div>
       {open && (
         <div id={`${id}-body`} data-demo className="border-t-[length:var(--mg-bw-panel)] border-border">
-          <Component />
+          <Pending>
+            <Component />
+          </Pending>
         </div>
       )}
     </section>

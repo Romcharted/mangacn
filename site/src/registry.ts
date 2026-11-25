@@ -1,4 +1,4 @@
-import type { ComponentType } from "react"
+import { useEffect, useState, type ComponentType } from "react"
 import index from "../../registry/index.json"
 
 export const REPO = "Romcharted/mangacn"
@@ -54,11 +54,46 @@ export const items = all
 export const categories = order.filter((c) => items.some((i) => cat(i) === c && i.type !== "registry:block"))
 export const categoryOf = cat
 
+/*
+ * Demos load on demand, one chunk per item: a gallery card fetches its demo when it scrolls near the screen,
+ * an item page when it opens. The first paint then needs only the site's own code, not the whole kit.
+ */
 export type Demo = { Preview?: ComponentType; States?: ComponentType; Thumb?: ComponentType }
-const demoModules = import.meta.glob<Demo>("./demos/*.tsx", { eager: true })
-export const demos: Record<string, Demo> = Object.fromEntries(
-  Object.entries(demoModules).map(([path, mod]) => [path.replace(/^.*\/(.+)\.tsx$/, "$1"), mod]),
+const demoLoaders = Object.fromEntries(
+  Object.entries(import.meta.glob<Demo>("./demos/*.tsx")).map(([path, load]) => [path.replace(/^.*\/(.+)\.tsx$/, "$1"), load]),
 )
+const loaded = new Map<string, Demo>()
+const pending = new Map<string, Promise<Demo | undefined>>()
+
+export function loadDemo(name: string): Promise<Demo | undefined> {
+  if (loaded.has(name)) return Promise.resolve(loaded.get(name))
+  const load = demoLoaders[name]
+  if (!load) return Promise.resolve(undefined)
+  if (!pending.has(name)) {
+    pending.set(
+      name,
+      load().then((demo) => {
+        loaded.set(name, demo)
+        return demo
+      }),
+    )
+  }
+  return pending.get(name)!
+}
+
+/** The demo module of an item: undefined while it loads (or when the item has none), then the module. */
+export function useDemo(name: string, enabled = true): { demo: Demo | undefined; ready: boolean } {
+  const [, rerender] = useState(0)
+  useEffect(() => {
+    if (!enabled || loaded.has(name)) return
+    let live = true
+    void loadDemo(name).then(() => live && rerender((n) => n + 1))
+    return () => {
+      live = false
+    }
+  }, [name, enabled])
+  return { demo: loaded.get(name), ready: loaded.has(name) || !demoLoaders[name] }
+}
 
 export function filterItems(query: string, category: string | null) {
   const q = query.trim().toLowerCase()

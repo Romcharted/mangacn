@@ -1,17 +1,46 @@
-import { useEffect, useState } from "react"
+import { Suspense, lazy, useEffect, useRef, useState, type ReactNode } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { CopyForAi } from "./ai"
 import { track } from "./visits"
 import { Code, CopyButton } from "./copy"
-import { Examples } from "./examples"
-import { Grammar } from "./grammar"
 import { CategoryPill, SiteHeader } from "./header"
 import { Hero } from "./hero"
 import { HomeExample, HomeInterfaces, InterfacePage } from "./interfaces"
-import { Legal } from "./legal"
 import { useNarrow } from "./narrow"
 import { useHash, usePrefs } from "./prefs"
-import { CATEGORIES, GITHUB_URL, categories, categoryOf, demos, filterItems, installCommand, items, type Item } from "./registry"
+import { CATEGORIES, GITHUB_URL, categories, categoryOf, filterItems, installCommand, items, useDemo, type Item } from "./registry"
+
+// Pages other than the gallery load on demand.
+const Grammar = lazy(() => import("./grammar").then((m) => ({ default: m.Grammar })))
+const Examples = lazy(() => import("./examples").then((m) => ({ default: m.Examples })))
+const Legal = lazy(() => import("./legal").then((m) => ({ default: m.Legal })))
+
+/** A still placeholder while a chunk loads: a fine frame, no spinner, no layout jump for small parts. */
+export function Loading({ className = "min-h-64" }: { className?: string }) {
+  return (
+    <div role="status" className={`grid place-items-center border-ink-fine font-letter text-sm uppercase ${className}`}>
+      Inking…
+    </div>
+  )
+}
+
+/** True once the element is within 400px of the screen (and stays true). */
+function useNearScreen<E extends Element>(): [React.RefObject<E | null>, boolean] {
+  const ref = useRef<E>(null)
+  const [near, setNear] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || near) return
+    const observer = new IntersectionObserver(([entry]) => entry.isIntersecting && setNear(true), { rootMargin: "400px" })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [near])
+  return [ref, near]
+}
+
+function Lazy({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<Loading className="mt-6 min-h-[60vh]" />}>{children}</Suspense>
+}
 
 export function App() {
   const [prefs, set] = usePrefs()
@@ -40,11 +69,17 @@ export function App() {
       <SiteHeader hash={hash} category={category} onCategory={pickCategory} prefs={prefs} set={set} />
       <main id="main" className="mx-auto max-w-7xl px-4 pb-24">
         {hash === "grammar" ? (
-          <Grammar />
+          <Lazy>
+            <Grammar />
+          </Lazy>
         ) : hash === "legal" ? (
-          <Legal />
+          <Lazy>
+            <Legal />
+          </Lazy>
         ) : hash === "examples" ? (
-          <Examples />
+          <Lazy>
+            <Examples />
+          </Lazy>
         ) : hash.startsWith("examples/") ? (
           <InterfacePage slug={hash.slice("examples/".length)} />
         ) : current ? (
@@ -144,10 +179,17 @@ function Gallery({ category, onCategory }: { category: string | null; onCategory
   )
 }
 
+// The thumbnail's demo chunk loads when the card comes within 400px of the screen.
 function Thumbnail({ item }: { item: Item }) {
-  const Thumb = demos[item.name]?.Thumb
+  const [ref, near] = useNearScreen<HTMLSpanElement>()
+  const { demo } = useDemo(item.name, near)
+  const Thumb = demo?.Thumb
   const font = FONT_SAMPLE[item.name]
-  return Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>Aa</span> : null
+  return (
+    <span ref={ref} className="grid place-items-center">
+      {Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>Aa</span> : null}
+    </span>
+  )
 }
 
 // The preview is live (click, toggle, hover); only the title and the arrow open the detail page.
@@ -202,7 +244,7 @@ function CompactCard({ item }: { item: Item }) {
 /* ---------- Detail ---------- */
 
 function Detail({ item }: { item: Item }) {
-  const demo = demos[item.name]
+  const { demo, ready } = useDemo(item.name)
   const narrow = useNarrow()
   const list = items.filter((i) => i.type !== "registry:block")
   const index = list.indexOf(item)
@@ -261,7 +303,7 @@ function Detail({ item }: { item: Item }) {
         </TabsList>
         <TabsContent value="preview">
           <div data-demo className="relative border-ink-fine bg-background p-4 sm:p-6">
-            {demo?.Preview ? <demo.Preview /> : <p>No live preview for this item.</p>}
+            {!ready ? <Loading /> : demo?.Preview ? <demo.Preview /> : <p>No live preview for this item.</p>}
           </div>
         </TabsContent>
         {item.meta?.usage && (

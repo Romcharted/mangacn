@@ -32,10 +32,26 @@ export function CopyButton({
   )
 }
 
-/** Code behind a toggle: examples show the result first, the code on demand. */
-export function CodeToggle({ text, label = "Show the code" }: { text: string; label?: string }) {
+/**
+ * Code behind a toggle: examples show the result first, the code on demand. Pass the `text`, or `load` to
+ * fetch it only when the toggle is first opened (full interfaces: their sources are large).
+ */
+export function CodeToggle({
+  text,
+  load,
+  label = "Show the code",
+}: {
+  text?: string
+  load?: () => Promise<string>
+  label?: string
+}) {
   const [open, setOpen] = useState(false)
-  const lines = text.split("\n").length
+  const [fetched, setFetched] = useState<string | undefined>(undefined)
+  const code = text ?? fetched
+  useEffect(() => {
+    if (open && code === undefined && load) void load().then(setFetched)
+  }, [open, code, load])
+  const lines = code?.split("\n").length
   return (
     <div className="grid gap-2">
       <button
@@ -44,9 +60,17 @@ export function CodeToggle({ text, label = "Show the code" }: { text: string; la
         onClick={() => setOpen((o) => !o)}
         className="inline-flex w-fit items-center gap-2 border-ink px-3 py-1.5 font-letter text-sm uppercase hover-invert focus-ink aria-expanded:ink-fill after:mark-chevron after:text-xs aria-expanded:after:rotate-180"
       >
-        {open ? "Hide the code" : label} <span className="font-mono text-xs normal-case">({lines} lines)</span>
+        {open ? "Hide the code" : label}{" "}
+        {lines !== undefined && <span className="font-mono text-xs normal-case">({lines} lines)</span>}
       </button>
-      {open && <Code text={text} />}
+      {open &&
+        (code === undefined ? (
+          <p role="status" className="font-letter text-sm uppercase">
+            Inking…
+          </p>
+        ) : (
+          <Code text={code} />
+        ))}
     </div>
   )
 }
