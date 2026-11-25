@@ -85,6 +85,7 @@
     "registry/items/calendar.json",
     "registry/items/date-picker.json",
     "registry/items/dashboard.json",
-    "registry/items/tasks.json"
+    "registry/items/tasks.json",
+    "registry/items/landing-page.json"
   ]
 }
