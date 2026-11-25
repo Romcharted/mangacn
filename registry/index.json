@@ -101,6 +101,7 @@
     "registry/items/ai-chat.json",
     "registry/items/manga-reader.json",
     "registry/items/portfolio.json",
-    "registry/items/catalog.json"
+    "registry/items/catalog.json",
+    "registry/items/sign-in.json"
   ]
 }
