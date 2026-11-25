@@ -51,7 +51,7 @@ export const items = all
   .sort((a, b) => (order.indexOf(cat(a.item)) + 1 || 99) - (order.indexOf(cat(b.item)) + 1 || 99) || a.index - b.index)
   .map(({ item }) => item)
 
-export const categories = order.filter((c) => items.some((i) => cat(i) === c))
+export const categories = order.filter((c) => items.some((i) => cat(i) === c && i.type !== "registry:block"))
 export const categoryOf = cat
 
 export type Demo = { Preview?: ComponentType; States?: ComponentType; Thumb?: ComponentType }
@@ -63,6 +63,9 @@ export const demos: Record<string, Demo> = Object.fromEntries(
 export function filterItems(query: string, category: string | null) {
   const q = query.trim().toLowerCase()
   return items.filter(
-    (i) => (!category || cat(i) === category) && (!q || i.name.includes(q) || i.title.toLowerCase().includes(q)),
+    (i) =>
+      i.type !== "registry:block" &&
+      (!category || cat(i) === category) &&
+      (!q || i.name.includes(q) || i.title.toLowerCase().includes(q)),
   )
 }

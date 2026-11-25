@@ -1,4 +1,5 @@
 import { CodeToggle } from "../copy"
+import { InterfaceCards, interfaces, userPaths } from "../interfaces"
 import { Chat } from "./chat"
 import chatSource from "./chat.tsx?raw"
 import { MangaPage } from "./manga-page"
@@ -6,13 +7,6 @@ import { NotFound } from "./not-found"
 import notFoundSource from "./not-found.tsx?raw"
 import { SettingsScreen } from "./settings-screen"
 import settingsSource from "./settings-screen.tsx?raw"
-
-// Show the import paths a user gets after installing, not the showcase's own aliases.
-const userPaths = (src: string) =>
-  src
-    .replace(/@registry\/manga\/ui\//g, "@/components/ui/manga/")
-    .replace(/@registry\/manga\/signature\//g, "@/components/manga/")
-    .replace(/"\.\.\/art"/g, `"./art" // your own drawings`)
 
 export function Examples() {
   return (
@@ -26,6 +20,16 @@ export function Examples() {
         </h1>
         <p className="text-lg">Finished compositions made only with the kit, shown for real, with the code to copy.</p>
       </header>
+
+      {interfaces.length > 0 && (
+        <section aria-labelledby="ex-ifaces" className="mt-10">
+          <h2 id="ex-ifaces" className="font-letter text-3xl uppercase">
+            Full interfaces
+          </h2>
+          <p className="max-w-prose">Whole pages, each one an item you install with one command.</p>
+          <InterfaceCards />
+        </section>
+      )}
 
       <section aria-labelledby="ex-page" className="mt-10 space-y-4">
         <h2 id="ex-page" className="font-letter text-3xl uppercase">

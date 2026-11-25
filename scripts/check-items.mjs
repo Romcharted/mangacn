@@ -34,7 +34,8 @@ for (const item of registry.items) {
     if (!readme.includes(`| \`${n}\` |`)) say("not in README")
     if (!existsSync(`site/dist/r/${n}.json`)) say("no built r/<name>.json")
   }
-  const demo = item.type === "registry:font" || existsSync(`site/src/demos/${n}.tsx`)
+  // Fonts share one demo; interfaces (registry:block) are rendered by the Examples page.
+  const demo = item.type === "registry:font" || item.type === "registry:block" || existsSync(`site/src/demos/${n}.tsx`)
   if (!demo) say("no showcase demo")
 }
 if (!draft && built && built.items.length !== registry.items.length) problems.push(`built registry has ${built.items.length} items`)

@@ -7,6 +7,7 @@ import { Code, CopyButton } from "./copy"
 import { Examples } from "./examples"
 import { Grammar } from "./grammar"
 import { Hero } from "./hero"
+import { HomeInterfaces, InterfacePage } from "./interfaces"
 import { Legal } from "./legal"
 import { ACCENTS, useHash, usePrefs, type Accent } from "./prefs"
 import { CATEGORIES, GITHUB_URL, categories, categoryOf, demos, filterItems, installCommand, items, type Item } from "./registry"
@@ -54,6 +55,8 @@ export function App() {
           <Legal />
         ) : hash === "examples" ? (
           <Examples />
+        ) : hash.startsWith("examples/") ? (
+          <InterfacePage slug={hash.slice("examples/".length)} />
         ) : current ? (
           <Detail item={current} />
         ) : (
@@ -257,6 +260,7 @@ function Gallery({ query, category }: { query: string; category: string | null }
           <Hero />
         </section>
       )}
+      {showHero && <HomeInterfaces />}
       <h2 className="sr-only">Components</h2>
       {list.length === 0 ? (
         <p className="mt-8 border-ink p-6 font-letter text-lg uppercase">No component matches “{query}”.</p>
