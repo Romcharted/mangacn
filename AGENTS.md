@@ -113,6 +113,17 @@ Categories (first one decides the showcase section): `foundations`, `actions`, `
 - **Showcase only:** `data-force="hover|focus|active"` freezes a state in the tiles (see `vite.config.ts`).
 - **Demos never navigate.** Links in a demo use `href="#"` (the router ignores a click on it) and keep their own
   state: clicking page 3 makes page 3 current. Links home are `#/`.
+- **`bg-muted` is a light tone in base.** A stock part that uses `bg-muted` behind text (code lines, attachment
+  media) breaks Rule A: add `bg-none!` next to `bg-transparent!`.
+- **Dress, never rewrite.** Even when many stock classes need overriding, wrap the stock part and beat its classes
+  with `!` (Code Block came back once for redrawing every part).
+- **Hidden helpers need a positioned owner.** An `sr-only` caption or live region escapes a scroll frame unless an
+  ancestor inside the component is `relative` (ReaderStrip).
+- **Invisible impact lines still take room.** A chip or button at the end edge of a wrapping row pushes its
+  `ImpactLines` past the container: leave `pe-4` on the row (ReactionPicker).
+- **MessageScroller items use `content-visibility: auto`:** full-page captures and "scroll to end" can show blank
+  areas; demos and blocks that must render everything set `[content-visibility:visible]!` on the items.
+- **A new block folder** may not be picked up by the dev server's glob until `site/src/interfaces.tsx` is touched.
 
 ## Grammar — eight gestures
 
