@@ -1,0 +1,51 @@
+{
+  "name": "toggle",
+  "type": "registry:ui",
+  "title": "Toggle",
+  "description": "Manga-styled on/off button (Base UI or Radix toggle). Variants: default (frameless: inverts to ink on hover) and outline (2px frame on paper: lifts its tone shadow on hover). Sizes sm, default, lg. Off is paper; on (aria-pressed or data-state=on) is an ink flat that sweeps in over three frames. Click plays the impact (speed lines, 2px recoil). Disabled: dashed line, tone frame, label on paper, not-allowed cursor. Gestures: G2 flat, G3 hover, G4 impact.",
+  "categories": [
+    "actions"
+  ],
+  "registryDependencies": [
+    "toggle",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/toggle.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/toggle.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/toggle\". It wraps your own components/ui/toggle, so Radix and Base UI both work. Also exports toggleClassName, the look as a class string, used by ToggleGroup.",
+  "meta": {
+    "tagline": "An ink-lined switch that floods with ink when on.",
+    "usage": "import { Toggle } from \"@/components/ui/manga/toggle\"\n\n<Toggle aria-label=\"Bold\" defaultPressed>Bold</Toggle>\n<Toggle variant=\"outline\" size=\"sm\">Captions</Toggle>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"default\" | \"outline\"",
+        "description": "default: frameless, inverts on hover · outline: 2px frame, lifts on hover."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"default\" | \"lg\"",
+        "description": "Height 32, 40 or 48 px."
+      },
+      {
+        "name": "pressed / defaultPressed",
+        "type": "boolean",
+        "description": "Stock toggle state: on shows the ink flat."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Dashed line, tone frame, label on paper."
+      }
+    ]
+  }
+}
