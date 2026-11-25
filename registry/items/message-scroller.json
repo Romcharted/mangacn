@@ -1,0 +1,38 @@
+{
+  "name": "message-scroller",
+  "type": "registry:ui",
+  "title": "Message Scroller",
+  "description": "Manga-styled wrapper around your shadcn Message Scroller (the scrolling column of a conversation with a 'jump to latest' button). The viewport keeps the stock behaviour (it scrolls) with a thin ink scrollbar and no grey fade at the edges. MessageScrollerButton is a square ink-framed button (only bubbles are round): it pops in when the reader scrolls up (animate-pop), lifts on hover, shows a focus ring and hits on click (impact lines). 44px touch target under 640px.",
+  "categories": [
+    "display"
+  ],
+  "registryDependencies": [
+    "message-scroller",
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/gestures"
+  ],
+  "dependencies": [
+    "cn",
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/ui/message-scroller.tsx",
+      "type": "registry:ui",
+      "target": "@ui/manga/message-scroller.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/ui/manga/message-scroller\". It wraps your own components/ui/message-scroller, so Radix and Base UI both work: never pass render or asChild to MessageScrollerButton.",
+  "meta": {
+    "tagline": "A conversation column that jumps back to the latest line.",
+    "usage": "import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton } from \"@/components/ui/manga/message-scroller\"\n\n<MessageScrollerProvider>\n  <MessageScroller className=\"h-80\">\n    <MessageScrollerViewport>\n      <MessageScrollerContent>\n        <MessageScrollerItem>…</MessageScrollerItem>\n      </MessageScrollerContent>\n    </MessageScrollerViewport>\n    <MessageScrollerButton />\n  </MessageScroller>\n</MessageScrollerProvider>",
+    "props": [
+      {
+        "name": "direction",
+        "type": "\"start\" | \"end\"",
+        "default": "\"end\"",
+        "description": "Which way the button jumps: to the latest line or to the first."
+      }
+    ]
+  }
+}
