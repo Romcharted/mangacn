@@ -9,7 +9,10 @@ components in a manga style; it never rewrites them. Read this file before chang
 - Registry items are 100 % frontend: props in, callbacks out. No backend, database, account, analytics or
   paid service. (The showcase alone may load cookieless Umami statistics when it is configured.)
 - Nothing copied: no character, logo, title, page or brand colour from an existing work or platform.
-  Demo art is abstract shapes or silhouettes drawn in SVG for this repo.
+  Demo art is drawn in SVG for this repo (shapes, silhouettes, or characters invented here, such as Rin and
+  Mochi). A freely licensed picture or a public-domain comic page may be shown only with its source, author and
+  license in a `CREDITS.md` next to the files (`site/public/pages/`); never a work whose author refuses AI
+  derivations.
 - Each item has its own file, `registry/items/<name>.json`, the source of truth for that item.
   `registry/index.json` lists them (`include`) and `npm run sync` assembles `registry.json`, from which
   `llms.txt`, the README list and `r/*.json` are generated. Never edit `registry.json` by hand.
@@ -28,6 +31,8 @@ registry/manga/webtoon/       # webtoon components (drawn in ink)
 registry/manga/blocks/        # full interfaces (registry:block), one folder each
 site/                         # one-page showcase (Vite + React 19 + Tailwind v4), gallery + detail by #hash
 site/src/demos/<item>.tsx     # optional Preview, States (frozen tiles) and Thumb (gallery card) exports
+site/src/pages/               # example manga pages (JSX and PageData) and the page format doc
+site/src/studio/              # the page studio (#studio): edits PageData, exports JSX, JSON and PNG
 scripts/                      # sync-base, assemble-registry, llms.txt + README list, check-items, screenshots
 ```
 
@@ -193,6 +198,41 @@ These started as special cases and are now rules of the kit. New ones go through
 - **Radix-required props in blocks:** when Radix needs a prop Base UI ignores (Accordion `type`), pass it
   through a loosely typed spread (`const MODE = { type: "multiple" } as unknown as ComponentProps<…>`).
 - **Waiting caret and date mark:** `animate-blink` (two hard steps) and `mark-calendar` come from base.
+- **Showcase helper `ForceInside`** (`site/src/force-inside.tsx`): freezes a state on a part a component draws
+  inside itself (a spine, a thumbnail, a page edge) by setting `data-force` there, without widening the
+  component's API. It is the standard way to show internal states in the tiles.
+
+### Pages, narration and reading (decided cases)
+
+- **Page pieces are direct children:** `Tier`, `Column` and `Panel` are direct children of `Page` / `Tier` / `Column`
+  (or in a fragment), never wrapped in a component of your own: the page reads them to lay itself out.
+- **Inside a page, sizes are page units:** a page is 100 units wide; `--pu` (registered in base) is one unit, and
+  the page sets `--bubble-size`, `--caption-size`, `--sfx-sm…xl` and `--page-fine` from it. A piece that may sit on
+  a page switches to them with `[[data-manga=page]_&]:` (an ancestor selector, more specific than a class, unlike
+  `in-*`). Any drawn piece that must keep its proportions from thumbnail to full screen sizes its lettering in
+  container units (`cqi`).
+- **A page in a small space sets `line` and `lettering`** from its measured width (a strip panel is a small page).
+- **A bubble on a page is a superellipse** (exponent 3): a pure oval does not hold a block of several lines.
+- **Tails aim:** a bubble placed on a page aims its tail with `pointAt` (percent of the panel) rather than a side.
+- **Scene change (SceneTransition):** cover in 4 frames, hold 2, uncover in 4 (10 frames, 833ms). Longer than a
+  gesture because it changes the scene, not an element; `animate-wipe` / `animate-wipe-out` in base do one half
+  without JavaScript.
+- **Hidden reading (Ruby `reveal="hover"`):** the text stays in place, transparent (read aloud); hover is a dotted
+  underline that thickens.
+- **Name plates and labels** (DialogueBox name, VolumeCard volume): an ink flat used as a label, not a selected state.
+- **"Continue" arrow** of a reader or dialogue: `animate-blink`, like the waiting caret (G7).
+- **Two languages in one place** (BilingualBubble): both in the same grid cell, the hidden one `invisible` and
+  `aria-hidden`, so switching never reflows.
+- **Edge band beside vertical text** (ChapterTitle): `tone-lines` in a narrow band next to the text column (Rule A).
+- **Page edges of a reader** (PageReader): an invisible full-height hit zone; on hover only, a paper plate with a
+  brush arrow and the tone shadow; pressed, the plate turns to an ink flat. Never on touch screens.
+- **A page turn is G5 sliding:** the page comes from the side it was turned from (`animate-slide-in`, reversed in
+  manga order); the loaded image does not also pop.
+- **A pulled spine** (Shelf): selected is the ink flat plus a 16px rise in two steps (the book leaves the row).
+- **Inline spoiler under 24px:** no tone (Rule C), the hidden text is an ink flat; hover is a paper line inside.
+- **Guided reading** (GuidedView): around the panel being read, an opaque paper veil of wide dots that clears while
+  the camera moves; the camera goes from panel to panel in four steps (333ms, G5); in the whole-page view the
+  current panel has a 6px inner double line, paper then ink (no flat on art); hover thickens it.
 
 ### Recipes that shadcn documents but does not ship
 
