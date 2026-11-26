@@ -1,0 +1,84 @@
+{
+  "name": "dialogue-box",
+  "type": "registry:component",
+  "title": "Dialogue Box",
+  "description": "A character dialogue box for a queue of lines: a case with a square portrait (a case inside it) on the start or end side, the speaker on an ink name plate on the top edge (it pops when the speaker changes), the line writing itself at 12 fps with a stepped block caret and no reflow, and a 44px arrow button that shows the whole line at once while it writes, then goes to the next line (the arrow blinks in two hard steps), with a 2 / 5 count. A click on the text does the same. After the last line it loops or stays (loop={false}) and calls onEnd. Controlled or not; progress freezes a line for previews. Each finished line is announced; reduced motion shows lines at once.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/gestures",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/dialogue-box.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/dialogue-box.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/dialogue-box\". A line's text is a plain string (it is written out character by character); the portrait is an image URL or any node drawn in a square box.",
+  "meta": {
+    "tagline": "A character speaks, line after line, with an arrow to go on.",
+    "usage": "import { DialogueBox } from \"@/components/manga/dialogue-box\"\n\n<DialogueBox\n  lines={[\n    { speaker: \"Sensei\", portrait: \"/faces/sensei.png\", text: \"Welcome to the studio.\" },\n    { speaker: \"Rookie\", portrait: \"/faces/rookie.png\", side: \"end\", text: \"Where do I start?\" },\n  ]}\n  onEnd={() => setTutorialDone(true)}\n/>",
+    "props": [
+      {
+        "name": "lines",
+        "type": "{ speaker; text: string; portrait?; side?: \"start\" | \"end\" }[]",
+        "description": "The queue of lines."
+      },
+      {
+        "name": "index",
+        "type": "number",
+        "description": "Current line (controlled)."
+      },
+      {
+        "name": "defaultIndex",
+        "type": "number",
+        "default": "0",
+        "description": "First line (uncontrolled)."
+      },
+      {
+        "name": "onIndexChange",
+        "type": "(index: number) => void",
+        "description": "Called when the line changes."
+      },
+      {
+        "name": "onEnd",
+        "type": "() => void",
+        "description": "Called when the reader goes on after the last line."
+      },
+      {
+        "name": "loop",
+        "type": "boolean",
+        "default": "true",
+        "description": "Start again after the last line; false stays on it."
+      },
+      {
+        "name": "speed",
+        "type": "number",
+        "default": "2",
+        "description": "Characters per frame at 12 fps. 0 shows lines at once."
+      },
+      {
+        "name": "progress",
+        "type": "number",
+        "description": "Freezes the line at this fraction (0–1), for previews."
+      },
+      {
+        "name": "showCount",
+        "type": "boolean",
+        "default": "true",
+        "description": "Shows \"2 / 5\" next to the arrow."
+      },
+      {
+        "name": "labels",
+        "type": "{ skip?; next?; end? }",
+        "description": "Spoken names of the arrow button in each state."
+      }
+    ]
+  }
+}

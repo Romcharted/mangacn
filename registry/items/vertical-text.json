@@ -1,0 +1,64 @@
+{
+  "name": "vertical-text",
+  "type": "registry:component",
+  "title": "Vertical Text",
+  "description": "Vertical writing (tategaki) with CSS writing modes: characters run top to bottom and columns right to left, whatever the page's reading order or writing direction, and the text stays real text. A column height wraps it into new columns; the reading, lettering or SFX face; Latin letters lying on their side or upright; an optional fine rule between columns like a manuscript sheet. Tcy sets a short number upright in one cell (tate-chu-yoko).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/vertical-text.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/vertical-text.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/vertical-text\". Give it a height (prop or class) to wrap long text into several columns; without one a column is as tall as its text. The kit's fonts do not cover kanji: Japanese text falls back to the system's Japanese face.",
+  "meta": {
+    "tagline": "Text written top to bottom, columns right to left.",
+    "usage": "import { Tcy, VerticalText } from \"@/components/manga/vertical-text\"\n\n<VerticalText height=\"12rem\">\n  雨の夜、<Tcy>12</Tcy>時。\n</VerticalText>",
+    "props": [
+      {
+        "name": "as",
+        "type": "\"div\" | \"p\" | \"span\" | \"h1\" | \"h2\" | \"h3\" | \"h4\"",
+        "default": "\"div\"",
+        "description": "Rendered element."
+      },
+      {
+        "name": "height",
+        "type": "string",
+        "description": "Column height (any CSS length). Text wraps into a new column on the left."
+      },
+      {
+        "name": "font",
+        "type": "\"reading\" | \"letter\" | \"sfx\"",
+        "default": "\"reading\"",
+        "description": "Reading face, lettering face or the SFX face."
+      },
+      {
+        "name": "upright",
+        "type": "boolean",
+        "default": "false",
+        "description": "Latin letters stand upright instead of lying on their side."
+      },
+      {
+        "name": "ruled",
+        "type": "boolean",
+        "default": "false",
+        "description": "A fine ink rule between columns."
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "default": "\"ja\"",
+        "description": "Language of the text."
+      }
+    ]
+  }
+}

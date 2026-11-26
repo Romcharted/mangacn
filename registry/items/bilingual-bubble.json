@@ -1,0 +1,81 @@
+{
+  "name": "bilingual-bubble",
+  "type": "registry:component",
+  "title": "Bilingual Bubble",
+  "description": "A SpeechBubble (wrapped, not changed) that switches between the original line and its translation. Both texts share one grid cell, so the bubble keeps the size of the longer one and never jumps; the hidden one is invisible and aria-hidden, each carries its own lang. A two-cell switch sits on top of the bubble (pressed buttons: the current language an ink flat that sweeps in, cells thicken on hover, a click hits, focus stays inside the cell, 44px on phones); the line that comes in pops in steps. Controlled or not; every SpeechBubble variant and tail.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/speech-bubble",
+    "Romcharted/mangacn/gestures",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/bilingual-bubble.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/bilingual-bubble.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/bilingual-bubble\". Every SpeechBubble prop (variant, tail, tailAlign, seed) passes through. The kit's lettering face has no Japanese glyphs: Japanese lines fall back to the system's Japanese face.",
+  "meta": {
+    "tagline": "A speech bubble that flips between the original and its translation.",
+    "usage": "import { BilingualBubble } from \"@/components/manga/bilingual-bubble\"\n\n<BilingualBubble original=\"おはよう！\" translation=\"Good morning!\" tail=\"bottom\" />",
+    "props": [
+      {
+        "name": "original",
+        "type": "ReactNode",
+        "description": "The line as first written."
+      },
+      {
+        "name": "translation",
+        "type": "ReactNode",
+        "description": "The same line, translated."
+      },
+      {
+        "name": "originalLang / translationLang",
+        "type": "string",
+        "default": "\"ja\" / \"en\"",
+        "description": "Language of each text."
+      },
+      {
+        "name": "originalLabel / translationLabel",
+        "type": "string",
+        "default": "\"JA\" / \"EN\"",
+        "description": "Labels on the switch."
+      },
+      {
+        "name": "showing",
+        "type": "\"original\" | \"translation\"",
+        "description": "Shown text (controlled)."
+      },
+      {
+        "name": "defaultShowing",
+        "type": "\"original\" | \"translation\"",
+        "default": "\"original\"",
+        "description": "Shown text at first."
+      },
+      {
+        "name": "onShowingChange",
+        "type": "(showing) => void",
+        "description": "Called when the switch changes."
+      },
+      {
+        "name": "switchAlign",
+        "type": "\"start\" | \"end\"",
+        "default": "\"end\"",
+        "description": "Where the switch sits above the bubble."
+      },
+      {
+        "name": "switchLabel",
+        "type": "string",
+        "default": "\"Language\"",
+        "description": "Spoken name of the switch."
+      }
+    ]
+  }
+}

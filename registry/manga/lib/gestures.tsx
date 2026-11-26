@@ -63,11 +63,13 @@ export function ImpactLines({
   press?: boolean
 }) {
   const side = cn(
-    "pointer-events-none invisible absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground [[data-impact]>&]:animate-hit-lines",
+    // Out of the layout at rest (hidden, not only invisible): lines that stick out of a full-width button
+    // would otherwise widen the page and scroll it sideways on a phone.
+    "pointer-events-none invisible hidden absolute top-1/2 h-6 w-4 -translate-y-1/2 text-foreground [[data-impact]>&]:block [[data-impact]>&]:animate-hit-lines",
     // Parent only, never in-*: :active matches every ancestor up to <html>, so a click anywhere on the
     // page would show the lines of every button. [:active>&]: the lines also show while the element
     // itself is pressed, so the click keeps an impact without JavaScript.
-    press && "[:active>&]:visible",
+    press && "[:active>&]:block [:active>&]:visible",
   )
   return (
     <>

@@ -1,0 +1,56 @@
+{
+  "name": "ranking-list",
+  "type": "registry:component",
+  "title": "Ranking List",
+  "description": "A ranking with big numbers in a case: the rank in the SFX face (the top ranks biggest, the first place in the accent), an optional 2:3 cover thumbnail in a 2px ink frame, the title in lettering and a subtitle, an optional score, and the change at the end: an up or down brush arrow with its count, an en dash for no change, or a NEW burst. Rows are separated by 2px ink lines. Rows with href are links, rows with onSelect are buttons: both invert to ink on hover, and press to a paper negative with a 2px offset. Logical properties only, so dir=rtl works.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/ranking-list.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/ranking-list.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/ranking-list\". Entries are plain data: give href for a link, or onSelect for a button. RankingRow is exported for a single row, for example in a detail page header. Change: a positive number is up, a negative one is down, 0 is no change, \"new\" is a new entry.",
+  "meta": {
+    "tagline": "A weekly ranking with big numbers, covers and change marks.",
+    "usage": "import { RankingList, type RankingEntry } from \"@/components/manga/ranking-list\"\n\nconst entries: RankingEntry[] = [\n  { id: \"glass-harbour\", title: \"Glass Harbour\", subtitle: \"M. Sato\", change: 0, score: \"1.2M\", href: \"/series/glass-harbour\" },\n  { id: \"iron-lullaby\", title: \"Iron Lullaby\", subtitle: \"K. Hadley\", change: 3, cover: \"/covers/iron-lullaby.jpg\", href: \"/series/iron-lullaby\" },\n]\n\n<RankingList entries={entries} />",
+    "props": [
+      {
+        "name": "entries",
+        "type": "RankingEntry[]",
+        "description": "Rows: id, title, subtitle, cover, change (number or \"new\"), score, href."
+      },
+      {
+        "name": "onSelect",
+        "type": "(entry: RankingEntry, index: number) => void",
+        "description": "Makes the rows without href buttons."
+      },
+      {
+        "name": "start",
+        "type": "number",
+        "default": "1",
+        "description": "First rank shown."
+      },
+      {
+        "name": "highlightTop",
+        "type": "number",
+        "default": "3",
+        "description": "Ranks up to this one get the biggest numbers. Rank 1 is in the accent."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the list."
+      }
+    ]
+  }
+}
