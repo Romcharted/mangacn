@@ -1,3 +1,5 @@
+import { Fragment } from "react"
+import { Place } from "@registry/manga/signature/panel"
 import { Yonkoma } from "@registry/manga/signature/yonkoma"
 import { SpeechBubble } from "@registry/manga/signature/speech-bubble"
 import { Sfx } from "@registry/manga/signature/sfx"
@@ -10,39 +12,35 @@ function Story({ size = "md" }: { size?: "sm" | "md" }) {
   const art = "absolute inset-x-0 bottom-0 mx-auto h-[88%] w-full"
   const md = size === "md"
   return [
-      <div key="1">
+      <Fragment key="1">
         <Beat step={1} className={art} />
         {md && (
-          <span className="absolute end-2 top-2">
-            <SpeechBubble tail="bottom" tailAlign="end" className="px-4! py-2! text-sm">
-              Grow!
-            </SpeechBubble>
-          </span>
+          <Place x={90} y={22} anchor="top-right">
+            <SpeechBubble pointAt={{ x: "52%", y: "62%" }}>Grow!</SpeechBubble>
+          </Place>
         )}
-      </div>,
-      <div key="2">
+      </Fragment>,
+      <Fragment key="2">
         <Beat step={2} className={art} />
-      </div>,
-      <div key="3">
+      </Fragment>,
+      <Fragment key="3">
         <Beat step={3} className={art} />
         {md && (
-          <span className="absolute start-8 top-2">
-            <SpeechBubble variant="thought" tail="none" className="px-5! py-3! text-sm">
+          <Place x={40} y={10} anchor="top">
+            <SpeechBubble variant="thought" pointAt={{ x: "80%", y: "35%" }}>
               …any day now.
             </SpeechBubble>
-          </span>
+          </Place>
         )}
-      </div>,
-      <div key="4">
+      </Fragment>,
+      <Fragment key="4">
         <Beat step={4} className={art} />
         {md && (
-          <span className="absolute end-3 top-3">
-            <Sfx size="sm" rotate={10}>
-              ポン
-            </Sfx>
-          </span>
+          <Place x={86} y={16} rotate={10}>
+            <Sfx size="sm">ポン</Sfx>
+          </Place>
         )}
-      </div>,
+      </Fragment>,
   ]
 }
 
