@@ -56,9 +56,15 @@
         "description": "date-fns format of each date in the trigger."
       },
       {
+        "name": "locale",
+        "type": "Locale",
+        "default": "enUS",
+        "description": "date-fns locale of the trigger and the calendar. English by default, whatever the browser language."
+      },
+      {
         "name": "calendarProps",
         "type": "Partial<PropsBase>",
-        "description": "Extra Calendar props: captionLayout, startMonth, endMonth, disabled days, locale…"
+        "description": "Extra Calendar props: captionLayout, startMonth, endMonth, disabled days…"
       },
       {
         "name": "aria-invalid",

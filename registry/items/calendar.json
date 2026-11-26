@@ -48,6 +48,12 @@
         "description": "Days that cannot be chosen: dashed line-through, not-allowed cursor."
       },
       {
+        "name": "locale",
+        "type": "Partial<DayPickerLocale>",
+        "default": "enUS",
+        "description": "Month names, weekdays and the month dropdown. English by default, whatever the browser language."
+      },
+      {
         "name": "CalendarDayButton",
         "type": "component",
         "description": "The styled day cell, for custom components={{ DayButton }}."

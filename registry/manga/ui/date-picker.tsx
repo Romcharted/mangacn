@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import { cn } from "cn"
-import { format } from "date-fns"
+import { format, type Locale } from "date-fns"
 import type { DateRange, PropsBase } from "react-day-picker"
+import { enUS } from "react-day-picker/locale"
 
 import { Calendar } from "@/components/ui/manga/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/manga/popover"
@@ -16,6 +17,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/manga/p
  * kit Popover bubble (G6) that pops in (G5); choosing a day closes it (single). The range picker shows
  * two months from 640px and one month on phones, so the bubble fits a 360px screen.
  * The trigger only gets a className (no asChild / render), so Radix and Base UI both work.
+ * Language: English by default, in the trigger and the calendar, whatever the browser language; `locale`
+ * (a date-fns locale, e.g. `import { fr } from "date-fns/locale"`) changes both.
  */
 
 const trigger = [
@@ -74,7 +77,9 @@ type PickerProps<T> = TriggerProps & {
   disabled?: boolean
   /** date-fns format of each date in the trigger. Default "LLL d, y". */
   formatString?: string
-  /** Extra Calendar props (captionLayout, startMonth, endMonth, disabled days, locale…). */
+  /** date-fns locale of the trigger and the calendar. Default English (en-US). */
+  locale?: Locale
+  /** Extra Calendar props (captionLayout, startMonth, endMonth, disabled days…). */
   calendarProps?: Partial<PropsBase>
 }
 
@@ -114,13 +119,14 @@ function PickerShell({
 
 /** One date, in a field that opens a calendar. Choosing a day closes it. */
 function DatePicker(props: PickerProps<Date>) {
-  const { value: _v, defaultValue: _d, onValueChange: _c, placeholder = "Pick a date", formatString = "LLL d, y", calendarProps, ...rest } = props
+  const { value: _v, defaultValue: _d, onValueChange: _c, placeholder = "Pick a date", formatString = "LLL d, y", locale = enUS, calendarProps, ...rest } = props
   const [value, setValue] = useValue<Date>(props)
   const [open, setOpen] = React.useState(false)
   return (
-    <PickerShell open={open} onOpenChange={setOpen} empty={!value} label={value ? format(value, formatString) : placeholder} {...rest}>
+    <PickerShell open={open} onOpenChange={setOpen} empty={!value} label={value ? format(value, formatString, { locale }) : placeholder} {...rest}>
       <Calendar
         defaultMonth={value}
+        locale={locale}
         {...calendarProps}
         className="p-0!"
         mode="single"
@@ -136,19 +142,20 @@ function DatePicker(props: PickerProps<Date>) {
 
 /** A range of dates (from, to): two months from 640px, one on phones. */
 function DateRangePicker(props: PickerProps<DateRange>) {
-  const { value: _v, defaultValue: _d, onValueChange: _c, placeholder = "Pick dates", formatString = "LLL d, y", calendarProps, className, ...rest } = props
+  const { value: _v, defaultValue: _d, onValueChange: _c, placeholder = "Pick dates", formatString = "LLL d, y", locale = enUS, calendarProps, className, ...rest } = props
   const [value, setValue] = useValue<DateRange>(props)
   const [open, setOpen] = React.useState(false)
   const narrow = useNarrow()
   const label = value?.from
     ? value.to
-      ? `${format(value.from, formatString)} – ${format(value.to, formatString)}`
-      : `${format(value.from, formatString)} – …`
+      ? `${format(value.from, formatString, { locale })} – ${format(value.to, formatString, { locale })}`
+      : `${format(value.from, formatString, { locale })} – …`
     : placeholder
   return (
     <PickerShell open={open} onOpenChange={setOpen} empty={!value?.from} label={label} className={className || "w-80"} {...rest}>
       <Calendar
         defaultMonth={value?.from}
+        locale={locale}
         numberOfMonths={narrow ? 1 : 2}
         showOutsideDays={narrow}
         {...calendarProps}

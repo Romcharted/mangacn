@@ -3,6 +3,7 @@
 import * as React from "react"
 import { cn } from "cn"
 import { useDayPicker, type ClassNames } from "react-day-picker"
+import { enUS } from "react-day-picker/locale"
 
 import { Calendar as ShadcnCalendar, CalendarDayButton as ShadcnCalendarDayButton } from "@/components/ui/calendar"
 
@@ -17,6 +18,8 @@ import { Calendar as ShadcnCalendar, CalendarDayButton as ShadcnCalendarDayButto
  * Cells are 40px; under 640px they share the available width, up to 44px, so a month fits a 360px screen.
  * Day states come from react-day-picker (same in Radix and Base UI): data-selected-single,
  * data-range-start / -end / -middle on the button; data-today, data-outside, data-disabled on the cell.
+ * Language: English by default (month names, weekdays, the month dropdown), whatever the browser language;
+ * pass `locale` (a react-day-picker / date-fns locale) to change it.
  */
 
 // One box-shadow carries the hover line, the today frame and the range band, so they combine:
@@ -136,6 +139,7 @@ function Calendar({
   classNames,
   components,
   captionLayout = "label",
+  locale = enUS,
   ...props
 }: React.ComponentProps<typeof ShadcnCalendar>) {
   const own = parts(captionLayout !== "label")
@@ -145,6 +149,7 @@ function Calendar({
     <ShadcnCalendar
       data-manga="calendar"
       captionLayout={captionLayout}
+      locale={locale}
       className={cn(
         "[--cell-radius:var(--radius)]! [--cell-size:--spacing(10)]! p-2",
         // under 640px: as wide as a 44px-cell month, shrinking with its container; cells share the width (44px max)
