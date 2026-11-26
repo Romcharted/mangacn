@@ -2,7 +2,7 @@
   "name": "story-landing",
   "type": "registry:block",
   "title": "Story landing",
-  "description": "A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around drawn art) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip that explains the product in four beats (a column on phones, four in a row from 40rem), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a \"Meanwhile…\" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.",
+  "description": "A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around drawn art) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip on the page model that explains the product in four beats (a column on phones, four in a row from 40rem; captions and an Sfx put on the panels with Place), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a \"Meanwhile…\" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.",
   "categories": [
     "blocks"
   ],
@@ -10,6 +10,7 @@
     "Romcharted/mangacn/magazine-cover",
     "Romcharted/mangacn/chapter-title",
     "Romcharted/mangacn/yonkoma",
+    "Romcharted/mangacn/panel",
     "Romcharted/mangacn/dialogue-box",
     "Romcharted/mangacn/scene-transition",
     "Romcharted/mangacn/speech-bubble",
