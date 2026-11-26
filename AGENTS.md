@@ -214,7 +214,7 @@ These started as special cases and are now rules of the kit. New ones go through
 - **A page in a small space sets `line` and `lettering`** from its measured width (a strip panel is a small page).
 - **A bubble on a page is a superellipse** (exponent 3): a pure oval does not hold a block of several lines.
 - **Tails aim:** a bubble placed on a page aims its tail with `pointAt` (percent of the panel) rather than a side.
-- **Scene change (SceneTransition):** cover in 4 frames, hold 2, uncover in 4 (10 frames, 833ms). Longer than a
+- **Scene change (SceneTransition), accepted exception to the 2–4 frames rule:** cover in 4 frames, hold 2, uncover in 4 (10 frames, 833ms). Longer than a
   gesture because it changes the scene, not an element; `animate-wipe` / `animate-wipe-out` in base do one half
   without JavaScript.
 - **Hidden reading (Ruby `reveal="hover"`):** the text stays in place, transparent (read aloud); hover is a dotted
