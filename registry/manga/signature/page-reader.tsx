@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { createPortal } from "react-dom"
 import { cn } from "cn"
 import { Maximize, Minimize, ZoomIn, ZoomOut } from "lucide-react"
 
@@ -97,6 +98,8 @@ function PageReader({
   const rtl = direction === "rtl"
   const [inner, setInner] = React.useState(defaultPage)
   const page = clamp(pageProp ?? inner, 0, end ? pages.length : Math.max(0, pages.length - 1))
+  const [screen, setScreen] = React.useState<Screen>("off")
+  const full = screen !== "off"
 
   /* Stage size: decides auto spreads and the page size. */
   const stageRef = React.useRef<HTMLDivElement>(null)
@@ -109,7 +112,8 @@ function PageReader({
     const ro = new ResizeObserver(update)
     ro.observe(el)
     return () => ro.disconnect()
-  }, [])
+    // full screen moves the reader into a portal: a new stage element to watch
+  }, [full])
 
   const double = spread === "double" || (spread === "auto" && stage.w >= 720 && stage.w > stage.h)
   const views = React.useMemo(() => {
@@ -298,8 +302,6 @@ function PageReader({
   }
 
   /* Full screen: the immersive layout at once (the fallback), then the browser's full screen if it agrees. */
-  const [screen, setScreen] = React.useState<Screen>("off")
-  const full = screen !== "off"
   const wantFull = React.useRef(false)
   const enterFull = () => {
     wantFull.current = true
@@ -334,6 +336,8 @@ function PageReader({
     if (screen !== "immersive") return
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape" || e.defaultPrevented) return
+      // Escape inside a sheet or dialog opened from the toolbar closes that, not the full screen
+      if ((document.activeElement as HTMLElement | null)?.closest("[role=dialog], [role=alertdialog]")) return
       wantFull.current = false
       setScreen("off")
     }
@@ -346,6 +350,16 @@ function PageReader({
     },
     [],
   )
+  // the move into (or out of) the portal drops the focus: give it back to the stage
+  const firstScreen = React.useRef(true)
+  React.useEffect(() => {
+    if (firstScreen.current) {
+      firstScreen.current = false
+      return
+    }
+    stageRef.current?.focus({ preventScroll: !full })
+    if (!full) stageRef.current?.scrollIntoView({ block: "nearest" })
+  }, [full])
 
   const n = pages.length
   const label = atEnd ? "End" : view.length > 1 ? `${view[0] + 1}–${view[1] + 1} / ${n}` : `${view[0] + 1} / ${n}`
@@ -394,7 +408,7 @@ function PageReader({
     </Button>
   )
 
-  return (
+  const reader = (
     <section
       data-manga="page-reader"
       data-reading={direction}
@@ -512,6 +526,9 @@ function PageReader({
       </p>
     </section>
   )
+  // Full screen: the reader moves to the end of <body>, so no ancestor's stacking context (a transform, an
+  // isolate, a sticky header) can sit above it. A Sheet opened from the toolbar still portals after it.
+  return full && typeof document !== "undefined" ? createPortal(reader, document.body) : reader
 }
 
 export { PageReader }
