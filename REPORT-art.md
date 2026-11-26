@@ -151,3 +151,15 @@ Ce ne sont pas des dessins de démonstration :
 - Les boîtes de GuidedView des cases en biais sont des rectangles englobants : on voit un peu de la case voisine.
 - L'aperçu de TonedImage trame une image déjà encrée. C'est voulu (c'est la démonstration du composant), mais c'est la seule exception à « ne les trame pas ».
 - Pendant mes vérifications en dev, `node_modules` du worktree était un lien vers celui de `~/mangacn`. Le serveur de dev refusait donc les polices (403). Ce n'est pas un problème du dépôt : le build de production les embarque.
+
+# Corrections (deuxième passe)
+
+1. **Bulle « Ready? » de l'image d'accueil.** Elle est posée sur les lignes de vitesse du coin haut (côté fin de lecture ; elle passe de l'autre côté en lecture manga), hors du visage de Suzu. Sa taille suit la case (unités de conteneur) avec un plancher lisible de 0,7 rem. Vérifiée à 320, 375, 768 et 1280 px sur le build de production : le visage reste dégagé partout. Sur le plus petit téléphone, la bulle frôle les mèches de cheveux du haut, jamais le visage.
+2. **Titre « MAPLESS » sur les couvertures.**
+   - Nouveau composant de la vitrine, `VolumeCover` (`site/src/mapless.tsx`). Il pose l'image intacte et, par-dessus, le titre en lettrage du kit (`font-letter`, détourage `knockout`), en vrai texte. Le texte est `aria-hidden`, parce que la carte donne déjà le titre.
+   - Placement : dans le ciel. Tomes 1 et 2 : centré, sous le badge « Vol. » des cartes. Tome 3 (nuit) : en haut à droite, lettres papier détourées d'encre, loin de la lance du chevalier.
+   - Couleurs fixes, comme un imprimé, dans les deux thèmes.
+   - Utilisé par les démos VolumeCard, Shelf, SeriesHeader (aperçu, états, vignette) et ObiBand, ainsi que par les blocs Catalog, Author site (cartes, Coming soon, étagère, en-tête), Manga reader (carte du tome) et Landing page.
+   - Pour cela, les props `covers` / `cover` de ces quatre blocs acceptent maintenant un nœud React en plus d'une URL. Items mis à jour ; ils n'embarquent toujours aucune image.
+3. **Pas touché.** Les pages de couverture affichées *dans* les lecteurs (PageReader, PageThumbnails, GuidedView, première page du chapitre de démo) restent l'image seule. Ce sont des images de page lues par le lecteur ; y lettrer un titre demanderait de modifier l'image. Même chose pour MagazineCover, qui a son propre titre de magazine.
+4. **Contrôles.** `tsc` et le build passent ; `npm run check` aussi (128 items). Le contrôle des vignettes sur VolumeCard, Shelf et SeriesHeader réagit ; ObiBand reste une pièce sans état.
