@@ -2,7 +2,7 @@
   "name": "speech-bubble",
   "type": "registry:component",
   "title": "Speech Bubble",
-  "description": "Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin. BubbleGroup chains bubbles through a neck that hides both outlines.",
+  "description": "Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin; or pointAt={{ x, y }} (percent of the panel, in a Place) aims the tail at a point and lengthens it. Every length follows the font size, so on a Page the bubble scales with the page; there round bubbles square up a little to hold a block of text. align sets the text alignment, maxWidth the width limit (a percentage of the panel in a Place). BubbleGroup chains bubbles through a neck that hides both outlines.",
   "categories": [
     "manga"
   ],
@@ -22,7 +22,7 @@
   "docs": "Import from \"@/components/manga/speech-bubble\".",
   "meta": {
     "tagline": "Seven bubble shapes drawn at their real size.",
-    "usage": "import { SpeechBubble, BubbleGroup } from \"@/components/manga/speech-bubble\"\n\n<SpeechBubble variant=\"shout\" tail=\"bottom\" tailAlign=\"end\">Get down!</SpeechBubble>",
+    "usage": "import { SpeechBubble, BubbleGroup } from \"@/components/manga/speech-bubble\"\n\n<SpeechBubble variant=\"shout\" tail=\"bottom\" tailAlign=\"end\">Get down!</SpeechBubble>\n\n// on a Page: placed in a panel, the tail aims at the speaker\n<Place x=\"70%\" y=\"10%\" anchor=\"top\">\n  <SpeechBubble pointAt={{ x: \"30%\", y: \"80%\" }} align=\"start\">Over here!</SpeechBubble>\n</Place>",
     "props": [
       {
         "name": "variant",
@@ -41,6 +41,23 @@
         "type": "\"start\" | \"center\" | \"end\"",
         "default": "\"start\"",
         "description": "Tail position along that side."
+      },
+      {
+        "name": "pointAt",
+        "type": "{ x: number | string; y: number | string }",
+        "description": "A point to aim at, in percent of the panel (the Place frame): the tail turns and grows to reach it."
+      },
+      {
+        "name": "align",
+        "type": "\"start\" | \"center\" | \"end\"",
+        "default": "\"center\"",
+        "description": "Text alignment (narration starts at the start)."
+      },
+      {
+        "name": "maxWidth",
+        "type": "string",
+        "default": "\"24rem\"",
+        "description": "Maximum width; in a Place a percentage is a share of the panel."
       },
       {
         "name": "seed",
