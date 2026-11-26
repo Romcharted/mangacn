@@ -6,6 +6,7 @@ import { cn } from "cn"
 import { Button } from "@/components/ui/manga/button"
 import { Spinner } from "@/components/ui/manga/spinner"
 import { Sfx } from "@/components/manga/sfx"
+import { readingArea, readingPage } from "@/components/manga/reading-progress"
 
 /*
  * Reader strip: a vertical strip of pages for scroll (webtoon) reading. It follows the page scroll (or the
@@ -15,7 +16,11 @@ import { Sfx } from "@/components/manga/sfx"
  * page art pops in when it arrives.
  */
 
-export type ReaderStripPage = { src: string; alt: string; width: number; height: number }
+/**
+ * A scan. `width` and `height` are the picture's real size: the page is never shown wider. `srcSet` (optional)
+ * offers smaller files of the same picture; the strip tells the browser how wide the page is shown.
+ */
+export type ReaderStripPage = { src: string; alt: string; width: number; height: number; srcSet?: string }
 export type ReaderPageStatus = "loading" | "loaded" | "error"
 export type ReaderStripGap = "none" | "sm" | "md"
 
@@ -72,6 +77,8 @@ function ReaderPage({ page, index, count, framed = true, status: forced, onRetry
             key={attempt}
             ref={img}
             src={page.src}
+            srcSet={page.srcSet}
+            sizes={page.srcSet ? `min(100vw, 45rem, ${page.width}px)` : undefined}
             alt={page.alt}
             width={page.width}
             height={page.height}
@@ -144,22 +151,17 @@ function ReaderEnd({ title = "END", children = "To be continued", className }: R
   )
 }
 
-/** The nearest ancestor that scrolls vertically, or null for the window. */
-function scrollParent(el: HTMLElement | null): HTMLElement | null {
-  for (let p = el?.parentElement; p && p !== document.body && p !== document.documentElement; p = p.parentElement) {
-    const o = getComputedStyle(p).overflowY
-    if (o === "auto" || o === "scroll" || o === "overlay") return p
-  }
-  return null
-}
-
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n))
 
 export type ReaderStripProps = Omit<React.ComponentProps<"section">, "children" | "onProgress"> & {
   pages: ReaderStripPage[]
   /** Space between pages; with "none" the pages touch and lose their frame. */
   gap?: ReaderStripGap
-  /** Scroll progress through the strip (0–1) and the page in the middle of the view (0-based). */
+  /**
+   * Scroll progress through the strip (0–1) and the page being read (0-based): the last page whose top has
+   * crossed the reading line, a third of the way down the visible view under its sticky header; the last
+   * page once the strip's bottom is in view (see readingPage in ReadingProgress).
+   */
   onProgress?: (ratio: number, pageIndex: number) => void
   /** Called each time the end panel comes into view. */
   onEnd?: () => void
@@ -196,20 +198,15 @@ function ReaderStrip({
     let frame = 0
     const measure = () => {
       frame = 0
-      // found again on every measure: the layout may turn a frame into a scroller (or back) at any time
-      const parent = scrollParent(ol)
-      const vTop = parent ? parent.getBoundingClientRect().top + parent.clientTop : 0
-      const vH = parent ? parent.clientHeight : window.innerHeight
+      // found again on every measure: the layout may turn a frame into a scroller (or back) at any time, and
+      // a sticky header may come and go
+      const area = readingArea(ol)
+      const vTop = area.top
+      const vH = area.bottom - area.top
       const box = ol.getBoundingClientRect()
       const total = box.height - vH
       const ratio = total > 0 ? clamp01((vTop - box.top) / total) : box.bottom <= vTop + vH ? 1 : 0
-      const mid = vTop + vH / 2
-      const figures = ol.querySelectorAll<HTMLElement>("[data-slot=reader-page]")
-      let index = 0
-      figures.forEach((f, i) => {
-        if (f.getBoundingClientRect().top <= mid) index = i
-      })
-      if (ratio >= 1) index = Math.max(0, figures.length - 1)
+      const index = readingPage(ol.querySelectorAll<HTMLElement>("[data-slot=reader-page]"), area)
       if (Math.abs(ratio - last.ratio) >= 0.001 || index !== last.index) {
         last.ratio = ratio
         last.index = index

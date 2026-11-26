@@ -22,6 +22,7 @@ import type { PageData, PanelData } from "@/components/manga/page-geometry"
 import { Page } from "@/components/manga/panel"
 import { PageReader } from "@/components/manga/page-reader"
 import { PageThumbnails } from "@/components/manga/page-thumbnails"
+import { ReadingProgress, useReadingPage } from "@/components/manga/reading-progress"
 import { RankingList } from "@/components/manga/ranking-list"
 import { ReaderSettings, defaultReaderSettings, type ReaderSettingsValue } from "@/components/manga/reader-settings"
 import { ReleaseCalendar } from "@/components/manga/release-calendar"
@@ -388,6 +389,12 @@ function Reader({ series, chapter, go, toSeries }: { series: Series; chapter: Ch
   const [page, setPage] = React.useState(0)
   const [sheet, setSheet] = React.useState<"pages" | "settings" | null>(null)
   React.useEffect(() => setPage(0), [chapter.n])
+  // strip mode: the counter follows the reading line, and the page mode opens where the reader stopped
+  const strip = mode === "pages" && settings.mode === "strip"
+  const [reading, stripRef] = useReadingPage<HTMLDivElement>(pages.length)
+  React.useEffect(() => {
+    if (strip) setPage(reading)
+  }, [strip, reading])
   const next = series.chapters.find((c) => c.n === chapter.n + 1)
   const end = (
     <ChapterEnd
@@ -448,13 +455,21 @@ function Reader({ series, chapter, go, toSeries }: { series: Series; chapter: Ch
         settings.mode === "strip" ? (
           <div className="grid gap-2">
             <div className="flex justify-end gap-1">{tools}</div>
-            <div className="mx-auto grid w-full max-w-xl gap-3" data-reading={settings.direction}>
+            <div ref={stripRef} key={chapter.n} className="mx-auto grid w-full max-w-xl gap-3" data-reading={settings.direction}>
               {pages.map((p, i) => (
                 <div key={i} className="border-ink">
                   <Page page={p} reading={settings.direction} label={`Page ${i + 1}`} />
                 </div>
               ))}
               {end}
+            </div>
+            <div className="sticky bottom-0 z-10 mx-auto w-full max-w-xl border-t-[length:var(--mg-bw)] border-border bg-background px-3 py-2">
+              <ReadingProgress
+                value={pages.length > 1 ? (reading / (pages.length - 1)) * 100 : 100}
+                label={`Chapter ${chapter.n} progress`}
+                showValue
+                valueText={`Page ${reading + 1} / ${pages.length}`}
+              />
             </div>
           </div>
         ) : (

@@ -171,4 +171,107 @@ function ReadingProgress({
   )
 }
 
-export { ReadingProgress, useScrollProgress }
+/*
+ * The reading line. A reader counts the page being read, not the page that happens to cross the middle of the
+ * view: the current page is the last page whose top has crossed a line a third of the way down the visible
+ * part of the view, under the sticky header. Page 1 until page 2 crosses that line; the last page once the
+ * bottom of the last page is in view. Used by ReaderStrip, the Manga reader and Author site blocks, and any
+ * page counter shown in a ReadingProgress (useReadingPage).
+ */
+
+export type ReadingArea = { top: number; bottom: number }
+
+/** The nearest ancestor that scrolls vertically, or null for the window. */
+function scrollParent(el: HTMLElement | null): HTMLElement | null {
+  for (let p = el?.parentElement; p && p !== document.body && p !== document.documentElement; p = p.parentElement) {
+    const o = getComputedStyle(p).overflowY
+    if (o === "auto" || o === "scroll" || o === "overlay") return p
+  }
+  return null
+}
+
+/** The sticky or fixed element `hit` sits in (below `stop`), if it is not an ancestor of `el`. */
+function stuckBar(hit: Element | null, el: HTMLElement, stop: HTMLElement | null): HTMLElement | null {
+  for (let n = hit; n && n !== stop && n !== document.body; n = n.parentElement) {
+    if (n === el || n.contains(el)) return null
+    const p = getComputedStyle(n).position
+    if (p === "sticky" || p === "fixed") return n as HTMLElement
+  }
+  return null
+}
+
+/**
+ * The visible part of the view `el` scrolls in (its nearest scrolling ancestor, or the window), cut to the
+ * window, under the sticky or fixed bars that cover its top edge (a site header, a reader toolbar).
+ */
+function readingArea(el: HTMLElement): ReadingArea {
+  const parent = scrollParent(el)
+  const winH = document.documentElement.clientHeight
+  const winW = document.documentElement.clientWidth
+  const box = parent?.getBoundingClientRect()
+  let top = Math.max(0, box ? box.top + parent!.clientTop : 0)
+  const bottom = Math.min(winH, box ? box.top + parent!.clientTop + parent!.clientHeight : winH)
+  const own = el.getBoundingClientRect()
+  const x = Math.min(winW - 1, Math.max(0, own.left + own.width / 2))
+  // stacked bars (a site header, then a reader toolbar): a few steps at most; a bar that would hide half the
+  // view is an overlay (a dialog, a sheet), not a header
+  for (let i = 0; i < 4 && bottom - top > 2; i++) {
+    const bar = stuckBar(document.elementFromPoint(x, top + 1), el, parent)
+    const r = bar?.getBoundingClientRect()
+    if (!r || r.bottom <= top || r.bottom - top > (bottom - top) / 2) break
+    top = r.bottom
+  }
+  return { top, bottom }
+}
+
+/** The page being read (0-based) among `pages`, in order, by the reading line of `area`. */
+function readingPage(pages: ArrayLike<Element>, area: ReadingArea): number {
+  const n = pages.length
+  if (n === 0) return 0
+  if (pages[n - 1].getBoundingClientRect().bottom <= area.bottom + 0.5) return n - 1
+  const line = area.top + (area.bottom - area.top) / 3
+  let index = 0
+  for (let i = 1; i < n; i++) {
+    if (pages[i].getBoundingClientRect().top <= line) index = i
+    else break
+  }
+  return index
+}
+
+/**
+ * The page being read (0-based) in a list, kept up to date on scroll and resize, for the page counter of a
+ * ReadingProgress. Returns the index and a ref for the list, whose first `count` children are the pages (all
+ * of them when left out): `const [page, ref] = useReadingPage(pages.length)`.
+ */
+function useReadingPage<T extends HTMLElement = HTMLElement>(count?: number) {
+  const [el, setEl] = React.useState<T | null>(null)
+  const [index, setIndex] = React.useState(0)
+  React.useEffect(() => {
+    if (!el) return
+    let frame = 0
+    const measure = () => {
+      frame = 0
+      const pages = Array.from(el.children).slice(0, count ?? el.children.length)
+      setIndex(readingPage(pages, readingArea(el)))
+    }
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(measure)
+    }
+    measure()
+    const opts = { capture: true, passive: true } as const
+    document.addEventListener("scroll", schedule, opts)
+    window.addEventListener("resize", schedule)
+    const ro = new ResizeObserver(schedule)
+    ro.observe(el)
+    return () => {
+      cancelAnimationFrame(frame)
+      document.removeEventListener("scroll", schedule, opts)
+      window.removeEventListener("resize", schedule)
+      ro.disconnect()
+    }
+  }, [el, count])
+  return [index, setEl] as const
+}
+
+
+export { ReadingProgress, readingArea, readingPage, scrollParent, useReadingPage, useScrollProgress }

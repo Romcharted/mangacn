@@ -2,7 +2,7 @@
   "name": "author-site",
   "type": "registry:block",
   "title": "Author Site",
-  "description": "The site of one manga series, made only with mangacn: its volumes (VolumeCards, an ObiBand for the volume still to come), the week's releases, the most read chapters and the shelf, then the series page and the chapter. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, pictures, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other, and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.",
+  "description": "The site of one manga series, made only with mangacn: its volumes (VolumeCards, an ObiBand for the volume still to come), the week's releases, the most read chapters and the shelf, then the series page and the chapter. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, pictures, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other with a sticky ReadingProgress \"Page 2 / 3\" counter that follows the reading line (useReadingPage), and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.",
   "categories": [
     "blocks"
   ],
@@ -11,6 +11,7 @@
     "Romcharted/mangacn/guided-view",
     "Romcharted/mangacn/page-thumbnails",
     "Romcharted/mangacn/reader-settings",
+    "Romcharted/mangacn/reading-progress",
     "Romcharted/mangacn/chapter-end",
     "Romcharted/mangacn/series-header",
     "Romcharted/mangacn/shelf",

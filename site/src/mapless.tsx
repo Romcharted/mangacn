@@ -58,7 +58,9 @@ export const artRatio = (name: ArtName) => sizes[name].width / sizes[name].heigh
 
 /** A page of the demo chapter, for the readers: image, size and spoken description. */
 export function artPage(name: ArtName) {
-  return { src: artSrc(name, 480), alt: ALT[name], width: sizes[name].width, height: sizes[name].height }
+  // the real-size file, with the smaller ones in srcSet: a page is never shown larger than its picture
+  const { width, height, widths } = sizes[name]
+  return { src: artSrc(name, widths[widths.length - 1]), srcSet: artSrcSet(name), alt: ALT[name], width, height }
 }
 
 type ArtProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "srcSet"> & {
@@ -98,11 +100,11 @@ const COVER_TITLE = {
  * real text (it can be read and translated). The cover is printed matter: ink and paper keep their colours in
  * both themes; the night cover takes paper letters with an ink knockout.
  */
-export function VolumeCover({ volume, title = SERIES }: { volume: 1 | 2 | 3; title?: string }) {
+export function VolumeCover({ volume, title = SERIES, shown = "18rem" }: { volume: 1 | 2 | 3; title?: string; shown?: string }) {
   const { name, place, night } = COVER_TITLE[volume]
   return (
     <span className="@container relative block size-full overflow-hidden">
-      <Art name={name} alt="" shown="12rem" className="absolute inset-0 size-full object-cover" />
+      <Art name={name} alt="" shown={shown} className="absolute inset-0 size-full object-cover" />
       <span
         aria-hidden
         className={`absolute ${place} font-letter leading-none tracking-wider uppercase knockout ${

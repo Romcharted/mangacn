@@ -6,6 +6,7 @@ import { PageThumbnails } from "@registry/manga/signature/page-thumbnails"
 import { ReaderSettings, defaultReaderSettings, type ReaderSettingsValue } from "@registry/manga/signature/reader-settings"
 import { ChapterEnd } from "@registry/manga/signature/chapter-end"
 import { ReaderStrip } from "@registry/manga/signature/reader-strip"
+import { ReadingProgress, useReadingPage } from "@registry/manga/signature/reading-progress"
 import { Button } from "@registry/manga/ui/button"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@registry/manga/ui/sheet"
 import { Tile } from "../state-grid"
@@ -21,6 +22,11 @@ export function Preview() {
   const [page, setPage] = useState(0)
   const [settings, setSettings] = useState<ReaderSettingsValue>(defaultReaderSettings)
   const [sheet, setSheet] = useState<"pages" | "settings" | null>(null)
+  // strip mode: the counter follows the reading line (scans through ReaderStrip, page data through the hook)
+  const [stripPage, setStripPage] = useState(0)
+  const [dataPage, dataRef] = useReadingPage<HTMLDivElement>(JSON_CHAPTER.length)
+  const read = source === "scans" ? stripPage : dataPage
+  const total = source === "scans" ? scans.length : JSON_CHAPTER.length
   const tools = (
     <>
       <Button variant="outline" size="icon" aria-label="All pages" onClick={() => setSheet("pages")} className="max-sm:size-11">
@@ -51,12 +57,20 @@ export function Preview() {
       </div>
       {settings.mode === "strip" ? (
         <div className="grid gap-3">
-          <div className="flex justify-end gap-1">{tools}</div>
+          <div className="flex items-center gap-3">
+            <ReadingProgress
+              value={total > 1 ? (read / (total - 1)) * 100 : 100}
+              label="Chapter progress"
+              showValue
+              valueText={`Page ${read + 1} / ${total}`}
+            />
+            <div className="flex shrink-0 gap-1">{tools}</div>
+          </div>
           <div className="h-[36rem] overflow-y-auto border-ink-panel p-3">
             {source === "scans" ? (
-              <ReaderStrip pages={scans} gap="sm" />
+              <ReaderStrip pages={scans} gap="sm" onProgress={(_, i) => setStripPage(i)} />
             ) : (
-              <div className="mx-auto grid max-w-xl gap-3">
+              <div ref={dataRef} className="mx-auto grid max-w-xl gap-3">
                 {JSON_CHAPTER.map((p, i) => (
                   <Page key={i} page={p} reading={settings.direction} label={`Page ${i + 1}`} />
                 ))}
