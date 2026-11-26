@@ -6142,7 +6142,7 @@
       "name": "yonkoma",
       "type": "registry:component",
       "title": "Yonkoma",
-      "description": "A four-panel strip read top to bottom, to explain something in four beats. The API is four children, one per panel, plus an optional title box; the panels are Panels on a PanelGrid (3px frames, a list of four for screen readers with a label per panel) with a small number box in the corner. orientation=\"horizontal\" puts the four in a row in the manga reading order; \"auto\" stacks them on phones and lines them up once the strip's container is 40rem wide. Any aspect ratio per panel.",
+      "description": "A four-panel strip read top to bottom, to explain something in four beats, built on the page model: a free-height Page (format strip) with one Tier per panel, or one Tier of four panels in a row in the manga reading order. The API is four children, one per panel, plus an optional title box; each panel is a named group for screen readers with a small number box in its corner. A child given as a fragment is spread into its panel, so Place elements in it (bubbles with pointAt, captions, Sfx) sit on the page and may cross the frame. The strip measures itself: frames stay about 3px and the lettering stays readable at any width. orientation=\"horizontal\" puts the four in a row; \"auto\" stacks them, then lines them up once the strip is 40rem wide. Any aspect ratio per panel.",
       "categories": [
         "manga"
       ],
@@ -6160,10 +6160,10 @@
           "target": "@components/manga/yonkoma.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/yonkoma\". Each child fills its panel (an absolute, overflow-hidden box): position your art and bubbles inside it. Pass labels so each panel has a spoken description.",
+      "docs": "Import from \"@/components/manga/yonkoma\". Each child fills its panel: position your art inside it, or pass a fragment whose Place elements (from \"@/components/manga/panel\") put bubbles, captions and sound effects on the panel. Pass labels so each panel has a spoken description.",
       "meta": {
         "tagline": "Four panels, top to bottom, to tell it in four beats.",
-        "usage": "import { Yonkoma } from \"@/components/manga/yonkoma\"\n\n<Yonkoma title=\"How it works\" labels={[\"Install\", \"Import\", \"Style\", \"Ship\"]}>\n  <StepOne />\n  <StepTwo />\n  <StepThree />\n  <StepFour />\n</Yonkoma>",
+        "usage": "import { Place } from \"@/components/manga/panel\"\nimport { SpeechBubble } from \"@/components/manga/speech-bubble\"\nimport { Yonkoma } from \"@/components/manga/yonkoma\"\n\n<Yonkoma title=\"How it works\" labels={[\"Install\", \"Import\", \"Style\", \"Ship\"]}>\n  <StepOne />\n  <StepTwo />\n  <StepThree />\n  <>\n    <StepFour />\n    <Place x={70} y={10}>\n      <SpeechBubble pointAt={{ x: \"50%\", y: \"70%\" }}>Shipped!</SpeechBubble>\n    </Place>\n  </>\n</Yonkoma>",
         "props": [
           {
             "name": "children",
@@ -6194,9 +6194,9 @@
           },
           {
             "name": "aspect",
-            "type": "string",
+            "type": "number | string",
             "default": "\"4 / 3\"",
-            "description": "Aspect ratio of each panel."
+            "description": "Width / height of each panel, as a number or a CSS ratio."
           }
         ]
       }
@@ -7399,7 +7399,7 @@
       "name": "story-landing",
       "type": "registry:block",
       "title": "Story landing",
-      "description": "A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around drawn art) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip that explains the product in four beats (a column on phones, four in a row from 40rem), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a \"Meanwhile…\" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.",
+      "description": "A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around drawn art) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip on the page model that explains the product in four beats (a column on phones, four in a row from 40rem; captions and an Sfx put on the panels with Place), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a \"Meanwhile…\" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.",
       "categories": [
         "blocks"
       ],
@@ -7407,6 +7407,7 @@
         "Romcharted/mangacn/magazine-cover",
         "Romcharted/mangacn/chapter-title",
         "Romcharted/mangacn/yonkoma",
+        "Romcharted/mangacn/panel",
         "Romcharted/mangacn/dialogue-box",
         "Romcharted/mangacn/scene-transition",
         "Romcharted/mangacn/speech-bubble",

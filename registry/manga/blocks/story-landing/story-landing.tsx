@@ -5,7 +5,8 @@
  * magazine cover, lists its chapters like the contents page of a volume, explains the product in a
  * four-panel strip, lets a guide talk the reader through it in a dialogue box, and titles every section as a
  * chapter. Jumping to a chapter plays a stepped scene transition (instant with reduced motion), then moves
- * focus to the chapter's heading. Nothing is posted; links never navigate.
+ * focus to the chapter's heading. The strip is a Yonkoma on the page model: captions and the sound effect
+ * are `Place`d on its panels, sized with the page. Nothing is posted; links never navigate.
  * One column on phones; container queries (`@container/story`) widen it.
  */
 import * as React from "react"
@@ -15,6 +16,7 @@ import { Button } from "@/components/ui/manga/button"
 import { ChapterTitle } from "@/components/manga/chapter-title"
 import { DialogueBox, type DialogueLine } from "@/components/manga/dialogue-box"
 import { MagazineCover } from "@/components/manga/magazine-cover"
+import { PanelCaption, Place } from "@/components/manga/panel"
 import { useSceneTransition } from "@/components/manga/scene-transition"
 import { Sfx } from "@/components/manga/sfx"
 import { SpeechBubble } from "@/components/manga/speech-bubble"
@@ -236,12 +238,20 @@ export function StoryLanding({ className }: { className?: string }) {
           <ChapterTitle titleId={`${uid}-how`} number="01" title="How it works" vertical="仕組み" subtitle="Four panels, one week, no lectures." className="border-ink-panel" />
           <Yonkoma orientation="auto" labels={STRIP_LABELS} className="mx-auto">
             {STRIP_CAPTIONS.map((caption, i) => (
-              <div key={caption}>
+              // a fragment: its Place elements sit on the page and may cross the frame
+              <React.Fragment key={caption}>
                 <Beat step={(i + 1) as 1 | 2 | 3 | 4} />
-                <span aria-hidden className="absolute end-2 top-2 max-w-[70%] border-[length:var(--mg-bw)] border-border bg-background px-2 py-1 font-letter text-sm leading-tight uppercase">
-                  {caption}
-                </span>
-              </div>
+                <Place x={96} y={6} anchor="top-right" maxWidth={70}>
+                  <PanelCaption aria-hidden position="free">
+                    {caption}
+                  </PanelCaption>
+                </Place>
+                {i === 3 && (
+                  <Place x={14} y={58} rotate={-10}>
+                    <Sfx size="sm">ドン</Sfx>
+                  </Place>
+                )}
+              </React.Fragment>
             ))}
           </Yonkoma>
         </section>

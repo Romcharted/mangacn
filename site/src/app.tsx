@@ -14,6 +14,7 @@ import { CATEGORIES, GITHUB_URL, categories, categoryOf, filterItems, installCom
 const Grammar = lazy(() => import("./grammar").then((m) => ({ default: m.Grammar })))
 const Examples = lazy(() => import("./examples").then((m) => ({ default: m.Examples })))
 const Legal = lazy(() => import("./legal").then((m) => ({ default: m.Legal })))
+const Studio = lazy(() => import("./studio/studio").then((m) => ({ default: m.Studio })))
 
 /** A still placeholder while a chunk loads: a fine frame, no spinner, no layout jump for small parts. */
 export function Loading({ className = "min-h-64" }: { className?: string }) {
@@ -75,6 +76,10 @@ export function App() {
         ) : hash === "legal" ? (
           <Lazy>
             <Legal />
+          </Lazy>
+        ) : hash === "studio" ? (
+          <Lazy>
+            <Studio />
           </Lazy>
         ) : hash === "examples" ? (
           <Lazy>

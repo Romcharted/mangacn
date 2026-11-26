@@ -140,8 +140,11 @@ ${n
           The page as data
         </h3>
         <p className="max-w-prose text-sm">
-          The same page can be given as JSON with <code>{"<Page page={data} />"}</code>. The page studio edits this format and
-          readers use its geometry to zoom panel by panel.
+          The same page can be given as JSON with <code>{"<Page page={data} />"}</code>. The{" "}
+          <a href="#studio" className="underline">
+            page studio
+          </a>{" "}
+          edits this format and readers use its geometry to zoom panel by panel.
         </p>
         <Code text={PAGE_FORMAT_DOC} />
       </section>
