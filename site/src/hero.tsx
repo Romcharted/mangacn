@@ -28,14 +28,19 @@ export function Hero() {
       aria-label="Sample manga page"
     >
       <div className="relative col-span-4 col-start-1 row-span-4 row-start-1 overflow-hidden border-ink-panel reading-rtl:col-start-3">
-        <div className="relative h-full min-h-40">
+        <div className="@container relative h-full min-h-40">
           <Art
             name="suzu-portrait"
             shown="(min-width: 64rem) 30rem, 60vw"
             loading="eager"
             className="absolute inset-0 size-full object-cover object-[50%_28%]"
           />
-          <SpeechBubble className="absolute end-2 top-2 text-base reading-rtl:start-2 reading-rtl:end-auto" tail="bottom" tailAlign="start">
+          {/* on the speed lines of the top corner, clear of the face: sized with the panel (container units) */}
+          <SpeechBubble
+            className="absolute end-[3%] top-[4%] max-w-[34%]! px-[max(0.4rem,3cqi)]! py-[max(0.25rem,2cqi)]! text-[max(0.7rem,5cqi)]! leading-none! reading-rtl:start-[3%] reading-rtl:end-auto"
+            tail="bottom"
+            tailAlign="start"
+          >
             Ready?
           </SpeechBubble>
         </div>
