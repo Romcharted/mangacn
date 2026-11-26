@@ -2,7 +2,7 @@
   "name": "sfx",
   "type": "registry:component",
   "title": "Sfx",
-  "description": "Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken.",
+  "description": "Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken. On a Page the four sizes follow the page width instead of the screen.",
   "categories": [
     "manga"
   ],
