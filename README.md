@@ -64,7 +64,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 
 <!-- items:start -->
 
-127 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+128 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
 
 ### Foundations
 
@@ -74,6 +74,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Font: Atkinson Hyperlegible Next | `font-body` | The reading face for text and fields. |
 | Font: Patrick Hand SC | `font-lettering` | Hand lettering for titles, buttons and badges. |
 | Font: Dela Gothic One | `font-sfx` | A heavy face for sound effects, katakana included. |
+| Font: Zen Kaku Gothic New | `font-japanese` | A Japanese reading face for furigana and vertical text. |
 | Gestures | `gestures` | Impact and flash primitives shared by every component. |
 | Typography | `typography` | Headings in lettering, body in the reading face, narration in a case. |
 | Direction | `direction` | Left to right or right to left, for the whole subtree. |

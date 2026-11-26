@@ -1,6 +1,6 @@
 # mangacn
 
-> 127 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
+> 128 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -42,6 +42,13 @@ Hand-lettering face for titles, buttons and badges (SIL OFL). Sets --font-manga-
 Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --font-manga-sfx. Installed by base.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/font-sfx`
+- Categories: foundations
+
+### Font: Zen Kaku Gothic New (`font-japanese`)
+
+Japanese reading face (kana and kanji, SIL OFL) for furigana, vertical text and original-language bubbles. Sets --font-manga-jp, which base adds as the Japanese fallback of every text face. Optional: not installed by base; without it the system's Japanese font is used.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/font-japanese`
 - Categories: foundations
 
 ### Gestures (`gestures`)

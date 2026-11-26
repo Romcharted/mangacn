@@ -19,9 +19,9 @@
       },
       "cssVars": {
         "theme": {
-          "font-sans": "var(--font-manga-body, \"Atkinson Hyperlegible Next Variable\", \"Atkinson Hyperlegible Next\", ui-sans-serif, system-ui, sans-serif)",
-          "font-heading": "var(--font-manga-letter, \"Patrick Hand SC\", \"Comic Sans MS\", cursive)",
-          "font-letter": "var(--font-manga-letter, \"Patrick Hand SC\", \"Comic Sans MS\", cursive)",
+          "font-sans": "var(--font-manga-body, \"Atkinson Hyperlegible Next Variable\", \"Atkinson Hyperlegible Next\", ui-sans-serif, system-ui), var(--font-manga-jp, \"Zen Kaku Gothic New\"), \"Hiragino Sans\", \"Yu Gothic\", \"Noto Sans CJK JP\", sans-serif",
+          "font-heading": "var(--font-manga-letter, \"Patrick Hand SC\", \"Comic Sans MS\"), var(--font-manga-jp, \"Zen Kaku Gothic New\"), \"Hiragino Sans\", \"Yu Gothic\", \"Noto Sans CJK JP\", cursive",
+          "font-letter": "var(--font-manga-letter, \"Patrick Hand SC\", \"Comic Sans MS\"), var(--font-manga-jp, \"Zen Kaku Gothic New\"), \"Hiragino Sans\", \"Yu Gothic\", \"Noto Sans CJK JP\", cursive",
           "font-sfx": "var(--font-manga-sfx, \"Dela Gothic One\", Impact, sans-serif)",
           "color-paper": "var(--paper)",
           "color-ink": "var(--ink)",
@@ -51,7 +51,9 @@
           "animate-chevron": "mg-chevron 166ms step-end backwards",
           "animate-drop-in": "mg-drop-in 249ms step-end backwards",
           "animate-sheet-in": "mg-sheet-in 249ms step-end backwards",
-          "animate-dots": "mg-dots 833ms step-end infinite"
+          "animate-dots": "mg-dots 833ms step-end infinite",
+          "animate-wipe": "mg-wipe 333ms step-end both",
+          "animate-wipe-out": "mg-wipe-out 333ms step-end both"
         },
         "light": {
           "paper": "oklch(0.975 0.008 85)",
@@ -273,7 +275,7 @@
             "outline-color": "var(--ring)"
           },
           "body": {
-            "font-family": "var(--font-manga-body, \"Atkinson Hyperlegible Next Variable\", \"Atkinson Hyperlegible Next\", ui-sans-serif, system-ui, sans-serif)"
+            "font-family": "var(--font-manga-body, \"Atkinson Hyperlegible Next Variable\", \"Atkinson Hyperlegible Next\", ui-sans-serif, system-ui), var(--font-manga-jp, \"Zen Kaku Gothic New\"), \"Hiragino Sans\", \"Yu Gothic\", \"Noto Sans CJK JP\", sans-serif"
           },
           ".bg-muted": {
             "--_ms": "8px",
@@ -591,6 +593,45 @@
           "100%": {
             "translate": "0 0"
           }
+        },
+        "@keyframes mg-wipe": {
+          "0%": {
+            "clip-path": "inset(0 100% 0 0)"
+          },
+          "25%": {
+            "clip-path": "inset(0 75% 0 0)"
+          },
+          "50%": {
+            "clip-path": "inset(0 50% 0 0)"
+          },
+          "75%": {
+            "clip-path": "inset(0 25% 0 0)"
+          },
+          "100%": {
+            "clip-path": "inset(0 0 0 0)"
+          }
+        },
+        "@keyframes mg-wipe-out": {
+          "0%": {
+            "clip-path": "inset(0 0 0 0)"
+          },
+          "25%": {
+            "clip-path": "inset(0 0 0 25%)"
+          },
+          "50%": {
+            "clip-path": "inset(0 0 0 50%)"
+          },
+          "75%": {
+            "clip-path": "inset(0 0 0 75%)"
+          },
+          "100%": {
+            "clip-path": "inset(0 0 0 100%)"
+          }
+        },
+        "@property --pu": {
+          "syntax": "\"<length>\"",
+          "inherits": "true",
+          "initial-value": "0px"
         },
         "@keyframes mg-hit": {
           "0%": {
@@ -1149,6 +1190,32 @@
       },
       "meta": {
         "tagline": "A heavy face for sound effects, katakana included."
+      }
+    },
+    {
+      "name": "font-japanese",
+      "type": "registry:font",
+      "title": "Font: Zen Kaku Gothic New",
+      "description": "Japanese reading face (kana and kanji, SIL OFL) for furigana, vertical text and original-language bubbles. Sets --font-manga-jp, which base adds as the Japanese fallback of every text face. Optional: not installed by base; without it the system's Japanese font is used.",
+      "categories": [
+        "foundations"
+      ],
+      "font": {
+        "family": "'Zen Kaku Gothic New', sans-serif",
+        "provider": "google",
+        "import": "Zen_Kaku_Gothic_New",
+        "variable": "--font-manga-jp",
+        "weight": [
+          "400",
+          "700"
+        ],
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource/zen-kaku-gothic-new"
+      },
+      "meta": {
+        "tagline": "A Japanese reading face for furigana and vertical text."
       }
     },
     {
