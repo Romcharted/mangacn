@@ -93,10 +93,21 @@ Le commit `2b44bb4` corrige le compte rendu principal : il y a 128 items dans le
   - à 1280 px, les deux bulles des géants sont décalées pour ne plus toucher la tirade.
 - **Vérification** : aucun chevauchement dans les cases 3 et 7, à 375 et 1280 px, en clair et en sombre. Captures regardées.
 
+## Dernière passe
+
+- **Little Nemo retiré** : l'exemple « Manga page » ne garde que Lunch break et Last train. Les scans, les crédits et les données sont supprimés. Les champs `foldRatio` et `fold` du modèle de page restent ; ils sont facultatifs et génériques.
+- **Lunch break réparé** :
+  - case 3 : le téléphone était dessiné derrière les cheveux de Rin, et « Yes? Now?! » ne voulait rien dire. Il est maintenant dans sa main, contre l'oreille, et la bulle le vise ;
+  - case 2 : la pensée ne couvre plus sa tête ;
+  - case 5 : le cri « My lunch?! » passe au-dessus d'elle ;
+  - dernière case : Rin, plus grande et plus au centre, reste dans le cadre sur téléphone.
+
+  Captures regardées à 375 et 1280 px, en clair et en sombre.
+- **Logo Google** : le « G » fourni est utilisé seul, sans plaque ni liseré, en clair comme en sombre (`site/public/brands/google-g.png`). Les deux anciennes images de bouton officielles sont supprimées. Choix du propriétaire du projet, noté dans `site/public/brands/README.md` : Google demande normalement le « G » sur fond blanc.
+
 ## Restes repérés, non traités (hors de la demande)
 
-- **Little Nemo, case 7, à 375 px** : quelques lettres du lettrage d'origine du scan restent visibles au bord gauche, à côté de la tirade.
-- **Little Nemo, case 3** : un petit reste du lettrage d'origine du scan (« TA-TA ») dépasse sous la bulle « Success to you! ».
+- **Last train** : jugée peu « manga ». On la garde pour l'instant.
 - **Studio** : le panneau de réglages remonte avec la fin de la page une fois qu'on a dépassé le bas de la planche. Il reste visible pendant tout le temps où la planche est à l'écran.
 
 ## Avant la mise en ligne (inchangé)
