@@ -30,10 +30,10 @@ export function LunchBreak({ reading }: { reading?: "ltr" | "rtl" }) {
       <Tier slant={-4}>
         <Panel slant={5} label="Rin, eyes closed, lifts the rice ball.">
           <Scene>
-            <RinBust at={{ x: 66, y: 46, s: 0.42 }} face="closed" arms="hold" />
+            <RinBust at={{ x: 48, y: 48, s: 0.42 }} face="closed" arms="hold" />
           </Scene>
-          <Place x="96%" y="8%" anchor="top-right" maxWidth="46%">
-            <SpeechBubble variant="thought" pointAt={{ x: "62%", y: "36%" }}>
+          <Place x="97%" y="6%" anchor="top-right" maxWidth="44%">
+            <SpeechBubble variant="thought" pointAt={{ x: "46%", y: "30%" }}>
               Just you and me, little rice ball.
             </SpeechBubble>
           </Place>
@@ -51,7 +51,7 @@ export function LunchBreak({ reading }: { reading?: "ltr" | "rtl" }) {
             </Sfx>
           </Place>
           <Place x="40%" y="40%" anchor="top-right" maxWidth="40%">
-            <SpeechBubble variant="speech" pointAt={{ x: "80%", y: "30%" }}>
+            <SpeechBubble variant="speech" pointAt={{ x: "60%", y: "40%" }}>
               Yes? Now?!
             </SpeechBubble>
           </Place>
@@ -72,10 +72,10 @@ export function LunchBreak({ reading }: { reading?: "ltr" | "rtl" }) {
         <Panel width={1.1} shape="jagged" label="Rin turns back. The rice ball is gone. She screams.">
           <SpeedLines hole={0.4} className="absolute inset-0" />
           <Scene>
-            <RinHead at={{ x: 71, y: 56, s: 0.5 }} face="shock" />
+            <RinHead at={{ x: 71, y: 64, s: 0.46 }} face="shock" />
           </Scene>
-          <Place x="50%" y="6%" anchor="top" maxWidth="70%">
-            <SpeechBubble variant="shout" pointAt={{ x: "56%", y: "56%" }}>
+          <Place x="50%" y="3%" anchor="top" maxWidth="70%">
+            <SpeechBubble variant="shout" pointAt={{ x: "50%", y: "44%" }}>
               My lunch?!
             </SpeechBubble>
           </Place>
@@ -86,15 +86,15 @@ export function LunchBreak({ reading }: { reading?: "ltr" | "rtl" }) {
           <Scene w={260} h={100}>
             <Wall y={56} />
             <Mochi at={{ x: 122, y: 34, s: 0.34 }} chew />
-            <RinBust at={{ x: 52, y: 84, s: 0.15 }} face="angry" arms="fist" />
+            <RinBust at={{ x: 82, y: 78, s: 0.19 }} face="angry" arms="fist" />
           </Scene>
           <Place x="80%" y="80%" anchor="center">
             <Sfx size="md" rotate={-8} variant="outline">
               NOM NOM
             </Sfx>
           </Place>
-          <Place x="6%" y="10%" anchor="top-left" maxWidth="40%">
-            <SpeechBubble variant="shout" pointAt={{ x: "21%", y: "70%" }}>
+          <Place x="4%" y="8%" anchor="top-left" maxWidth="40%">
+            <SpeechBubble variant="shout" pointAt={{ x: "31%", y: "62%" }}>
               Mochi!!
             </SpeechBubble>
           </Place>

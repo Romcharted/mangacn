@@ -140,16 +140,21 @@ export function RinBust({ at, face = "open", arms = "down" }: { at: At; face?: R
           <path d="M62 40 h14 M62 46 h14" strokeWidth={2} />
         </g>
       )}
-      {arms === "phone" && (
-        <g>
-          <path d="M46 140 Q70 100 52 40" strokeWidth={14} stroke={INK} />
-          <path d="M46 140 Q70 100 52 40" strokeWidth={8} stroke={PAPER} />
-          <rect x={40} y={10} width={18} height={32} rx={3} fill={INK} transform="rotate(14 49 26)" />
-        </g>
-      )}
       <g transform="translate(0 0)">
         <RinHead at={{ x: 0, y: 0, s: 1 }} face={face} />
       </g>
+      {/* drawn over the head: the hand holds the phone against the ear, in front of the bob */}
+      {arms === "phone" && (
+        <g>
+          <path d="M48 150 Q84 96 66 20" strokeWidth={16} stroke={INK} />
+          <path d="M48 150 Q84 96 66 20" strokeWidth={10} stroke={PAPER} />
+          <g transform="rotate(12 66 0)">
+            <rect x={54} y={-30} width={24} height={44} rx={4} fill={PAPER} />
+            <rect x={58} y={-24} width={16} height={28} rx={1.5} fill={INK} stroke="none" />
+          </g>
+          <circle cx={64} cy={20} r={10} fill={PAPER} />
+        </g>
+      )}
     </g>
   )
 }
