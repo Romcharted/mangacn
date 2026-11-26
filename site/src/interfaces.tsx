@@ -52,6 +52,7 @@ const CATALOG: { slug: string; title: string; summary: string; screens?: string[
     screens: ["sign-in", "sign-up", "forgot-password", "verify-code", "reset-password"],
   },
   { slug: "manga-reader", title: "Manga reader", summary: "A vertical strip, chapters in a sheet, progress and reading order." },
+  { slug: "author-site", title: "Author site", summary: "A manga author's site: catalog, series page, then the chapter read page by page or panel by panel." },
   { slug: "catalog", title: "Catalog", summary: "Volume cards, filters, tabs and search." },
   { slug: "portfolio", title: "Developer portfolio", summary: "Intro, projects in panels, skills as a character sheet, contact." },
 ]
