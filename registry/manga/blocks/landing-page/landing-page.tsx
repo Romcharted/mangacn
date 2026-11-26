@@ -127,8 +127,8 @@ export function LandingPage({
   className?: string
   /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
   titleAs?: "h1" | "h2"
-  /** The cover shown in the opening panel (an image URL). The block ships none: without it, a screentone cover. */
-  cover?: string
+  /** The cover shown in the opening panel: an image URL or any node. The block ships none: without it, a screentone cover. */
+  cover?: React.ReactNode
 }) {
   const [rootRef, wide] = useWide<HTMLDivElement>()
   const uid = React.useId()
@@ -268,8 +268,10 @@ export function LandingPage({
             <Panel cut={wide ? { side: "start", size: 48 } : undefined} className="min-h-64">
               <SpeedLines variant="focus" originX={50} originY={55} hole={0.62} density={0.55} className="absolute inset-0" />
               <div className={cn("relative grid h-full place-items-center p-6", wide && "ps-14")}>
-                {cover ? (
+                {typeof cover === "string" ? (
                   <img src={cover} alt="" className="aspect-[2/3] w-full max-w-48 border-ink object-cover" />
+                  ) : cover ? (
+                  <span className="block aspect-[2/3] w-full max-w-48 overflow-hidden border-ink">{cover}</span>
                 ) : (
                   <span aria-hidden className="block aspect-[2/3] w-full max-w-48 border-ink bg-background tone-35" />
                 )}

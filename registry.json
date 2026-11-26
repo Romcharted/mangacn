@@ -6974,8 +6974,8 @@
         "props": [
           {
             "name": "cover",
-            "type": "string",
-            "description": "Image URL of the cover in the opening panel. Without it, a screentone cover."
+            "type": "ReactNode",
+            "description": "Image URL or node of the cover in the opening panel. Without it, a screentone cover."
           },
           {
             "name": "className",
@@ -7081,8 +7081,8 @@
         "props": [
           {
             "name": "art",
-            "type": "{ cover?: string; pages?: ReaderStripPage[] }",
-            "description": "The volume cover and the chapter pages (image URLs)."
+            "type": "{ cover?: ReactNode; pages?: ReaderStripPage[] }",
+            "description": "The volume cover (image URL or node) and the chapter pages (image URLs)."
           },
           {
             "name": "className",
@@ -7142,8 +7142,8 @@
         "props": [
           {
             "name": "art",
-            "type": "{ covers?: Record<number, string>; scenes?: Partial<Record<AuthorSiteScene, string>> }",
-            "description": "Volume covers by number and the pictures of the chapter panels (image URLs)."
+            "type": "{ covers?: Record<number, ReactNode>; scenes?: Partial<Record<AuthorSiteScene, string>> }",
+            "description": "Volume covers by number (image URLs or nodes) and the pictures of the chapter panels (image URLs)."
           },
           {
             "name": "className",
@@ -7252,8 +7252,8 @@
         "props": [
           {
             "name": "covers",
-            "type": "Partial<Record<CatalogCover, string>>",
-            "description": "Cover image URLs by book. Without one, a screentone cover."
+            "type": "Partial<Record<CatalogCover, ReactNode>>",
+            "description": "Covers by book (image URLs or nodes). Without one, a screentone cover."
           },
           {
             "name": "className",

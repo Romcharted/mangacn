@@ -1,11 +1,11 @@
 import { ObiBand } from "@registry/manga/signature/obi-band"
 import { Tile } from "../state-grid"
-import { Art } from "../mapless"
+import { VolumeCover } from "../mapless"
 
 // Covers of "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md).
-const Dusk = () => <Art name="cover-1" alt="" shown="12rem" className="size-full object-cover" />
-const Stripes = () => <Art name="cover-3-teaser" alt="" shown="12rem" className="size-full object-cover" />
-const Tower = () => <Art name="cover-2" alt="" shown="12rem" className="size-full object-cover" />
+const Dusk = () => <VolumeCover volume={1} />
+const Stripes = () => <VolumeCover volume={3} />
+const Tower = () => <VolumeCover volume={2} />
 
 export function Preview() {
   return (

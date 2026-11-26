@@ -37,8 +37,8 @@
     "props": [
       {
         "name": "art",
-        "type": "{ cover?: string; pages?: ReaderStripPage[] }",
-        "description": "The volume cover and the chapter pages (image URLs)."
+        "type": "{ cover?: ReactNode; pages?: ReaderStripPage[] }",
+        "description": "The volume cover (image URL or node) and the chapter pages (image URLs)."
       },
       {
         "name": "className",

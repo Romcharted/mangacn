@@ -147,8 +147,8 @@ export function Catalog({
   covers,
 }: {
   className?: string
-  /** Cover image URLs, by book. Without one, a card shows a screentone cover. */
-  covers?: Partial<Record<CatalogCover, string>>
+  /** Covers by book: an image URL or any node. Without one, a card shows a screentone cover. */
+  covers?: Partial<Record<CatalogCover, React.ReactNode>>
   /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
   titleAs?: "h1" | "h2"
 }) {

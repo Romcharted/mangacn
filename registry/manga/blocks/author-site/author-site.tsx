@@ -36,8 +36,8 @@ import { VolumeCard } from "@/components/manga/volume-card"
 export type AuthorSiteScene = "opening" | "rival" | "hero" | "detail" | "clash" | "pet" | "night" | "ending"
 
 export type AuthorSiteArt = {
-  /** Volume covers by volume number (1, 2, …); the volume after the last one out may have a teaser. */
-  covers?: Record<number, string>
+  /** Volume covers by volume number (1, 2, …), image URLs or any node; the volume after the last one out may have a teaser. */
+  covers?: Record<number, React.ReactNode>
   /** One picture per kind of panel; the chapters reuse them. */
   scenes?: Partial<Record<AuthorSiteScene, string>>
 }

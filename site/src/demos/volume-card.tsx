@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { VolumeCard, type VolumeStatus } from "@registry/manga/signature/volume-card"
 import { Tile, force } from "../state-grid"
-import { artSrc, type ArtName } from "../mapless"
+import { VolumeCover, artSrc, type ArtName } from "../mapless"
 
 // "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md): the volumes, then extras.
 const VOLUMES: { id: string; volume: number; title: string; author: string; cover: ArtName; status: VolumeStatus; read: number; total: number }[] = [
@@ -13,7 +13,9 @@ const VOLUMES: { id: string; volume: number; title: string; author: string; cove
   { id: "s3", volume: 1, title: "Mapless Sketchbook", author: "Studio Mapless", cover: "eraser-full", status: "completed", read: 4, total: 4 },
 ]
 
-const cover = (name: ArtName) => artSrc(name, 160)
+/** A volume of the series gets its cover with the title lettered on it; an extra shows its picture. */
+const cover = (name: ArtName) =>
+  name === "cover-1" ? <VolumeCover volume={1} /> : name === "cover-2" ? <VolumeCover volume={2} /> : name === "cover-3-teaser" ? <VolumeCover volume={3} /> : artSrc(name, 160)
 
 export function Preview() {
   const [picked, setPicked] = useState<string | null>(null)

@@ -2,13 +2,13 @@ import { useState } from "react"
 import { Shelf, type ShelfVolume } from "@registry/manga/signature/shelf"
 import { Tile } from "../state-grid"
 import { ForceInside } from "../force-inside"
-import { coverUrl } from "./reader-art"
+import { VolumeCover } from "../mapless"
 
 // "Mapless", the showcase's series: volumes 1 and 2 out, volume 3 coming (its cover is a crop).
 const VOLUMES: ShelfVolume[] = [
-  { id: "m-1", title: "Mapless", volume: 1, author: "Studio Mapless", cover: coverUrl(1), status: "completed", read: 8, total: 8, thickness: 2, spine: "band" },
-  { id: "m-2", title: "Mapless", volume: 2, author: "Studio Mapless", cover: coverUrl(2), status: "ongoing", read: 3, total: 8, thickness: 3, spine: "tone" },
-  { id: "m-3", title: "Mapless", volume: 3, author: "Studio Mapless", cover: coverUrl(3), status: "new", read: 0, total: 8, thickness: 1, spine: "plain" },
+  { id: "m-1", title: "Mapless", volume: 1, author: "Studio Mapless", cover: <VolumeCover volume={1} />, status: "completed", read: 8, total: 8, thickness: 2, spine: "band" },
+  { id: "m-2", title: "Mapless", volume: 2, author: "Studio Mapless", cover: <VolumeCover volume={2} />, status: "ongoing", read: 3, total: 8, thickness: 3, spine: "tone" },
+  { id: "m-3", title: "Mapless", volume: 3, author: "Studio Mapless", cover: <VolumeCover volume={3} />, status: "new", read: 0, total: 8, thickness: 1, spine: "plain" },
 ]
 
 export function Preview() {

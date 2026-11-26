@@ -1,14 +1,16 @@
 /*
  * The pictures the showcase passes to the blocks: "Mapless", its demo series (AI-generated, see
- * public/art/CREDITS.md). The blocks ship no image; each takes its pictures as props.
+ * public/art/CREDITS.md). The blocks ship no image; each takes its pictures as props. Volume covers get the
+ * series title lettered over their sky (VolumeCover).
  */
+import type { ReactNode } from "react"
 import type { AuthPictures } from "@registry/manga/blocks/sign-in/sign-in"
 import type { AuthorSiteArt } from "@registry/manga/blocks/author-site/author-site"
 import type { CatalogCover } from "@registry/manga/blocks/catalog/catalog"
 import type { MangaReaderArt } from "@registry/manga/blocks/manga-reader/manga-reader"
 import type { PortfolioArt } from "@registry/manga/blocks/portfolio/portfolio"
 import type { StoryLandingArt } from "@registry/manga/blocks/story-landing/story-landing"
-import { artPage, artSrc, type ArtName } from "./mapless"
+import { VolumeCover, artPage, artSrc, type ArtName } from "./mapless"
 
 const panel = (name: ArtName) => artSrc(name, 360)
 
@@ -20,17 +22,17 @@ export const AUTH_PICTURES: Record<"sign-in" | "sign-up" | "forgot-password" | "
   "reset-password": { idle: panel("map"), error: panel("suzu-shock"), done: panel("suzu-face") },
 }
 
-const CATALOG_COVERS: Record<CatalogCover, string> = {
-  "mapless-1": artSrc("cover-1", 160),
-  "mapless-2": artSrc("cover-2", 160),
-  "mapless-3": artSrc("cover-3-teaser", 160),
+const CATALOG_COVERS: Record<CatalogCover, ReactNode> = {
+  "mapless-1": <VolumeCover volume={1} />,
+  "mapless-2": <VolumeCover volume={2} />,
+  "mapless-3": <VolumeCover volume={3} />,
   "side-stories-1": artSrc("suzu-drawing", 160),
   "kuro-notebook-1": artSrc("kuro-sleeping", 160),
   "sketchbook-1": artSrc("eraser-full", 160),
 }
 
 const AUTHOR_ART: AuthorSiteArt = {
-  covers: { 1: artSrc("cover-1", 160), 2: artSrc("cover-2", 160), 3: artSrc("cover-3-teaser", 160) },
+  covers: { 1: <VolumeCover volume={1} />, 2: <VolumeCover volume={2} />, 3: <VolumeCover volume={3} /> },
   scenes: {
     opening: panel("bridge-far"),
     rival: panel("eraser-panel"),
@@ -44,7 +46,7 @@ const AUTHOR_ART: AuthorSiteArt = {
 }
 
 const READER_ART: MangaReaderArt = {
-  cover: artSrc("cover-2", 120),
+  cover: <VolumeCover volume={2} />,
   pages: (["bridge-far", "eraser-panel", "suzu-shock", "spear-clash", "ink-drop", "lighthouse-night", "suzu-drawing", "kuro-sleeping", "map", "suzu-profile", "cover-3-teaser"] as const).map(
     (name) => artPage(name),
   ),
@@ -70,6 +72,6 @@ export const BLOCK_PROPS: Record<string, Record<string, unknown>> = {
   "author-site": { art: AUTHOR_ART },
   "manga-reader": { art: READER_ART },
   "story-landing": { art: STORY_ART },
-  "landing-page": { cover: artSrc("cover-1", 200) },
+  "landing-page": { cover: <VolumeCover volume={1} /> },
   portfolio: { art: PORTFOLIO_ART },
 }

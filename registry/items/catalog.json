@@ -37,8 +37,8 @@
     "props": [
       {
         "name": "covers",
-        "type": "Partial<Record<CatalogCover, string>>",
-        "description": "Cover image URLs by book. Without one, a screentone cover."
+        "type": "Partial<Record<CatalogCover, ReactNode>>",
+        "description": "Covers by book (image URLs or nodes). Without one, a screentone cover."
       },
       {
         "name": "className",

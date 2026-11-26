@@ -42,8 +42,8 @@
     "props": [
       {
         "name": "art",
-        "type": "{ covers?: Record<number, string>; scenes?: Partial<Record<AuthorSiteScene, string>> }",
-        "description": "Volume covers by number and the pictures of the chapter panels (image URLs)."
+        "type": "{ covers?: Record<number, ReactNode>; scenes?: Partial<Record<AuthorSiteScene, string>> }",
+        "description": "Volume covers by number (image URLs or nodes) and the pictures of the chapter panels (image URLs)."
       },
       {
         "name": "className",

@@ -39,8 +39,8 @@
     "props": [
       {
         "name": "cover",
-        "type": "string",
-        "description": "Image URL of the cover in the opening panel. Without it, a screentone cover."
+        "type": "ReactNode",
+        "description": "Image URL or node of the cover in the opening panel. Without it, a screentone cover."
       },
       {
         "name": "className",

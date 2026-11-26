@@ -36,8 +36,8 @@ import { cn } from "cn"
 /* ---------- Pictures: passed in `art`, none ships with the block ---------- */
 
 export type MangaReaderArt = {
-  /** The cover of the current volume. Without it, a screentone cover. */
-  cover?: string
+  /** The cover of the current volume: an image URL or any node. Without it, a screentone cover. */
+  cover?: React.ReactNode
   /** The pages of a chapter, top to bottom (the demo shows the same pages for every chapter). */
   pages?: ReaderStripPage[]
 }

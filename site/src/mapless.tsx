@@ -85,3 +85,32 @@ export function Art({ name, shown = "50vw", alt, loading = "lazy", ...props }: A
     />
   )
 }
+
+/** Where the title sits on each cover: in its sky, clear of the figures and below a card's "Vol." badge. */
+const COVER_TITLE = {
+  1: { name: "cover-1", place: "inset-x-0 top-[max(12%,2.1rem)] text-center text-[14cqi]", night: false },
+  2: { name: "cover-2", place: "inset-x-0 top-[max(12%,2.1rem)] text-center text-[14cqi]", night: false },
+  3: { name: "cover-3-teaser", place: "end-[4%] top-[3%] text-end text-[11cqi]", night: true },
+} as const
+
+/**
+ * A volume's cover: the picture, untouched, and the series title lettered over its sky in the kit's lettering, as
+ * real text (it can be read and translated). The cover is printed matter: ink and paper keep their colours in
+ * both themes; the night cover takes paper letters with an ink knockout.
+ */
+export function VolumeCover({ volume, title = SERIES }: { volume: 1 | 2 | 3; title?: string }) {
+  const { name, place, night } = COVER_TITLE[volume]
+  return (
+    <span className="@container relative block size-full overflow-hidden">
+      <Art name={name} alt="" shown="12rem" className="absolute inset-0 size-full object-cover" />
+      <span
+        aria-hidden
+        className={`absolute ${place} font-letter leading-none tracking-wider uppercase knockout ${
+          night ? "text-[#f8f5ee] [--tone-paper:#1f1b17]" : "text-[#1f1b17] [--tone-paper:#f8f5ee]"
+        }`}
+      >
+        {title}
+      </span>
+    </span>
+  )
+}
