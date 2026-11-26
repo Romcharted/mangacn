@@ -1,0 +1,68 @@
+{
+  "name": "spoiler",
+  "type": "registry:component",
+  "title": "Spoiler",
+  "description": "Content hidden by a screentone, revealed on click. Block: the children stay in the layout but are inert and aria-hidden under a tone cover with a paper plate that names what is hidden (\"Chapter 12 ending\") and says \"Tap to reveal\"; the plate gets a tone shadow on hover, the cover has the ink focus ring and a pressed offset, and the content pops in on reveal with a Hide button to cover it again. Inline: a few words become an ink flat with transparent text, a paper inner line on hover, and the revealed words get a 2px underline. Controlled (revealed, onRevealedChange) or uncontrolled (defaultRevealed).",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/button"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/spoiler.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/spoiler.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/spoiler\". The block variant hides an image or a paragraph under a screentone cover; the inline variant hides a few words inside a sentence. The reveal button is the cover itself (block) or the ink bar (inline), so it is always at least 44 px tall on phones. Use triggerProps only to pass data-* attributes (showcase states).",
+  "meta": {
+    "tagline": "Hidden under a screentone until the reader taps.",
+    "usage": "import { Spoiler } from \"@/components/manga/spoiler\"\n\n<Spoiler label=\"Chapter 12 ending\">\n  <img src=\"/panels/ch12-last.jpg\" alt=\"The final panel of chapter 12\" />\n</Spoiler>\n\n<p>\n  The letter was signed by <Spoiler variant=\"inline\" label=\"the editor\">the editor</Spoiler>.\n</p>",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"block\" | \"inline\"",
+        "default": "\"block\"",
+        "description": "block: an image or a paragraph under a cover · inline: a few words in a sentence."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "default": "\"Spoiler\"",
+        "description": "What it hides, read in the reveal button's name and shown on the plate (block)."
+      },
+      {
+        "name": "revealed",
+        "type": "boolean",
+        "description": "Controlled reveal state."
+      },
+      {
+        "name": "defaultRevealed",
+        "type": "boolean",
+        "default": "false",
+        "description": "Initial reveal state when uncontrolled."
+      },
+      {
+        "name": "onRevealedChange",
+        "type": "(revealed: boolean) => void",
+        "description": "Called when the reader reveals or hides it."
+      },
+      {
+        "name": "triggerProps",
+        "type": "ButtonHTMLAttributes & data-*",
+        "description": "Extra attributes for the reveal button (showcase states)."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the root (block) or to the reveal button / revealed text (inline)."
+      }
+    ]
+  }
+}

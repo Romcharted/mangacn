@@ -1,0 +1,35 @@
+{
+  "name": "reader-settings",
+  "type": "registry:component",
+  "title": "Reader Settings",
+  "description": "Settings for a manga reader: reading order (manga right to left, western left to right), mode (page, double page, strip), fit (whole page, width, height) and background (paper, ink, tone). Each setting is a radio group drawn like boxed tabs: one 2px frame split into cells of at least 44 px, each with a small drawn pictogram and a lettering label; the chosen cell is an ink flat that sweeps in, hover thickens the line, focus stays inside the cell (a paper line on the chosen ink cell), pressed moves 1px. Arrows move and choose (following the writing direction), Home / End, Tab leaves. A setting can be hidden or shown disabled (dashed frame, tone frame in the cells, the chosen label underlined on paper). Controlled or not; it only holds the value: put it in a Sheet, a Popover or a page and feed PageReader.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/reader-settings.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/reader-settings.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/reader-settings\". The value matches PageReader's props: direction, fit and background pass straight through; mode single / double maps to spread, and strip means a ReaderStrip instead.",
+  "meta": {
+    "tagline": "Reading order, mode, fit and background for a manga reader.",
+    "usage": "import { ReaderSettings, defaultReaderSettings } from \"@/components/manga/reader-settings\"\n\nconst [settings, setSettings] = React.useState(defaultReaderSettings)\n\n<ReaderSettings value={settings} onValueChange={setSettings} />",
+    "props": [
+      { "name": "value", "type": "{ direction: \"rtl\" | \"ltr\"; mode: \"single\" | \"double\" | \"strip\"; fit: \"contain\" | \"width\" | \"height\"; background: \"paper\" | \"ink\" | \"tone\" }", "description": "The settings, controlled." },
+      { "name": "defaultValue", "type": "ReaderSettingsValue", "default": "defaultReaderSettings", "description": "Manga order, single page, whole page, paper." },
+      { "name": "onValueChange", "type": "(value: ReaderSettingsValue) => void", "description": "Called with the whole new value." },
+      { "name": "hide", "type": "(\"direction\" | \"mode\" | \"fit\" | \"background\")[]", "description": "Settings left out." },
+      { "name": "disabled", "type": "(\"direction\" | \"mode\" | \"fit\" | \"background\")[]", "description": "Settings shown but not changeable." },
+      { "name": "className", "type": "string", "description": "Added to the root." }
+    ]
+  }
+}

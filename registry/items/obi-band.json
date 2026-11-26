@@ -1,0 +1,71 @@
+{
+  "name": "obi-band",
+  "type": "registry:component",
+  "title": "Obi Band",
+  "description": "The paper promotional band wrapped round the lower part of a manga volume. It takes a 2:3 cover (an image URL, or any node) and overhangs it by a few pixels at the bottom, with a 2px ink line on each side and a fold strip at the start edge. Tones: accent (the kit's one colour), ink (an ink flat) or paper (a screentone strip on the top edge only). Sizes sm, md, lg set the band height (26, 34, 42 % of the cover). The headline scales with the cover width through container queries, so it works on a 120 px cover too. An optional badge is a burst at the band's end corner. Static, not interactive.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/obi-band.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/obi-band.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/obi-band\". Give it the cover as an image URL or as a node (the 2:3 box is drawn for you). Put it in a column of the width you want: the band follows that width, and the text follows the cover.",
+  "meta": {
+    "tagline": "A promotional band wrapped round the lower part of a volume.",
+    "usage": "import { ObiBand } from \"@/components/manga/obi-band\"\n\n<ObiBand\n  cover=\"/covers/night-rail-2.jpg\"\n  headline=\"Over 2 million copies\"\n  caption=\"Now a major series\"\n  badge=\"NEW\"\n  tone=\"accent\"\n  size=\"md\"\n/>",
+    "props": [
+      {
+        "name": "cover",
+        "type": "string | ReactNode",
+        "description": "An image URL (object-cover), or any node drawn as the cover. Takes precedence over children."
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "Drawn in the 2:3 box when no cover is given."
+      },
+      {
+        "name": "headline",
+        "type": "ReactNode",
+        "description": "The big catchphrase, in lettering."
+      },
+      {
+        "name": "caption",
+        "type": "ReactNode",
+        "description": "A small line under the headline."
+      },
+      {
+        "name": "badge",
+        "type": "ReactNode",
+        "description": "A short word in a burst at the band's end corner, e.g. \"NEW\"."
+      },
+      {
+        "name": "tone",
+        "type": "\"accent\" | \"ink\" | \"paper\"",
+        "default": "\"accent\"",
+        "description": "accent: the kit's accent · ink: an ink flat · paper: paper with a screentone top edge."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "default": "\"md\"",
+        "description": "Band height: 26 %, 34 % or 42 % of the cover."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the root."
+      }
+    ]
+  }
+}

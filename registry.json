@@ -5098,6 +5098,757 @@
       }
     },
     {
+      "name": "page-reader",
+      "type": "registry:component",
+      "title": "Page Reader",
+      "description": "A manga read page by page from a list of images ({ src, alt, width, height }). One page or two-page spreads (auto: spreads when the stage is wide and landscape; the cover stands alone), manga order (right to left: the next page is on the left, a spread puts the lower page on the right) or western order. Turn with the page edges (invisible zones that show a paper plate with a brush arrow on hover), the arrow keys (following the order), Page Up / Down, Home / End, a swipe (the page follows the finger with no steps, then turns or snaps back; it resists at both ends) or the toolbar. Fit: whole page, width (scrolls down) or height. Background: paper, ink or tone. Zoom 100–300 % with buttons, + / - / 0 or a double click at a point, then drag to pan. Full screen asks the browser (Fullscreen API on the document) and falls back to a fixed immersive mode (iOS Safari); Escape leaves. Pages around the current one are fetched ahead (preload), and a page known to be loaded shows at once. Each page is a ReaderPage (ink frame, loading panel, jagged error panel with Retry, a paper mat in dark mode). A turned page slides in from the side it comes from in three steps. An optional end view after the last page holds a ChapterEnd. The toolbar has a ReadingProgress with a page counter and a slot for your own buttons (settings, thumbnails). Controlled or not (page / onPageChange). Built at 375 px first: 44 px controls, two toolbar rows.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/reader-strip",
+        "Romcharted/mangacn/reading-progress",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/page-reader.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/page-reader.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/page-reader\". Give each page its real width and height so the space is reserved before it loads. The reader sets data-reading on its root, so pieces inside (fill-in, ChapterEnd's arrow) follow its order. Pair it with ReaderSettings (direction, mode, fit, background) and PageThumbnails in a Sheet through the toolbar slot; for the strip mode render a ReaderStrip instead.",
+      "meta": {
+        "tagline": "A manga read page by page: spreads, reading order, swipe, zoom and full screen.",
+        "usage": "import { PageReader } from \"@/components/manga/page-reader\"\nimport { ChapterEnd } from \"@/components/manga/chapter-end\"\n\n<PageReader\n  pages={pages}\n  direction=\"rtl\"\n  spread=\"auto\"\n  onPageChange={(page) => save(page)}\n  end={<ChapterEnd chapter=\"Chapter 4\" next={{ number: 5, title: \"Paper boats\", href: \"/read/5\" }} />}\n/>",
+        "props": [
+          {
+            "name": "pages",
+            "type": "{ src: string; alt: string; width: number; height: number }[]",
+            "description": "The pages, in reading order."
+          },
+          {
+            "name": "page",
+            "type": "number",
+            "description": "First page shown (0-based), controlled. pages.length is the end view when end is set."
+          },
+          {
+            "name": "defaultPage",
+            "type": "number",
+            "default": "0",
+            "description": "First page shown, uncontrolled."
+          },
+          {
+            "name": "onPageChange",
+            "type": "(page: number) => void",
+            "description": "Called with the first page of the new view."
+          },
+          {
+            "name": "spread",
+            "type": "\"single\" | \"double\" | \"auto\"",
+            "default": "\"auto\"",
+            "description": "One page, two-page spreads, or spreads when the stage is wide and landscape."
+          },
+          {
+            "name": "coverAlone",
+            "type": "boolean",
+            "default": "true",
+            "description": "In spreads, the first page stands alone."
+          },
+          {
+            "name": "direction",
+            "type": "\"rtl\" | \"ltr\"",
+            "default": "\"rtl\"",
+            "description": "Manga order (next page on the left) or western order."
+          },
+          {
+            "name": "fit",
+            "type": "\"contain\" | \"width\" | \"height\"",
+            "default": "\"contain\"",
+            "description": "Whole page in view, fill the width (scrolls down) or fill the height."
+          },
+          {
+            "name": "background",
+            "type": "\"paper\" | \"ink\" | \"tone\"",
+            "default": "\"paper\"",
+            "description": "What shows around the pages."
+          },
+          {
+            "name": "preload",
+            "type": "number",
+            "default": "2",
+            "description": "Pages fetched ahead of and behind the view."
+          },
+          {
+            "name": "end",
+            "type": "ReactNode",
+            "description": "One more view after the last page, e.g. a ChapterEnd."
+          },
+          {
+            "name": "onEnd",
+            "type": "() => void",
+            "description": "Called on reaching the end view, or on asking past the last page when there is none."
+          },
+          {
+            "name": "toolbar",
+            "type": "ReactNode",
+            "description": "Your own buttons in the toolbar (settings, thumbnails)."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root; set its height here (default min(48rem, 88svh))."
+          }
+        ]
+      }
+    },
+    {
+      "name": "page-thumbnails",
+      "type": "registry:component",
+      "title": "Page Thumbnails",
+      "description": "Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/reader-strip",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/page-thumbnails.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/page-thumbnails.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/page-thumbnails\". It takes the same pages as PageReader and ReaderStrip; put it in a Sheet opened from the reader's toolbar and close the sheet in onSelect.",
+      "meta": {
+        "tagline": "Every page of a chapter in a grid, to jump anywhere.",
+        "usage": "import { PageThumbnails } from \"@/components/manga/page-thumbnails\"\n\n<PageThumbnails\n  pages={pages}\n  current={page}\n  readUntil={page}\n  direction=\"rtl\"\n  onSelect={(i) => setPage(i)}\n/>",
+        "props": [
+          {
+            "name": "pages",
+            "type": "{ src: string; alt: string; width: number; height: number }[]",
+            "description": "The pages, in reading order."
+          },
+          {
+            "name": "current",
+            "type": "number | number[]",
+            "description": "The page or pages on screen."
+          },
+          {
+            "name": "readUntil",
+            "type": "number",
+            "default": "0",
+            "description": "Pages before this index get a brush check."
+          },
+          {
+            "name": "onSelect",
+            "type": "(page: number) => void",
+            "description": "Called with the page chosen."
+          },
+          {
+            "name": "direction",
+            "type": "\"rtl\" | \"ltr\"",
+            "default": "\"rtl\"",
+            "description": "The grid runs right to left (manga) or left to right."
+          },
+          {
+            "name": "minWidth",
+            "type": "string",
+            "default": "\"5.5rem\"",
+            "description": "Smallest thumbnail width (CSS length)."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the nav."
+          }
+        ]
+      }
+    },
+    {
+      "name": "reader-settings",
+      "type": "registry:component",
+      "title": "Reader Settings",
+      "description": "Settings for a manga reader: reading order (manga right to left, western left to right), mode (page, double page, strip), fit (whole page, width, height) and background (paper, ink, tone). Each setting is a radio group drawn like boxed tabs: one 2px frame split into cells of at least 44 px, each with a small drawn pictogram and a lettering label; the chosen cell is an ink flat that sweeps in, hover thickens the line, focus stays inside the cell (a paper line on the chosen ink cell), pressed moves 1px. Arrows move and choose (following the writing direction), Home / End, Tab leaves. A setting can be hidden or shown disabled (dashed frame, tone frame in the cells, the chosen label underlined on paper). Controlled or not; it only holds the value: put it in a Sheet, a Popover or a page and feed PageReader.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/reader-settings.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/reader-settings.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/reader-settings\". The value matches PageReader's props: direction, fit and background pass straight through; mode single / double maps to spread, and strip means a ReaderStrip instead.",
+      "meta": {
+        "tagline": "Reading order, mode, fit and background for a manga reader.",
+        "usage": "import { ReaderSettings, defaultReaderSettings } from \"@/components/manga/reader-settings\"\n\nconst [settings, setSettings] = React.useState(defaultReaderSettings)\n\n<ReaderSettings value={settings} onValueChange={setSettings} />",
+        "props": [
+          {
+            "name": "value",
+            "type": "{ direction: \"rtl\" | \"ltr\"; mode: \"single\" | \"double\" | \"strip\"; fit: \"contain\" | \"width\" | \"height\"; background: \"paper\" | \"ink\" | \"tone\" }",
+            "description": "The settings, controlled."
+          },
+          {
+            "name": "defaultValue",
+            "type": "ReaderSettingsValue",
+            "default": "defaultReaderSettings",
+            "description": "Manga order, single page, whole page, paper."
+          },
+          {
+            "name": "onValueChange",
+            "type": "(value: ReaderSettingsValue) => void",
+            "description": "Called with the whole new value."
+          },
+          {
+            "name": "hide",
+            "type": "(\"direction\" | \"mode\" | \"fit\" | \"background\")[]",
+            "description": "Settings left out."
+          },
+          {
+            "name": "disabled",
+            "type": "(\"direction\" | \"mode\" | \"fit\" | \"background\")[]",
+            "description": "Settings shown but not changeable."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root."
+          }
+        ]
+      }
+    },
+    {
+      "name": "chapter-end",
+      "type": "registry:component",
+      "title": "Chapter End",
+      "description": "The end card of a chapter: a 3px panel whose concentration lines surround a central paper plate, with the chapter line, the big SFX word (To be continued, or The end for a finished series) and a brush arrow in the reading direction (a check at the end of a series). Under it, the next chapter as a full-width button with its number, title and optional cover, or, when it is not out yet, the date in a stamp; then any actions the reader wants (back to the series, comments). Under the manga reading order (data-reading=\"rtl\") the arrow points left. The panel pops in once.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/sfx",
+        "Romcharted/mangacn/stamp"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/chapter-end.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/chapter-end.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/chapter-end\". The next chapter is a link (href), a button (onSelect), or not out yet (no href and no onSelect: pass date and the card shows \"Out on\" in a stamp). Extra actions go in children. Reading order follows the nearest data-reading attribute (rtl for manga, ltr for western): the arrow turns and the arrow sits before the word. The title is a plain string, shown in the SFX face and allowed to wrap.",
+      "meta": {
+        "tagline": "The end card of a chapter: to be continued, and the next chapter.",
+        "usage": "import { ChapterEnd } from \"@/components/manga/chapter-end\"\n\n<ChapterEnd\n  chapter=\"Chapter 12 · Echo\"\n  next={{ number: 13, title: \"Quiet Engine\", href: \"/read/13\", cover: \"/covers/13.jpg\" }}\n>\n  <Button variant=\"outline\" size=\"sm\">Back to series</Button>\n</ChapterEnd>",
+        "props": [
+          {
+            "name": "chapter",
+            "type": "ReactNode",
+            "description": "The chapter just read, shown as \"End of {chapter}\"."
+          },
+          {
+            "name": "variant",
+            "type": "\"continued\" | \"end\"",
+            "default": "\"continued\"",
+            "description": "continued: more to come (arrow) · end: the series is over (check)."
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "default": "\"To be continued\" or \"The end\"",
+            "description": "The big SFX word."
+          },
+          {
+            "name": "next",
+            "type": "{ number, title, href?, onSelect?, cover?, date? }",
+            "description": "The next chapter. Without href or onSelect it is not out yet and shows \"Out on {date}\"."
+          },
+          {
+            "name": "children",
+            "type": "ReactNode",
+            "description": "Extra actions, in a wrapping row under the next chapter."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the panel."
+          }
+        ]
+      }
+    },
+    {
+      "name": "shelf",
+      "type": "registry:component",
+      "title": "Shelf",
+      "description": "Manga volumes standing spine out on a shelf. Each spine is a 2px case at least 44 px wide (three thicknesses, slightly varied heights) with the volume number on an ink flat at the top, the title in vertical lettering and an optional tone band or tone ends (never under text); the plank is a 3px ink edge, a band of tone lines and another edge. Hover lifts the spine's tone shadow, focus is the ink ring, pressed the 2px offset. Pulling a volume (click, Enter) turns its spine into an ink flat raised by 16px in two steps and drops its VolumeCard in under the shelf (cover, status, reading progress) with Open and Put back buttons. Arrows move along the row, Home / End, Escape puts the volume back and returns the focus to its spine. The row scrolls sideways when it is wider than the screen; in manga order volume 1 stands at the right end. Controlled or not (selected / onSelectedChange).",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/volume-card",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/shelf.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/shelf.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/shelf\". Covers are image URLs or any node; they only show on the pulled volume's card. onOpen receives the volume: navigate to its reader there.",
+      "meta": {
+        "tagline": "Volumes on a shelf, spine out: pull one to open it.",
+        "usage": "import { Shelf } from \"@/components/manga/shelf\"\n\n<Shelf\n  volumes={[\n    { id: \"ls-1\", title: \"Lantern Street\", volume: 1, cover: \"/covers/ls-1.jpg\", status: \"completed\", read: 8, total: 8 },\n    { id: \"ls-2\", title: \"Lantern Street\", volume: 2, cover: \"/covers/ls-2.jpg\", status: \"ongoing\", read: 3, total: 8, spine: \"band\" },\n  ]}\n  openLabel=\"Read\"\n  onOpen={(v) => router.push(`/read/${v.id}`)}\n/>",
+        "props": [
+          {
+            "name": "volumes",
+            "type": "ShelfVolume[]",
+            "description": "{ id, title, volume, author?, cover?, status?, read?, total?, thickness?: 1 | 2 | 3, spine?: \"plain\" | \"band\" | \"tone\" }."
+          },
+          {
+            "name": "selected",
+            "type": "string | null",
+            "description": "Id of the pulled volume, controlled."
+          },
+          {
+            "name": "defaultSelected",
+            "type": "string | null",
+            "default": "null",
+            "description": "Pulled volume, uncontrolled."
+          },
+          {
+            "name": "onSelectedChange",
+            "type": "(id: string | null) => void",
+            "description": "Called when a volume is pulled or put back."
+          },
+          {
+            "name": "onOpen",
+            "type": "(volume: ShelfVolume) => void",
+            "description": "Called by the Open button of the pulled volume."
+          },
+          {
+            "name": "openLabel",
+            "type": "string",
+            "default": "\"Open\"",
+            "description": "Label of that button."
+          },
+          {
+            "name": "direction",
+            "type": "\"ltr\" | \"rtl\"",
+            "default": "\"ltr\"",
+            "description": "Volume 1 at the left, or at the right (manga order)."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root."
+          }
+        ]
+      }
+    },
+    {
+      "name": "series-header",
+      "type": "registry:component",
+      "title": "Series Header",
+      "description": "The head of a manga series page, in a case: a 2:3 cover in a 2px case (image URL or any node; a screentone without one), the status as a Stamp (accent for new, ink for ongoing, completed and hiatus), the title in big lettering, an alternative title, the author, genres as outline Badges, up to four figures (chapters, volumes, readers) in a frame split into cells, a summary folded to a few lines with a Read more / Show less link (shown only when the text is cut; the unfolded text drops in) and your actions. At 375 px the cover sits beside the title and the rest takes the full width; in a wide container everything but the cover forms one column beside it (container queries, so it adapts to its column, not the window).",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/stamp",
+        "Romcharted/mangacn/badge",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/series-header.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/series-header.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/series-header\". Pass Buttons or links as actions; on phones they share the row and grow to 44 px. Set as=\"h2\" when the page already has an h1.",
+      "meta": {
+        "tagline": "Cover, title, status, genres, a folding summary and the actions of a series.",
+        "usage": "import { SeriesHeader } from \"@/components/manga/series-header\"\nimport { Button } from \"@/components/ui/manga/button\"\n\n<SeriesHeader\n  title=\"Lantern Street\"\n  author=\"N. Arai\"\n  cover=\"/covers/lantern-street.jpg\"\n  status=\"ongoing\"\n  genres={[\"Slice of life\", \"Mystery\"]}\n  stats={[{ label: \"Chapters\", value: 38 }, { label: \"Volumes\", value: 4 }]}\n  summary=\"Every autumn the night market…\"\n  actions={<><Button>Start reading</Button><Button variant=\"outline\">Add to shelf</Button></>}\n/>",
+        "props": [
+          {
+            "name": "title",
+            "type": "ReactNode",
+            "description": "Set in big lettering."
+          },
+          {
+            "name": "cover",
+            "type": "string | ReactNode",
+            "description": "Image URL or any node, in a 2:3 box. Without it, a screentone."
+          },
+          {
+            "name": "altTitle",
+            "type": "ReactNode",
+            "description": "Original or alternative title."
+          },
+          {
+            "name": "author",
+            "type": "ReactNode",
+            "description": "Author line."
+          },
+          {
+            "name": "status",
+            "type": "\"new\" | \"ongoing\" | \"completed\" | \"hiatus\"",
+            "description": "Shown as a stamp."
+          },
+          {
+            "name": "genres",
+            "type": "string[]",
+            "description": "Shown as outline badges."
+          },
+          {
+            "name": "stats",
+            "type": "{ label: ReactNode; value: ReactNode }[]",
+            "description": "Up to four figures."
+          },
+          {
+            "name": "summary",
+            "type": "ReactNode",
+            "description": "Folded to summaryLines lines with Read more."
+          },
+          {
+            "name": "summaryLines",
+            "type": "2 | 3 | 4 | 5",
+            "default": "3",
+            "description": "Lines shown while folded."
+          },
+          {
+            "name": "actions",
+            "type": "ReactNode",
+            "description": "Buttons or links."
+          },
+          {
+            "name": "as",
+            "type": "\"h1\" | \"h2\" | \"h3\"",
+            "default": "\"h1\"",
+            "description": "Heading level of the title."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the case."
+          }
+        ]
+      }
+    },
+    {
+      "name": "obi-band",
+      "type": "registry:component",
+      "title": "Obi Band",
+      "description": "The paper promotional band wrapped round the lower part of a manga volume. It takes a 2:3 cover (an image URL, or any node) and overhangs it by a few pixels at the bottom, with a 2px ink line on each side and a fold strip at the start edge. Tones: accent (the kit's one colour), ink (an ink flat) or paper (a screentone strip on the top edge only). Sizes sm, md, lg set the band height (26, 34, 42 % of the cover). The headline scales with the cover width through container queries, so it works on a 120 px cover too. An optional badge is a burst at the band's end corner. Static, not interactive.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/obi-band.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/obi-band.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/obi-band\". Give it the cover as an image URL or as a node (the 2:3 box is drawn for you). Put it in a column of the width you want: the band follows that width, and the text follows the cover.",
+      "meta": {
+        "tagline": "A promotional band wrapped round the lower part of a volume.",
+        "usage": "import { ObiBand } from \"@/components/manga/obi-band\"\n\n<ObiBand\n  cover=\"/covers/night-rail-2.jpg\"\n  headline=\"Over 2 million copies\"\n  caption=\"Now a major series\"\n  badge=\"NEW\"\n  tone=\"accent\"\n  size=\"md\"\n/>",
+        "props": [
+          {
+            "name": "cover",
+            "type": "string | ReactNode",
+            "description": "An image URL (object-cover), or any node drawn as the cover. Takes precedence over children."
+          },
+          {
+            "name": "children",
+            "type": "ReactNode",
+            "description": "Drawn in the 2:3 box when no cover is given."
+          },
+          {
+            "name": "headline",
+            "type": "ReactNode",
+            "description": "The big catchphrase, in lettering."
+          },
+          {
+            "name": "caption",
+            "type": "ReactNode",
+            "description": "A small line under the headline."
+          },
+          {
+            "name": "badge",
+            "type": "ReactNode",
+            "description": "A short word in a burst at the band's end corner, e.g. \"NEW\"."
+          },
+          {
+            "name": "tone",
+            "type": "\"accent\" | \"ink\" | \"paper\"",
+            "default": "\"accent\"",
+            "description": "accent: the kit's accent · ink: an ink flat · paper: paper with a screentone top edge."
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\"",
+            "default": "\"md\"",
+            "description": "Band height: 26 %, 34 % or 42 % of the cover."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root."
+          }
+        ]
+      }
+    },
+    {
+      "name": "spoiler",
+      "type": "registry:component",
+      "title": "Spoiler",
+      "description": "Content hidden by a screentone, revealed on click. Block: the children stay in the layout but are inert and aria-hidden under a tone cover with a paper plate that names what is hidden (\"Chapter 12 ending\") and says \"Tap to reveal\"; the plate gets a tone shadow on hover, the cover has the ink focus ring and a pressed offset, and the content pops in on reveal with a Hide button to cover it again. Inline: a few words become an ink flat with transparent text, a paper inner line on hover, and the revealed words get a 2px underline. Controlled (revealed, onRevealedChange) or uncontrolled (defaultRevealed).",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/button"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/spoiler.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/spoiler.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/spoiler\". The block variant hides an image or a paragraph under a screentone cover; the inline variant hides a few words inside a sentence. The reveal button is the cover itself (block) or the ink bar (inline), so it is always at least 44 px tall on phones. Use triggerProps only to pass data-* attributes (showcase states).",
+      "meta": {
+        "tagline": "Hidden under a screentone until the reader taps.",
+        "usage": "import { Spoiler } from \"@/components/manga/spoiler\"\n\n<Spoiler label=\"Chapter 12 ending\">\n  <img src=\"/panels/ch12-last.jpg\" alt=\"The final panel of chapter 12\" />\n</Spoiler>\n\n<p>\n  The letter was signed by <Spoiler variant=\"inline\" label=\"the editor\">the editor</Spoiler>.\n</p>",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"block\" | \"inline\"",
+            "default": "\"block\"",
+            "description": "block: an image or a paragraph under a cover · inline: a few words in a sentence."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "default": "\"Spoiler\"",
+            "description": "What it hides, read in the reveal button's name and shown on the plate (block)."
+          },
+          {
+            "name": "revealed",
+            "type": "boolean",
+            "description": "Controlled reveal state."
+          },
+          {
+            "name": "defaultRevealed",
+            "type": "boolean",
+            "default": "false",
+            "description": "Initial reveal state when uncontrolled."
+          },
+          {
+            "name": "onRevealedChange",
+            "type": "(revealed: boolean) => void",
+            "description": "Called when the reader reveals or hides it."
+          },
+          {
+            "name": "triggerProps",
+            "type": "ButtonHTMLAttributes & data-*",
+            "description": "Extra attributes for the reveal button (showcase states)."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root (block) or to the reveal button / revealed text (inline)."
+          }
+        ]
+      }
+    },
+    {
+      "name": "ranking-list",
+      "type": "registry:component",
+      "title": "Ranking List",
+      "description": "A ranking with big numbers in a case: the rank in the SFX face (the top ranks biggest, the first place in the accent), an optional 2:3 cover thumbnail in a 2px ink frame, the title in lettering and a subtitle, an optional score, and the change at the end: an up or down brush arrow with its count, an en dash for no change, or a NEW burst. Rows are separated by 2px ink lines. Rows with href are links, rows with onSelect are buttons: both invert to ink on hover, and press to a paper negative with a 2px offset. Logical properties only, so dir=rtl works.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/ranking-list.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/ranking-list.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/ranking-list\". Entries are plain data: give href for a link, or onSelect for a button. RankingRow is exported for a single row, for example in a detail page header. Change: a positive number is up, a negative one is down, 0 is no change, \"new\" is a new entry.",
+      "meta": {
+        "tagline": "A weekly ranking with big numbers, covers and change marks.",
+        "usage": "import { RankingList, type RankingEntry } from \"@/components/manga/ranking-list\"\n\nconst entries: RankingEntry[] = [\n  { id: \"glass-harbour\", title: \"Glass Harbour\", subtitle: \"M. Sato\", change: 0, score: \"1.2M\", href: \"/series/glass-harbour\" },\n  { id: \"iron-lullaby\", title: \"Iron Lullaby\", subtitle: \"K. Hadley\", change: 3, cover: \"/covers/iron-lullaby.jpg\", href: \"/series/iron-lullaby\" },\n]\n\n<RankingList entries={entries} />",
+        "props": [
+          {
+            "name": "entries",
+            "type": "RankingEntry[]",
+            "description": "Rows: id, title, subtitle, cover, change (number or \"new\"), score, href."
+          },
+          {
+            "name": "onSelect",
+            "type": "(entry: RankingEntry, index: number) => void",
+            "description": "Makes the rows without href buttons."
+          },
+          {
+            "name": "start",
+            "type": "number",
+            "default": "1",
+            "description": "First rank shown."
+          },
+          {
+            "name": "highlightTop",
+            "type": "number",
+            "default": "3",
+            "description": "Ranks up to this one get the biggest numbers. Rank 1 is in the accent."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the list."
+          }
+        ]
+      }
+    },
+    {
+      "name": "release-calendar",
+      "type": "registry:component",
+      "title": "Release Calendar",
+      "description": "Releases by day of the week. On a narrow screen a day strip drawn like boxed tabs (one frame split into seven cells, the selected day an ink flat, today marked with a corner triangle) shows the releases of one day below it, with arrow, Home and End keys. From a container of 56 rem up, seven columns show every day at once, today's header an ink flat. Each release is a case with its cover, time, title and chapter, a NEW burst or a Break stamp; rows with an href are links, rows with onSelect are buttons, both with the hover lift, the ink focus ring and the pressed offset. A day without releases shows a short line in a fine frame.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/stamp",
+        "Romcharted/mangacn/gestures"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/release-calendar.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/release-calendar.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/release-calendar\". Weekdays are numbers, Monday first (0 = Monday, 6 = Sunday). The day strip is the narrow layout and the columns are the wide one, switched by the width of the component's container (container query, 56 rem); force one with layout=\"strip\" or layout=\"columns\". Pass today to fix the marked day, otherwise it is computed from the current date. Day labels are passed as seven short strings, Monday first. Wide columns need about 56 rem: put the component in a horizontal scroll area below that width.",
+      "meta": {
+        "tagline": "A week of releases: a day strip on phones, seven columns on wide screens.",
+        "usage": "import { ReleaseCalendar, type Release } from \"@/components/manga/release-calendar\"\n\nconst releases: Release[] = [\n  { id: \"1\", day: 0, title: \"Glass Harbor\", chapter: \"Ch. 1 · Low Tide\", time: \"06:00\", status: \"new\", href: \"/series/glass-harbor/1\" },\n  { id: \"2\", day: 2, title: \"Paper Comet\", chapter: \"Ch. 18\", time: \"18:00\", status: \"break\" },\n]\n\n<ReleaseCalendar releases={releases} today={2} onSelect={(r) => openRelease(r.id)} />",
+        "props": [
+          {
+            "name": "releases",
+            "type": "Release[]",
+            "description": "Each release: id, day (0 = Monday … 6 = Sunday), title, optional chapter, time, cover (URL or node), status (\"new\" | \"break\") and href (makes the row a link)."
+          },
+          {
+            "name": "today",
+            "type": "Weekday",
+            "default": "computed from the date",
+            "description": "The day marked with the corner triangle and the ink header."
+          },
+          {
+            "name": "day",
+            "type": "Weekday",
+            "description": "Controlled day shown on narrow screens."
+          },
+          {
+            "name": "defaultDay",
+            "type": "Weekday",
+            "default": "today",
+            "description": "Day shown first on narrow screens."
+          },
+          {
+            "name": "onDayChange",
+            "type": "(day: Weekday) => void",
+            "description": "Called when a day is picked in the strip."
+          },
+          {
+            "name": "dayLabels",
+            "type": "[string × 7]",
+            "default": "[\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"]",
+            "description": "Short day labels, Monday first."
+          },
+          {
+            "name": "onSelect",
+            "type": "(release: Release) => void",
+            "description": "Makes the rows without an href buttons."
+          },
+          {
+            "name": "empty",
+            "type": "ReactNode",
+            "default": "\"Nothing this day.\"",
+            "description": "Shown on a day without releases."
+          },
+          {
+            "name": "layout",
+            "type": "\"auto\" | \"strip\" | \"columns\"",
+            "default": "\"auto\"",
+            "description": "auto switches by the container width (56 rem); strip and columns force one layout."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root."
+          }
+        ]
+      }
+    },
+    {
       "name": "social-button",
       "type": "registry:component",
       "title": "Social Button",

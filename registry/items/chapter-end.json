@@ -1,0 +1,64 @@
+{
+  "name": "chapter-end",
+  "type": "registry:component",
+  "title": "Chapter End",
+  "description": "The end card of a chapter: a 3px panel whose concentration lines surround a central paper plate, with the chapter line, the big SFX word (To be continued, or The end for a finished series) and a brush arrow in the reading direction (a check at the end of a series). Under it, the next chapter as a full-width button with its number, title and optional cover, or, when it is not out yet, the date in a stamp; then any actions the reader wants (back to the series, comments). Under the manga reading order (data-reading=\"rtl\") the arrow points left. The panel pops in once.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/sfx",
+    "Romcharted/mangacn/stamp"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/chapter-end.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/chapter-end.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/chapter-end\". The next chapter is a link (href), a button (onSelect), or not out yet (no href and no onSelect: pass date and the card shows \"Out on\" in a stamp). Extra actions go in children. Reading order follows the nearest data-reading attribute (rtl for manga, ltr for western): the arrow turns and the arrow sits before the word. The title is a plain string, shown in the SFX face and allowed to wrap.",
+  "meta": {
+    "tagline": "The end card of a chapter: to be continued, and the next chapter.",
+    "usage": "import { ChapterEnd } from \"@/components/manga/chapter-end\"\n\n<ChapterEnd\n  chapter=\"Chapter 12 · Echo\"\n  next={{ number: 13, title: \"Quiet Engine\", href: \"/read/13\", cover: \"/covers/13.jpg\" }}\n>\n  <Button variant=\"outline\" size=\"sm\">Back to series</Button>\n</ChapterEnd>",
+    "props": [
+      {
+        "name": "chapter",
+        "type": "ReactNode",
+        "description": "The chapter just read, shown as \"End of {chapter}\"."
+      },
+      {
+        "name": "variant",
+        "type": "\"continued\" | \"end\"",
+        "default": "\"continued\"",
+        "description": "continued: more to come (arrow) · end: the series is over (check)."
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "default": "\"To be continued\" or \"The end\"",
+        "description": "The big SFX word."
+      },
+      {
+        "name": "next",
+        "type": "{ number, title, href?, onSelect?, cover?, date? }",
+        "description": "The next chapter. Without href or onSelect it is not out yet and shows \"Out on {date}\"."
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "Extra actions, in a wrapping row under the next chapter."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the panel."
+      }
+    ]
+  }
+}

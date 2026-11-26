@@ -1,0 +1,47 @@
+{
+  "name": "page-reader",
+  "type": "registry:component",
+  "title": "Page Reader",
+  "description": "A manga read page by page from a list of images ({ src, alt, width, height }). One page or two-page spreads (auto: spreads when the stage is wide and landscape; the cover stands alone), manga order (right to left: the next page is on the left, a spread puts the lower page on the right) or western order. Turn with the page edges (invisible zones that show a paper plate with a brush arrow on hover), the arrow keys (following the order), Page Up / Down, Home / End, a swipe (the page follows the finger with no steps, then turns or snaps back; it resists at both ends) or the toolbar. Fit: whole page, width (scrolls down) or height. Background: paper, ink or tone. Zoom 100–300 % with buttons, + / - / 0 or a double click at a point, then drag to pan. Full screen asks the browser (Fullscreen API on the document) and falls back to a fixed immersive mode (iOS Safari); Escape leaves. Pages around the current one are fetched ahead (preload), and a page known to be loaded shows at once. Each page is a ReaderPage (ink frame, loading panel, jagged error panel with Retry, a paper mat in dark mode). A turned page slides in from the side it comes from in three steps. An optional end view after the last page holds a ChapterEnd. The toolbar has a ReadingProgress with a page counter and a slot for your own buttons (settings, thumbnails). Controlled or not (page / onPageChange). Built at 375 px first: 44 px controls, two toolbar rows.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/reader-strip",
+    "Romcharted/mangacn/reading-progress",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/page-reader.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/page-reader.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/page-reader\". Give each page its real width and height so the space is reserved before it loads. The reader sets data-reading on its root, so pieces inside (fill-in, ChapterEnd's arrow) follow its order. Pair it with ReaderSettings (direction, mode, fit, background) and PageThumbnails in a Sheet through the toolbar slot; for the strip mode render a ReaderStrip instead.",
+  "meta": {
+    "tagline": "A manga read page by page: spreads, reading order, swipe, zoom and full screen.",
+    "usage": "import { PageReader } from \"@/components/manga/page-reader\"\nimport { ChapterEnd } from \"@/components/manga/chapter-end\"\n\n<PageReader\n  pages={pages}\n  direction=\"rtl\"\n  spread=\"auto\"\n  onPageChange={(page) => save(page)}\n  end={<ChapterEnd chapter=\"Chapter 4\" next={{ number: 5, title: \"Paper boats\", href: \"/read/5\" }} />}\n/>",
+    "props": [
+      { "name": "pages", "type": "{ src: string; alt: string; width: number; height: number }[]", "description": "The pages, in reading order." },
+      { "name": "page", "type": "number", "description": "First page shown (0-based), controlled. pages.length is the end view when end is set." },
+      { "name": "defaultPage", "type": "number", "default": "0", "description": "First page shown, uncontrolled." },
+      { "name": "onPageChange", "type": "(page: number) => void", "description": "Called with the first page of the new view." },
+      { "name": "spread", "type": "\"single\" | \"double\" | \"auto\"", "default": "\"auto\"", "description": "One page, two-page spreads, or spreads when the stage is wide and landscape." },
+      { "name": "coverAlone", "type": "boolean", "default": "true", "description": "In spreads, the first page stands alone." },
+      { "name": "direction", "type": "\"rtl\" | \"ltr\"", "default": "\"rtl\"", "description": "Manga order (next page on the left) or western order." },
+      { "name": "fit", "type": "\"contain\" | \"width\" | \"height\"", "default": "\"contain\"", "description": "Whole page in view, fill the width (scrolls down) or fill the height." },
+      { "name": "background", "type": "\"paper\" | \"ink\" | \"tone\"", "default": "\"paper\"", "description": "What shows around the pages." },
+      { "name": "preload", "type": "number", "default": "2", "description": "Pages fetched ahead of and behind the view." },
+      { "name": "end", "type": "ReactNode", "description": "One more view after the last page, e.g. a ChapterEnd." },
+      { "name": "onEnd", "type": "() => void", "description": "Called on reaching the end view, or on asking past the last page when there is none." },
+      { "name": "toolbar", "type": "ReactNode", "description": "Your own buttons in the toolbar (settings, thumbnails)." },
+      { "name": "className", "type": "string", "description": "Added to the root; set its height here (default min(48rem, 88svh))." }
+    ]
+  }
+}
