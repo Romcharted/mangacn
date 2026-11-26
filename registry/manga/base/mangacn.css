@@ -18,9 +18,9 @@
 @custom-variant reading-rtl (&:where([data-reading="rtl"], [data-reading="rtl"] *):not(:where([data-reading="ltr"], [data-reading="rtl"] [data-reading="ltr"] *)));
 
 @theme inline {
-  --font-sans: var(--font-manga-body, "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif);
-  --font-heading: var(--font-manga-letter, "Patrick Hand SC", "Comic Sans MS", cursive);
-  --font-letter: var(--font-manga-letter, "Patrick Hand SC", "Comic Sans MS", cursive);
+  --font-sans: var(--font-manga-body, "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", ui-sans-serif, system-ui), var(--font-manga-jp, "Zen Kaku Gothic New"), "Hiragino Sans", "Yu Gothic", "Noto Sans CJK JP", sans-serif;
+  --font-heading: var(--font-manga-letter, "Patrick Hand SC", "Comic Sans MS"), var(--font-manga-jp, "Zen Kaku Gothic New"), "Hiragino Sans", "Yu Gothic", "Noto Sans CJK JP", cursive;
+  --font-letter: var(--font-manga-letter, "Patrick Hand SC", "Comic Sans MS"), var(--font-manga-jp, "Zen Kaku Gothic New"), "Hiragino Sans", "Yu Gothic", "Noto Sans CJK JP", cursive;
   --font-sfx: var(--font-manga-sfx, "Dela Gothic One", Impact, sans-serif);
   --color-paper: var(--paper);
   --color-ink: var(--ink);
@@ -51,6 +51,8 @@
   --animate-drop-in: mg-drop-in 249ms step-end backwards;
   --animate-sheet-in: mg-sheet-in 249ms step-end backwards;
   --animate-dots: mg-dots 833ms step-end infinite;
+  --animate-wipe: mg-wipe 333ms step-end both;
+  --animate-wipe-out: mg-wipe-out 333ms step-end both;
 }
 
 :root {
@@ -235,7 +237,7 @@
 
   body {
     /* Not var(--font-sans): Next.js templates set --font-sans on <html> with next/font (Geist). */
-    font-family: var(--font-manga-body, "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif);
+    font-family: var(--font-manga-body, "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", ui-sans-serif, system-ui), var(--font-manga-jp, "Zen Kaku Gothic New"), "Hiragino Sans", "Yu Gothic", "Noto Sans CJK JP", sans-serif;
   }
 
   /* Muted surfaces are a very light, wide screentone (~6%), never grey. */
@@ -563,6 +565,36 @@
   33% { translate: calc(1rem * var(--slide-dir, 1)) 0; }
   66% { translate: calc(0.3rem * var(--slide-dir, 1)) 0; }
   100% { translate: 0 0; }
+}
+
+/*
+ * Wipe (scene change): the element is uncovered from its start edge in four frames (333ms), or covered
+ * again with -out. In manga reading order it comes from the right. Reduced motion: no wipe, the end state.
+ */
+@keyframes mg-wipe {
+  0% { clip-path: inset(0 100% 0 0); }
+  25% { clip-path: inset(0 75% 0 0); }
+  50% { clip-path: inset(0 50% 0 0); }
+  75% { clip-path: inset(0 25% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+@keyframes mg-wipe-out {
+  0% { clip-path: inset(0 0 0 0); }
+  25% { clip-path: inset(0 0 0 25%); }
+  50% { clip-path: inset(0 0 0 50%); }
+  75% { clip-path: inset(0 0 0 75%); }
+  100% { clip-path: inset(0 0 0 100%); }
+}
+
+/*
+ * Page unit: the Page model (panel item) sets --pu to 1/100 of a page width in container units. Registered
+ * as a length, it is computed where the page sets it, so a container nested inside a panel keeps the
+ * page's unit.
+ */
+@property --pu {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
 }
 
 /* Click impact, three frames: negative + pop, recoil, settle. */
