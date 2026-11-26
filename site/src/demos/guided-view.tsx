@@ -1,0 +1,127 @@
+import { useMemo, useState } from "react"
+import { GuidedView, type GuidedImagePage } from "@registry/manga/signature/guided-view"
+import { ChapterEnd } from "@registry/manga/signature/chapter-end"
+import { Button } from "@registry/manga/ui/button"
+import { Tile } from "../state-grid"
+import { ForceInside } from "../force-inside"
+import { PAGE_H, PAGE_W, chapterPages } from "./reader-art"
+import { JSON_CHAPTER } from "./reader-json"
+
+/** Scans with their panel boxes (page units → percent of the page). */
+function scans(n: number): GuidedImagePage[] {
+  return chapterPages(n).map((p) => ({
+    ...p,
+    panels: p.panels.map((b) => ({ x: (b.x / PAGE_W) * 100, y: (b.y / PAGE_H) * 100, w: (b.w / PAGE_W) * 100, h: (b.h / PAGE_H) * 100, label: b.alt })),
+  }))
+}
+
+export function Preview() {
+  const [source, setSource] = useState<"data" | "scans">("data")
+  const [order, setOrder] = useState<"rtl" | "ltr">("ltr")
+  const scanPages = useMemo(() => scans(4), [])
+  const pages = source === "data" ? JSON_CHAPTER.map((page, i) => ({ page, alt: `Page ${i + 1}` })) : scanPages
+  const choice = <V extends string>(value: V, current: V, set: (v: V) => void, text: string) => (
+    <button
+      type="button"
+      aria-pressed={value === current}
+      onClick={() => set(value)}
+      className="min-h-11 border-ink px-3 font-letter text-sm uppercase aria-pressed:ink-fill focus-ink sm:min-h-9"
+    >
+      {text}
+    </button>
+  )
+  return (
+    <div className="grid gap-3">
+      <div className="flex flex-wrap items-center gap-2">
+        {choice("data", source, setSource, "Page data")}
+        {choice("scans", source, setSource, "Scans + boxes")}
+        <span className="w-2" />
+        {choice("ltr", order, setOrder, "Western LTR")}
+        {choice("rtl", order, setOrder, "Manga RTL")}
+      </div>
+      {/* made for phones: the demo keeps a phone's width */}
+      <div className="mx-auto w-full max-w-sm">
+        <GuidedView
+          key={`${source}-${order}`}
+          pages={pages}
+          direction={order}
+          className="h-[38rem]!"
+          end={
+            <ChapterEnd chapter="Chapter 5" next={{ number: 6, title: "The river market", date: "Dec 10" }}>
+              <Button variant="outline">Back to the series</Button>
+            </ChapterEnd>
+          }
+        />
+      </div>
+    </div>
+  )
+}
+
+function Frozen(props: Partial<React.ComponentProps<typeof GuidedView>>) {
+  const pages = JSON_CHAPTER.map((page) => ({ page }))
+  return <GuidedView pages={pages} direction="ltr" className="h-[30rem]! min-h-0!" {...props} />
+}
+
+export function States() {
+  return (
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <Tile label="first panel · the rest under the veil" size="full">
+        <div className="w-full max-w-xs">
+          <Frozen />
+        </div>
+      </Tile>
+      <Tile label="a speech panel (page 2, panel 1)" size="full">
+        <div className="w-full max-w-xs">
+          <Frozen defaultPosition={{ page: 1, panel: 0 }} />
+        </div>
+      </Tile>
+      <Tile label="a jagged panel, manga order" size="full">
+        <div className="w-full max-w-xs">
+          <Frozen direction="rtl" defaultPosition={{ page: 1, panel: 2 }} />
+        </div>
+      </Tile>
+      <Tile label="whole page · current panel framed" size="full">
+        <div className="w-full max-w-xs">
+          <OverviewOn />
+        </div>
+      </Tile>
+      <Tile label="page edge · hover" size="full">
+        <div className="w-full max-w-xs">
+          <ForceInside state="hover" selector="[data-slot=guided-view-edge]">
+            <Frozen defaultPosition={{ page: 0, panel: 1 }} />
+          </ForceInside>
+        </div>
+      </Tile>
+      <Tile label="scans with panel boxes" size="full">
+        <div className="w-full max-w-xs">
+          <GuidedView pages={scans(2)} direction="ltr" defaultPosition={{ page: 1, panel: 2 }} className="h-[30rem]! min-h-0!" />
+        </div>
+      </Tile>
+    </div>
+  )
+}
+
+/** The whole-page view, opened once on mount. */
+function OverviewOn() {
+  return (
+    <div
+      ref={(el) => {
+        const b = el?.querySelector<HTMLButtonElement>("[data-slot=guided-view-toolbar] [aria-pressed=false]")
+        if (b && !el?.dataset.opened) {
+          el!.dataset.opened = "1"
+          requestAnimationFrame(() => b.click())
+        }
+      }}
+    >
+      <Frozen defaultPosition={{ page: 0, panel: 1 }} />
+    </div>
+  )
+}
+
+export function Thumb() {
+  return (
+    <div className="relative w-24 overflow-hidden border-ink-panel bg-background">
+      <img src={chapterPages(1)[2].src} alt="" className="block w-full scale-[1.9] origin-[50%_22%]" />
+    </div>
+  )
+}

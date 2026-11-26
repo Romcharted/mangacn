@@ -1,0 +1,43 @@
+{
+  "name": "guided-view",
+  "type": "registry:component",
+  "title": "Guided View",
+  "description": "A manga read panel by panel, made for phones: the screen zooms from one panel to the next. It reads the panel geometry of the page model (pageGeometry: every panel's box in reading order, insets included), so a page written as PageData is drawn by Page and guided without any extra data; scans work too, with the box of each panel in percent of the page. The page is drawn once at a fixed width and a camera fits the current panel in the stage, moving in four steps (333 ms); the panels around it hide under a paper veil with wide dots that steps aside while the camera travels. A new page slides in from the side it comes from. Next and previous by tapping the page edges (on hover a paper plate with a brush arrow), the arrow keys following the reading order, Space, Page Up / Down, Home / End, a swipe (the page follows the finger, then turns or snaps back) or the toolbar. Whole page shows the page with every panel as a target (the current one framed, hover thickens a panel's line). A ReadingProgress counts the panels; a live region reads each panel's label. Optional end view (e.g. a ChapterEnd) and a slot for your buttons. Reduced motion: the camera jumps.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/panel",
+    "Romcharted/mangacn/reader-strip",
+    "Romcharted/mangacn/reading-progress",
+    "Romcharted/mangacn/button",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn",
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/guided-view.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/guided-view.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/guided-view\". Pass pages of the page model as { page: PageData }: their panels are found with pageGeometry, in reading order. For scans pass { src, alt, width, height, panels: [{ x, y, w, h, label? }] } with boxes in percent of the page. Give panels a label (PanelData.label): it is what a screen reader hears at each step.",
+  "meta": {
+    "tagline": "A manga read panel by panel: the screen zooms from one panel to the next.",
+    "usage": "import { GuidedView } from \"@/components/manga/guided-view\"\nimport type { PageData } from \"@/components/manga/page-geometry\"\n\nconst pages: PageData[] = [/* your pages */]\n\n<GuidedView\n  pages={pages.map((page) => ({ page }))}\n  direction=\"rtl\"\n  onPositionChange={({ page, panel }) => save(page, panel)}\n/>",
+    "props": [
+      { "name": "pages", "type": "({ page: PageData; alt?: string } | { src: string; alt: string; width: number; height: number; panels: { x: number; y: number; w: number; h: number; label?: string }[] })[]", "description": "Page-model pages, or scans with their panel boxes (percent of the page)." },
+      { "name": "position", "type": "{ page: number; panel: number }", "description": "Current panel, controlled (0-based)." },
+      { "name": "defaultPosition", "type": "{ page: number; panel: number }", "default": "{ page: 0, panel: 0 }", "description": "Current panel, uncontrolled." },
+      { "name": "onPositionChange", "type": "(position: { page: number; panel: number }) => void", "description": "Called at each step." },
+      { "name": "direction", "type": "\"rtl\" | \"ltr\"", "default": "\"rtl\"", "description": "Order of taps, swipes and arrows, and of data pages that do not set reading." },
+      { "name": "end", "type": "ReactNode", "description": "Shown after the last panel." },
+      { "name": "onEnd", "type": "() => void", "description": "Called past the last panel." },
+      { "name": "toolbar", "type": "ReactNode", "description": "Your own buttons in the toolbar." },
+      { "name": "className", "type": "string", "description": "Added to the root; set its height here (default min(46rem, 86svh))." }
+    ]
+  }
+}
