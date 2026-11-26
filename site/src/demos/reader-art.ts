@@ -194,3 +194,25 @@ export function coverUrl(seed: number, title = "") {
     : ""
   return svgUrl(W, H, art + label + frame(3, 3, W - 6, H - 6))
 }
+
+export type Scene = "roofs" | "lanterns" | "face" | "faces" | "crowd" | "burst" | "rain" | "hand" | "rise" | "home"
+
+/** Art for one panel of a page-model page (PanelArt crops it): a scene drawn as an SVG URL, 480 × 360. */
+export function sceneUrl(scene: Scene, seed = 1) {
+  const W = 480
+  const H = 360
+  const k = seed * 7
+  const art: Record<Scene, string> = {
+    roofs: `<rect width="${W}" height="200" fill="url(#t)"/>${moon(360, 90, 44)}${roofs(0, 170, 2.4)}`,
+    lanterns: `${lantern(60, 40, 1.3)}${lantern(190, 70, 1.2)}${lantern(320, 30, 1.4)}<path d="M0 300h${W}" stroke="${INK}" stroke-width="5"/>`,
+    face: `${focusLines(240, 190, 120, 110, k)}<circle cx="240" cy="190" r="120" fill="${PAPER}"/>${bust(170, 110, 1.4)}`,
+    faces: `<rect y="270" width="${W}" height="90" fill="url(#t)"/>${bust(40, 150, 1.5)}${bust(300, 150, 1.5, INK)}`,
+    crowd: `${rain(0, 0, W, H, 130, k)}${back(60, 200, 1.1)}${back(200, 220, 1)}${back(330, 205, 1.1)}`,
+    burst: `${focusLines(240, 180, 90, 130, k)}<circle cx="240" cy="180" r="90" fill="${PAPER}"/>${lantern(206, 110, 1.15)}`,
+    rain: `<rect width="${W}" height="${H}" fill="url(#l)"/>${rain(0, 0, W, H, 160, k)}${back(190, 200, 1.2)}`,
+    hand: `${speedLines(0, 20, W, 320, 30, k)}<path d="M150 330l90-120 24 12 14-44 22 8-8 44 30-30 16 14-60 76z" fill="${PAPER}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`,
+    rise: `<rect width="${W}" height="${H}" fill="url(#t)"/>${moon(90, 80, 40)}${lantern(230, 40, 0.8)}${lantern(320, 110, 0.9)}${lantern(170, 150, 1)}${roofs(0, 260, 2.4)}`,
+    home: `<rect width="${W}" height="${H}" fill="${INK}"/>${lantern(200, 90, 1.4)}${back(120, 230, 1)}`,
+  }
+  return svgUrl(W, H, art[scene])
+}
