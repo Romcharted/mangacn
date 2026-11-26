@@ -4,6 +4,8 @@ import { track } from "./visits"
 import { CodeToggle, CopyButton } from "./copy"
 import { installCommand } from "./registry"
 
+const LunchBreak = lazy(() => import("./pages/lunch-break").then((m) => ({ default: m.LunchBreak })))
+
 /*
  * Full interfaces (registry:block items): each one lives in registry/manga/blocks/<slug>/<slug>.tsx,
  * exports a component named in PascalCase, and is listed here. Route: #examples/<slug>.
@@ -147,7 +149,8 @@ export function InterfacePage({ slug }: { slug: string }) {
 
 /** Home page: tabs that switch between live interfaces, like the shadcn site does. */
 export function HomeInterfaces() {
-  const shown = interfaces.filter((i) => ["dashboard", "ai-chat", "landing-page", "manga-reader", "tasks"].includes(i.slug)).slice(0, 4)
+  const order = ["dashboard", "story-landing", "author-site", "ai-chat"]
+  const shown = order.flatMap((slug) => interfaces.filter((i) => i.slug === slug)).slice(0, 4)
   if (!shown.length) return null
   return (
     <section aria-labelledby="home-ifaces" className="mt-4 mb-10">
@@ -161,6 +164,7 @@ export function HomeInterfaces() {
               {i.title}
             </TabsTrigger>
           ))}
+          <TabsTrigger value="manga-page">Manga page</TabsTrigger>
           <a href="#examples" className="ms-auto self-center font-letter text-sm uppercase underline decoration-2 underline-offset-4 focus-ink">
             All examples →
           </a>
@@ -177,6 +181,23 @@ export function HomeInterfaces() {
             </a>
           </TabsContent>
         ))}
+        <TabsContent value="manga-page">
+          <div data-demo className="grid justify-items-center border-ink-panel bg-background p-4 sm:p-8">
+            <div className="w-full max-w-2xl">
+              <Pending>
+                <LunchBreak />
+              </Pending>
+            </div>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <a href="#studio" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+              Make your own in the page studio →
+            </a>
+            <a href="#panel" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
+              The page model →
+            </a>
+          </div>
+        </TabsContent>
       </Tabs>
     </section>
   )
