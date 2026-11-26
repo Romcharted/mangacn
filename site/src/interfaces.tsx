@@ -17,7 +17,7 @@ export type Interface = {
   slug: string
   title: string
   summary: string
-  Component: ComponentType
+  Component: ComponentType<{ titleAs?: "h1" | "h2" }>
   source: () => Promise<string>
   /** Blocks installed by this example when it combines several (Auth); otherwise the slug itself. */
   items?: string[]
@@ -138,7 +138,7 @@ export function InterfacePage({ slug }: { slug: string }) {
       </div>
       <div data-demo className="mt-6 border-ink-panel bg-background md:overflow-clip">
         <Pending key={slug}>
-          <Component />
+          <Component titleAs="h2" />
         </Pending>
       </div>
       <div className="mt-4">
@@ -174,7 +174,7 @@ export function HomeInterfaces() {
           <TabsContent key={i.slug} value={i.slug}>
             <div data-demo className="border-ink-panel bg-background md:overflow-clip">
               <Pending>
-                <i.Component />
+                <i.Component titleAs="h2" />
               </Pending>
             </div>
             <a href={`#examples/${i.slug}`} className="mt-3 inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
@@ -254,7 +254,7 @@ export function HomeExample() {
       {open && (
         <div id={`${id}-body`} data-demo className="border-t-[length:var(--mg-bw-panel)] border-border">
           <Pending>
-            <Component />
+            <Component titleAs="h2" />
           </Pending>
         </div>
       )}

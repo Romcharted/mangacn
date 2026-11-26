@@ -64,11 +64,11 @@ export function AuthFlow() {
             </div>
           }
         >
-          {screen === "sign-in" && <SignIn key="sign-in" {...nav} providers={PROVIDERS} />}
-          {screen === "sign-up" && <SignUp key="sign-up" {...nav} providers={PROVIDERS} />}
-          {screen === "forgot-password" && <ForgotPassword key="forgot-password" {...nav} />}
-          {screen === "verify-code" && <VerifyCode key={`verify-${purpose}`} {...nav} purpose={purpose} />}
-          {screen === "reset-password" && <ResetPassword key="reset-password" {...nav} />}
+          {screen === "sign-in" && <SignIn titleAs="h2" key="sign-in" {...nav} providers={PROVIDERS} />}
+          {screen === "sign-up" && <SignUp titleAs="h2" key="sign-up" {...nav} providers={PROVIDERS} />}
+          {screen === "forgot-password" && <ForgotPassword titleAs="h2" key="forgot-password" {...nav} />}
+          {screen === "verify-code" && <VerifyCode titleAs="h2" key={`verify-${purpose}`} {...nav} purpose={purpose} />}
+          {screen === "reset-password" && <ResetPassword titleAs="h2" key="reset-password" {...nav} />}
         </Deferred>
       </div>
     </div>

@@ -15,6 +15,7 @@ const STATS = [
 export function Preview() {
   return (
     <SeriesHeader
+      as="h2"
       title="Lantern Street"
       altTitle="The night market stories"
       author="Story and art: N. Arai"
