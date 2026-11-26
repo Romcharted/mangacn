@@ -33,6 +33,8 @@ export type AuthProvider = { id: string; label: string; logo?: React.ReactNode }
 
 export type SignUpProps = {
   className?: string
+  /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
+  titleAs?: "h1" | "h2"
   /** Called by the links and the next-step button. Without it they do nothing (the block never navigates). */
   onNavigate?: (screen: AuthScreen) => void
   /** Third-party sign-up buttons. The block ships no logo: pass your own marks. */
@@ -191,7 +193,7 @@ function PasswordInput({
   )
 }
 
-export function SignUp({ className, onNavigate, providers = DEFAULT_PROVIDERS }: SignUpProps) {
+export function SignUp({ className, titleAs: TitleTag = "h1", onNavigate, providers = DEFAULT_PROVIDERS }: SignUpProps) {
   const uid = React.useId()
   const rootRef = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -279,9 +281,9 @@ export function SignUp({ className, onNavigate, providers = DEFAULT_PROVIDERS }:
               </span>
               <span className="font-letter text-xl leading-none tracking-wide uppercase">Inkwell</span>
             </span>
-            <h1 id={`${uid}-title`} tabIndex={-1} className="font-letter text-4xl leading-none tracking-wide uppercase outline-none">
+            <TitleTag id={`${uid}-title`} tabIndex={-1} className="font-letter text-4xl leading-none tracking-wide uppercase outline-none">
               {done ? (done.via === "email" ? "Check your inbox" : "Welcome aboard") : "Create an account"}
-            </h1>
+            </TitleTag>
             {!done && <p>Free forever for your first three series.</p>}
           </header>
 

@@ -32,6 +32,8 @@ export type AuthProvider = { id: string; label: string; logo?: React.ReactNode }
 
 export type SignInProps = {
   className?: string
+  /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
+  titleAs?: "h1" | "h2"
   /** Called by the links and the next-step button. Without it they do nothing (the block never navigates). */
   onNavigate?: (screen: AuthScreen) => void
   /** Third-party sign-in buttons. The block ships no logo: pass your own marks. */
@@ -181,7 +183,7 @@ function PasswordInput({
   )
 }
 
-export function SignIn({ className, onNavigate, providers = DEFAULT_PROVIDERS }: SignInProps) {
+export function SignIn({ className, titleAs: TitleTag = "h1", onNavigate, providers = DEFAULT_PROVIDERS }: SignInProps) {
   const uid = React.useId()
   const rootRef = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -268,9 +270,9 @@ export function SignIn({ className, onNavigate, providers = DEFAULT_PROVIDERS }:
               </span>
               <span className="font-letter text-xl leading-none tracking-wide uppercase">Inkwell</span>
             </span>
-            <h1 id={`${uid}-title`} tabIndex={-1} className="font-letter text-4xl leading-none tracking-wide uppercase outline-none">
+            <TitleTag id={`${uid}-title`} tabIndex={-1} className="font-letter text-4xl leading-none tracking-wide uppercase outline-none">
               {done ? (done.via === "email" ? "Almost in" : "You're in") : "Sign in"}
-            </h1>
+            </TitleTag>
             {!done && <p>Pick up your series where you left them.</p>}
           </header>
 

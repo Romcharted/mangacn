@@ -56,7 +56,7 @@ const columns: ColumnDef<Task>[] = [
   { accessorKey: "status", header: "Status", meta: { card: "badge" }, cell: ({ getValue }) => <StatusStamp status={getValue<Status>()} /> },
 ]
 
-export function Tasks({ className }: { className?: string }) {
+export function Tasks({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
   const [tasks, setTasks] = React.useState(START)
   const [query, setQuery] = React.useState("")
   const [filter, setFilter] = React.useState<Status | "All">("All")
@@ -86,7 +86,7 @@ export function Tasks({ className }: { className?: string }) {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="font-mono text-xs">Studio Inkwell · Chapter 13</p>
-          <h1 className="font-letter text-4xl leading-none tracking-wide uppercase">Tasks</h1>
+          <TitleTag className="font-letter text-4xl leading-none tracking-wide uppercase">Tasks</TitleTag>
         </div>
         <ImpactCounter value={done} label={`of ${tasks.length} done`} />
       </header>

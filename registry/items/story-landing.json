@@ -37,6 +37,12 @@
         "name": "className",
         "type": "string",
         "description": "Size and placement of the whole interface."
+      },
+      {
+        "name": "titleAs",
+        "type": "\"h1\" | \"h2\"",
+        "default": "\"h1\"",
+        "description": "The title's heading level: \"h1\" when the block is the page, \"h2\" inside a page that already has its h1."
       }
     ]
   }

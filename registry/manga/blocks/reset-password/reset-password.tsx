@@ -30,6 +30,8 @@ export type AuthScreen = "sign-in" | "sign-up" | "forgot-password" | "verify-cod
 
 export type ResetPasswordProps = {
   className?: string
+  /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
+  titleAs?: "h1" | "h2"
   /** Called by "Back to sign in". Without it the button does nothing. */
   onNavigate?: (screen: AuthScreen) => void
   /** The account whose password changes. */
@@ -138,7 +140,7 @@ function ErrorBox({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function ResetPassword({ className, onNavigate, email = "mika@inkwell.app" }: ResetPasswordProps) {
+export function ResetPassword({ className, titleAs: TitleTag = "h1", onNavigate, email = "mika@inkwell.app" }: ResetPasswordProps) {
   const uid = React.useId()
   const rootRef = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -252,13 +254,13 @@ export function ResetPassword({ className, onNavigate, email = "mika@inkwell.app
               </span>
               <span className="font-mono text-xs">{done ? "Password saved" : "Step 3 of 3"}</span>
             </div>
-            <h1
+            <TitleTag
               id={`${uid}-title`}
               tabIndex={-1}
               className="font-letter text-4xl leading-none tracking-wide uppercase outline-none"
             >
               {done ? "All set" : "New password"}
-            </h1>
+            </TitleTag>
             {!done && (
               <p>
                 Choose a new password for <strong className="font-bold wrap-anywhere">{email}</strong>.

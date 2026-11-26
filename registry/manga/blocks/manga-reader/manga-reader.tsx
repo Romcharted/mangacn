@@ -366,7 +366,7 @@ function Arrow({ to }: { to: "left" | "right" }) {
   return <span aria-hidden className={cn("mark-arrow shrink-0 text-lg", to === "left" ? "-rotate-90" : "rotate-90")} />
 }
 
-export function MangaReader({ className }: { className?: string }) {
+export function MangaReader({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
   const [order, setOrder] = React.useState<Order>("rtl")
   const [current, setCurrent] = React.useState(11)
   const [read, setRead] = React.useState(() => new Set(CHAPTERS.filter((c) => c.n < 11).map((c) => c.n)))
@@ -535,7 +535,7 @@ export function MangaReader({ className }: { className?: string }) {
               <p className="font-mono text-xs">
                 Vol. {SERIES.volume} · {SERIES.author}
               </p>
-              <h1 className="font-letter text-3xl leading-none tracking-wide uppercase">{SERIES.title}</h1>
+              <TitleTag className="font-letter text-3xl leading-none tracking-wide uppercase">{SERIES.title}</TitleTag>
               <p className="truncate font-letter text-lg leading-tight uppercase">
                 Ch. {chapter.n} · {chapter.title}
               </p>

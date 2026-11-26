@@ -157,7 +157,7 @@ function BookArt({ className }: { className?: string }) {
 
 /* ---------- The interface ---------- */
 
-export function LandingPage({ className }: { className?: string }) {
+export function LandingPage({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
   const [rootRef, wide] = useWide<HTMLDivElement>()
   const uid = React.useId()
   const [menu, setMenu] = React.useState(false)
@@ -268,13 +268,13 @@ export function LandingPage({ className }: { className?: string }) {
               <div className="flex h-full flex-col">
                 <div className={cn("grid flex-1 content-center gap-5 p-5 @md/main:p-8", wide && "pe-20")}>
                   <p className="font-mono text-xs">Chapter 1 · open beta</p>
-                  <h1 id={`${uid}-title`} className="font-letter text-5xl leading-[0.9] tracking-wide uppercase @md/main:text-6xl @5xl/main:text-7xl">
+                  <TitleTag id={`${uid}-title`} className="font-letter text-5xl leading-[0.9] tracking-wide uppercase @md/main:text-6xl @5xl/main:text-7xl">
                     Draw it.
                     <br />
                     Drop it.
                     <br />
                     Get read.
-                  </h1>
+                  </TitleTag>
                   <p className="max-w-prose text-lg">
                     Panelhouse is the studio and the shop for independent manga: letter your pages, schedule your chapters and meet
                     readers who follow you from the first panel.

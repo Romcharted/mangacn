@@ -275,7 +275,7 @@ const touch = "max-sm:min-h-11"
 
 /* ---------- The interface ---------- */
 
-export function Portfolio({ className }: { className?: string }) {
+export function Portfolio({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
   const [rootRef, wide] = useWide<HTMLDivElement>()
   const [opened, setOpened] = React.useState<Set<string>>(() => new Set())
   const [form, setForm] = React.useState<Form>(EMPTY)
@@ -384,11 +384,11 @@ export function Portfolio({ className }: { className?: string }) {
                   </Sfx>
                 </div>
                 <div className="grid gap-3">
-                  <h1 className="font-letter text-5xl leading-[0.9] tracking-wide uppercase @md/main:text-6xl @5xl/main:text-7xl">
+                  <TitleTag className="font-letter text-5xl leading-[0.9] tracking-wide uppercase @md/main:text-6xl @5xl/main:text-7xl">
                     Noa
                     <br />
                     Kirishima
-                  </h1>
+                  </TitleTag>
                   <p className="font-letter text-xl tracking-wide uppercase">Frontend engineer</p>
                   <p className="max-w-prose">
                     I draw interfaces like manga pages: clear panels, strong lines, and nothing between the reader and the story.

@@ -53,6 +53,12 @@
         "type": "{ id: string; label: string; logo?: React.ReactNode }[]",
         "default": "[{ id: \"google\", label: \"Continue with Google\" }, { id: \"apple\", label: \"Continue with Apple\" }]",
         "description": "Third-party sign-in buttons. The block ships no logo; an empty list hides the divider and the buttons."
+      },
+      {
+        "name": "titleAs",
+        "type": "\"h1\" | \"h2\"",
+        "default": "\"h1\"",
+        "description": "The title's heading level: \"h1\" when the block is the page, \"h2\" inside a page that already has its h1."
       }
     ]
   }

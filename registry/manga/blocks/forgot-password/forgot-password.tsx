@@ -26,6 +26,8 @@ export type AuthScreen = "sign-in" | "sign-up" | "forgot-password" | "verify-cod
 
 export type ForgotPasswordProps = {
   className?: string
+  /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
+  titleAs?: "h1" | "h2"
   /** Called by the links and the next-step button. Without it they do nothing (the block never navigates). */
   onNavigate?: (screen: AuthScreen) => void
 }
@@ -147,7 +149,7 @@ function ErrorBox({ title, children }: { title: string; children: React.ReactNod
   )
 }
 
-export function ForgotPassword({ className, onNavigate }: ForgotPasswordProps) {
+export function ForgotPassword({ className, titleAs: TitleTag = "h1", onNavigate }: ForgotPasswordProps) {
   const uid = React.useId()
   const rootRef = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -218,9 +220,9 @@ export function ForgotPassword({ className, onNavigate }: ForgotPasswordProps) {
               </span>
               <span className="font-letter text-xl leading-none tracking-wide uppercase">Inkwell</span>
             </span>
-            <h1 id={`${uid}-title`} tabIndex={-1} className="font-letter text-4xl leading-none tracking-wide uppercase outline-none">
+            <TitleTag id={`${uid}-title`} tabIndex={-1} className="font-letter text-4xl leading-none tracking-wide uppercase outline-none">
               {sent ? "Check your inbox" : "Forgot password"}
-            </h1>
+            </TitleTag>
             {!sent && <p>Enter the email of your account. We will send you a code to choose a new password.</p>}
           </header>
 

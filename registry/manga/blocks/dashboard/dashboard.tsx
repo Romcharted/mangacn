@@ -161,7 +161,7 @@ const NAV = [
   { label: "Sales", icon: ChartColumn },
 ]
 
-export function Dashboard({ className }: { className?: string }) {
+export function Dashboard({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
   const [period, setPeriod] = React.useState<Period>("30d")
   const [view, setView] = React.useState("Overview")
   const [palette, setPalette] = React.useState(false)
@@ -229,7 +229,7 @@ export function Dashboard({ className }: { className?: string }) {
           <SidebarInset className="@container/main min-h-0 min-w-0 md:overflow-auto">
             <header className="z-10 flex flex-wrap items-center gap-3 border-b-[length:var(--mg-bw)] border-border bg-background px-3 py-2 md:sticky md:top-0">
               <SidebarTrigger />
-              <h1 className="font-letter text-2xl leading-none tracking-wide uppercase">{view}</h1>
+              <TitleTag className="font-letter text-2xl leading-none tracking-wide uppercase">{view}</TitleTag>
               <div className="ms-auto flex flex-wrap items-center gap-2">
                 {/* Pressed buttons rather than a Toggle Group: its value API differs between Radix and Base UI. */}
                 <ButtonGroup aria-label="Period">

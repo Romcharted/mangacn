@@ -142,7 +142,7 @@ const stop = (e: React.MouseEvent) => e.preventDefault()
 
 /* ---------- The interface ---------- */
 
-export function StoryLanding({ className }: { className?: string }) {
+export function StoryLanding({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
   const rootRef = React.useRef<HTMLDivElement>(null)
   const uid = React.useId()
   const [started, setStarted] = React.useState(false)
@@ -193,11 +193,11 @@ export function StoryLanding({ className }: { className?: string }) {
           />
           <div className="grid gap-5">
             <p className="font-mono text-xs">Issue 1 · a habit app for people who like stories</p>
-            <h1 id={`${uid}-title`} className="font-letter text-5xl leading-[0.9] tracking-wide uppercase @md/story:text-6xl">
+            <TitleTag id={`${uid}-title`} className="font-letter text-5xl leading-[0.9] tracking-wide uppercase @md/story:text-6xl">
               Every day
               <br />
               is a panel.
-            </h1>
+            </TitleTag>
             <p className="max-w-prose text-lg">
               Tsugi turns one small goal a day into a story you keep reading: check the panel, finish the week, title the chapter. Seven
               panels at a time, no streak to lose.

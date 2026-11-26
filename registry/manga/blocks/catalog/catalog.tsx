@@ -369,7 +369,7 @@ function FilterFields({ idBase, genre, setGenre, statuses, toggleStatus }: Filte
 const plural = (n: number) => (n === 1 ? "1 volume" : `${n} volumes`)
 const noNav = (e: React.MouseEvent) => e.preventDefault()
 
-export function Catalog({ className }: { className?: string }) {
+export function Catalog({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
   const id = React.useId()
   const [query, setQuery] = React.useState("")
   const [shelf, setShelf] = React.useState<Shelf>("all")
@@ -416,7 +416,7 @@ export function Catalog({ className }: { className?: string }) {
         <header className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
           <div className="grid gap-1">
             <p className="font-mono text-xs">Inkwell Library · {VOLUMES.length} volumes on your shelves</p>
-            <h1 className="font-letter text-4xl leading-none tracking-wide uppercase @3xl/main:text-5xl">Catalog</h1>
+            <TitleTag className="font-letter text-4xl leading-none tracking-wide uppercase @3xl/main:text-5xl">Catalog</TitleTag>
           </div>
           <p className="text-sm">
             {VOLUMES.filter((v) => v.shelf === "reading").length} in progress ·{" "}

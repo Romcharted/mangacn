@@ -29,6 +29,8 @@ export type VerifyPurpose = "sign-in" | "sign-up" | "reset"
 
 export type VerifyCodeProps = {
   className?: string
+  /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
+  titleAs?: "h1" | "h2"
   /** Called by the links and the next-step button. Without it they do nothing. */
   onNavigate?: (screen: AuthScreen) => void
   /** What the code confirms: changes the copy and the next screen. */
@@ -176,6 +178,7 @@ function ErrorBox({ children }: { children: React.ReactNode }) {
 
 export function VerifyCode({
   className,
+  titleAs: TitleTag = "h1",
   onNavigate,
   purpose = "sign-in",
   email = "mika@inkwell.app",
@@ -316,13 +319,13 @@ export function VerifyCode({
               </span>
               <span className="font-mono text-xs">{done ? copy.doneStep : copy.step}</span>
             </div>
-            <h1
+            <TitleTag
               id={`${uid}-title`}
               tabIndex={-1}
               className="font-letter text-4xl leading-none tracking-wide uppercase outline-none"
             >
               {done ? copy.doneTitle : copy.title}
-            </h1>
+            </TitleTag>
             {!done && (
               <p className="flex flex-wrap items-center gap-x-2">
                 <span>{copy.lead}</span>
