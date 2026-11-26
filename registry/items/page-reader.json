@@ -78,7 +78,7 @@
         "name": "background",
         "type": "\"paper\" | \"ink\" | \"tone\"",
         "default": "\"paper\"",
-        "description": "What shows around the pages."
+        "description": "What shows around the pages. \"ink\" stays black in both themes."
       },
       {
         "name": "preload",

@@ -46,7 +46,7 @@ export type PageReaderProps = Omit<React.ComponentProps<"section">, "children" |
   direction?: PageReaderDirection
   /** contain: whole page in view · width: fill the width (scrolls down) · height: fill the height. */
   fit?: PageReaderFit
-  /** What shows around the pages. */
+  /** What shows around the pages. "ink" stays black in both themes, like a reading room with the lights off. */
   background?: PageReaderBackground
   /** Pages fetched ahead of (and behind) the current one. */
   preload?: number
@@ -459,7 +459,7 @@ function PageReader({
         style={{ touchAction: zoom > 1 ? "none" : "pan-y pinch-zoom" }}
         className={cn(
           "relative min-h-0 flex-1 overflow-hidden border-ink-panel select-none",
-          background === "ink" ? "bg-foreground" : background === "tone" ? "bg-background tone-20" : "bg-background",
+          background === "ink" ? "bg-[oklch(0.13_0.008_60)]" : background === "tone" ? "bg-background tone-20" : "bg-background",
           "focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-[-7px] focus-visible:outline-ring",
           zoom > 1 && "cursor-grab active:cursor-grabbing",
         )}
