@@ -4,6 +4,11 @@ import * as React from "react"
 import { cn } from "cn"
 
 import type { ReaderStripPage } from "@/components/manga/reader-strip"
+import { Page } from "@/components/manga/panel"
+import type { PageData } from "@/components/manga/page-geometry"
+
+/** A scan, or a page of the page model (drawn small by Page). */
+export type ThumbnailPage = ReaderStripPage | { page: PageData; alt?: string }
 
 /*
  * Page thumbnails: every page of a chapter in a grid, to jump anywhere. In manga order the grid runs right
@@ -13,7 +18,7 @@ import type { ReaderStripPage } from "@/components/manga/reader-strip"
  */
 
 export type PageThumbnailsProps = Omit<React.ComponentProps<"nav">, "onSelect"> & {
-  pages: ReaderStripPage[]
+  pages: ThumbnailPage[]
   /** The page or pages on screen (a spread is two). */
   current?: number | number[]
   /** Pages before this index are marked as read. */
@@ -66,7 +71,7 @@ function PageThumbnails({
           const isOn = on.has(i)
           const read = i < readUntil && !isOn
           return (
-            <li key={`${i}-${p.src}`} className="min-w-0 [direction:initial]">
+            <li key={i} className="min-w-0 [direction:initial]">
               <button
                 ref={i === first ? currentRef : undefined}
                 type="button"
@@ -75,17 +80,17 @@ function PageThumbnails({
                 onClick={() => onSelect?.(i)}
                 className="relative isolate block w-full cursor-pointer ink-case-inner p-1 text-start text-foreground hover-lift focus-ink press aria-[current=page]:border-[3px] aria-[current=page]:p-[3px]"
               >
-                <span className="block bg-background dark:bg-foreground dark:p-1">
-                  <span className="relative block overflow-hidden bg-background" style={{ aspectRatio: `${p.width} / ${p.height}` }}>
-                    <img
-                      src={p.src}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      draggable={false}
-                      className="absolute inset-0 block size-full object-cover"
-                    />
-                  </span>
+                <span className={cn("block bg-background", !("page" in p) && "dark:bg-foreground dark:p-1")}>
+                  {"page" in p ? (
+                    // the page model scales as one block: a small width draws a small page
+                    <span aria-hidden className="pointer-events-none block">
+                      <Page page={p.page} fold="never" />
+                    </span>
+                  ) : (
+                    <span className="relative block overflow-hidden bg-background" style={{ aspectRatio: `${p.width} / ${p.height}` }}>
+                      <img src={p.src} alt="" loading="lazy" decoding="async" draggable={false} className="absolute inset-0 block size-full object-cover" />
+                    </span>
+                  )}
                 </span>
                 <span
                   className={cn(

@@ -2,11 +2,12 @@
   "name": "page-thumbnails",
   "type": "registry:component",
   "title": "Page Thumbnails",
-  "description": "Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view.",
+  "description": "Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view. It also takes pages of the page model ({ page: PageData }), drawn small by Page.",
   "categories": [
     "manga"
   ],
   "registryDependencies": [
+    "Romcharted/mangacn/panel",
     "Romcharted/mangacn/reader-strip",
     "Romcharted/mangacn/base"
   ],
@@ -25,13 +26,44 @@
     "tagline": "Every page of a chapter in a grid, to jump anywhere.",
     "usage": "import { PageThumbnails } from \"@/components/manga/page-thumbnails\"\n\n<PageThumbnails\n  pages={pages}\n  current={page}\n  readUntil={page}\n  direction=\"rtl\"\n  onSelect={(i) => setPage(i)}\n/>",
     "props": [
-      { "name": "pages", "type": "{ src: string; alt: string; width: number; height: number }[]", "description": "The pages, in reading order." },
-      { "name": "current", "type": "number | number[]", "description": "The page or pages on screen." },
-      { "name": "readUntil", "type": "number", "default": "0", "description": "Pages before this index get a brush check." },
-      { "name": "onSelect", "type": "(page: number) => void", "description": "Called with the page chosen." },
-      { "name": "direction", "type": "\"rtl\" | \"ltr\"", "default": "\"rtl\"", "description": "The grid runs right to left (manga) or left to right." },
-      { "name": "minWidth", "type": "string", "default": "\"5.5rem\"", "description": "Smallest thumbnail width (CSS length)." },
-      { "name": "className", "type": "string", "description": "Added to the nav." }
+      {
+        "name": "pages",
+        "type": "({ src: string; alt: string; width: number; height: number } | { page: PageData; alt?: string })[]",
+        "description": "Scans, or pages of the page model, in reading order."
+      },
+      {
+        "name": "current",
+        "type": "number | number[]",
+        "description": "The page or pages on screen."
+      },
+      {
+        "name": "readUntil",
+        "type": "number",
+        "default": "0",
+        "description": "Pages before this index get a brush check."
+      },
+      {
+        "name": "onSelect",
+        "type": "(page: number) => void",
+        "description": "Called with the page chosen."
+      },
+      {
+        "name": "direction",
+        "type": "\"rtl\" | \"ltr\"",
+        "default": "\"rtl\"",
+        "description": "The grid runs right to left (manga) or left to right."
+      },
+      {
+        "name": "minWidth",
+        "type": "string",
+        "default": "\"5.5rem\"",
+        "description": "Smallest thumbnail width (CSS length)."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the nav."
+      }
     ]
   }
 }
