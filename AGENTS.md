@@ -9,10 +9,14 @@ components in a manga style; it never rewrites them. Read this file before chang
 - Registry items are 100 % frontend: props in, callbacks out. No backend, database, account, analytics or
   paid service. (The showcase alone may load cookieless Umami statistics when it is configured.)
 - Nothing copied: no character, logo, title, page or brand colour from an existing work or platform.
-  Demo art is drawn in SVG for this repo (shapes, silhouettes, or characters invented here, such as Rin and
-  Mochi). A freely licensed picture or a public-domain comic page may be shown only with its source, author and
-  license in a `CREDITS.md` next to the files (`site/public/pages/`); never a work whose author refuses AI
-  derivations.
+  Demo art comes from "Mapless", the showcase's own invented series (Suzu, Kuro, the Eraser): five
+  AI-generated images and crops of them, in `site/public/art/` with their `CREDITS.md`, built by
+  `scripts/art-images.py` (WebP, several widths, never toned again). Say they are AI-generated wherever they are
+  credited (README, `CREDITS.md`, the site footer). No other demo drawings: no shapes, silhouettes, figures made
+  of circles or abstract covers standing in for art; UI icons are not art. Registry items ship no image:
+  components and blocks take picture URLs as props, and the site passes the Mapless files. A freely licensed
+  picture may be added only with its source, author and license in that `CREDITS.md`; never a work whose author
+  refuses AI derivations.
 - Each item has its own file, `registry/items/<name>.json`, the source of truth for that item.
   `registry/index.json` lists them (`include`) and `npm run sync` assembles `registry.json`, from which
   `llms.txt`, the README list and `r/*.json` are generated. Never edit `registry.json` by hand.

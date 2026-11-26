@@ -3856,6 +3856,12 @@
             "description": "Portrait URL, toned. Without it, the initials stand on paper."
           },
           {
+            "name": "toned",
+            "type": "boolean",
+            "default": "true",
+            "description": "Tone the portrait. Pass false for art that is already inked."
+          },
+          {
             "name": "stats",
             "type": "{ label: string; value: number; max?: number }[]",
             "default": "[]",
@@ -6931,7 +6937,7 @@
       "name": "landing-page",
       "type": "registry:block",
       "title": "Landing page",
-      "description": "A product landing page made only with mangacn, for an invented manga publishing app: a top nav that folds into a Sheet below 42rem of container width, an opening splash page of Panels on a PanelGrid (lettering headline, focus SpeedLines and an accent Burst around the drawn art, never under text, a shout Button and an outline Button, an ink panel of key figures; three columns with a slanted gutter from 48rem), features in cases (ink-case), pricing as a VersusPanel (Free vs Pro, Pro highlighted, monthly or yearly with pressed buttons in a Button Group), reviews in SpeechBubbles with square Avatars, a FAQ in the Accordion and a footer with link columns and a newsletter InputGroup in a Field that validates the address. One column on phones, container queries widen it; links never navigate. Works in light, dark, any accent and at phone width.",
+      "description": "A product landing page made only with mangacn, for an invented manga publishing app: a top nav that folds into a Sheet below 42rem of container width, an opening splash page of Panels on a PanelGrid (lettering headline, focus SpeedLines and an accent Burst around the cover you pass, never under text, a shout Button and an outline Button, an ink panel of key figures; three columns with a slanted gutter from 48rem), features in cases (ink-case), pricing as a VersusPanel (Free vs Pro, Pro highlighted, monthly or yearly with pressed buttons in a Button Group), reviews in SpeechBubbles with square Avatars, a FAQ in the Accordion and a footer with link columns and a newsletter InputGroup in a Field that validates the address. One column on phones, container queries widen it; links never navigate. Works in light, dark, any accent and at phone width.",
       "categories": [
         "blocks"
       ],
@@ -6961,11 +6967,16 @@
           "target": "@components/manga/blocks/landing-page.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/landing-page\". The root fills its container and follows the page (no inner scroll). The layout reacts to the width of the block itself (container queries), so it also works inside a narrower frame. The FAQ Accordion gets type=\"multiple\" through a loosely typed spread (FAQ_MODE): Radix requires it, Base UI ignores it, so the file works with both.",
+      "docs": "Import from \"@/components/manga/blocks/landing-page\". The root fills its container and follows the page (no inner scroll). The layout reacts to the width of the block itself (container queries), so it also works inside a narrower frame. The FAQ Accordion gets type=\"multiple\" through a loosely typed spread (FAQ_MODE): Radix requires it, Base UI ignores it, so the file works with both. Pass the opening panel's cover as an image URL in cover; the block ships none (a screentone cover without it).",
       "meta": {
         "tagline": "An opening page, features in panels, pricing as a versus, reviews in bubbles.",
         "usage": "import { LandingPage } from \"@/components/manga/blocks/landing-page\"\n\n<LandingPage />",
         "props": [
+          {
+            "name": "cover",
+            "type": "string",
+            "description": "Image URL of the cover in the opening panel. Without it, a screentone cover."
+          },
           {
             "name": "className",
             "type": "string",
@@ -7035,7 +7046,7 @@
       "name": "manga-reader",
       "type": "registry:block",
       "title": "Manga Reader",
-      "description": "A webtoon-style chapter reader made only with mangacn: a top bar with the series and chapter, a Full screen toggle (pressed button) and a Chapters button opening a Sheet headed by a VolumeCard of the current volume (drawn SVG cover, ongoing status, chapters read / out as a running-line bar) above the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a \"Page 3 / 9\" counter fed by the strip, a ReaderStrip of nine drawn pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Full screen makes the reader root fixed inset-0 with its own scroll (data-fullscreen=\"immersive\", also the fallback when the Fullscreen API is missing or refused, e.g. iOS Safari) and asks the browser for full screen on the document element (data-fullscreen=\"native\"), so the Sheet still opens above it; Escape or the button leaves. Works in light, dark, any accent and at phone width.",
+      "description": "A webtoon-style chapter reader made only with mangacn: a top bar with the series and chapter, a Full screen toggle (pressed button) and a Chapters button opening a Sheet headed by a VolumeCard of the current volume (the cover you pass, ongoing status, chapters read / out as a running-line bar) above the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a \"Page 3 / 9\" counter fed by the strip, a ReaderStrip of the chapter's pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Full screen makes the reader root fixed inset-0 with its own scroll (data-fullscreen=\"immersive\", also the fallback when the Fullscreen API is missing or refused, e.g. iOS Safari) and asks the browser for full screen on the document element (data-fullscreen=\"native\"), so the Sheet still opens above it; Escape or the button leaves. Works in light, dark, any accent and at phone width.",
       "categories": [
         "blocks"
       ],
@@ -7063,11 +7074,16 @@
           "target": "@components/manga/blocks/manga-reader.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/manga-reader\". The pages are SVG drawings made for the demo: replace chapterPages() with your own scans ({ src, alt, width, height }) and CHAPTERS with your chapter list. The reading order lives in the reader (data-reading on its root). Full screen needs no setup: the reader asks for the Fullscreen API and falls back to a fixed, self-scrolling immersive mode.",
+      "docs": "Import from \"@/components/manga/blocks/manga-reader\". The block ships no image: pass the cover and the pages ({ src, alt, width, height }) in art, and replace CHAPTERS with your chapter list; without pages the strip shows blank pages with their panel frames. The reading order lives in the reader (data-reading on its root). Full screen needs no setup: the reader asks for the Fullscreen API and falls back to a fixed, self-scrolling immersive mode.",
       "meta": {
         "tagline": "A vertical strip, chapters in a sheet, progress and reading order.",
         "usage": "import { MangaReader } from \"@/components/manga/blocks/manga-reader\"\n\n<MangaReader />",
         "props": [
+          {
+            "name": "art",
+            "type": "{ cover?: string; pages?: ReaderStripPage[] }",
+            "description": "The volume cover and the chapter pages (image URLs)."
+          },
           {
             "name": "className",
             "type": "string",
@@ -7086,7 +7102,7 @@
       "name": "author-site",
       "type": "registry:block",
       "title": "Author Site",
-      "description": "The site of a manga author, end to end, made only with mangacn: a header with the author's name and a breadcrumb, then three screens that lead to each other. Catalog: the works as VolumeCards (the newest one wrapped in an ObiBand), this week's releases in a ReleaseCalendar (strip of days), the most read series in a RankingList with big numbers, links to the latest chapters and a Shelf of every volume (pull one, then open its series). Series page: a SeriesHeader (cover, stamp status, genres, figures, folding summary, Start reading / Continue), the chapter list (read chapters carry a brush check, the next one shows its date) and a Spoiler hiding the next chapter's preview. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, drawn art, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other, and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.",
+      "description": "The site of one manga series, made only with mangacn: its volumes (VolumeCards, an ObiBand for the volume still to come), the week's releases, the most read chapters and the shelf, then the series page and the chapter. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, pictures, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other, and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.",
       "categories": [
         "blocks"
       ],
@@ -7119,11 +7135,16 @@
           "target": "@components/manga/blocks/author-site.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/author-site\". The works, chapters and pages are data at the top of the file: replace SERIES with your series and chapterPages() with your chapters as PageData (or give PageReader and GuidedView scans). The three screens are the component's state: wire show() to your router to give each one a URL.",
+      "docs": "Import from \"@/components/manga/blocks/author-site\". The works, chapters and pages are data at the top of the file: replace SERIES with your series and chapterPages() with your chapters as PageData (or give PageReader and GuidedView scans). The three screens are the component's state: wire show() to your router to give each one a URL. The block ships no image: pass the volume covers and one picture per kind of panel in art (without them, covers are screentone and panels stay empty).",
       "meta": {
         "tagline": "A manga author's site: catalog, series page, then the chapter read page by page or panel by panel.",
         "usage": "import { AuthorSite } from \"@/components/manga/blocks/author-site\"\n\n<AuthorSite />",
         "props": [
+          {
+            "name": "art",
+            "type": "{ covers?: Record<number, string>; scenes?: Partial<Record<AuthorSiteScene, string>> }",
+            "description": "Volume covers by number and the pictures of the chapter panels (image URLs)."
+          },
           {
             "name": "className",
             "type": "string",
@@ -7136,7 +7157,7 @@
       "name": "portfolio",
       "type": "registry:block",
       "title": "Developer portfolio",
-      "description": "A developer's portfolio made only with mangacn: a top bar whose section buttons scroll in place, an opening spread of two Panels with a slanted gutter (focus SpeedLines behind a TonedImage portrait drawn in SVG, a SpeechBubble, Sfx lettering and a band of motion lines), projects as a manga page of Cards (wide, two, wide) with drawn thumbnails, Badge tags, a CodeBlock install snippet and links that do not navigate, skills as a CharacterCard with stat bars, a career as a vertical Stepper, and a contact form (Field, Input, Textarea, Button) that validates on submit, shakes its errors, shows a loading button and then a brush-check success panel. No network. One column on phones; container queries widen it. Works in light, dark, any accent and in manga reading order.",
+      "description": "A developer's portfolio made only with mangacn: a top bar whose section buttons scroll in place, an opening spread of two Panels with a slanted gutter (focus SpeedLines behind the portrait you pass (toned by TonedImage, or shown as it is when inked), a SpeechBubble, Sfx lettering and a band of motion lines), projects as a manga page of Cards (wide, two, wide) with the thumbnails you pass, Badge tags, a CodeBlock install snippet and links that do not navigate, skills as a CharacterCard with stat bars, a career as a vertical Stepper, and a contact form (Field, Input, Textarea, Button) that validates on submit, shakes its errors, shows a loading button and then a brush-check success panel. No network. One column on phones; container queries widen it. Works in light, dark, any accent and in manga reading order.",
       "categories": [
         "blocks"
       ],
@@ -7168,11 +7189,16 @@
           "target": "@components/manga/blocks/portfolio.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/portfolio\". The page follows the document scroll; replace the name, portrait (a data URL or any picture URL), projects, stats and career in the constants at the top of the file. The contact form only validates and shows a success panel: wire `submit` to your own endpoint.",
+      "docs": "Import from \"@/components/manga/blocks/portfolio\". The page follows the document scroll; replace the name, projects, stats and career in the constants at the top of the file. The contact form only validates and shows a success panel: wire `submit` to your own endpoint. The block ships no image: pass the portrait and the project thumbnails in art.",
       "meta": {
         "tagline": "Intro panels, projects on a manga page, skills as a character sheet, a contact form.",
         "usage": "import { Portfolio } from \"@/components/manga/blocks/portfolio\"\n\n<Portfolio />",
         "props": [
+          {
+            "name": "art",
+            "type": "{ portrait?: string; inked?: boolean; projects?: Record<string, string> }",
+            "description": "The portrait and one thumbnail per project id (image URLs); inked shows the portrait without tone."
+          },
           {
             "name": "className",
             "type": "string",
@@ -7191,7 +7217,7 @@
       "name": "catalog",
       "type": "registry:block",
       "title": "Catalog",
-      "description": "A library catalog made only with mangacn: a search field (Input Group with a search icon and a clear button), shelf Tabs in the underline variant (All / Reading / Completed / Wishlist), filters (genre Native Select, status Toggles for new / ongoing / completed / hiatus, sort Native Select), a live result count, and a grid of Volume Cards with abstract covers drawn in inline SVG (ink, paper and screentone dots). When nothing matches, the kit Empty state offers to clear the search and filters. Mobile first: one column at 360 px with two cards per row and a Filters button that opens the fields in a bottom Drawer; from 48rem of its own width (container query @3xl/main) the filters sit in a case beside a grid of three to five columns. Works with Base UI and Radix, in light, dark and any accent.",
+      "description": "The catalog of one manga series, made only with mangacn: a search field (Input Group with a search icon and a clear button), shelf Tabs in the underline variant (All / Reading / Completed / Wishlist), filters (genre Native Select, status Toggles for new / ongoing / completed / hiatus, sort Native Select), a live result count, and a grid of Volume Cards whose covers you pass in covers (a screentone cover without one). When nothing matches, the kit Empty state offers to clear the search and filters. Mobile first: one column at 360 px with two cards per row and a Filters button that opens the fields in a bottom Drawer; from 48rem of its own width (container query @3xl/main) the filters sit in a case beside a grid of three to five columns. Works with Base UI and Radix, in light, dark and any accent.",
       "categories": [
         "blocks"
       ],
@@ -7219,11 +7245,16 @@
           "target": "@components/manga/blocks/catalog.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/catalog\". The root fills its container and follows the page (no inner scroll). Replace VOLUMES with your own data and the SVG covers with image URLs (VolumeCard takes a string or a node as cover).",
+      "docs": "Import from \"@/components/manga/blocks/catalog\". The root fills its container and follows the page (no inner scroll). Replace VOLUMES with your own books and pass their cover image URLs in covers; the block ships no image.",
       "meta": {
         "tagline": "Volume cards, filters, tabs and search.",
         "usage": "import { Catalog } from \"@/components/manga/blocks/catalog\"\n\n<Catalog className=\"min-h-svh\" />",
         "props": [
+          {
+            "name": "covers",
+            "type": "Partial<Record<CatalogCover, string>>",
+            "description": "Cover image URLs by book. Without one, a screentone cover."
+          },
           {
             "name": "className",
             "type": "string",
@@ -7242,7 +7273,7 @@
       "name": "sign-in",
       "type": "registry:block",
       "title": "Sign in",
-      "description": "The sign-in screen of the mangacn auth flow, made only with the kit. A manga Panel: the reader drawn whole in SVG (ink lines, paper fills, a screentone jacket, an open volume), focus SpeedLines around her, a SpeechBubble ('Welcome back! Your shelf missed you.', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu mark and the Sfx ドキッ. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: email Field, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit), a 'Keep me signed in' Checkbox, a Sign in Button with its loading state (fields stay enabled), a 'Forgot password?' link, SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'New here? Create an account'. Errors: field errors (Field) with focus on the first wrong field; wrong credentials (demo: the password 'wrongpass') show a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp and an 'Enter your code' button for the second step. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
+      "description": "The sign-in screen of the mangacn auth flow, made only with the kit. A manga Panel: the picture you pass for each state (pictures), focus SpeedLines around her, a SpeechBubble ('Welcome back! Your shelf missed you.', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu mark and the Sfx ドキッ. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: email Field, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit), a 'Keep me signed in' Checkbox, a Sign in Button with its loading state (fields stay enabled), a 'Forgot password?' link, SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'New here? Create an account'. Errors: field errors (Field) with focus on the first wrong field; wrong credentials (demo: the password 'wrongpass') show a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp and an 'Enter your code' button for the second step. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
       "categories": [
         "blocks"
       ],
@@ -7272,11 +7303,16 @@
           "target": "@components/manga/blocks/sign-in.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/sign-in\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Wire onNavigate to your router (the links and the next-step button call it), pass your own provider marks through providers, and replace the simulated timeouts in submit and social with your own auth calls.",
+      "docs": "Import from \"@/components/manga/blocks/sign-in\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Wire onNavigate to your router (the links and the next-step button call it), pass your own provider marks through providers, and replace the simulated timeouts in submit and social with your own auth calls. Pass pictures (one image URL per state: idle, error, done) to fill the panel; the block ships no image.",
       "meta": {
         "tagline": "A manga panel beside the sign-in form, with social buttons and a jagged error box.",
         "usage": "import { SignIn } from \"@/components/manga/blocks/sign-in\"\n\n<SignIn\n  className=\"min-h-svh\"\n  onNavigate={(screen) => router.push(`/${screen}`)}\n  providers={[{ id: \"google\", label: \"Continue with Google\", logo: <GoogleMark /> }]}\n/>",
         "props": [
+          {
+            "name": "pictures",
+            "type": "{ idle?: string; error?: string; done?: string }",
+            "description": "Image URLs for the panel, one per state. Without them the panel shows its speed lines only."
+          },
           {
             "name": "className",
             "type": "string",
@@ -7307,7 +7343,7 @@
       "name": "verify-code",
       "type": "registry:block",
       "title": "Verify code",
-      "description": "The one-time code screen of a manga auth flow, made only with mangacn. A manga Panel shows a reader drawn whole in SVG (ink lines, paper fills, a screentone jacket) holding the email that just arrived, focus SpeedLines around her, 'ピコン' Sfx lettering and a SpeechBubble that reacts: 'Check your inbox!', a shout bubble 'Huh?!' on error, 'Yes!' on success. From 48rem of container width the panel sits on the start side at the full height of the form; under it the panel is a 4:3 picture above the form. The form, in a case (G1) when there is room: InputOTP with one group of 6 digits (fits 360px), a Button with its loading state, a resend link after a 30 s countdown (only the end and the resend are announced) and 'Use another email'. Fewer than six digits shows a Field error; the wrong code 000000 shows the G8 error box (accent fill, edge-jagged, '!' mark, shake, role=alert) and the InputOTP invalid look, focus back in the code; any other full code loads, then the success Stamp lands with the next action. The purpose prop (sign-in, sign-up, reset) changes the copy, the stamp ('Welcome back!', 'Welcome!', 'Verified!') and the next screen. Links call onNavigate and never navigate by themselves. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
+      "description": "The one-time code screen of a manga auth flow, made only with mangacn. A manga Panel shows the picture you pass for each state (pictures), focus SpeedLines around her, 'ピコン' Sfx lettering and a SpeechBubble that reacts: 'Check your inbox!', a shout bubble 'Huh?!' on error, 'Yes!' on success. From 48rem of container width the panel sits on the start side at the full height of the form; under it the panel is a 4:3 picture above the form. The form, in a case (G1) when there is room: InputOTP with one group of 6 digits (fits 360px), a Button with its loading state, a resend link after a 30 s countdown (only the end and the resend are announced) and 'Use another email'. Fewer than six digits shows a Field error; the wrong code 000000 shows the G8 error box (accent fill, edge-jagged, '!' mark, shake, role=alert) and the InputOTP invalid look, focus back in the code; any other full code loads, then the success Stamp lands with the next action. The purpose prop (sign-in, sign-up, reset) changes the copy, the stamp ('Welcome back!', 'Welcome!', 'Verified!') and the next screen. Links call onNavigate and never navigate by themselves. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
       "categories": [
         "blocks"
       ],
@@ -7333,11 +7369,16 @@
           "target": "@components/manga/blocks/verify-code.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/verify-code\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Replace the simulated timeout in check() with your own verification call, and resend() with your own resend call. Pass onNavigate to wire 'Use another email' and the reset flow's next step to your router.",
+      "docs": "Import from \"@/components/manga/blocks/verify-code\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Replace the simulated timeout in check() with your own verification call, and resend() with your own resend call. Pass onNavigate to wire 'Use another email' and the reset flow's next step to your router. Pass pictures (one image URL per state: idle, error, done) to fill the panel; the block ships no image.",
       "meta": {
         "tagline": "Six digits, a resend countdown and a stamp when the code is right.",
         "usage": "import { VerifyCode } from \"@/components/manga/blocks/verify-code\"\n\n<VerifyCode purpose=\"sign-in\" email=\"mika@inkwell.app\" onNavigate={(screen) => router.push(`/${screen}`)} />",
         "props": [
+          {
+            "name": "pictures",
+            "type": "{ idle?: string; error?: string; done?: string }",
+            "description": "Image URLs for the panel, one per state. Without them the panel shows its speed lines only."
+          },
           {
             "name": "purpose",
             "type": "\"sign-in\" | \"sign-up\" | \"reset\"",
@@ -7378,7 +7419,7 @@
       "name": "reset-password",
       "type": "registry:block",
       "title": "Reset password",
-      "description": "The last screen of a manga 'forgot password' flow, made only with mangacn. A manga Panel shows a reader drawn whole in SVG (ink lines, paper fills, a screentone jacket) holding up a big key, focus SpeedLines around her, 'キラッ' Sfx lettering and a SpeechBubble that reacts: 'A fresh start.', a shout bubble 'Huh?!' on error, 'Yes!' on success. From 48rem of container width the panel sits on the start side at the full height of the form; under it the panel is a 4:3 picture above the form. The form, in a case (G1) when there is room: a new password in an InputGroup with a show/hide toggle (aria-pressed, 'Show password' / 'Hide password', touch-hit, it reveals both fields) and a PasswordStrength gauge, a confirmation Input, a Save Button with its loading state. Field errors (empty, weak when the score is under 2, mismatch) appear on submit with focus on the first wrong field; the demo 'server' refuses the current password 'Lanterns42!' with the G8 error box (accent fill, edge-jagged, '!' mark, shake, role=alert). Success: the 'Saved!' Stamp lands and 'Back to sign in' calls onNavigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
+      "description": "The last screen of a manga 'forgot password' flow, made only with mangacn. A manga Panel shows the picture you pass for each state (pictures), focus SpeedLines around her, 'キラッ' Sfx lettering and a SpeechBubble that reacts: 'A fresh start.', a shout bubble 'Huh?!' on error, 'Yes!' on success. From 48rem of container width the panel sits on the start side at the full height of the form; under it the panel is a 4:3 picture above the form. The form, in a case (G1) when there is room: a new password in an InputGroup with a show/hide toggle (aria-pressed, 'Show password' / 'Hide password', touch-hit, it reveals both fields) and a PasswordStrength gauge, a confirmation Input, a Save Button with its loading state. Field errors (empty, weak when the score is under 2, mismatch) appear on submit with focus on the first wrong field; the demo 'server' refuses the current password 'Lanterns42!' with the G8 error box (accent fill, edge-jagged, '!' mark, shake, role=alert). Success: the 'Saved!' Stamp lands and 'Back to sign in' calls onNavigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
       "categories": [
         "blocks"
       ],
@@ -7406,11 +7447,16 @@
           "target": "@components/manga/blocks/reset-password.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/reset-password\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Replace the simulated timeout in save() with your own call (and drop the CURRENT demo check); passwordScore from password-strength decides 'weak' locally. Pass onNavigate to wire 'Back to sign in' to your router.",
+      "docs": "Import from \"@/components/manga/blocks/reset-password\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Replace the simulated timeout in save() with your own call (and drop the CURRENT demo check); passwordScore from password-strength decides 'weak' locally. Pass onNavigate to wire 'Back to sign in' to your router. Pass pictures (one image URL per state: idle, error, done) to fill the panel; the block ships no image.",
       "meta": {
         "tagline": "A new password with a strength gauge, then a 'Saved!' stamp.",
         "usage": "import { ResetPassword } from \"@/components/manga/blocks/reset-password\"\n\n<ResetPassword email=\"mika@inkwell.app\" onNavigate={(screen) => router.push(`/${screen}`)} />",
         "props": [
+          {
+            "name": "pictures",
+            "type": "{ idle?: string; error?: string; done?: string }",
+            "description": "Image URLs for the panel, one per state. Without them the panel shows its speed lines only."
+          },
           {
             "name": "email",
             "type": "string",
@@ -7440,7 +7486,7 @@
       "name": "sign-up",
       "type": "registry:block",
       "title": "Sign up",
-      "description": "The sign-up screen of the mangacn auth flow, made only with the kit. A manga Panel: the reader drawn whole in SVG hugging a brand-new volume (ink lines, paper fills, a screentone jacket), focus SpeedLines, a SpeechBubble ('A new reader!', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sparkle and the Sfx ワクワク. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: name and email Fields, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit) and a PasswordStrength gauge, a terms Checkbox ('I accept the Terms and the Privacy notice'), a Create account Button with its loading state (fields stay enabled), SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'Already have an account? Sign in'. Errors with focus on the first wrong field: empty fields, invalid email, weak password (passwordScore under 2), terms unchecked; a taken email (demo: an address starting with 'taken') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Created!', 'Check your inbox' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
+      "description": "The sign-up screen of the mangacn auth flow, made only with the kit. A manga Panel: the picture you pass for each state (pictures), focus SpeedLines, a SpeechBubble ('A new reader!', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sparkle and the Sfx ワクワク. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: name and email Fields, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit) and a PasswordStrength gauge, a terms Checkbox ('I accept the Terms and the Privacy notice'), a Create account Button with its loading state (fields stay enabled), SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'Already have an account? Sign in'. Errors with focus on the first wrong field: empty fields, invalid email, weak password (passwordScore under 2), terms unchecked; a taken email (demo: an address starting with 'taken') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Created!', 'Check your inbox' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
       "categories": [
         "blocks"
       ],
@@ -7471,11 +7517,16 @@
           "target": "@components/manga/blocks/sign-up.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/sign-up\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Wire onNavigate to your router, pass your own provider marks through providers, and replace the simulated timeouts in submit and social with your own calls. The password check uses passwordScore from the Password Strength item.",
+      "docs": "Import from \"@/components/manga/blocks/sign-up\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Wire onNavigate to your router, pass your own provider marks through providers, and replace the simulated timeouts in submit and social with your own calls. The password check uses passwordScore from the Password Strength item. Pass pictures (one image URL per state: idle, error, done) to fill the panel; the block ships no image.",
       "meta": {
         "tagline": "A manga panel beside the sign-up form, with a strength gauge and social buttons.",
         "usage": "import { SignUp } from \"@/components/manga/blocks/sign-up\"\n\n<SignUp\n  className=\"min-h-svh\"\n  onNavigate={(screen) => router.push(`/${screen}`)}\n  providers={[{ id: \"google\", label: \"Continue with Google\", logo: <GoogleMark /> }]}\n/>",
         "props": [
+          {
+            "name": "pictures",
+            "type": "{ idle?: string; error?: string; done?: string }",
+            "description": "Image URLs for the panel, one per state. Without them the panel shows its speed lines only."
+          },
           {
             "name": "className",
             "type": "string",
@@ -7506,7 +7557,7 @@
       "name": "forgot-password",
       "type": "registry:block",
       "title": "Forgot password",
-      "description": "The password-recovery screen of the mangacn auth flow, made only with the kit. A manga Panel: the reader drawn whole in SVG, caught off guard with her volume lowered (ink lines, paper fills, a screentone jacket), focus SpeedLines, a SpeechBubble ('Forgot it? It happens.', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sweat drop and the Sfx ハッ. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: an email Field, a Send code Button with its loading state (the field stays enabled) and a 'Back to sign in' link. Errors with focus on the field: empty or invalid email; an unknown email (demo: an address containing 'unknown') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Sent!' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
+      "description": "The password-recovery screen of the mangacn auth flow, made only with the kit. A manga Panel: the picture you pass for each state (pictures), focus SpeedLines, a SpeechBubble ('Forgot it? It happens.', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sweat drop and the Sfx ハッ. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: an email Field, a Send code Button with its loading state (the field stays enabled) and a 'Back to sign in' link. Errors with focus on the field: empty or invalid email; an unknown email (demo: an address containing 'unknown') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Sent!' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
       "categories": [
         "blocks"
       ],
@@ -7532,11 +7583,16 @@
           "target": "@components/manga/blocks/forgot-password.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/forgot-password\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Wire onNavigate to your router and replace the simulated timeout in submit with your own call.",
+      "docs": "Import from \"@/components/manga/blocks/forgot-password\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Wire onNavigate to your router and replace the simulated timeout in submit with your own call. Pass pictures (one image URL per state: idle, error, done) to fill the panel; the block ships no image.",
       "meta": {
         "tagline": "A manga panel beside a one-field recovery form that stamps “Sent!”.",
         "usage": "import { ForgotPassword } from \"@/components/manga/blocks/forgot-password\"\n\n<ForgotPassword className=\"min-h-svh\" onNavigate={(screen) => router.push(`/${screen}`)} />",
         "props": [
+          {
+            "name": "pictures",
+            "type": "{ idle?: string; error?: string; done?: string }",
+            "description": "Image URLs for the panel, one per state. Without them the panel shows its speed lines only."
+          },
           {
             "name": "className",
             "type": "string",
@@ -7561,7 +7617,7 @@
       "name": "story-landing",
       "type": "registry:block",
       "title": "Story landing",
-      "description": "A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around drawn art) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip on the page model that explains the product in four beats (a column on phones, four in a row from 40rem; captions and an Sfx put on the panels with Place), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a \"Meanwhile…\" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.",
+      "description": "A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around the picture you pass) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip on the page model that explains the product in four beats (a column on phones, four in a row from 40rem; captions and an Sfx put on the panels with Place), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a \"Meanwhile…\" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.",
       "categories": [
         "blocks"
       ],
@@ -7587,11 +7643,16 @@
           "target": "@components/manga/blocks/story-landing.tsx"
         }
       ],
-      "docs": "Import from \"@/components/manga/blocks/story-landing\". The root fills its container and follows the page (no inner scroll). The chapter transition covers the viewport (scope \"screen\"). The art is drawn inline in the file: replace it with your own drawings.",
+      "docs": "Import from \"@/components/manga/blocks/story-landing\". The root fills its container and follows the page (no inner scroll). The chapter transition covers the viewport (scope \"screen\"). The block ships no image: pass the cover, the guide's and the reader's faces and the four strip pictures in art.",
       "meta": {
         "tagline": "A product page told as a manga: cover, four-panel strip, a guide, chapters.",
         "usage": "import { StoryLanding } from \"@/components/manga/blocks/story-landing\"\n\n<StoryLanding />",
         "props": [
+          {
+            "name": "art",
+            "type": "{ cover?: string; guide?: string; reader?: string; beats?: [string, string, string, string] }",
+            "description": "The cover, the faces and the strip pictures (image URLs). Without them the cover is screentone and the panels stay blank."
+          },
           {
             "name": "className",
             "type": "string",

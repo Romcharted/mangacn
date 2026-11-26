@@ -105,6 +105,11 @@ export function App() {
         className={`border-t-[length:var(--mg-bw-panel)] border-border px-4 py-6 text-center text-sm ${current ? "max-sm:pb-24" : ""}`}
       >
         MIT licensed. Not affiliated with shadcn.{" "}
+        Demo art: Mapless, AI-generated (
+        <a href={`${import.meta.env.BASE_URL}art/CREDITS.md`} className="underline max-sm:inline-flex max-sm:min-h-11 max-sm:items-center">
+          credits
+        </a>
+        ).{" "}
         <a href="./llms.txt" className="underline max-sm:inline-flex max-sm:min-h-11 max-sm:items-center">
           llms.txt
         </a>{" "}

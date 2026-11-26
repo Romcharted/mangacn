@@ -54,8 +54,8 @@ export function LetteredBridge() {
         </SpeechBubble>
       </At>
       {/* panel 4: the speed lines, then the burst */}
-      <At x={42} y={60.5}>
-        <Sfx size="lg" rotate={-12} className="text-[7cqi]!">
+      <At x={29} y={59.5}>
+        <Sfx size="lg" rotate={-12} className="text-[6cqi]!">
           KRAK!
         </Sfx>
       </At>

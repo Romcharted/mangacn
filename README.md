@@ -302,5 +302,6 @@ See [AGENTS.md](AGENTS.md) for conventions, how to add a component, and the styl
 
 ## License
 
-[MIT](LICENSE). Fonts are served by Google Fonts under the SIL Open Font License. All artwork is abstract SVG
-drawn for this repo. Not affiliated with shadcn.
+[MIT](LICENSE). Fonts are served by Google Fonts under the SIL Open Font License. The showcase's demo art is **AI-generated**: "Mapless", a series invented for this repo (two
+covers, two pages, a portrait and crops of them, credits in [site/public/art/CREDITS.md](site/public/art/CREDITS.md)).
+The registry items ship no image. Not affiliated with shadcn.
