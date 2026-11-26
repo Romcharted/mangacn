@@ -1,8 +1,8 @@
-ÉTAPE 1 TERMINÉE
+TOUT TERMINÉ
 
 # Compte rendu du chat « Lecture »
 
-Branche `feat/reader`, dossier `/home/romain/mangacn-reader`, serveur local sur 5202. Fusionné dans `main` et poussé.
+Branche `feat/reader`, dossier `/home/romain/mangacn-reader`, serveur local sur 5202. Étapes 1 et 2 fusionnées dans `main` et poussées.
 
 ## Ce qui est fait (étape 1)
 
@@ -67,7 +67,28 @@ Dix pièces, chacune avec son fichier de registre (`registry/items/<nom>.json`),
 - Cinq pièces simples (Spoiler, ObiBand, RankingList, ReleaseCalendar, ChapterEnd) écrites par des sous-agents Haiku sur un cahier des charges précis, puis relues et corrigées par moi ; les cinq autres écrites par moi.
 - ReaderSettings ne fait que tenir la valeur ; le mode « bande » n'est pas dans PageReader mais dans ReaderStrip (on choisit le composant selon le mode).
 - La largeur des tranches (44 px minimum) rend l'étagère défilante à 375 px au-delà de six tomes : c'est voulu (rangée qui défile, pas la page).
+- GuidedView dessine la page à 900 px puis la met à l'échelle : une case pleine largeur garde la taille de lettrage de la page entière (petite sur téléphone) ; le zoom est plafonné à 4×. Le pincement n'est pas géré par le composant (il reste au navigateur).
+- GuidedView affiche une page à la fois : en double page, la caméra parcourt quand même les cases dans l'ordre (la géométrie d'une page `spread` les donne), mais je ne l'ai testé que sur des pages simples.
+- Le site d'auteur garde l'écran courant dans son état (pas de routes) : la démo ne doit pas naviguer ; la doc dit de brancher `show()` sur un routeur.
+- Le bloc Author site a ses propres dessins (copiés de mes helpers de démo, réduits), puisqu'un bloc installé ne peut pas importer la vitrine.
 
-## Étape 2
+## Étape 2 (faite)
 
-En attente du signal de `REPORT-page.md` (vérifié toutes les 15 minutes, 3 heures au plus).
+Signal vu à 01h25 (`REPORT-page.md` : `ÉTAPE 1 TERMINÉE`), deuxième vérification après la fin de l'étape 1.
+
+- **GuidedView** (`registry/manga/signature/guided-view.tsx`) : lecture case par case pensée pour le téléphone. Elle lit la géométrie du modèle de page (`pageGeometry(data).panels[i].rect`, ordre de lecture, cases incrustées comprises) : une page JSON se lit guidée sans donnée en plus. Les scans marchent aussi, avec la boîte de chaque case en %. La page est dessinée une fois à largeur fixe et une « caméra » cadre la case en quatre paliers (333 ms) ; autour, un voile papier à gros points, qui s'efface pendant le trajet. Bords tapables, flèches selon le sens, Espace, Page préc./suiv., Début / Fin, balayage, bouton « Whole page » (la page entière, chaque case devient une cible, la case courante encadrée). Région live qui lit le nom de chaque case.
+- **PageReader accepte les pages JSON** (`{ page: PageData }`), dessinées par `Page` (`fold="never"`) dans le même cadre qu'une page scannée ; scans et pages JSON peuvent se mélanger, les proportions viennent du format. **PageThumbnails** aussi.
+- **Author site** (`registry/manga/blocks/author-site/author-site.tsx`, item `registry:block`, page `#examples/author-site` avec son code copiable) : catalogue (VolumeCard dont une sous ObiBand, ReleaseCalendar, RankingList, derniers chapitres, Shelf), fiche de série (SeriesHeader, liste des chapitres lus / à venir, Spoiler sur l'aperçu du prochain), puis lecteur « page par page » (PageReader) ou « case par case » (GuidedView), vignettes et réglages dans des Sheets, mode bande, ChapterEnd vers le chapitre suivant / la date du prochain / « The end ». Les chapitres sont des pages JSON (cases, dessins SVG faits pour le dépôt, vraies bulles, légendes, onomatopées).
+- Chapitre de démo JSON pour les fiches : `site/src/demos/reader-json.ts`.
+
+Vérifications de l'étape 2 :
+- `tsc`, `npm run build`, `npm run check` (127 items) passent, avant et après la fusion de `main` (qui apportait l'éditeur de planche du chat Page).
+- Captures 375 / 1280, clair / sombre, Chromium, Firefox, WebKit de GuidedView, PageReader, PageThumbnails et `#examples/author-site` : aucun débordement, aucune erreur.
+- Parcours complet du site automatisé (18 contrôles, en clair à 375 puis en sombre à 375 après fusion) : catalogue → série → Continuer → fin de chapitre → case par case → page entière → saut par vignette → retour série → étagère → série terminée jusqu'à « The end ». Les 21 contrôles de l'étape 1 repassent aussi.
+- Installation depuis GitHub de `author-site`, `guided-view`, `page-reader` et `page-thumbnails` dans 4 projets neufs (Vite et Next.js, Base UI et Radix), page de test avec le site complet, une GuidedView et un PageReader sur des pages JSON : 25 fichiers manga posés, `tsc + vite build` et `next build` passent dans les quatre ; captures 1280 clair / sombre et 375 sans débordement ni erreur, regardées.
+- Vidéos et captures clés : dossier de notes partagé `side-session-notes/…/lecture/` (`video/`, `shots/`), hors dépôt.
+
+Règles spéciales proposées (étape 2) :
+7. **Voile de lecture guidée** : autour de la case lue, un voile papier opaque à gros points (comme le voile des overlays, mais opaque) ; il s'efface pendant le trajet de la caméra et revient sur la nouvelle case. Pas d'opacité, pas de flou.
+8. **Caméra en paliers** : le passage d'une case à l'autre est un mouvement G5 en quatre paliers (333 ms) ; sans animation avec `prefers-reduced-motion`.
+9. **Case courante dans la page entière** : double trait intérieur papier / encre de 6 px (on ne peut pas poser d'aplat d'encre sur un dessin) ; survol : le trait s'épaissit (3 px).
