@@ -46,9 +46,14 @@ export function chartFill(series: number | string, keys?: readonly string[]): st
 
 /**
  * The shared <pattern> set: solid ink, paper, 45° hatching, cross hatching, dots at two densities and horizontal
- * lines. Painted with the theme variables, so dark mode is the negative. Rendered once by ChartContainer.
+ * lines. Painted with the theme variables, so dark mode is the negative. ChartContainer renders it; render it
+ * yourself for swatches outside a chart. Only one instance per document draws it (see useDrawsPatterns).
  */
 function ChartPatterns() {
+  return useDrawsPatterns() ? <PatternDefs /> : null
+}
+
+function PatternDefs() {
   const ink = { fill: "var(--foreground)" }
   const paper = { fill: "var(--background)" }
   const inkLine = { fill: "none", stroke: "var(--foreground)" }
@@ -103,7 +108,38 @@ function ChartMarker({ cx = 0, cy = 0, kind = "square", size = 5 }: ChartMarkerP
   return <rect x={cx - size} y={cy - size} width={size * 2} height={size * 2} style={paint} />
 }
 
-/** Recharts container in a case. Renders the pattern set itself, so every chart can use chartFill(). */
+/*
+ * One pattern set per document: the ids (mg-chart-*) must stay unique when a page holds several charts. The
+ * first mounted container draws the set; when it goes away, the next one takes over. Layout effects, so the
+ * hand-over happens before paint (no frame without fills). On the server every container draws it.
+ */
+const owners: symbol[] = []
+const listeners = new Set<() => void>()
+const notify = () => listeners.forEach((l) => l())
+const subscribe = (l: () => void) => {
+  listeners.add(l)
+  return () => listeners.delete(l)
+}
+const useClientLayoutEffect = typeof window === "undefined" ? React.useEffect : React.useLayoutEffect
+
+function useDrawsPatterns() {
+  const [me] = React.useState(() => Symbol("chart"))
+  useClientLayoutEffect(() => {
+    owners.push(me)
+    notify()
+    return () => {
+      owners.splice(owners.indexOf(me), 1)
+      notify()
+    }
+  }, [me])
+  return React.useSyncExternalStore(
+    subscribe,
+    () => owners[0] === me,
+    () => true,
+  )
+}
+
+/** Recharts container in a case. The page's first chart renders the pattern set, so every chart can use chartFill(). */
 function ChartContainer({ className, config, id, children, ...props }: React.ComponentProps<typeof ShadcnChartContainer>) {
   return (
     <div data-manga="chart" className={cn("relative ink-case p-4", className)}>
