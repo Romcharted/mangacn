@@ -2,6 +2,7 @@ import { Choice, Playground, Slider, jsx } from "../playground"
 import { useState } from "react"
 import { Screentone, type ScreentonePattern } from "@registry/manga/signature/screentone"
 import { Tile, Tiles } from "../state-grid"
+import { artSrc } from "../mapless"
 
 const PATTERNS = ["dots", "lines", "cross", "noise"] as const
 const FADES = ["none", "top", "bottom", "start", "end"] as const
@@ -40,9 +41,7 @@ function Examples() {
         <span className="on-tone font-letter text-3xl uppercase">Night falls</span>
       </Screentone>
       <div className="relative h-48 border-ink-panel bg-background">
-        <svg viewBox="0 0 200 100" preserveAspectRatio="none" className="absolute inset-0 size-full text-foreground" aria-hidden>
-          <path d="M0 100V60l30-20 30 26 40-40 50 50 50-30v54z" fill="currentColor" />
-        </svg>
+        <img src={artSrc("bridge-far", 320)} alt="" className="absolute inset-0 size-full object-cover" />
         <Screentone as="layer" pattern="lines" density={18} angle={-20} fade="start" className="text-background" />
       </div>
     </div>

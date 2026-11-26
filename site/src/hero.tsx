@@ -2,7 +2,7 @@ import { useRef, useState } from "react"
 import { Button } from "@registry/manga/ui/button"
 import { SpeechBubble } from "@registry/manga/signature/speech-bubble"
 import { SpeedLines } from "@registry/manga/signature/speed-lines"
-import { Figure } from "./art"
+import { Art } from "./mapless"
 
 /**
  * Opening page: the style in five seconds, built from the kit's own components.
@@ -27,15 +27,22 @@ export function Hero() {
       role="group"
       aria-label="Sample manga page"
     >
-      <SpeedLines hole={0.42} animated className="col-span-4 col-start-1 row-span-4 row-start-1 border-ink-panel reading-rtl:col-start-3">
+      <div className="relative col-span-4 col-start-1 row-span-4 row-start-1 overflow-hidden border-ink-panel reading-rtl:col-start-3">
         <div className="relative h-full min-h-40">
-          <Figure className="absolute inset-x-0 bottom-0 mx-auto h-[74%] text-foreground" />
+          <Art
+            name="suzu-portrait"
+            shown="(min-width: 64rem) 30rem, 60vw"
+            loading="eager"
+            className="absolute inset-0 size-full object-cover object-[50%_28%]"
+          />
           <SpeechBubble className="absolute end-2 top-2 text-base reading-rtl:start-2 reading-rtl:end-auto" tail="bottom" tailAlign="start">
             Ready?
           </SpeechBubble>
         </div>
-      </SpeedLines>
-      <div aria-hidden className="col-span-2 col-start-5 row-span-2 row-start-1 border-ink-panel tone-fade-b reading-rtl:col-start-1" />
+      </div>
+      <div className="relative col-span-2 col-start-5 row-span-2 row-start-1 overflow-hidden border-ink-panel reading-rtl:col-start-1">
+        <Art name="kuro" shown="20vw" loading="eager" className="absolute inset-0 size-full object-cover" />
+      </div>
       <SpeedLines variant="motion" animated seed={5} className="col-span-2 col-start-5 row-span-2 row-start-3 border-ink-panel reading-rtl:col-start-1">
         <div className="grid h-full place-items-center">
           <span aria-hidden className="-rotate-6 font-sfx text-3xl knockout">

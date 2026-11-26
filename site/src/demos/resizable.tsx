@@ -1,17 +1,14 @@
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@registry/manga/ui/resizable"
 import { Tile, Tiles, force } from "../state-grid"
+import { artSrc } from "../mapless"
 
-/* A page of the reader: an abstract figure drawn in SVG, with a speech bubble. */
+const PAGES = ["page-1-bridge", "page-2-lighthouse", "cover-1", "cover-2"] as const
+
+/* A page of the reader: a page of "Mapless", the showcase's series (AI-generated, see public/art/CREDITS.md). */
 function Page({ n }: { n: number }) {
   return (
     <div className="relative grid h-full min-h-24 place-items-center overflow-hidden bg-background p-3">
-      <svg viewBox="0 0 120 150" className="h-full max-h-56 w-auto" aria-hidden>
-        <rect x="2" y="2" width="116" height="146" className="fill-background stroke-foreground" strokeWidth="3" />
-        <circle cx="60" cy="58" r="20" className="fill-foreground" />
-        <path d="M30 150 C30 96 44 84 60 84 C76 84 90 96 90 150 Z" className="fill-foreground" />
-        <path d="M6 20 L30 8 M6 32 L30 20 M6 44 L30 32" className="stroke-foreground" strokeWidth="2" />
-        <path d="M114 20 L90 8 M114 32 L90 20 M114 44 L90 32" className="stroke-foreground" strokeWidth="2" />
-      </svg>
+      <img src={artSrc(PAGES[(n - 1) % PAGES.length], 200)} alt="" className="h-full max-h-56 w-auto border-ink-fine object-contain" />
       <span className="absolute start-2 top-2 font-letter text-sm uppercase">p. {n}</span>
     </div>
   )

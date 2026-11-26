@@ -43,6 +43,12 @@
         "description": "Portrait URL, toned. Without it, the initials stand on paper."
       },
       {
+        "name": "toned",
+        "type": "boolean",
+        "default": "true",
+        "description": "Tone the portrait. Pass false for art that is already inked."
+      },
+      {
         "name": "stats",
         "type": "{ label: string; value: number; max?: number }[]",
         "default": "[]",

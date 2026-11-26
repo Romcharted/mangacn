@@ -4,11 +4,11 @@ import { Tile, force } from "../state-grid"
 import { coverUrl } from "./reader-art"
 
 const SUMMARY =
-  "Every autumn the night market on Lantern Street sells lanterns that hold one wish each. Mio mends the broken ones in her grandmother's stall, until a lantern comes back with a wish that is not hers, written in a hand she has never seen. To find its owner she has to follow the lanterns past the river, where the market stays open long after the street goes dark. A quiet story about repairs, debts and the people who keep a street lit."
+  "Above the clouds, the islands drift and no map stays true for long. Suzu, an apprentice cartographer, draws the way as she walks: what her brush inks becomes real, bridges included. Kuro, a small dragon made of her ink, keeps watch while she sleeps. But every new road brings the Eraser, a white knight who believes the sky must stay as it was drawn, and whose spear undoes whatever Suzu makes. A journey about mapping a world that keeps moving."
 
 const STATS = [
-  { label: "Chapters", value: 38 },
-  { label: "Volumes", value: 4 },
+  { label: "Chapters", value: 17 },
+  { label: "Volumes", value: 2 },
   { label: "Readers", value: "12.4k" },
 ]
 
@@ -16,12 +16,12 @@ export function Preview() {
   return (
     <SeriesHeader
       as="h2"
-      title="Lantern Street"
-      altTitle="The night market stories"
-      author="Story and art: N. Arai"
-      cover={coverUrl(1, "Lantern St.")}
+      title="Mapless"
+      altTitle="The cartographer of the drifting sky"
+      author="Story and art: Studio Mapless"
+      cover={coverUrl(1)}
       status="ongoing"
-      genres={["Slice of life", "Mystery", "Fantasy"]}
+      genres={["Adventure", "Fantasy"]}
       stats={STATS}
       summary={SUMMARY}
       actions={
@@ -39,18 +39,18 @@ export function States() {
     <div className="grid gap-3">
       <Tile label="summary folded (Read more)" size="full">
         <div className="w-full max-w-sm">
-          <SeriesHeader title="Lantern Street" author="N. Arai" cover={coverUrl(1)} status="ongoing" summary={SUMMARY} as="h3" />
+          <SeriesHeader title="Mapless" author="Studio Mapless" cover={coverUrl(1)} status="ongoing" summary={SUMMARY} as="h3" />
         </div>
       </Tile>
       <Tile label="status · new (accent stamp) · short summary (no toggle)" size="full">
         <div className="w-full max-w-sm">
-          <SeriesHeader title="Paper Boats" author="K. Ueno" cover={coverUrl(4)} status="new" genres={["Adventure"]} summary="Two kids fold a fleet." as="h3" />
+          <SeriesHeader title="Mapless, vol. 3" author="Studio Mapless" cover={coverUrl(3)} status="new" genres={["Adventure"]} summary="Coming soon: the knight's side of the sky." as="h3" />
         </div>
       </Tile>
       <Tile label="status · completed · hiatus · no cover (tone)" size="full">
         <div className="grid w-full gap-3 md:grid-cols-2">
-          <SeriesHeader title="Tidal Forge" author="R. Sato" cover={coverUrl(6)} status="completed" stats={STATS.slice(0, 2)} as="h3" />
-          <SeriesHeader title="Still Water" author="L. Moreau" status="hiatus" stats={STATS.slice(0, 2)} as="h3" />
+          <SeriesHeader title="Mapless, vol. 1" author="Studio Mapless" cover={coverUrl(1)} status="completed" stats={STATS.slice(0, 2)} as="h3" />
+          <SeriesHeader title="Mapless: side stories" author="Studio Mapless" status="hiatus" stats={STATS.slice(0, 2)} as="h3" />
         </div>
       </Tile>
       <Tile label="Read more · hover / focus" size="full">
@@ -69,13 +69,12 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="flex w-32 gap-2 ink-case p-1.5">
-      <img src={coverUrl(1)} alt="" className="w-10 border-ink" />
+    <div className="flex w-36 gap-2 ink-case p-1.5">
+      <img src={coverUrl(1)} alt="" className="w-11 border-ink" />
       <div className="grid content-start gap-1">
-        <span className="font-letter text-xs leading-none uppercase">Lantern Street</span>
-        <span className="h-1.5 w-12 bg-foreground" />
-        <span className="h-1 w-14 bg-foreground" />
-        <span className="h-1 w-10 bg-foreground" />
+        <span className="font-letter text-sm leading-none uppercase">Mapless</span>
+        <span className="text-[0.6rem] leading-tight">Studio Mapless</span>
+        <span className="text-[0.6rem] leading-tight">Adventure · 2 vols</span>
       </div>
     </div>
   )

@@ -1,15 +1,20 @@
 import { useState } from "react"
 import { DialogueBox, type DialogueLine } from "@registry/manga/signature/dialogue-box"
-import { FaceGuide, FaceMascot, FaceRookie } from "../story-art"
+import { artSrc } from "../mapless"
 import { Tile, force } from "../state-grid"
 
-const face = "size-full"
+// The cast of "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md).
+const SUZU = artSrc("suzu-face", 64)
+const SUZU_SHOCK = artSrc("suzu-shock", 64)
+const ERASER = artSrc("eraser-helmet", 64)
+const KURO = artSrc("kuro", 64)
 
 const LINES: DialogueLine[] = [
-  { speaker: "Sensei", portrait: <FaceGuide className={face} />, text: "Welcome to the studio. Today you letter your very first page." },
-  { speaker: "Rookie", portrait: <FaceRookie className={face} />, side: "end", text: "My first page? I have never even held a pen like this!" },
-  { speaker: "Sensei", portrait: <FaceGuide className={face} />, text: "Then start with one bubble. One line, said clearly. The rest follows." },
-  { speaker: "Tama", portrait: <FaceMascot className={face} />, text: "Mrrow. (The cat agrees.)" },
+  { speaker: "Eraser", portrait: ERASER, text: "Turn back, cartographer. Nothing new gets drawn in this sky." },
+  { speaker: "Suzu", portrait: SUZU_SHOCK, side: "end", text: "Then I will draw it anyway. Every island deserves a map!" },
+  { speaker: "Eraser", portrait: ERASER, text: "What is drawn can be undone. One stroke of my spear is enough." },
+  { speaker: "Kuro", portrait: KURO, text: "Grrrk. (The ink dragon disagrees.)" },
+  { speaker: "Suzu", portrait: SUZU, side: "end", text: "See? Kuro says we keep going." },
 ]
 
 export function Preview() {
@@ -39,10 +44,10 @@ export function States() {
         {one({ defaultIndex: 1, progress: 1 })}
       </Tile>
       <Tile label="last line · loop off" size="full">
-        {one({ defaultIndex: 3, progress: 1, loop: false })}
+        {one({ defaultIndex: 4, progress: 1, loop: false })}
       </Tile>
       <Tile label="no portrait, no count" size="full">
-        <DialogueBox lines={[{ speaker: "Narrator", text: "Three days later…" }]} progress={1} className="w-full" />
+        <DialogueBox lines={[{ speaker: "Narrator", text: "That night, by the lighthouse…" }]} progress={1} className="w-full" />
       </Tile>
       <Tile label="button · hover" size="full">
         <Forced state="hover" />
@@ -66,6 +71,7 @@ function Forced({ state }: { state: "hover" | "focus" | "active" }) {
   )
 }
 
+/** Live: a click on the text or the arrow moves to the next line. */
 export function Thumb() {
-  return <DialogueBox lines={LINES.slice(0, 2)} progress={0.7} showCount={false} className="pointer-events-none w-56 [&_p]:text-xs" />
+  return <DialogueBox lines={LINES.slice(0, 2)} showCount={false} className="w-56 [&_p]:text-xs" />
 }

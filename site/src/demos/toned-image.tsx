@@ -3,11 +3,10 @@ import { cn } from "cn"
 import { Choice, Playground, Slider, jsx } from "../playground"
 import { Tile, Tiles } from "../state-grid"
 import { TonedImage, type TonedPattern } from "@registry/manga/signature/toned-image"
+import { artSrc } from "../mapless"
 
-/** A drawn city at dusk, as a data URL: no external photo. */
-const SCENE = `data:image/svg+xml,${encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><defs><radialGradient id="s" cx=".7" cy=".3" r=".7"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#6b6b6b"/></radialGradient></defs><rect width="400" height="300" fill="url(#s)"/><circle cx="280" cy="90" r="46" fill="#1d1d1d"/><path d="M0 260 L60 180 L100 230 L160 150 L220 240 L280 190 L340 250 L400 170 L400 300 L0 300Z" fill="#444"/><circle cx="140" cy="130" r="26" fill="#111"/><path d="M104 300 C104 200 176 200 176 300Z" fill="#111"/></svg>`,
-)}`
+/** A picture from "Mapless", the showcase's series (AI-generated, see public/art/CREDITS.md): already inked, toned here only to show the effect. */
+const SCENE = artSrc("lighthouse-night", 320)
 
 const PATTERNS = ["dots", "lines", "cross", "noise"] as const
 
@@ -91,7 +90,7 @@ export function Preview() {
     <div className="grid gap-8">
       <Playground
         preview={
-          <TonedImage src={SCENE} alt="A drawn city at dusk" {...settings} className="aspect-[4/3] w-full max-w-sm border-ink" />
+          <TonedImage src={SCENE} alt="A lighthouse on a floating island at night" {...settings} className="aspect-[4/3] w-full max-w-sm border-ink" />
         }
         controls={
           <>
@@ -153,6 +152,12 @@ export function States() {
   )
 }
 
+/** Live: a click changes the pattern. */
 export function Thumb() {
-  return <TonedImage src={SCENE} alt="" density={5} className="h-32 w-44 border-ink" />
+  const [i, setI] = useState(0)
+  return (
+    <button type="button" aria-label={`Pattern: ${PATTERNS[i]}. Next pattern`} onClick={() => setI((n) => (n + 1) % PATTERNS.length)} className="focus-ink">
+      <TonedImage src={SCENE} alt="" density={5} pattern={PATTERNS[i]} className="h-32 w-44 border-ink" />
+    </button>
+  )
 }

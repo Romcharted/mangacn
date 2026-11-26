@@ -4,7 +4,7 @@ import { Panel, PanelCaption, PanelGrid } from "@registry/manga/signature/panel"
 import { Sfx } from "@registry/manga/signature/sfx"
 import { SpeechBubble } from "@registry/manga/signature/speech-bubble"
 import { SpeedLines } from "@registry/manga/signature/speed-lines"
-import { Figure } from "../art"
+import { Art } from "../mapless"
 
 export function NotFound() {
   return (
@@ -19,7 +19,7 @@ export function NotFound() {
           <PanelCaption>Somewhere in the library…</PanelCaption>
         </Panel>
         <Panel cut={{ side: "start" }}>
-          <Figure className="absolute -bottom-2 start-1/2 h-4/5 -translate-x-1/2 text-foreground" />
+          <Art name="suzu-shock" alt="Suzu, startled" shown="12rem" className="absolute inset-0 size-full object-cover" />
           <Manpu kind="sweat" size="2rem" className="absolute end-[22%] top-[22%]" />
         </Panel>
         <Panel>

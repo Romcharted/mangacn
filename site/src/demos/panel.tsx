@@ -70,7 +70,7 @@ ${n
   .map((i) =>
     i === 1
       ? `  <Panel>
-    <PanelArt src="/street.jpg" alt="A street at night" toned />
+    <PanelArt src="/bridge.webp" alt="An ink bridge across the clouds" />
     <Place x="70%" y="10%" anchor="top">
       <SpeechBubble pointAt={{ x: "30%", y: "80%" }}>Over here!</SpeechBubble>
     </Place>

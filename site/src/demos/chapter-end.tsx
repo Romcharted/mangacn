@@ -3,22 +3,14 @@ import { ChapterEnd, ChapterNext } from "@registry/manga/signature/chapter-end"
 import { Button } from "@/components/ui/manga/button"
 import { Tile, force } from "../state-grid"
 
-// Covers drawn for this showcase: abstract shapes, no existing work. Ink = currentColor, paper = the background.
+import { artSrc } from "../mapless"
 
-function Cover() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <circle cx="100" cy="110" r="46" fill="currentColor" />
-      <path d="M0 200h200v100H0z" fill="currentColor" />
-      <path d="M30 240h140" stroke="var(--background)" strokeWidth="8" />
-    </svg>
-  )
-}
+// The next chapter's cover: a crop from "Mapless" (AI-generated, see public/art/CREDITS.md).
+const Cover = () => <img src={artSrc("lighthouse-night", 120)} alt="" className="size-full object-cover" />
 
-const NEXT = { number: 13, title: "Quiet Engine", href: "#", cover: <Cover /> }
-const NOT_OUT = { number: 13, title: "Quiet Engine", date: "Dec 3", cover: <Cover /> }
-const ON_SELECT = { number: 13, title: "Quiet Engine", onSelect: () => {}, cover: <Cover /> }
+const NEXT = { number: 13, title: "The lighthouse keeper", href: "#", cover: <Cover /> }
+const NOT_OUT = { number: 13, title: "The lighthouse keeper", date: "Dec 3", cover: <Cover /> }
+const ON_SELECT = { number: 13, title: "The lighthouse keeper", onSelect: () => {}, cover: <Cover /> }
 
 function Actions() {
   return (
@@ -136,7 +128,7 @@ export function States() {
 export function Thumb() {
   return (
     <div className="w-44 pointer-events-none">
-      <ChapterEnd chapter="Ch. 12" next={{ number: 13, title: "Quiet Engine", href: "#" }} />
+      <ChapterEnd chapter="Ch. 12" next={{ number: 13, title: "The lighthouse keeper", href: "#" }} />
     </div>
   )
 }

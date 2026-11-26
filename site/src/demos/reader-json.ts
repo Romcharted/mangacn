@@ -1,12 +1,12 @@
 import type { PageData } from "@registry/manga/signature/page-geometry"
-import { sceneUrl, type Scene } from "./reader-art"
+import { sceneAlt, sceneUrl, type Scene } from "./reader-art"
 
 /*
- * "Lantern Street", chapter 5, written as page data (PageData): the page model draws it (panels, real
- * lettering), PageReader turns its pages and GuidedView zooms from panel to panel with its geometry.
+ * "Mapless", chapter 1 retold as page data (PageData) from crops of the series' pages: the page model draws it
+ * (panels, real lettering), PageReader turns its pages and GuidedView zooms from panel to panel with its geometry.
  */
 
-const art = (scene: Scene, alt: string, seed = 5, extra: { x?: number; y?: number; zoom?: number } = {}) => ({ src: sceneUrl(scene, seed), alt, ...extra })
+const art = (scene: Scene, extra: { x?: number; y?: number; zoom?: number } = {}) => ({ src: sceneUrl(scene), alt: sceneAlt(scene), ...extra })
 
 export const JSON_CHAPTER: PageData[] = [
   {
@@ -18,29 +18,34 @@ export const JSON_CHAPTER: PageData[] = [
         panels: [
           {
             bleed: true,
-            label: "Rooftops under the moon",
-            art: art("roofs", "Rooftops under a round moon"),
-            items: [{ type: "caption", x: 4, y: 6, anchor: "top-left", text: "The night market, second evening." }],
+            label: "The ink bridge across the clouds",
+            art: art("bridge-far"),
+            items: [{ type: "caption", x: 4, y: 6, anchor: "top-left", text: "Day 41. No map shows this bridge." }],
           },
         ],
       },
       {
         slant: -4,
         panels: [
-          { width: 1.2, label: "Lanterns along the street", art: art("lanterns", "Paper lanterns hanging in a row") },
           {
-            label: "Mio looks up",
-            art: art("face", "A girl looks up, surrounded by focus lines", 6, { zoom: 1.2 }),
-            items: [{ type: "bubble", x: 50, y: 14, text: "One of them is moving.", pointAt: { x: 50, y: 60 }, maxWidth: 80 }],
+            width: 1.1,
+            label: "The Eraser waits",
+            art: art("eraser-panel", { y: 30 }),
+            items: [{ type: "bubble", x: 72, y: 10, text: "Nothing new gets drawn here.", pointAt: { x: 46, y: 26 }, maxWidth: 52 }],
+          },
+          {
+            label: "Suzu startled",
+            art: art("suzu-shock", { zoom: 1.1 }),
+            items: [{ type: "bubble", x: 30, y: 12, text: "Kuro, back!", variant: "shout", pointAt: { x: 60, y: 46 }, maxWidth: 55 }],
           },
         ],
       },
       {
         panels: [
           {
-            label: "The crowd in the rain",
-            art: art("crowd", "Figures seen from behind in the rain"),
-            items: [{ type: "sfx", x: 78, y: 60, text: "SHHH", size: "md", rotate: -8 }],
+            label: "The spear smashes the bridge",
+            art: art("spear-clash", { y: 70 }),
+            items: [{ type: "sfx", x: 74, y: 30, text: "KRAK", size: "md", rotate: -8 }],
           },
         ],
       },
@@ -54,14 +59,11 @@ export const JSON_CHAPTER: PageData[] = [
         panels: [
           {
             width: 1.3,
-            label: "The keeper speaks",
-            art: art("faces", "Two people face each other"),
-            items: [
-              { type: "bubble", x: 30, y: 16, text: "That one has no wish in it.", pointAt: { x: 22, y: 62 }, maxWidth: 55 },
-              { type: "bubble", x: 76, y: 22, text: "Then whose is it?", variant: "thought", pointAt: { x: 80, y: 60 }, maxWidth: 40 },
-            ],
+            label: "Suzu inks a map by the fire",
+            art: art("suzu-drawing", { y: 40 }),
+            items: [{ type: "bubble", x: 68, y: 12, text: "Then I'll draw us another one.", pointAt: { x: 40, y: 30 }, maxWidth: 55 }],
           },
-          { label: "A hand reaches out", shape: "tilted", art: art("hand", "A hand reaches out through speed lines") },
+          { label: "Kuro asleep", shape: "tilted", art: art("kuro-sleeping", { y: 45 }) },
         ],
       },
       {
@@ -69,21 +71,21 @@ export const JSON_CHAPTER: PageData[] = [
         panels: [
           {
             shape: "jagged",
-            label: "The lantern bursts into light",
-            art: art("burst", "A lantern glows at the centre of concentration lines", 7),
-            items: [{ type: "sfx", x: 20, y: 22, text: "FWOOM", size: "lg", rotate: -10 }],
+            label: "The lighthouse at night",
+            art: art("lighthouse-night"),
+            items: [{ type: "sfx", x: 20, y: 22, text: "CRACKLE", size: "md", rotate: -10 }],
           },
         ],
       },
       {
         panels: [
-          { label: "Rain on the street", art: art("rain", "Rain falls on a figure alone") },
+          { label: "The map", art: art("map") },
           {
             width: 1.2,
             ink: true,
-            label: "Walking home",
-            art: art("home", "A figure walks home under one lantern"),
-            items: [{ type: "caption", x: 94, y: 90, anchor: "bottom-right", text: "To be continued." }],
+            label: "Suzu looks into the night",
+            art: art("suzu-profile", { y: 30 }),
+            items: [{ type: "caption", x: 94, y: 90, anchor: "bottom-right", text: "He was still out there." }],
           },
         ],
       },
@@ -98,16 +100,20 @@ export const JSON_CHAPTER: PageData[] = [
         panels: [
           {
             bleed: true,
-            label: "The lanterns rise together",
-            art: art("rise", "Lanterns rise over the rooftops"),
-            items: [{ type: "caption", x: 50, y: 8, anchor: "top", text: "Every lantern went up at once." }],
+            label: "The knight on the far cliff",
+            art: art("cover-3-teaser", { y: 30 }),
+            items: [{ type: "caption", x: 50, y: 8, anchor: "top", text: "Somewhere past the edge of every map…" }],
           },
         ],
       },
       {
         panels: [
-          { label: "Mio", art: art("face", "Mio, wide-eyed", 9, { zoom: 1.4 }), items: [{ type: "bubble", x: 50, y: 18, text: "Wait!", variant: "shout", pointAt: { x: 50, y: 70 } }] },
-          { label: "Gone", art: art("roofs", "Empty rooftops", 3) },
+          {
+            label: "Suzu",
+            art: art("suzu-face", { zoom: 1.2 }),
+            items: [{ type: "bubble", x: 50, y: 14, text: "Next time I draw faster!", variant: "shout", pointAt: { x: 50, y: 70 }, maxWidth: 80 }],
+          },
+          { label: "A drop of ink", art: art("ink-drop") },
         ],
       },
     ],

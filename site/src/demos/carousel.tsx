@@ -1,76 +1,36 @@
 import type { ReactNode } from "react"
 import { Button } from "@registry/manga/ui/button"
 import { Carousel, CarouselContent, CarouselDots, CarouselItem, CarouselNext, CarouselPrevious } from "@registry/manga/ui/carousel"
-import { Eyes, Figure, Runner, Skyline } from "../art"
+import { artSrc, type ArtName } from "../mapless"
 import { force, Tile, Tiles } from "../state-grid"
-
-/** Rain over an umbrella: drawn for this demo. */
-function Rain({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 200 150" className={className} aria-hidden>
-      <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-        {Array.from({ length: 22 }, (_, i) => {
-          const x = (i * 37) % 200
-          const y = (i * 23) % 70
-          return <path key={i} d={`M${x} ${y}l-8 18`} />
-        })}
-      </g>
-      <path d="M50 92c8-30 92-30 100 0-12-6-22-6-33 0-11-6-23-6-34 0-11-6-22-6-33 0z" fill="currentColor" />
-      <path d="M100 92v38c0 8-12 8-12 0" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-/** A small boat on three rows of waves. */
-function Harbour({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 200 150" className={className} aria-hidden>
-      <path d="M70 92h64l-12 18H82z" fill="currentColor" />
-      <path d="M100 30v60M100 34l30 46h-30z" fill="var(--background)" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-      {[112, 126, 140].map((y) => (
-        <path
-          key={y}
-          d={`M0 ${y}c12-8 22-8 34 0s22 8 34 0 22-8 34 0 22 8 34 0 22-8 34 0 22 8 30 0`}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-      ))}
-    </svg>
-  )
-}
-
-/** A paper lantern hanging from a line. */
-function Lantern({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 200 150" className={className} aria-hidden>
-      <path d="M0 18c60 14 140 14 200 0" fill="none" stroke="currentColor" strokeWidth="3" />
-      <path d="M100 26v14" stroke="currentColor" strokeWidth="4" />
-      <rect x="84" y="38" width="32" height="8" fill="currentColor" />
-      <path d="M78 46h44c10 18 10 52 0 70H78c-10-18-10-52 0-70z" fill="var(--background)" stroke="currentColor" strokeWidth="4" />
-      <path d="M80 70h40M80 92h40" stroke="currentColor" strokeWidth="3" />
-      <rect x="84" y="116" width="32" height="8" fill="currentColor" />
-      <path d="M100 124v16" stroke="currentColor" strokeWidth="3" />
-    </svg>
-  )
-}
 
 type Art = (p: { className?: string }) => ReactNode
 
+/* Crops of "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md). */
+const pic =
+  (name: ArtName): Art =>
+  ({ className }) => <img src={artSrc(name, 200)} alt="" draggable={false} className={(className ?? "") + " object-cover"} />
+const Skyline = pic("lighthouse-night")
+const Rain = pic("bridge-far")
+const Harbour = pic("kuro-sleeping")
+const Lantern = pic("map")
+const Eyes = pic("suzu-shock")
+const Figure = pic("suzu-profile")
+const Runner = pic("spear-clash")
+
 const chapters: { n: number; title: string; art: Art }[] = [
-  { n: 12, title: "The long night", art: Skyline },
-  { n: 13, title: "After the rain", art: Rain },
-  { n: 14, title: "Harbour", art: Harbour },
-  { n: 15, title: "Paper lanterns", art: Lantern },
-  { n: 16, title: "Wide awake", art: Eyes },
+  { n: 12, title: "The lighthouse", art: Skyline },
+  { n: 13, title: "The ink bridge", art: Rain },
+  { n: 14, title: "Kuro sleeps", art: Harbour },
+  { n: 15, title: "A new map", art: Lantern },
+  { n: 16, title: "The Eraser", art: Eyes },
 ]
 
 /** One slide: art on top (a light tone around it, never under text), the caption on paper. */
 function ChapterSlide({ n, title, art: A }: { n: number; title: string; art: Art }) {
   return (
     <figure className="flex h-full flex-col">
-      <div className="grid aspect-[4/3] place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border bg-background p-3">
+      <div className="grid aspect-[4/3] place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border bg-background">
         <A className="h-full w-full" />
       </div>
       <figcaption className="flex items-baseline gap-2 px-3 py-2">
@@ -86,10 +46,10 @@ function Heading({ children }: { children: ReactNode }) {
 }
 
 const pages: { n: number; art: Art; line: string }[] = [
-  { n: 1, art: Figure, line: "She looks up." },
-  { n: 2, art: Runner, line: "Then she runs." },
-  { n: 3, art: Rain, line: "The rain starts." },
-  { n: 4, art: Harbour, line: "The last boat." },
+  { n: 1, art: Figure, line: "Suzu looks up." },
+  { n: 2, art: Runner, line: "The spear falls." },
+  { n: 3, art: Rain, line: "The bridge holds." },
+  { n: 4, art: Harbour, line: "Kuro sleeps." },
 ]
 
 function PageSlide({ n, art: A, line }: { n: number; art: Art; line: string }) {
@@ -260,21 +220,26 @@ export function States() {
   )
 }
 
+/** Live: the arrows, the dots and a swipe move the slides. */
 export function Thumb() {
   return (
-    <div className="grid w-56 gap-2" aria-hidden>
-      <div className="flex gap-2">
-        {[Skyline, Rain, Lantern].map((A, i) => (
-          <div key={i} className="grid h-20 flex-1 place-items-center ink-case-inner p-1">
-            <A className="h-full w-full" />
-          </div>
-        ))}
-      </div>
-      <div className="flex items-center justify-center gap-3">
-        {[0, 1, 2].map((i) => (
-          <span key={i} className={"size-3 border-[length:var(--mg-bw)] border-border " + (i === 0 ? "ink-fill" : "bg-background")} />
-        ))}
-      </div>
+    <div className="w-48">
+      <Carousel opts={{ align: "start" }}>
+        <CarouselContent>
+          {[Skyline, Rain, Lantern, Eyes].map((A, i) => (
+            <CarouselItem key={i} className="basis-1/2">
+              <div className="h-20 overflow-hidden ink-case-inner">
+                <A className="size-full" />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="mt-2 flex items-center justify-center gap-2">
+          <CarouselPrevious className="static! size-7! translate-0!" />
+          <CarouselDots />
+          <CarouselNext className="static! size-7! translate-0!" />
+        </div>
+      </Carousel>
     </div>
   )
 }

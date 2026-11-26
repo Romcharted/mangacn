@@ -1,24 +1,17 @@
 import { Spoiler } from "@registry/manga/signature/spoiler"
 import { Tile, force } from "../state-grid"
 
-// Art drawn for this showcase: abstract shapes, no existing work. Ink = currentColor, paper = the background.
+import { artSrc } from "../mapless"
 
+// A panel from "Mapless", the showcase's series (AI-generated, see public/art/CREDITS.md).
 function Panel() {
-  return (
-    <svg viewBox="0 0 320 240" className="block h-auto w-full" aria-hidden>
-      <rect width="320" height="240" fill="var(--background)" />
-      <circle cx="232" cy="72" r="34" fill="currentColor" />
-      <path d="M0 170c60-44 110-44 170 0s90 24 150-6v76H0z" fill="currentColor" />
-      <path d="M40 240V150h30v90M96 240V120h22v120" fill="none" stroke="currentColor" strokeWidth="6" />
-      <path d="M150 240 210 130l60 110z" fill="var(--background)" stroke="currentColor" strokeWidth="5" />
-    </svg>
-  )
+  return <img src={artSrc("spear-clash", 320)} alt="The Eraser's spear smashes the ink bridge" className="block aspect-[4/3] h-auto w-full object-cover" />
 }
 
 export function Preview() {
   return (
     <div className="grid max-w-md gap-6">
-      <Spoiler label="Chapter 12 ending" className="w-full">
+      <Spoiler label="Chapter 4 ending" className="w-full">
         <Panel />
       </Spoiler>
       <p className="font-sans text-base leading-relaxed">
@@ -33,28 +26,28 @@ export function States() {
     <div className="flex flex-wrap gap-3">
       <Tile label="block · hidden" size="lg">
         <div className="w-40">
-          <Spoiler label="Chapter 12 ending" revealed={false}>
+          <Spoiler label="Chapter 4 ending" revealed={false}>
             <Panel />
           </Spoiler>
         </div>
       </Tile>
       <Tile label="block · hidden · hover" size="lg">
         <div className="w-40">
-          <Spoiler label="Chapter 12 ending" revealed={false} triggerProps={force("hover")}>
+          <Spoiler label="Chapter 4 ending" revealed={false} triggerProps={force("hover")}>
             <Panel />
           </Spoiler>
         </div>
       </Tile>
       <Tile label="block · hidden · focus" size="lg">
         <div className="w-40">
-          <Spoiler label="Chapter 12 ending" revealed={false} triggerProps={force("focus")}>
+          <Spoiler label="Chapter 4 ending" revealed={false} triggerProps={force("focus")}>
             <Panel />
           </Spoiler>
         </div>
       </Tile>
       <Tile label="block · revealed" size="lg">
         <div className="w-40">
-          <Spoiler label="Chapter 12 ending" revealed>
+          <Spoiler label="Chapter 4 ending" revealed>
             <Panel />
           </Spoiler>
         </div>
@@ -91,10 +84,11 @@ export function States() {
   )
 }
 
+/** Live: a click reveals the panel, another hides it. */
 export function Thumb() {
   return (
-    <div className="relative aspect-[4/3] w-24 border-2 border-border">
-      <div className="absolute inset-0 bg-background tone-35" aria-hidden />
-    </div>
+    <Spoiler label="Ch. 4 ending" className="w-28">
+      <Panel />
+    </Spoiler>
   )
 }

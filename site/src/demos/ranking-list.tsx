@@ -1,62 +1,24 @@
+import { useState } from "react"
 import { RankingList, RankingRow, type RankingEntry } from "@registry/manga/signature/ranking-list"
 import { Tile, force } from "../state-grid"
 
-// Covers drawn for this showcase: abstract shapes, no existing work. Ink = currentColor, paper = the background.
+import { artSrc, type ArtName } from "../mapless"
 
-function CoverA() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <circle cx="100" cy="112" r="56" fill="currentColor" />
-      <path d="M0 220c50-40 90-40 140 0s40 22 60 6v74H0z" fill="currentColor" />
-    </svg>
-  )
-}
-
-function CoverB() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="currentColor" />
-      {[70, 120, 170, 220].map((y) => (
-        <path key={y} d={`M-10 ${y}q25 -18 50 0t50 0 50 0 50 0 50 0`} fill="none" stroke="var(--background)" strokeWidth="10" />
-      ))}
-    </svg>
-  )
-}
-
-function CoverC() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <path d="M-20 300 140 -20h30L-10 300z" fill="currentColor" />
-      <circle cx="150" cy="210" r="22" fill="var(--background)" stroke="currentColor" strokeWidth="4" />
-    </svg>
-  )
-}
-
-function CoverD() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <circle cx="100" cy="90" r="30" fill="currentColor" />
-      <path d="M62 136c10-18 66-18 76 0l16 92H46z" fill="currentColor" />
-    </svg>
-  )
-}
-
-const COVERS = [<CoverA key="a" />, <CoverB key="b" />, <CoverC key="c" />, <CoverD key="d" />]
+// The chapters of "Mapless", the showcase's series, with crops of its pictures (AI-generated, see public/art/CREDITS.md).
+const pic = (name: ArtName) => <img src={artSrc(name, 80)} alt="" className="size-full object-cover" />
+const COVERS = [pic("spear-clash"), pic("lighthouse-night"), pic("suzu-shock"), pic("kuro-sleeping"), pic("map"), pic("eraser-panel"), pic("bridge-far"), pic("suzu-profile"), pic("ink-drop"), pic("suzu-drawing")]
 
 const WEEK: RankingEntry[] = [
-  { id: "glass-harbour", title: "Glass Harbour", subtitle: "M. Sato", change: 0, score: "1.2M", cover: COVERS[0] },
-  { id: "iron-lullaby", title: "Iron Lullaby", subtitle: "K. Hadley", change: 3, score: "1.1M", cover: COVERS[1] },
-  { id: "paper-comet", title: "Paper Comet", subtitle: "T. Ruiz", change: -1, score: "980K", cover: COVERS[2] },
-  { id: "salt-choir", title: "The Salt Choir", subtitle: "L. Ando", change: "new", score: "940K", cover: COVERS[3] },
-  { id: "lantern-street", title: "Lantern Street", subtitle: "R. Okafor", change: 2, score: "911K", cover: COVERS[0] },
-  { id: "vesper-mile", title: "Vesper Mile", subtitle: "E. Lund", change: -2, score: "870K", cover: COVERS[1] },
-  { id: "quiet-engine", title: "Quiet Engine", subtitle: "J. Park", change: 0, score: "802K", cover: COVERS[2] },
-  { id: "ash-and-ember", title: "Ash and Ember", subtitle: "N. Varga", change: 5, score: "777K", cover: COVERS[3] },
-  { id: "moss-orchard", title: "Moss Orchard", subtitle: "D. Ilic", change: -4, score: "640K", cover: COVERS[0] },
-  { id: "tin-moon", title: "Tin Moon", subtitle: "P. Costa", change: "new", score: "512K", cover: COVERS[1] },
+  { id: "ch-4", title: "The spear falls", subtitle: "Ch. 4", change: 0, score: "1.2M", cover: COVERS[0] },
+  { id: "ch-5", title: "The lighthouse", subtitle: "Ch. 5", change: 3, score: "1.1M", cover: COVERS[1] },
+  { id: "ch-3", title: "Kuro, back!", subtitle: "Ch. 3", change: -1, score: "980K", cover: COVERS[2] },
+  { id: "ch-6", title: "Kuro sleeps", subtitle: "Ch. 6", change: "new", score: "940K", cover: COVERS[3] },
+  { id: "ch-7", title: "A new map", subtitle: "Ch. 7", change: 2, score: "911K", cover: COVERS[4] },
+  { id: "ch-2", title: "The Eraser", subtitle: "Ch. 2", change: -2, score: "870K", cover: COVERS[5] },
+  { id: "ch-1", title: "The ink bridge", subtitle: "Ch. 1", change: 0, score: "802K", cover: COVERS[6] },
+  { id: "ch-8", title: "Still out there", subtitle: "Ch. 8", change: 5, score: "777K", cover: COVERS[7] },
+  { id: "ch-9", title: "One drop", subtitle: "Ch. 9", change: -4, score: "640K", cover: COVERS[8] },
+  { id: "ch-10", title: "Fireside", subtitle: "Ch. 10", change: "new", score: "512K", cover: COVERS[9] },
 ]
 
 const SAMPLE = WEEK[1]
@@ -125,15 +87,15 @@ export function States() {
   )
 }
 
+/** Live: pick a chapter; the row takes the ink. */
 export function Thumb() {
+  const [picked, setPicked] = useState<string | null>(null)
   return (
-    <div className="ink-case relative w-24 px-2 py-1">
-      {[1, 2, 3].map((n) => (
-        <div key={n} className="flex items-center gap-1 border-b-2 border-border py-1 last:border-b-0">
-          <span className={n === 1 ? "font-sfx text-2xl leading-none text-destructive" : "font-sfx text-2xl leading-none"}>{n}</span>
-          <span className="block h-1 flex-1 bg-foreground" />
-        </div>
-      ))}
+    <div className="w-44 [&_li]:text-xs">
+      <RankingList
+        entries={WEEK.slice(0, 3).map((e) => ({ ...e, subtitle: picked === e.id ? "Opening…" : e.subtitle }))}
+        onSelect={(e) => setPicked(e.id)}
+      />
     </div>
   )
 }

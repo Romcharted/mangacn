@@ -11,14 +11,15 @@ import {
   CardTitle,
   type CardVariant,
 } from "@registry/manga/ui/card"
+import { artSrc } from "../mapless"
 
 function Sample({ variant, interactive, selected }: { variant: CardVariant; interactive?: boolean; selected?: boolean }) {
   return (
     <Card variant={variant} interactive={interactive} selected={selected} className="w-full max-w-xs">
-      {variant === "bleed" && <img alt="" src={`data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 140"><rect width="320" height="140" fill="#f8f5ef"/><path d="M0 140V92h30V70h26v30h20V56h34v84M120 140V80h28v-20h22v80M190 140V96h40V74h30v66M270 140v-52h50v52" fill="#221d18"/><circle cx="240" cy="44" r="22" fill="none" stroke="#221d18" stroke-width="3"/></svg>')}`} />}
+      {variant === "bleed" && <img alt="" src={artSrc("bridge-far", 320)} className="aspect-[320/140] w-full object-cover" />}
       <CardHeader>
-        <CardTitle>Chapter 12</CardTitle>
-        <CardDescription>The long night</CardDescription>
+        <CardTitle>Chapter 1</CardTitle>
+        <CardDescription>The ink bridge</CardDescription>
         <CardAction>
           <Badge variant={variant === "beta" ? "outline" : "default"}>New</Badge>
         </CardAction>

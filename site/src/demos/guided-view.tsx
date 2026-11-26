@@ -4,21 +4,18 @@ import { ChapterEnd } from "@registry/manga/signature/chapter-end"
 import { Button } from "@registry/manga/ui/button"
 import { Tile } from "../state-grid"
 import { ForceInside } from "../force-inside"
-import { PAGE_H, PAGE_W, chapterPages } from "./reader-art"
+import { chapterPages } from "./reader-art"
 import { JSON_CHAPTER } from "./reader-json"
 
-/** Scans with their panel boxes (page units → percent of the page). */
-function scans(n: number): GuidedImagePage[] {
-  return chapterPages(n).map((p) => ({
-    ...p,
-    panels: p.panels.map((b) => ({ x: (b.x / PAGE_W) * 100, y: (b.y / PAGE_H) * 100, w: (b.w / PAGE_W) * 100, h: (b.h / PAGE_H) * 100, label: b.alt })),
-  }))
+/** Scans with their panel boxes, measured by hand in percent of the page. */
+function scans(): GuidedImagePage[] {
+  return chapterPages().map((p) => ({ ...p, panels: p.panels.map(({ alt, ...box }) => ({ ...box, label: alt })) }))
 }
 
 export function Preview() {
-  const [source, setSource] = useState<"data" | "scans">("data")
+  const [source, setSource] = useState<"data" | "scans">("scans")
   const [order, setOrder] = useState<"rtl" | "ltr">("ltr")
-  const scanPages = useMemo(() => scans(4), [])
+  const scanPages = useMemo(() => scans(), [])
   const pages = source === "data" ? JSON_CHAPTER.map((page, i) => ({ page, alt: `Page ${i + 1}` })) : scanPages
   const choice = <V extends string>(value: V, current: V, set: (v: V) => void, text: string) => (
     <button
@@ -47,7 +44,7 @@ export function Preview() {
           direction={order}
           className="h-[38rem]!"
           end={
-            <ChapterEnd chapter="Chapter 5" next={{ number: 6, title: "The river market", date: "Dec 10" }}>
+            <ChapterEnd chapter="Chapter 1" next={{ number: 2, title: "The lighthouse keeper", date: "Dec 10" }}>
               <Button variant="outline">Back to the series</Button>
             </ChapterEnd>
           }
@@ -94,7 +91,7 @@ export function States() {
       </Tile>
       <Tile label="scans with panel boxes" size="full">
         <div className="w-full max-w-xs">
-          <GuidedView pages={scans(2)} direction="ltr" defaultPosition={{ page: 1, panel: 2 }} className="h-[30rem]! min-h-0!" />
+          <GuidedView pages={scans()} direction="ltr" defaultPosition={{ page: 1, panel: 2 }} className="h-[30rem]! min-h-0!" />
         </div>
       </Tile>
     </div>
@@ -118,10 +115,12 @@ function OverviewOn() {
   )
 }
 
+/** Live: the scans, panel by panel; tap the page edges or use the arrow keys. */
 export function Thumb() {
+  const pages = useMemo(() => scans().slice(1), [])
   return (
-    <div className="relative w-24 overflow-hidden border-ink-panel bg-background">
-      <img src={chapterPages(1)[2].src} alt="" className="block w-full scale-[1.9] origin-[50%_22%]" />
+    <div className="w-32">
+      <GuidedView pages={pages} direction="ltr" className="h-32! min-h-0!" />
     </div>
   )
 }

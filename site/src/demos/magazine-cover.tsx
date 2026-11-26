@@ -1,11 +1,12 @@
 import { MagazineCover, type CoverLine } from "@registry/manga/signature/magazine-cover"
-import { CoverNight, CoverSun } from "../story-art"
+import { useState } from "react"
+import { artSrc } from "../mapless"
 import { Tile, force } from "../state-grid"
 
 const LINES: CoverLine[] = [
-  { text: "New series: Paper Lanterns", highlight: true },
+  { text: "New series: Mapless", highlight: true },
   { text: "48 pages in colour" },
-  { text: "Interview: drawing at night", side: "end" },
+  { text: "Interview: inking the sky", side: "end" },
   { text: "Bonus poster inside", side: "end" },
 ]
 
@@ -18,19 +19,19 @@ export function Preview() {
         tagline="Stories that hit the page"
         issue="No. 12"
         date="Spring"
-        image={<CoverSun className="size-full" />}
+        image={artSrc("cover-1", 200)}
         lines={LINES}
-        headline="The rookie's first page"
+        headline="Suzu draws a bridge"
         className="max-w-sm"
       />
       <MagazineCover
-        title="Night Rail"
+        title="Mapless"
         issue="No. 3"
         date="Vol. 2"
-        image={<CoverNight className="size-full" />}
+        image={artSrc("cover-2", 200)}
         lines={[
-          { text: "Last train, first clue" },
-          { text: "Special: the city map", side: "end" },
+          { text: "The Eraser strikes" },
+          { text: "Special: the sky map", side: "end" },
         ]}
         className="max-w-sm"
       />
@@ -43,7 +44,7 @@ const cover = (extra: Partial<React.ComponentProps<typeof MagazineCover>> = {}) 
     title="Weekly Ink"
     issue="No. 12"
     date="Spring"
-    image={<CoverSun className="size-full" />}
+    image={artSrc("cover-1", 200)}
     lines={LINES.slice(0, 3)}
     headline="First page"
     className="w-44"
@@ -73,7 +74,7 @@ export function States() {
         {cover({ lines: [], headline: undefined })}
       </Tile>
       <Tile label="ink art" size="full">
-        {cover({ image: <CoverNight className="size-full" />, title: "Night Rail" })}
+        {cover({ image: artSrc("cover-2", 200), title: "Mapless" })}
       </Tile>
       <Tile label="thumbnail" size="full">
         {cover({ className: "w-24" })}
@@ -82,8 +83,18 @@ export function States() {
   )
 }
 
+/** Live: the cover lifts on hover; a click turns to the next issue. */
 export function Thumb() {
+  const [issue, setIssue] = useState(0)
+  const art = (["cover-1", "cover-2"] as const)[issue % 2]
   return (
-    <MagazineCover title="Ink" issue="12" image={<CoverSun className="size-full" />} lines={[{ text: "New!", highlight: true }]} className="w-24" />
+    <MagazineCover
+      title="Ink"
+      issue={String(12 + issue)}
+      image={artSrc(art, 100)}
+      lines={[{ text: issue % 2 ? "Vol. 2!" : "New!", highlight: true }]}
+      onSelect={() => setIssue((i) => i + 1)}
+      className="w-24"
+    />
   )
 }

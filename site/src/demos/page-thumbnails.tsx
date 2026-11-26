@@ -5,8 +5,8 @@ import { ForceInside } from "../force-inside"
 import { chapterPages } from "./reader-art"
 
 export function Preview() {
-  const pages = useMemo(() => chapterPages(3), [])
-  const [page, setPage] = useState(3)
+  const pages = useMemo(() => chapterPages(), [])
+  const [page, setPage] = useState(1)
   const [order, setOrder] = useState<"rtl" | "ltr">("rtl")
   return (
     <div className="grid gap-3">
@@ -35,7 +35,7 @@ export function Preview() {
 }
 
 export function States() {
-  const pages = useMemo(() => chapterPages(3).slice(0, 3), [])
+  const pages = useMemo(() => chapterPages().slice(0, 3), [])
   const one = (extra: object, current?: number | number[], readUntil = 0) => (
     <div className="w-full max-w-xs">
       <PageThumbnails pages={pages} current={current} readUntil={readUntil} direction="ltr" {...extra} />
@@ -63,11 +63,13 @@ export function States() {
   )
 }
 
+/** Live: pick a page, the reading mark follows. */
 export function Thumb() {
-  const pages = chapterPages(3).slice(0, 6)
+  const pages = useMemo(() => chapterPages(), [])
+  const [page, setPage] = useState(1)
   return (
-    <div className="w-28">
-      <PageThumbnails pages={pages} current={2} readUntil={2} minWidth="1.5rem" className="pointer-events-none [&_ol]:gap-1 [&_span.mt-1]:hidden" tabIndex={-1} />
+    <div className="w-32">
+      <PageThumbnails pages={pages} current={page} readUntil={page} onSelect={setPage} minWidth="2rem" direction="ltr" className="[&_ol]:gap-1 [&_span.mt-1]:hidden" />
     </div>
   )
 }

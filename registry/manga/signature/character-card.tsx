@@ -19,6 +19,8 @@ export type CharacterCardProps = Omit<React.ComponentProps<"article">, "role"> &
   role?: string
   /** Portrait, toned as a screentone. Without one, the initials stand on paper. */
   image?: string
+  /** Tone the portrait (a photo). Pass false for art that is already inked: it is shown as it is. */
+  toned?: boolean
   stats?: CharacterStat[]
   tags?: string[]
   /** A short line in a small speech bubble. */
@@ -40,7 +42,7 @@ const initials = (name: string) =>
  * A character sheet in a case (G1): portrait panel, name in lettering, role, stats as bars filled with
  * speed lines (G7, like Progress), tags and a quote in a bubble. Static unless `interactive`.
  */
-function CharacterCard({ name, role, image, stats = [], tags = [], quote, interactive = false, className, ...props }: CharacterCardProps) {
+function CharacterCard({ name, role, image, toned = true, stats = [], tags = [], quote, interactive = false, className, ...props }: CharacterCardProps) {
   return (
     <article
       data-manga="character-card"
@@ -53,8 +55,10 @@ function CharacterCard({ name, role, image, stats = [], tags = [], quote, intera
       {...props}
     >
       <div className="relative aspect-[4/3] overflow-hidden border-ink-fine bg-background">
-        {image ? (
+        {image && toned ? (
           <TonedImage src={image} alt={name} className="size-full" />
+        ) : image ? (
+          <img src={image} alt={name} className="size-full object-cover object-[50%_20%]" />
         ) : (
           <span aria-hidden className="grid size-full place-items-center font-letter text-5xl uppercase">
             {initials(name)}

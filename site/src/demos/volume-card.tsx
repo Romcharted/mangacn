@@ -1,107 +1,43 @@
-import type { ReactNode } from "react"
+import { useState } from "react"
 import { VolumeCard, type VolumeStatus } from "@registry/manga/signature/volume-card"
 import { Tile, force } from "../state-grid"
+import { artSrc, type ArtName } from "../mapless"
 
-// Covers drawn for this showcase: abstract shapes, no existing work. Ink = currentColor, paper = the background.
-
-function SunHills() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <circle cx="100" cy="112" r="56" fill="currentColor" />
-      <path d="M0 200c40-40 80-40 120 0s60 30 80 0v100H0z" fill="var(--background)" stroke="currentColor" strokeWidth="4" />
-      <path d="M0 236c50-30 90-30 140 0s40 22 60 6v58H0z" fill="currentColor" />
-    </svg>
-  )
-}
-
-function Diagonal() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <path d="M-20 300 140 -20h30L-10 300z" fill="currentColor" />
-      <path d="M60 300 200 60v20L80 300z" fill="currentColor" />
-      <circle cx="150" cy="210" r="22" fill="var(--background)" stroke="currentColor" strokeWidth="4" />
-    </svg>
-  )
-}
-
-function Silhouette() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <circle cx="100" cy="90" r="30" fill="currentColor" />
-      <path d="M62 136c10-18 66-18 76 0l16 92H46z" fill="currentColor" />
-      <path d="M100 150 124 300H92z" fill="var(--background)" />
-      <path d="M46 232 14 268M154 232l32 36" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function Waves() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="currentColor" />
-      {[70, 120, 170, 220].map((y, i) => (
-        <path key={y} d={`M-10 ${y}q25 ${-18 - i * 3} 50 0t50 0 50 0 50 0 50 0`} fill="none" stroke="var(--background)" strokeWidth="10" />
-      ))}
-      <circle cx="150" cy="50" r="18" fill="var(--background)" />
-    </svg>
-  )
-}
-
-function City() {
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <circle cx="140" cy="70" r="30" fill="none" stroke="currentColor" strokeWidth="6" />
-      <path d="M0 300V190h30V150h28v40h22V120h26v70h24v-36h22v116z" fill="currentColor" />
-      <path d="M0 260h200" stroke="var(--background)" strokeWidth="3" />
-    </svg>
-  )
-}
-
-function Focus() {
-  const rays = Array.from({ length: 18 }, (_, i) => {
-    const a = (i / 18) * Math.PI * 2
-    return `M100 150L${(100 + Math.cos(a) * 260).toFixed(1)} ${(150 + Math.sin(a) * 260).toFixed(1)}L${(100 + Math.cos(a + 0.09) * 260).toFixed(1)} ${(150 + Math.sin(a + 0.09) * 260).toFixed(1)}Z`
-  }).join("")
-  return (
-    <svg viewBox="0 0 200 300" className="size-full" aria-hidden>
-      <rect width="200" height="300" fill="var(--background)" />
-      <path d={rays} fill="currentColor" />
-      <circle cx="100" cy="150" r="34" fill="var(--background)" stroke="currentColor" strokeWidth="4" />
-      <circle cx="100" cy="150" r="12" fill="currentColor" />
-    </svg>
-  )
-}
-
-const VOLUMES: { volume: number; title: string; author: string; cover: ReactNode; status: VolumeStatus; read: number; total: number }[] = [
-  { volume: 1, title: "Ember Line", author: "A. Vance", cover: <SunHills />, status: "completed", read: 40, total: 40 },
-  { volume: 2, title: "Night Rail", author: "M. Oda", cover: <Diagonal />, status: "ongoing", read: 18, total: 40 },
-  { volume: 3, title: "Open Road", author: "J. Lind", cover: <Silhouette />, status: "new", read: 0, total: 36 },
-  { volume: 4, title: "Tidewall", author: "S. Ito", cover: <Waves />, status: "hiatus", read: 9, total: 32 },
-  { volume: 5, title: "Concrete Sky", author: "R. Kade", cover: <City />, status: "ongoing", read: 32, total: 40 },
-  { volume: 6, title: "Still Point", author: "L. Moreau", cover: <Focus />, status: "completed", read: 28, total: 28 },
+// "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md): the volumes, then extras.
+const VOLUMES: { id: string; volume: number; title: string; author: string; cover: ArtName; status: VolumeStatus; read: number; total: number }[] = [
+  { id: "v1", volume: 1, title: "Mapless", author: "Studio Mapless", cover: "cover-1", status: "completed", read: 8, total: 8 },
+  { id: "v2", volume: 2, title: "Mapless", author: "Studio Mapless", cover: "cover-2", status: "ongoing", read: 3, total: 8 },
+  { id: "v3", volume: 3, title: "Mapless", author: "Studio Mapless", cover: "cover-3-teaser", status: "new", read: 0, total: 8 },
+  { id: "s1", volume: 1, title: "Mapless: Side stories", author: "Studio Mapless", cover: "suzu-drawing", status: "hiatus", read: 2, total: 6 },
+  { id: "s2", volume: 1, title: "Kuro's notebook", author: "Studio Mapless", cover: "kuro-sleeping", status: "ongoing", read: 5, total: 12 },
+  { id: "s3", volume: 1, title: "Mapless Sketchbook", author: "Studio Mapless", cover: "eraser-full", status: "completed", read: 4, total: 4 },
 ]
 
+const cover = (name: ArtName) => artSrc(name, 160)
+
 export function Preview() {
+  const [picked, setPicked] = useState<string | null>(null)
   return (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
-      {VOLUMES.map((v) => (
-        <div key={v.volume} className="min-w-0">
-          <VolumeCard
-            href="#"
-            title={v.title}
-            volume={v.volume}
-            author={v.author}
-            cover={v.cover}
-            status={v.status}
-            read={v.read}
-            total={v.total}
-          />
-        </div>
-      ))}
+    <div className="grid gap-3">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
+        {VOLUMES.map((v) => (
+          <div key={v.id} className="min-w-0">
+            <VolumeCard
+              onSelect={() => setPicked(`${v.title}, vol. ${v.volume}`)}
+              title={v.title}
+              volume={v.volume}
+              author={v.author}
+              cover={cover(v.cover)}
+              status={v.status}
+              read={v.read}
+              total={v.total}
+            />
+          </div>
+        ))}
+      </div>
+      <p aria-live="polite" className="font-mono text-sm">
+        {picked ? `Opening ${picked}…` : "Pick a volume."}
+      </p>
     </div>
   )
 }
@@ -109,8 +45,8 @@ export function Preview() {
 const STATUS_ROWS: VolumeStatus[] = ["new", "ongoing", "completed", "hiatus"]
 const PROGRESS = [
   { label: "unread", read: 0 },
-  { label: "in progress", read: 18 },
-  { label: "finished", read: 40 },
+  { label: "in progress", read: 3 },
+  { label: "finished", read: 8 },
 ] as const
 
 export function States() {
@@ -120,7 +56,7 @@ export function States() {
         {STATUS_ROWS.map((s) => (
           <Tile key={s} label={`status · ${s}`} size="full">
             <div className="w-full max-w-40">
-              <VolumeCard title="Ember Line" volume={3} cover={<Silhouette />} status={s} read={6} total={20} />
+              <VolumeCard title="Mapless" volume={3} cover={cover("cover-3-teaser")} status={s} read={6} total={20} />
             </div>
           </Tile>
         ))}
@@ -129,7 +65,7 @@ export function States() {
         {PROGRESS.map((p) => (
           <Tile key={p.label} label={`reading · ${p.label}`} size="full">
             <div className="w-full max-w-40">
-              <VolumeCard title="Night Rail" volume={2} cover={<Diagonal />} status="ongoing" read={p.read} total={40} />
+              <VolumeCard title="Mapless" volume={2} cover={cover("cover-2")} status="ongoing" read={p.read} total={8} />
             </div>
           </Tile>
         ))}
@@ -137,17 +73,17 @@ export function States() {
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Tile label="interactive · hover" size="full">
           <div className="w-full max-w-40">
-            <VolumeCard href="#" title="Tidewall" volume={4} cover={<Waves />} status="hiatus" read={9} total={32} {...force("hover")} />
+            <VolumeCard href="#" title="Mapless" volume={1} cover={cover("cover-1")} status="completed" read={8} total={8} {...force("hover")} />
           </div>
         </Tile>
         <Tile label="interactive · focus" size="full">
           <div className="w-full max-w-40">
-            <VolumeCard href="#" title="Tidewall" volume={4} cover={<Waves />} status="hiatus" read={9} total={32} {...force("focus")} />
+            <VolumeCard href="#" title="Mapless" volume={1} cover={cover("cover-1")} status="completed" read={8} total={8} {...force("focus")} />
           </div>
         </Tile>
         <Tile label="interactive · pressed" size="full">
           <div className="w-full max-w-40">
-            <VolumeCard href="#" title="Tidewall" volume={4} cover={<Waves />} status="hiatus" read={9} total={32} {...force("active")} />
+            <VolumeCard href="#" title="Mapless" volume={1} cover={cover("cover-1")} status="completed" read={8} total={8} {...force("active")} />
           </div>
         </Tile>
       </div>
@@ -155,10 +91,20 @@ export function States() {
   )
 }
 
+/** Live: the card lifts on hover; a click reads one more chapter. */
 export function Thumb() {
+  const [read, setRead] = useState(3)
   return (
     <div className="w-24">
-      <VolumeCard title="Night Rail" volume={2} cover={<Diagonal />} status="ongoing" read={18} total={40} />
+      <VolumeCard
+        title="Mapless"
+        volume={2}
+        cover={cover("cover-2")}
+        status={read >= 8 ? "completed" : "ongoing"}
+        read={read}
+        total={8}
+        onSelect={() => setRead((r) => (r >= 8 ? 0 : r + 1))}
+      />
     </div>
   )
 }

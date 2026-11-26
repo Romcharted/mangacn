@@ -1,6 +1,6 @@
 import { VersusPanel, VersusSide } from "@registry/manga/signature/versus-panel"
 import { Button } from "@registry/manga/ui/button"
-import { Runner } from "../art"
+import { artSrc } from "../mapless"
 import { Tile } from "../state-grid"
 
 function Stat({ label, value }: { label: string; value: string }) {
@@ -39,20 +39,20 @@ export function Preview() {
       </VersusPanel>
 
       <VersusPanel label="VS" role="group" aria-label="Compare two fighters">
-        <VersusSide aria-labelledby="versus-kai">
-          <Runner className="mx-auto h-20 w-20 text-foreground" />
-          <h3 id="versus-kai" className="font-letter text-2xl uppercase">
-            Kai
+        <VersusSide aria-labelledby="versus-suzu">
+          <img src={artSrc("suzu-face", 80)} alt="" className="mx-auto size-20 border-ink object-cover" />
+          <h3 id="versus-suzu" className="font-letter text-2xl uppercase">
+            Suzu
           </h3>
           <dl className="mt-2">
             <Stat label="Power" value="82" />
             <Stat label="Speed" value="6" />
           </dl>
         </VersusSide>
-        <VersusSide highlight aria-labelledby="versus-rin">
-          <Runner className="mx-auto h-20 w-20 text-background" />
-          <h3 id="versus-rin" className="font-letter text-2xl uppercase">
-            Rin
+        <VersusSide highlight aria-labelledby="versus-eraser">
+          <img src={artSrc("eraser-helmet", 80)} alt="" className="mx-auto size-20 border-ink object-cover" />
+          <h3 id="versus-eraser" className="font-letter text-2xl uppercase">
+            Eraser
           </h3>
           <dl className="mt-2">
             <Stat label="Power" value="74" />

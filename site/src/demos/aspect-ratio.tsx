@@ -1,16 +1,9 @@
 import { AspectRatio } from "@registry/manga/ui/aspect-ratio"
+import { artSrc } from "../mapless"
 
-/* Abstract drawing, scaled to whatever ratio the box has: a sun, a figure, speed lines. */
+/* A picture from "Mapless" (AI-generated, see public/art/CREDITS.md), cropped to whatever ratio the box has. */
 function Art() {
-  return (
-    <svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" className="size-full" aria-hidden>
-      <rect x="0" y="0" width="120" height="120" className="fill-background" />
-      <circle cx="84" cy="34" r="16" className="fill-foreground" />
-      <path d="M40 120 C40 78 52 66 62 66 C72 66 84 78 84 120 Z" className="fill-foreground" />
-      <circle cx="62" cy="48" r="11" className="fill-foreground" />
-      <path d="M0 18 L34 14 M0 30 L28 28 M0 42 L22 42" className="stroke-foreground" strokeWidth="2" />
-    </svg>
-  )
+  return <img src={artSrc("suzu-full", 240)} alt="Suzu on a cliff, Kuro over her shoulders" className="size-full object-cover" />
 }
 
 const frames = [

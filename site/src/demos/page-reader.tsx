@@ -15,7 +15,7 @@ import { JSON_CHAPTER } from "./reader-json"
 
 /** The live reader: settings and all pages in sheets, a chapter end card after the last page. */
 export function Preview() {
-  const scans = useMemo(() => chapterPages(4), [])
+  const scans = useMemo(() => chapterPages(), [])
   const [source, setSource] = useState<"scans" | "data">("scans")
   const pages: PageReaderPage[] = source === "scans" ? scans : JSON_CHAPTER.map((page, i) => ({ page, alt: `Page ${i + 1}` }))
   const [page, setPage] = useState(0)
@@ -75,7 +75,7 @@ export function Preview() {
           background={settings.background}
           toolbar={tools}
           end={
-            <ChapterEnd chapter="Chapter 4 · The night market" next={{ number: 5, title: "Paper boats", onSelect: () => setPage(0) }}>
+            <ChapterEnd chapter="Chapter 1 · The ink bridge" next={{ number: 2, title: "The lighthouse keeper", onSelect: () => setPage(0) }}>
               <Button variant="outline" onClick={() => setPage(0)}>
                 Read again
               </Button>
@@ -113,7 +113,7 @@ export function Preview() {
 
 /** Frozen readers: a fixed page, spread and background in a short stage. */
 function Frozen(props: Partial<React.ComponentProps<typeof PageReader>>) {
-  const pages = useMemo(() => chapterPages(2), [])
+  const pages = useMemo(() => chapterPages(), [])
   return <PageReader pages={pages} className="h-[26rem]! min-h-0!" {...props} />
 }
 
@@ -143,15 +143,15 @@ export function States() {
         </Tile>
         <Tile label="background tone · last page" size="full">
           <div className="w-full max-w-md">
-            <Frozen spread="single" background="tone" defaultPage={7} />
+            <Frozen spread="single" background="tone" defaultPage={2} />
           </div>
         </Tile>
         <Tile label="end view · chapter end card" size="full">
           <div className="w-full max-w-md">
             <Frozen
               spread="single"
-              defaultPage={8}
-              end={<ChapterEnd chapter="Chapter 2" next={{ number: 3, title: "Paper boats", date: "Dec 3" }} />}
+              defaultPage={3}
+              end={<ChapterEnd chapter="Chapter 1" next={{ number: 2, title: "The lighthouse keeper", date: "Dec 3" }} />}
             />
           </div>
         </Tile>
@@ -180,12 +180,12 @@ export function States() {
   )
 }
 
+/** Live: a small reader; the page edges turn the pages. */
 export function Thumb() {
-  const pages = chapterPages(1)
+  const pages = useMemo(() => chapterPages(), [])
   return (
-    <div className="flex w-28 justify-center border-ink-panel bg-background p-1.5">
-      <img src={pages[1].src} alt="" className="block w-12 border-ink" />
-      <img src={pages[2].src} alt="" className="block w-12 border-ink" />
+    <div className="w-40">
+      <PageReader pages={pages} spread="single" direction="ltr" className="h-32! min-h-0!" />
     </div>
   )
 }
