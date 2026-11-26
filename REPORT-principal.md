@@ -50,7 +50,7 @@ Fait par le chat du lot B, puis vérifié ici :
 
 ## Étape 3 — Préparer la sortie
 
-- **README en anglais** : capture de l'accueil, animation (HIT ME, Landing page, AI chat, Catalog ; 2,7 Mo), installation en une commande, serveur MCP, liste des 106 items et des interfaces. Le site n'étant pas en ligne, tous les liens pointent sur `https://DOMAIN/`, à remplacer une fois le domaine connu.
+- **README en anglais** : capture de l'accueil, animation (HIT ME, Landing page, AI chat, Catalog ; 2,7 Mo), installation en une commande, serveur MCP, liste des 128 items et des interfaces. Le site n'étant pas en ligne, tous les liens pointent sur `https://DOMAIN/`, à remplacer une fois le domaine connu.
 - **Image de partage** `site/public/og.png` (1200×630) et balises `og:` et `twitter:` dans `site/index.html`. L'adresse y est écrite au build à partir de `SITE_URL`.
 - **Dossier de demande d'ajout à l'annuaire shadcn** : `docs/directory-submission.md`, `docs/directory-pr.md`, `docs/directory-entry.json`. Il est prêt mais n'a pas été envoyé.
 - **Dépôt** : `CONTRIBUTING.md`, modèles de tickets (`.github/ISSUE_TEMPLATE/`), modèle de PR, `CHANGELOG.md`.
