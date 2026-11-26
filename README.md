@@ -287,6 +287,19 @@ npm run check      # every item complete: files, meta, llms.txt, README, built J
 
 See [AGENTS.md](AGENTS.md) for conventions, how to add a component, and the style rules.
 
+## Known issues
+
+- **Vite + Base UI: `tsc -b` fails on `src/components/ui/scroll-area.tsx`** with `'React' is declared but its value
+  is never read`. The file is shadcn's own Scroll Area, not a mangacn file: the same error shows in a fresh project
+  with only `npx shadcn@latest add scroll-area`, without mangacn. `vite build` alone passes. Workaround: delete the
+  unused `import * as React from "react"` line at the top of that file, or turn off `noUnusedLocals` in
+  `tsconfig.app.json`.
+- **Next.js: a Yonkoma with `orientation="auto"` jumps at hydration.** The server cannot measure the strip, so it
+  renders the four panels in a column; once the browser measures 40rem or more, they move into a row. The layout
+  is computed in JavaScript, so a container query cannot stand in. Workaround: pass `orientation="vertical"` or
+  `"horizontal"` when you know the space, or render the strip on the client only (`next/dynamic` with
+  `ssr: false`).
+
 ## License
 
 [MIT](LICENSE). Fonts are served by Google Fonts under the SIL Open Font License. All artwork is abstract SVG
