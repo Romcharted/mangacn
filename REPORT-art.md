@@ -163,3 +163,73 @@ Ce ne sont pas des dessins de démonstration :
    - Pour cela, les props `covers` / `cover` de ces quatre blocs acceptent maintenant un nœud React en plus d'une URL. Items mis à jour ; ils n'embarquent toujours aucune image.
 3. **Pas touché.** Les pages de couverture affichées *dans* les lecteurs (PageReader, PageThumbnails, GuidedView, première page du chapitre de démo) restent l'image seule. Ce sont des images de page lues par le lecteur ; y lettrer un titre demanderait de modifier l'image. Même chose pour MagazineCover, qui a son propre titre de magazine.
 4. **Contrôles.** `tsc` et le build passent ; `npm run check` aussi (128 items). Le contrôle des vignettes sur VolumeCard, Shelf et SeriesHeader réagit ; ObiBand reste une pièce sans état.
+
+# Yonkoma et ReaderStrip (troisième passe)
+
+## ReaderStrip : règle du compteur
+
+1. **La règle.** La page courante est la dernière page dont le haut a franchi une ligne de lecture placée au tiers de la hauteur visible, sous l'en-tête collant. Page 1 tant que la page 2 n'a pas franchi la ligne ; la dernière page dès que le bas du strip est visible.
+   - Elle vit à un seul endroit, dans `reading-progress.tsx` :
+     - `readingArea(el)` donne la partie visible ;
+     - `readingPage(pages, area)` donne la page ;
+     - `useReadingPage(count)` tient la page à jour pour une liste.
+   - L'en-tête collant est trouvé tout seul : les barres `sticky` ou `fixed` qui couvrent le haut de la vue, empilées si besoin (en-tête du site, puis barre du lecteur). Une couche qui cache plus de la moitié de la vue (dialogue, panneau) n'est pas prise pour un en-tête.
+   - Seul le haut compte ; une barre collée en bas ne change pas la ligne.
+2. **Où elle s'applique.**
+   - **ReaderStrip** : `onProgress` donne la page selon cette règle ; la progression va de 0 à 1 sur la même zone visible.
+   - **Bloc Manga reader** : il passe par le strip.
+   - **Bloc Author site** : son mode bande n'avait pas de compteur. Il a maintenant une barre `ReadingProgress` « Page 2 / 3 » collée en bas, et le mode page à page rouvre à la page où l'on s'est arrêté.
+   - **Mode bande de PageReader** (démo) : un compteur au-dessus de la boîte de lecture, pour les scans comme pour les pages JSON.
+   - Items mis à jour : descriptions, et `reading-progress` en dépendance de `reader-strip` et `author-site`.
+3. **La démo.**
+   - Pages : six pages entières à la même largeur. C'est le chapitre lu deux fois : couverture du tome 1, planche du pont, planche du phare.
+   - Page en erreur : la page 5 échoue volontairement. Elle garde la taille d'une planche normale et son bouton Retry la charge.
+   - Plus aucun petit recadrage, y compris dans les états et la vignette de l'accueil.
+   - Les pages servent le fichier à la taille réelle, avec un `srcSet` (nouveau champ optionnel de `ReaderStripPage`) et un `sizes` qui suit la largeur affichée. `artPage` fait de même pour tous les lecteurs de la vitrine.
+4. **Le test : `npm run check:reading`** (`scripts/check-reading.mjs`).
+   - Il démarre son propre serveur Vite, puis fait défiler la page du strip par pas de 10 px, du haut en bas puis du bas en haut, à 600, 900 et 1300 px de hauteur. Il lit le compteur après chaque pas.
+   - Le compteur doit partir de 1 et afficher chaque numéro dans l'ordre, sans en sauter, dans les deux sens.
+   - Résultat :
+     ```
+     ok   Reader Strip · 600px · 1532 steps · start 1 · down 1 2 3 4 5 6 · up 6 5 4 3 2 1
+     ok   Reader Strip · 900px · 1472 steps · start 1 · down 1 2 3 4 5 6 · up 6 5 4 3 2 1
+     ok   Reader Strip · 1300px · 1392 steps · start 1 · down 1 2 3 4 5 6 · up 6 5 4 3 2 1
+     reading line: every page in order, both ways, at every height
+     ```
+   - Contrôle ponctuel à 900 px : l'en-tête du site fait 56 px, donc la ligne est à 337 px. Avec le haut de la page 2 à 3 px au-dessus, le compteur affiche 2 ; à 3 px en dessous, il affiche 1.
+   - Il est à côté de `npm run check`, et non dedans : il lui faut un navigateur et environ deux minutes et demie.
+
+## Yonkoma
+
+1. **Image du gâteau : pas faite.** `site/public/art/yonkoma-cake.png` n'existe ni dans le dépôt ni ailleurs sur la machine. Il manque donc :
+   - la découpe en quatre carrés ;
+   - les bulles (« No food left… », « I'm a cartographer. I'll draw one. », Sfx d'éclat, « KURO!! » en cri) ;
+   - le titre « The cake » ;
+   - le passage du strip de Story landing.
+
+   Dès que l'image est là, il suffit d'ajouter quatre entrées à `scripts/art-images.py` et de réécrire `Story()` dans la démo.
+2. **Aperçu de la fiche.** Le strip en ligne (`orientation="auto"` : quatre cases en ligne dès 40 rem) vient en premier et remplit la largeur. Le strip vertical classique est centré en dessous.
+
+## Aucune image affichée plus grande que nature
+
+`scripts/check-sizes.mjs` (`npm run check:sizes`) ouvre l'accueil, chaque fiche et chaque exemple, à 375, 1280 et 1536 px. Il fait défiler chaque page pour charger les images, puis mesure chaque image `/art/` à la taille où elle est dessinée (en tenant compte de `object-fit`). Il la compare à deux choses :
+- **la taille réelle du recadrage**, pour repérer une image agrandie ;
+- **le fichier choisi par le navigateur**, pour repérer un fichier trop petit alors qu'un plus grand existait.
+
+Corrigé :
+- **Carousel** : « The Eraser » (ex-`suzu-shock`, 160 px, dessiné ×2,2) passe sur `eraser-full`, « Kuro sleeps » sur `suzu-full` (« Suzu and Kuro »), avec `srcset`.
+- **Aspect Ratio** : `bridge-far` remplace `suzu-full`, qui était ×1,27 dans le cadre 16/9.
+- **Spoiler** : l'image est limitée à 23 rem, sous les 371 px réels.
+- **ObiBand** : grille limitée à 42 rem ; `VolumeCover` prend une largeur d'affichage (`shown`, 18 rem par défaut), donc le bon fichier.
+- **Release Calendar** : `srcset` au lieu d'un fichier de 240 px dessiné à 365 px.
+- **Image d'accueil** : la case de Kuro (`kuro`, 150 px, ×1,37) passe sur `kuro-sleeping` (213 px).
+- **Story landing** : la case 3 passe de `suzu-shock` à `suzu-profile`.
+- **Page 404** : la grille est limitée à 30 rem, donc la case de Suzu surprise reste à 160 px.
+
+Encore agrandis (à 1280 px de large) :
+- **GuidedView** (`#guided-view`), pages JSON : `suzu-shock` ×1,79, `spear-clash` ×1,50, `bridge-far` ×1,11, `lighthouse-night` ×1,07, `kuro-sleeping` ×1,03. Le lecteur zoome sur chaque case jusqu'à remplir l'écran, et ces cases sont faites de recadrages. Le corriger demanderait soit de plafonner le zoom du composant, soit de refaire le chapitre JSON avec de plus grands recadrages ; je ne l'ai pas fait.
+- **Yonkoma** (`#yonkoma`), strip en ligne : `kuro-sleeping` ×1,77, `suzu-drawing` ×1,17. Ces recadrages disparaîtront avec ceux du gâteau.
+
+## Contrôles
+
+`tsc`, le build et `npm run check` passent ; `npm run check:reading` aussi (voir plus haut).
