@@ -52,12 +52,15 @@ function Story({ size = "md" }: { size?: "sm" | "md" }) {
 export function Preview() {
   return (
     <div className="grid gap-10">
-      <Yonkoma title="The map" labels={LABELS}>
-        {Story({})}
-      </Yonkoma>
       <div className="grid gap-2">
-        <p className="font-mono text-xs">orientation="auto": a column on phones, four in a row from 40rem (follows the reading order)</p>
-        <Yonkoma orientation="auto" labels={LABELS} title="The map, wide">
+        <p className="font-mono text-xs">orientation="auto": four in a row from 40rem (follows the reading order), a column on phones</p>
+        <Yonkoma orientation="auto" labels={LABELS} title="The map">
+          {Story({})}
+        </Yonkoma>
+      </div>
+      <div className="grid justify-items-center gap-2">
+        <p className="font-mono text-xs">orientation="vertical": the classic column</p>
+        <Yonkoma title="The map" labels={LABELS} className="mx-auto">
           {Story({})}
         </Yonkoma>
       </div>
