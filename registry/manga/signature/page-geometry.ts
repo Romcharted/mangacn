@@ -24,7 +24,22 @@ export type Anchor =
 /** A point inside a panel, in percent of the panel's box (0 = left / top, 100 = right / bottom). */
 export type PagePoint = { x: number; y: number }
 
-type Placed = { x: number; y: number; anchor?: Anchor }
+/** Another place for an item once the page folds into a strip on a phone (numbers are percent of the panel). */
+export type FoldPlace = {
+  x?: number
+  y?: number
+  anchor?: Anchor
+  maxWidth?: number
+  /** Bubbles: where the tail aims once folded (data only; in JSX, aim the SpeechBubble yourself). */
+  pointAt?: PagePoint
+}
+type Placed = {
+  x: number
+  y: number
+  anchor?: Anchor
+  /** Where it goes once the page folds on a phone, when the panel's shape changes too much for one placement. */
+  fold?: FoldPlace
+}
 export type BubbleItem = Placed & {
   type: "bubble"
   text: string
@@ -85,6 +100,11 @@ export type PanelData = {
   ink?: boolean
   /** Laid over the previous panel of the tier instead of taking room: box in percent of that panel. */
   inset?: { x: number; y: number; w: number; h: number }
+  /**
+   * Width / height of the panel once the page folds into a strip on a phone. By default a wider panel is
+   * brought to 1.7; a lower value gives a crowded panorama the height its lettering needs.
+   */
+  foldRatio?: number
   art?: PanelArtData
   items?: PageItem[]
   /** Accessible name of the panel (default "Panel n"). */

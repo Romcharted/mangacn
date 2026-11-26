@@ -23,6 +23,8 @@ function item(it: PageItem, pad: string) {
     ["y", `${n(it.y)}%`],
     ["anchor", it.anchor && it.anchor !== "center" ? it.anchor : undefined],
     ["maxWidth", it.type !== "sfx" && it.maxWidth ? `${n(it.maxWidth)}%` : undefined],
+    // the folded tail target has no JSX form: SpeechBubble takes one pointAt
+    ["fold", it.fold && Object.fromEntries(Object.entries(it.fold).filter(([k]) => k !== "pointAt"))],
   ])
   let inner: string
   if (it.type === "bubble") {
@@ -46,6 +48,7 @@ function cell(c: CellData, pad: string, images: Map<string, string>): string {
     ["overflow", c.overflow],
     ["ink", c.ink],
     ["inset", c.inset],
+    ["foldRatio", c.foldRatio],
     ["label", c.label],
   ])}`
   const body: string[] = []

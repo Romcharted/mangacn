@@ -156,7 +156,7 @@ function flatten(children: React.ReactNode): React.ReactElement[] {
   )
 }
 
-const PANEL_KEYS = ["width", "slant", "shape", "tilt", "bleed", "frameless", "overflow", "ink", "inset", "art", "items", "label"] as const
+const PANEL_KEYS = ["width", "slant", "shape", "tilt", "bleed", "frameless", "overflow", "ink", "inset", "foldRatio", "art", "items", "label"] as const
 
 function panelNode(props: PanelProps): PanelNode {
   const node: PanelNode = { content: props.children, className: props.className, style: props.style }
@@ -323,6 +323,7 @@ function Page({
       {...props}
     >
       {folded ? (
+        <Folded.Provider value>
         <div className="grid gap-3">
           {geometry.panels
             .filter((g) => g.host === undefined)
@@ -347,6 +348,7 @@ function Page({
               )
             })}
         </div>
+        </Folded.Provider>
       ) : (
         <div
           className="relative isolate w-full overflow-hidden bg-background text-foreground"
@@ -364,8 +366,12 @@ function Page({
 /** Folded: a very wide panel gets taller (its art is re-cropped), so its lettering stays readable. */
 function standalone(g: PanelGeometry): PanelGeometry {
   const ratio = g.box.w / g.box.h
-  return ratio > 1.7 ? stretch(g, g.box.y, ratio / 1.7) : g
+  const most = (g.data as PanelNode).foldRatio ?? 1.7
+  return ratio > most ? stretch(g, g.box.y, ratio / most) : g
 }
+
+/** True inside a page folded into a strip: Place then uses its `fold` placement when it has one. */
+const Folded = React.createContext(false)
 function stretch(g: PanelGeometry, y0: number, k: number): PanelGeometry {
   if (k === 1) return g
   const s = (p: Pt): Pt => ({ x: p.x, y: y0 + (p.y - y0) * k })
@@ -458,11 +464,16 @@ function PanelView({ g, space, line }: { g: PanelGeometry; space: Box; line: num
 }
 
 function PageItemView({ item }: { item: PageItem }) {
-  const at = { x: item.x, y: item.y, anchor: item.anchor ?? ("center" as Anchor) }
+  const folded = React.useContext(Folded)
+  const fold = item.fold && { ...item.fold, maxWidth: item.fold.maxWidth === undefined ? undefined : `${item.fold.maxWidth}%` }
+  const at = { x: item.x, y: item.y, anchor: item.anchor ?? ("center" as Anchor), fold }
   if (item.type === "bubble")
     return (
       <Place {...at} maxWidth={`${item.maxWidth ?? 46}%`}>
-        <SpeechBubble variant={item.variant} pointAt={item.pointAt} tail={item.pointAt ? undefined : "none"} align={item.align} seed={item.seed}>
+        <SpeechBubble
+          variant={item.variant}
+          pointAt={(folded && item.fold?.pointAt) || item.pointAt}
+          tail={item.pointAt ? undefined : "none"} align={item.align} seed={item.seed}>
           <span className="whitespace-pre-line">{item.text}</span>
         </SpeechBubble>
       </Place>
@@ -501,6 +512,8 @@ export type PlaceProps = Omit<React.ComponentProps<"div">, "children"> & {
   contain?: boolean
   /** Tilt in degrees. */
   rotate?: number
+  /** Another place once the page folds into a strip on a phone (same units as x, y and maxWidth). */
+  fold?: { x?: number | string; y?: number | string; anchor?: Anchor; maxWidth?: number | string }
   children?: React.ReactNode
 }
 
@@ -519,7 +532,12 @@ const ANCHORS: Record<Anchor, [number, number]> = {
 const pct = (v: number | string) => (typeof v === "number" ? v : /%$/.test(v.trim()) ? parseFloat(v) : NaN)
 
 /** Places one element in a panel, in percent, from an anchor point: x="72%" y="12%" anchor="top-right". */
-function Place({ x = 50, y = 50, anchor = "center", maxWidth, clip, contain = true, rotate, className, style, children, ...props }: PlaceProps) {
+function Place({ x: x0 = 50, y: y0 = 50, anchor: anchor0 = "center", maxWidth: maxWidth0, fold, clip, contain = true, rotate, className, style, children, ...props }: PlaceProps) {
+  const alt = React.useContext(Folded) ? fold : undefined
+  const x = alt?.x ?? x0
+  const y = alt?.y ?? y0
+  const anchor = alt?.anchor ?? anchor0
+  const maxWidth = alt?.maxWidth ?? maxWidth0
   const [ax, ay] = ANCHORS[anchor] ?? ANCHORS.center
   const own = React.isValidElement(children) ? (children.props as { maxWidth?: number | string }).maxWidth : undefined
   const frame = React.useRef<HTMLDivElement>(null)
