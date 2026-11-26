@@ -1756,7 +1756,7 @@
       "name": "speech-bubble",
       "type": "registry:component",
       "title": "Speech Bubble",
-      "description": "Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin. BubbleGroup chains bubbles through a neck that hides both outlines.",
+      "description": "Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin; or pointAt={{ x, y }} (percent of the panel, in a Place) aims the tail at a point and lengthens it. Every length follows the font size, so on a Page the bubble scales with the page; there round bubbles square up a little to hold a block of text. align sets the text alignment, maxWidth the width limit (a percentage of the panel in a Place). BubbleGroup chains bubbles through a neck that hides both outlines.",
       "categories": [
         "manga"
       ],
@@ -1776,7 +1776,7 @@
       "docs": "Import from \"@/components/manga/speech-bubble\".",
       "meta": {
         "tagline": "Seven bubble shapes drawn at their real size.",
-        "usage": "import { SpeechBubble, BubbleGroup } from \"@/components/manga/speech-bubble\"\n\n<SpeechBubble variant=\"shout\" tail=\"bottom\" tailAlign=\"end\">Get down!</SpeechBubble>",
+        "usage": "import { SpeechBubble, BubbleGroup } from \"@/components/manga/speech-bubble\"\n\n<SpeechBubble variant=\"shout\" tail=\"bottom\" tailAlign=\"end\">Get down!</SpeechBubble>\n\n// on a Page: placed in a panel, the tail aims at the speaker\n<Place x=\"70%\" y=\"10%\" anchor=\"top\">\n  <SpeechBubble pointAt={{ x: \"30%\", y: \"80%\" }} align=\"start\">Over here!</SpeechBubble>\n</Place>",
         "props": [
           {
             "name": "variant",
@@ -1795,6 +1795,23 @@
             "type": "\"start\" | \"center\" | \"end\"",
             "default": "\"start\"",
             "description": "Tail position along that side."
+          },
+          {
+            "name": "pointAt",
+            "type": "{ x: number | string; y: number | string }",
+            "description": "A point to aim at, in percent of the panel (the Place frame): the tail turns and grows to reach it."
+          },
+          {
+            "name": "align",
+            "type": "\"start\" | \"center\" | \"end\"",
+            "default": "\"center\"",
+            "description": "Text alignment (narration starts at the start)."
+          },
+          {
+            "name": "maxWidth",
+            "type": "string",
+            "default": "\"24rem\"",
+            "description": "Maximum width; in a Place a percentage is a share of the panel."
           },
           {
             "name": "seed",
@@ -1939,12 +1956,15 @@
       "name": "panel",
       "type": "registry:component",
       "title": "Panel",
-      "description": "Manga page layout. PanelGrid is the page (a CSS grid with gutters; cols, rows, gap, reading=\"rtl\" for right-to-left panel order). Panel is a case placed on it (colSpan, rowSpan) with a 3px outline drawn in SVG, so a side can be cut on a slant (cut={{ side: \"start\" | \"end\", size }} in px; give the neighbour the opposite cut and the gutter stays parallel); ink panels for night scenes. PanelCaption is the narration box, a 2px case in a corner. Compose with SpeedLines, Screentone, SpeechBubble and Sfx.",
+      "description": "The manga page model. Page is a book page in a fixed format (pocket, magazine, square, or a free-height strip; spread for a double page) that keeps its proportions and scales as one block: lines, gutters, bubbles and sound effects are sized in container units of the page. A page is made of Tier (bands, height share, slant of the cut below) holding Panel (width share, slant of the cut after it) or Column (tiers inside a cell); the code order is the reading order, and reading=\"rtl\" lays panels out right to left. Gutters between tiers are wider than between panels. Panel options: bleed, frameless, overflow, ink, inset (laid over the previous panel), shape straight | tilted | jagged | cloud | memory. Twelve templates (template prop): three-tiers, big-plus-two, l-shape, diagonal, four-koma, spread, grid-six, splash, inset, columns, shock, flashback; Panel children fill a template in order. Place puts any element in a panel in percent from an anchor (x=\"72%\" y=\"12%\" anchor=\"top-right\") and keeps it inside the panel; SpeechBubble pointAt aims its tail. PanelArt shows a picture framed by a focal point and zoom, toned with TonedImage. The same page can be given as data (page prop, PageData JSON, same structure as the JSX; see page-geometry.ts). Under 480px the page folds into a vertical strip. pageGeometry(data) and onGeometry give each panel's box in reading order (percent of the page) for panel-by-panel readers. PanelGrid, the first CSS-grid layout (cols, rows, colSpan, rowSpan, cut, padding), stays for existing code and becomes Page when given a page, template, format or Tier children. PanelCaption is the narration box (corner or free).",
       "categories": [
         "manga"
       ],
       "registryDependencies": [
-        "Romcharted/mangacn/base"
+        "Romcharted/mangacn/base",
+        "Romcharted/mangacn/speech-bubble",
+        "Romcharted/mangacn/sfx",
+        "Romcharted/mangacn/toned-image"
       ],
       "dependencies": [
         "cn"
@@ -1954,43 +1974,111 @@
           "path": "registry/manga/signature/panel.tsx",
           "type": "registry:component",
           "target": "@components/manga/panel.tsx"
+        },
+        {
+          "path": "registry/manga/signature/page-geometry.ts",
+          "type": "registry:lib",
+          "target": "@components/manga/page-geometry.ts"
         }
       ],
-      "docs": "Import from \"@/components/manga/panel\".",
+      "docs": "Import from \"@/components/manga/panel\". Tier, Panel and Column must be direct children of Page or Tier (not wrapped in your own components): the page reads them to lay out the page.",
       "meta": {
-        "tagline": "A page grid, slanted cuts and narration boxes.",
-        "usage": "import { Panel, PanelCaption, PanelGrid } from \"@/components/manga/panel\"\n\n<PanelGrid cols={3} rows={2} className=\"aspect-[4/3]\">\n  <Panel colSpan={2} rowSpan={2}>…</Panel>\n  <Panel cut={{ side: \"start\" }}>\n    <PanelCaption>Midnight.</PanelCaption>\n  </Panel>\n  <Panel>…</Panel>\n</PanelGrid>",
+        "tagline": "A manga page: tiers, slanted cuts, templates, bubbles that aim.",
+        "usage": "import { Page, Panel, PanelArt, Place, Tier } from \"@/components/manga/panel\"\nimport { SpeechBubble } from \"@/components/manga/speech-bubble\"\n\n<Page format=\"pocket\">\n  <Tier height={2} slant={6}>\n    <Panel bleed>\n      <PanelArt src=\"/street.jpg\" alt=\"A street at night\" toned />\n      <Place x=\"72%\" y=\"12%\" anchor=\"top-right\">\n        <SpeechBubble pointAt={{ x: \"30%\", y: \"80%\" }}>Over here!</SpeechBubble>\n      </Place>\n    </Panel>\n  </Tier>\n  <Tier>\n    <Panel width={2} slant={-4} />\n    <Panel shape=\"jagged\" />\n  </Tier>\n</Page>\n\n// or a template, or data\n<Page template=\"big-plus-two\"><Panel>…</Panel><Panel>…</Panel><Panel>…</Panel></Page>\n<Page page={pageData} />",
         "props": [
           {
-            "name": "cols / rows / gap",
-            "type": "number / number / string",
-            "description": "On PanelGrid: the page grid."
+            "name": "format",
+            "type": "\"pocket\" | \"magazine\" | \"square\" | \"strip\"",
+            "default": "\"pocket\"",
+            "description": "On Page: fixed proportions (strip: free height)."
+          },
+          {
+            "name": "template",
+            "type": "\"three-tiers\" | \"big-plus-two\" | \"l-shape\" | \"diagonal\" | \"four-koma\" | \"spread\" | \"grid-six\" | \"splash\" | \"inset\" | \"columns\" | \"shock\" | \"flashback\"",
+            "description": "On Page: a ready layout; Panel children fill it in order."
+          },
+          {
+            "name": "page",
+            "type": "PageData",
+            "description": "On Page: the page as data (same structure as the JSX)."
           },
           {
             "name": "reading",
             "type": "\"ltr\" | \"rtl\"",
-            "description": "On PanelGrid: panel order; defaults to the page setting (data-reading on <html>)."
+            "description": "On Page: panel order; defaults to the data, then to data-reading on an ancestor."
           },
           {
-            "name": "colSpan / rowSpan",
-            "type": "number",
-            "description": "On Panel: cells covered."
+            "name": "spread / gutter / margin / line / lettering",
+            "type": "boolean / { x, y } / number / number / number",
+            "description": "On Page: double page, gutters, margin and line width in page units (a page is 100 wide), lettering scale."
           },
           {
-            "name": "cut",
-            "type": "{ side: \"start\" | \"end\"; size?: number }",
-            "description": "On Panel: slanted side, size in px (default 32)."
+            "name": "fold",
+            "type": "\"auto\" | \"always\" | \"never\"",
+            "default": "\"auto\"",
+            "description": "On Page: vertical strip under 480px."
           },
           {
-            "name": "ink",
+            "name": "onGeometry",
+            "type": "(geometry: PageGeometry) => void",
+            "description": "On Page: every panel's box in reading order (page units and percent)."
+          },
+          {
+            "name": "height / slant",
+            "type": "number / number",
+            "description": "On Tier: share of the page height; slant of the cut below, in page units."
+          },
+          {
+            "name": "width / slant",
+            "type": "number / number",
+            "description": "On Panel and Column: share of the tier width; slant of the cut after it."
+          },
+          {
+            "name": "shape",
+            "type": "\"straight\" | \"tilted\" | \"jagged\" | \"cloud\" | \"memory\"",
+            "default": "\"straight\"",
+            "description": "On Panel: outline (tilted: tilt in degrees)."
+          },
+          {
+            "name": "bleed / frameless / overflow / ink",
             "type": "boolean",
-            "description": "On Panel: ink background, paper lines."
+            "description": "On Panel: runs off the page, no outline, content may leave the frame, ink background."
+          },
+          {
+            "name": "inset",
+            "type": "{ x, y, w, h }",
+            "description": "On Panel: laid over the previous panel, box in percent of it."
+          },
+          {
+            "name": "art / items",
+            "type": "PanelArtData / PageItem[]",
+            "description": "On Panel: picture and bubbles as data (or children)."
+          },
+          {
+            "name": "x / y / anchor",
+            "type": "number | string / Anchor",
+            "description": "On Place: position in percent of the panel, and the anchor point."
+          },
+          {
+            "name": "maxWidth / clip / contain / rotate",
+            "type": "number | string / boolean / boolean / number",
+            "description": "On Place: maximum width (default the child's maxWidth, then 60%), stay inside the frame, nudge back inside the panel (default true), tilt."
+          },
+          {
+            "name": "src / alt / x / y / zoom / toned",
+            "type": "string / string / number / number / number / boolean | options",
+            "description": "On PanelArt: the picture, its focal point in percent, zoom, screentone."
+          },
+          {
+            "name": "cols / rows / colSpan / rowSpan / cut / padding",
+            "type": "number / number / number / number / { side, size } / string",
+            "description": "PanelGrid (first layout, kept for existing code)."
           },
           {
             "name": "position",
-            "type": "\"top-start\" | \"top-end\" | \"bottom-start\" | \"bottom-end\"",
+            "type": "\"top-start\" | \"top-end\" | \"bottom-start\" | \"bottom-end\" | \"free\"",
             "default": "\"top-start\"",
-            "description": "On PanelCaption: corner."
+            "description": "On PanelCaption: corner, or free (in a Place)."
           }
         ]
       }
@@ -1999,7 +2087,7 @@
       "name": "sfx",
       "type": "registry:component",
       "title": "Sfx",
-      "description": "Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken.",
+      "description": "Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken. On a Page the four sizes follow the page width instead of the screen.",
       "categories": [
         "manga"
       ],

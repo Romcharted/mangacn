@@ -324,7 +324,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/manga/t
 
 ### Speech Bubble (`speech-bubble`)
 
-Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin. BubbleGroup chains bubbles through a neck that hides both outlines.
+Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin; or pointAt={{ x, y }} (percent of the panel, in a Place) aims the tail at a point and lengthens it. Every length follows the font size, so on a Page the bubble scales with the page; there round bubbles square up a little to hold a block of text. align sets the text alignment, maxWidth the width limit (a percentage of the panel in a Place). BubbleGroup chains bubbles through a neck that hides both outlines.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/speech-bubble`
 - Categories: manga
@@ -332,12 +332,20 @@ Manga speech bubble drawn in SVG at its real size and inscribed in its box, with
   - `variant`: `"speech" | "thought" | "shout" | "whisper" | "narration" | "electronic" | "wobbly"` (default `"speech"`) — Bubble shape.
   - `tail`: `"top" | "bottom" | "start" | "end" | "none"` (default `"bottom"`) — Side the tail points to.
   - `tailAlign`: `"start" | "center" | "end"` (default `"start"`) — Tail position along that side.
+  - `pointAt`: `{ x: number | string; y: number | string }` — A point to aim at, in percent of the panel (the Place frame): the tail turns and grows to reach it.
+  - `align`: `"start" | "center" | "end"` (default `"center"`) — Text alignment (narration starts at the start).
+  - `maxWidth`: `string` (default `"24rem"`) — Maximum width; in a Place a percentage is a share of the panel.
   - `seed`: `number` (default `7`) — Seed for hand-drawn irregularities.
 
 ```tsx
 import { SpeechBubble, BubbleGroup } from "@/components/manga/speech-bubble"
 
 <SpeechBubble variant="shout" tail="bottom" tailAlign="end">Get down!</SpeechBubble>
+
+// on a Page: placed in a panel, the tail aims at the speaker
+<Place x="70%" y="10%" anchor="top">
+  <SpeechBubble pointAt={{ x: "30%", y: "80%" }} align="start">Over here!</SpeechBubble>
+</Place>
 ```
 
 ### Screentone (`screentone`)
@@ -384,33 +392,57 @@ import { SpeedLines } from "@/components/manga/speed-lines"
 
 ### Panel (`panel`)
 
-Manga page layout. PanelGrid is the page (a CSS grid with gutters; cols, rows, gap, reading="rtl" for right-to-left panel order). Panel is a case placed on it (colSpan, rowSpan) with a 3px outline drawn in SVG, so a side can be cut on a slant (cut={{ side: "start" | "end", size }} in px; give the neighbour the opposite cut and the gutter stays parallel); ink panels for night scenes. PanelCaption is the narration box, a 2px case in a corner. Compose with SpeedLines, Screentone, SpeechBubble and Sfx.
+The manga page model. Page is a book page in a fixed format (pocket, magazine, square, or a free-height strip; spread for a double page) that keeps its proportions and scales as one block: lines, gutters, bubbles and sound effects are sized in container units of the page. A page is made of Tier (bands, height share, slant of the cut below) holding Panel (width share, slant of the cut after it) or Column (tiers inside a cell); the code order is the reading order, and reading="rtl" lays panels out right to left. Gutters between tiers are wider than between panels. Panel options: bleed, frameless, overflow, ink, inset (laid over the previous panel), shape straight | tilted | jagged | cloud | memory. Twelve templates (template prop): three-tiers, big-plus-two, l-shape, diagonal, four-koma, spread, grid-six, splash, inset, columns, shock, flashback; Panel children fill a template in order. Place puts any element in a panel in percent from an anchor (x="72%" y="12%" anchor="top-right") and keeps it inside the panel; SpeechBubble pointAt aims its tail. PanelArt shows a picture framed by a focal point and zoom, toned with TonedImage. The same page can be given as data (page prop, PageData JSON, same structure as the JSX; see page-geometry.ts). Under 480px the page folds into a vertical strip. pageGeometry(data) and onGeometry give each panel's box in reading order (percent of the page) for panel-by-panel readers. PanelGrid, the first CSS-grid layout (cols, rows, colSpan, rowSpan, cut, padding), stays for existing code and becomes Page when given a page, template, format or Tier children. PanelCaption is the narration box (corner or free).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/panel`
 - Categories: manga
 - Props:
-  - `cols / rows / gap`: `number / number / string` — On PanelGrid: the page grid.
-  - `reading`: `"ltr" | "rtl"` — On PanelGrid: panel order; defaults to the page setting (data-reading on <html>).
-  - `colSpan / rowSpan`: `number` — On Panel: cells covered.
-  - `cut`: `{ side: "start" | "end"; size?: number }` — On Panel: slanted side, size in px (default 32).
-  - `ink`: `boolean` — On Panel: ink background, paper lines.
-  - `position`: `"top-start" | "top-end" | "bottom-start" | "bottom-end"` (default `"top-start"`) — On PanelCaption: corner.
+  - `format`: `"pocket" | "magazine" | "square" | "strip"` (default `"pocket"`) — On Page: fixed proportions (strip: free height).
+  - `template`: `"three-tiers" | "big-plus-two" | "l-shape" | "diagonal" | "four-koma" | "spread" | "grid-six" | "splash" | "inset" | "columns" | "shock" | "flashback"` — On Page: a ready layout; Panel children fill it in order.
+  - `page`: `PageData` — On Page: the page as data (same structure as the JSX).
+  - `reading`: `"ltr" | "rtl"` — On Page: panel order; defaults to the data, then to data-reading on an ancestor.
+  - `spread / gutter / margin / line / lettering`: `boolean / { x, y } / number / number / number` — On Page: double page, gutters, margin and line width in page units (a page is 100 wide), lettering scale.
+  - `fold`: `"auto" | "always" | "never"` (default `"auto"`) — On Page: vertical strip under 480px.
+  - `onGeometry`: `(geometry: PageGeometry) => void` — On Page: every panel's box in reading order (page units and percent).
+  - `height / slant`: `number / number` — On Tier: share of the page height; slant of the cut below, in page units.
+  - `width / slant`: `number / number` — On Panel and Column: share of the tier width; slant of the cut after it.
+  - `shape`: `"straight" | "tilted" | "jagged" | "cloud" | "memory"` (default `"straight"`) — On Panel: outline (tilted: tilt in degrees).
+  - `bleed / frameless / overflow / ink`: `boolean` — On Panel: runs off the page, no outline, content may leave the frame, ink background.
+  - `inset`: `{ x, y, w, h }` — On Panel: laid over the previous panel, box in percent of it.
+  - `art / items`: `PanelArtData / PageItem[]` — On Panel: picture and bubbles as data (or children).
+  - `x / y / anchor`: `number | string / Anchor` — On Place: position in percent of the panel, and the anchor point.
+  - `maxWidth / clip / contain / rotate`: `number | string / boolean / boolean / number` — On Place: maximum width (default the child's maxWidth, then 60%), stay inside the frame, nudge back inside the panel (default true), tilt.
+  - `src / alt / x / y / zoom / toned`: `string / string / number / number / number / boolean | options` — On PanelArt: the picture, its focal point in percent, zoom, screentone.
+  - `cols / rows / colSpan / rowSpan / cut / padding`: `number / number / number / number / { side, size } / string` — PanelGrid (first layout, kept for existing code).
+  - `position`: `"top-start" | "top-end" | "bottom-start" | "bottom-end" | "free"` (default `"top-start"`) — On PanelCaption: corner, or free (in a Place).
 
 ```tsx
-import { Panel, PanelCaption, PanelGrid } from "@/components/manga/panel"
+import { Page, Panel, PanelArt, Place, Tier } from "@/components/manga/panel"
+import { SpeechBubble } from "@/components/manga/speech-bubble"
 
-<PanelGrid cols={3} rows={2} className="aspect-[4/3]">
-  <Panel colSpan={2} rowSpan={2}>…</Panel>
-  <Panel cut={{ side: "start" }}>
-    <PanelCaption>Midnight.</PanelCaption>
-  </Panel>
-  <Panel>…</Panel>
-</PanelGrid>
+<Page format="pocket">
+  <Tier height={2} slant={6}>
+    <Panel bleed>
+      <PanelArt src="/street.jpg" alt="A street at night" toned />
+      <Place x="72%" y="12%" anchor="top-right">
+        <SpeechBubble pointAt={{ x: "30%", y: "80%" }}>Over here!</SpeechBubble>
+      </Place>
+    </Panel>
+  </Tier>
+  <Tier>
+    <Panel width={2} slant={-4} />
+    <Panel shape="jagged" />
+  </Tier>
+</Page>
+
+// or a template, or data
+<Page template="big-plus-two"><Panel>…</Panel><Panel>…</Panel><Panel>…</Panel></Page>
+<Page page={pageData} />
 ```
 
 ### Sfx (`sfx`)
 
-Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken.
+Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken. On a Page the four sizes follow the page width instead of the screen.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sfx`
 - Categories: manga

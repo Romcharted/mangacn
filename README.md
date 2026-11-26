@@ -174,7 +174,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Speech Bubble | `speech-bubble` | Seven bubble shapes drawn at their real size. |
 | Screentone | `screentone` | Any tone: dots, lines, cross-hatching or noise, with a stepped fade. |
 | Speed Lines | `speed-lines` | Focus or motion lines to make a moment hit. |
-| Panel | `panel` | A page grid, slanted cuts and narration boxes. |
+| Panel | `panel` | A manga page: tiers, slanted cuts, templates, bubbles that aim. |
 | Sfx | `sfx` | Sound effects in heavy lettering, with a paper knockout. |
 | Manpu | `manpu` | Emotion marks: anger, sweat, surprise… |
 | Burst | `burst` | A starburst for news and shouts. |
