@@ -39,7 +39,11 @@ export function Examples() {
         </h2>
         <p className="max-w-prose">
           Page, Tier, Panel, Place and PanelArt: three pages on one model. Bubbles aim their tails, sound effects and lettering
-          follow the page width, and under 480px the page folds into a strip.
+          follow the page width, and under 480px the page folds into a strip.{" "}
+          <a href="#studio" className="underline">
+            Make your own in the page studio
+          </a>
+          .
         </p>
         <MangaPage />
       </section>
