@@ -30,6 +30,12 @@
         "description": "On TypographyH1 and TypographyH2: use the SFX face instead of the lettering face."
       },
       {
+        "name": "as",
+        "type": "\"h1\" | \"h2\" | \"p\"",
+        "default": "\"h1\"",
+        "description": "On TypographyH1: the element, for the H1 look on another level (a block title inside a page that has its h1, a specimen)."
+      },
+      {
         "name": "TypographyTable",
         "type": "table props",
         "description": "Native thead / tbody / tr / th / td children, in a case with the kit Table look."

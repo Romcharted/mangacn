@@ -8,11 +8,15 @@ import { cn } from "cn"
  * without depending on it.
  */
 
-type HeadingProps = React.ComponentProps<"h1"> & { sfx?: boolean }
+type HeadingProps = React.ComponentProps<"h1"> & {
+  sfx?: boolean
+  /** The element: the H1 look on another level (a block title inside a page that has its h1, a specimen). */
+  as?: "h1" | "h2" | "p"
+}
 
-export function TypographyH1({ className, sfx = false, ...props }: HeadingProps) {
+export function TypographyH1({ className, sfx = false, as: Tag = "h1", ...props }: HeadingProps) {
   return (
-    <h1
+    <Tag
       className={cn(
         "scroll-m-20 text-balance text-4xl leading-tight tracking-wide lg:text-5xl",
         sfx ? "font-sfx" : "font-letter",

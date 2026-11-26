@@ -18,7 +18,7 @@ import { Tile, Tiles } from "../state-grid"
 export function Preview() {
   return (
     <article className="max-w-prose">
-      <TypographyH1>The long night</TypographyH1>
+      <TypographyH1 as="h2">The long night</TypographyH1>
       <TypographyLead>Three stations, one train, and a letter nobody was meant to open.</TypographyLead>
       <TypographyP>
         The harbour lamps came on one by one. Mei counted them twice, the way she counted pages before a deadline, and
@@ -65,10 +65,10 @@ export function States() {
   return (
     <Tiles>
       <Tile label="h1 · lettering" size="lg">
-        <TypographyH1>Title</TypographyH1>
+        <TypographyH1 as="p">Title</TypographyH1>
       </Tile>
       <Tile label="h1 · sfx" size="lg">
-        <TypographyH1 sfx>Boom</TypographyH1>
+        <TypographyH1 as="p" sfx>Boom</TypographyH1>
       </Tile>
       <Tile label="h2 · lettering" size="lg">
         <TypographyH2>Cast</TypographyH2>
