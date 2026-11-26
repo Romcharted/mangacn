@@ -1,0 +1,87 @@
+/*
+ * "Mapless", the showcase's demo series: five AI-generated images (two covers, two pages, a portrait) and crops
+ * of them, built by scripts/art-images.py into public/art/<name>-<width>.webp. Credits: public/art/CREDITS.md.
+ * Characters: Suzu (an apprentice cartographer), Kuro (an ink dragon), the Eraser (a white knight).
+ * The registry items ship no image: blocks and pieces take picture URLs as props, the site passes these.
+ */
+import type { ImgHTMLAttributes } from "react"
+import sizes from "./mapless-art.json"
+
+export type ArtName = keyof typeof sizes
+
+export const SERIES = "Mapless"
+export const AUTHOR = "Studio Mapless"
+
+/** Spoken description of each picture. */
+export const ALT: Record<ArtName, string> = {
+  "suzu-portrait": "Suzu laughs, holding up a hand-drawn map, Kuro curled on her head",
+  "cover-1": "Suzu on a cliff edge above the clouds, a giant brush in hand, Kuro coiled over her shoulders",
+  "cover-2": "The Eraser, a white knight, stands above the clouds leaning on his spear",
+  "page-1-bridge":
+    "Page: Suzu crosses an ink bridge toward the Eraser; he waits on the far cliff; Kuro rears behind her; his spear breaks the bridge; a drop of ink falls",
+  "page-2-lighthouse":
+    "Page: a lighthouse on a floating island at night; Suzu draws a map by the fire; Kuro sleeps on the bags; the map; Suzu looks up and sees the Eraser on a far cliff",
+  "lighthouse-night": "A ruined lighthouse on a floating island at night, a small fire at its foot",
+  "suzu-drawing": "Suzu sits by the fire and inks a map, her goggles on",
+  "kuro-sleeping": "Kuro, the ink dragon, asleep in a ball on the travel bags",
+  "suzu-profile": "Suzu in profile, gripping her brush, looking into the night",
+  "cover-3-teaser": "Far away on a cliff, a white knight stands under the stars",
+  "bridge-far": "An ink bridge across the clouds, Suzu at one end, a knight at the other",
+  "spear-clash": "Suzu leaps with her brush as the Eraser's spear smashes the ink bridge",
+  "ink-drop": "A single drop of ink falls",
+  "suzu-shock": "Suzu startled behind her goggles, Kuro rearing at her back",
+  "eraser-panel": "The Eraser in full armour on the cliff, spear in hand",
+  map: "A hand-drawn map of floating islands, held in both hands",
+  "suzu-face": "Suzu's face, laughing, goggles pushed up",
+  "suzu-full": "Suzu standing on a cliff with her giant brush, Kuro over her shoulders",
+  kuro: "Kuro, the ink dragon, with round white eyes",
+  "eraser-full": "The Eraser standing, both hands on his spear",
+  "eraser-helmet": "The Eraser's helmet and shoulders",
+}
+
+const BASE = import.meta.env.BASE_URL
+
+/** URL of a picture at the smallest stored width of at least `width` css pixels at 2x (or the largest one). */
+export function artSrc(name: ArtName, width = 240) {
+  const { widths } = sizes[name]
+  const w = widths.find((x) => x >= width * 2) ?? widths[widths.length - 1]
+  return `${BASE}art/${name}-${w}.webp`
+}
+
+/** `srcset` of a picture: every stored width. */
+export function artSrcSet(name: ArtName) {
+  return sizes[name].widths.map((w) => `${BASE}art/${name}-${w}.webp ${w}w`).join(", ")
+}
+
+/** Width / height of a picture. */
+export const artRatio = (name: ArtName) => sizes[name].width / sizes[name].height
+
+/** A page of the demo chapter, for the readers: image, size and spoken description. */
+export function artPage(name: ArtName) {
+  return { src: artSrc(name, 480), alt: ALT[name], width: sizes[name].width, height: sizes[name].height }
+}
+
+type ArtProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "srcSet"> & {
+  name: ArtName
+  /** Width the picture is shown at, for `sizes` (css length). */
+  shown?: string
+}
+
+/** A picture of the series: responsive, lazy, with its size so the page does not jump. */
+export function Art({ name, shown = "50vw", alt, loading = "lazy", ...props }: ArtProps) {
+  const { width, height } = sizes[name]
+  return (
+    <img
+      src={artSrc(name)}
+      srcSet={artSrcSet(name)}
+      sizes={shown}
+      width={width}
+      height={height}
+      alt={alt ?? ALT[name]}
+      loading={loading}
+      decoding="async"
+      draggable={false}
+      {...props}
+    />
+  )
+}
