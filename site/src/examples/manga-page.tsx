@@ -5,14 +5,13 @@ import { Choice, Flag } from "../playground"
 import { LAST_TRAIN } from "../pages/last-train"
 import { LunchBreak } from "../pages/lunch-break"
 import lunchSource from "../pages/lunch-break.tsx?raw"
-import { NEMO, NEMO_CREDIT } from "../pages/nemo"
 
-const PAGES = ["lunch break", "last train", "little nemo"] as const
+const PAGES = ["lunch break", "last train"] as const
 type Which = (typeof PAGES)[number]
 
 const json = (data: unknown) => `import { Page, type PageData } from "@/components/manga/panel"\n\nconst page: PageData = ${JSON.stringify(data, null, 2)}\n\n<Page page={page} />`
 
-/** Three pages made with the Page model: drawn for the kit, photos toned live, a public-domain comic. */
+/** Two pages made with the Page model: drawn for the kit, and photos toned live. */
 export function MangaPage() {
   const [which, setWhich] = useState<Which>("lunch break")
   const [rtl, setRtl] = useState(false)
@@ -29,10 +28,8 @@ export function MangaPage() {
         <div className="w-full max-w-3xl">
           {which === "lunch break" ? (
             <LunchBreak reading={reading} />
-          ) : which === "last train" ? (
-            <Page page={LAST_TRAIN} reading={reading} label="Last train, a page of toned photos" />
           ) : (
-            <Page page={NEMO} reading={reading} label="Little Nemo in Slumberland, 27 May 1906" />
+            <Page page={LAST_TRAIN} reading={reading} label="Last train, a page of toned photos" />
           )}
         </div>
       </div>
@@ -49,16 +46,7 @@ export function MangaPage() {
           . Written as data.
         </p>
       )}
-      {which === "little nemo" && (
-        <p className="max-w-prose text-sm">
-          <em>{NEMO_CREDIT.title}</em>, {NEMO_CREDIT.date}, by {NEMO_CREDIT.author}. {NEMO_CREDIT.license};{" "}
-          <a className="underline" href={NEMO_CREDIT.source}>
-            source scan
-          </a>
-          . The panels are cut from the scan and laid out again; the dialogue is lettered again as real text.
-        </p>
-      )}
-      <CodeToggle text={which === "lunch break" ? lunchSource : json(which === "last train" ? LAST_TRAIN : NEMO)} />
+      <CodeToggle text={which === "lunch break" ? lunchSource : json(LAST_TRAIN)} />
     </div>
   )
 }
