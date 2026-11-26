@@ -91,7 +91,7 @@ export function States() {
 export function Thumb() {
   const [picked, setPicked] = useState<string | null>(null)
   return (
-    <div className="w-44 [&_li]:text-xs">
+    <div className="w-72 [zoom:0.5]">
       <RankingList
         entries={WEEK.slice(0, 3).map((e) => ({ ...e, subtitle: picked === e.id ? "Opening…" : e.subtitle }))}
         onSelect={(e) => setPicked(e.id)}

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Ruby } from "@registry/manga/signature/ruby"
 import { VerticalText } from "@registry/manga/signature/vertical-text"
 import { Tile, force } from "../state-grid"
@@ -89,10 +90,14 @@ export function States() {
   )
 }
 
+/** Live: the reading shows on hover (reveal="hover"); a click pins it. */
 export function Thumb() {
+  const [pinned, setPinned] = useState(false)
   return (
-    <p lang="ja" className="text-4xl leading-[2.2]">
-      <Ruby parts={[["漢", "かん"], ["字", "じ"]]} />
-    </p>
+    <button type="button" aria-pressed={pinned} onClick={() => setPinned((p) => !p)} className="cursor-pointer focus-ink">
+      <span lang="ja" className="block text-4xl leading-[2.2]">
+        <Ruby parts={[["漢", "かん"], ["字", "じ"]]} reveal={pinned ? "always" : "hover"} />
+      </span>
+    </button>
   )
 }

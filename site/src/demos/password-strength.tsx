@@ -72,6 +72,14 @@ export function States() {
   )
 }
 
+/** Live: type a password, the gauge follows. */
 export function Thumb() {
-  return <PasswordStrength score={3} className="w-48" />
+  const [value, setValue] = useState("ink")
+  const score = Math.min(4, Math.floor(value.length / 3) + (/\d/.test(value) ? 1 : 0)) as PasswordScore
+  return (
+    <div className="grid w-48 gap-2">
+      <Input aria-label="Password" value={value} onChange={(e) => setValue(e.target.value)} className="h-8" />
+      <PasswordStrength score={value ? score : 0} />
+    </div>
+  )
 }

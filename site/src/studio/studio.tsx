@@ -14,7 +14,7 @@ import {
 } from "@registry/manga/signature/page-geometry"
 import { Code } from "../copy"
 import { Choice, Flag, Slider } from "../playground"
-import { LAST_TRAIN } from "../pages/last-train"
+import { JSON_CHAPTER } from "../demos/reader-json"
 import { pageToJsx } from "./codegen"
 import {
   addInset,
@@ -102,7 +102,7 @@ type Drag =
   | { kind: "tail"; panel: number[]; item: number; start: PageData; box: PanelGeometry["box"] }
 
 export function Studio() {
-  const [hist, setHist] = useState<{ list: PageData[]; at: number }>(() => ({ list: [load() ?? structuredClone(LAST_TRAIN)], at: 0 }))
+  const [hist, setHist] = useState<{ list: PageData[]; at: number }>(() => ({ list: [load() ?? structuredClone(JSON_CHAPTER[0])], at: 0 }))
   const page = hist.list[hist.at]
   const [live, setLive] = useState<PageData | null>(null)
   const shown = live ?? page

@@ -290,9 +290,9 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none w-56" aria-hidden>
+    <div className="w-56">
       <Combobox items={series} defaultValue="Paper Lanterns">
-        <ComboboxInput aria-label="Series" tabIndex={-1} className="w-full" />
+        <ComboboxInput aria-label="Series" className="w-full" />
       </Combobox>
     </div>
   )

@@ -125,10 +125,13 @@ export function States() {
   )
 }
 
+/** Live: the next-chapter button moves on to it. */
 export function Thumb() {
+  const [n, setN] = useState(12)
   return (
-    <div className="w-44 pointer-events-none">
-      <ChapterEnd chapter="Ch. 12" next={{ number: 13, title: "The lighthouse keeper", href: "#" }} />
+    <div className="grid w-52 gap-2">
+      <p className="font-mono text-xs">End of ch. {n}</p>
+      <ChapterNext next={{ number: n + 1, title: "The lighthouse keeper", onSelect: () => setN((v) => v + 1) }} />
     </div>
   )
 }

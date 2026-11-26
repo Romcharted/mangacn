@@ -87,7 +87,7 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none w-full">
+    <div className="w-full">
       <div className="ink-case relative h-28 w-full">
         <ResizablePanelGroup orientation="horizontal" className="h-full">
           <ResizablePanel defaultSize="60">

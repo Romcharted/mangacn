@@ -166,14 +166,23 @@ export function States() {
   )
 }
 
+/** Live: the drawer's counter works; the button opens the real drawer. */
 export function Thumb() {
+  const [n, setN] = useState(3)
+  const step = "grid size-8 cursor-pointer place-items-center border-[length:var(--mg-bw)] border-border font-letter text-lg hover-invert focus-ink"
   return (
-    <div className="flex h-36 w-52 items-end overflow-hidden pt-3" aria-hidden>
+    <div className="flex h-36 w-52 items-end overflow-hidden pt-3">
       <DrawerCard handle className="w-full">
         <div className="flex items-center justify-center gap-3 px-3 pt-2 pb-4">
-          <span className="grid size-8 place-items-center border-[length:var(--mg-bw)] border-border font-letter text-lg">−</span>
-          <span className="font-sfx text-4xl leading-none">3</span>
-          <span className="grid size-8 place-items-center border-[length:var(--mg-bw)] border-border font-letter text-lg">+</span>
+          <button type="button" aria-label="Fewer" onClick={() => setN((v) => Math.max(0, v - 1))} className={step}>
+            −
+          </button>
+          <span aria-live="polite" className="font-sfx text-4xl leading-none">
+            {n}
+          </span>
+          <button type="button" aria-label="More" onClick={() => setN((v) => v + 1)} className={step}>
+            +
+          </button>
         </div>
       </DrawerCard>
     </div>

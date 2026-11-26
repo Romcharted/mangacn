@@ -93,6 +93,9 @@ export function States() {
           <Menubar>
             <MenubarMenu>
               <MenubarTrigger>View</MenubarTrigger>
+              <MenubarContent>
+                <MenubarItem>Spread</MenubarItem>
+              </MenubarContent>
             </MenubarMenu>
           </Menubar>
         </Tile>
@@ -161,16 +164,23 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none w-full">
+    <div className="w-full">
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>New page</MenubarItem>
+            <MenubarItem>Export</MenubarItem>
+          </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
           <MenubarTrigger>View</MenubarTrigger>
         </MenubarMenu>
         <MenubarMenu>
           <MenubarTrigger>Help</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>Shortcuts</MenubarItem>
+          </MenubarContent>
         </MenubarMenu>
       </Menubar>
     </div>

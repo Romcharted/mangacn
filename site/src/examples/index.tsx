@@ -35,11 +35,10 @@ export function Examples() {
 
       <section aria-labelledby="ex-page" className="mt-10 space-y-4">
         <h2 id="ex-page" className="font-letter text-3xl uppercase">
-          Three manga pages
+          A manga page, lettered
         </h2>
         <p className="max-w-prose">
-          Page, Tier, Panel, Place and PanelArt: three pages on one model. Bubbles aim their tails, sound effects and lettering
-          follow the page width, and under 480px the page folds into a strip.{" "}
+          A page of Mapless as it was drawn, and the same page lettered with the kit&apos;s bubbles, sound effects and captions, in real text.{" "}
           <a href="#studio" className="underline">
             Make your own in the page studio
           </a>

@@ -25,6 +25,12 @@ export function Preview() {
   )
 }
 
+/** Live: a click moves to the next step. */
 export function Thumb() {
-  return <Stepper steps={[{ label: "One" }, { label: "Two" }, { label: "Three" }]} current={1} className="w-52 text-sm" />
+  const [current, setCurrent] = useState(1)
+  return (
+    <button type="button" aria-label="Next step" onClick={() => setCurrent((c) => (c + 1) % 4)} className="cursor-pointer p-1 focus-ink">
+      <Stepper steps={[{ label: "One" }, { label: "Two" }, { label: "Three" }]} current={current} className="w-52 text-sm" />
+    </button>
+  )
 }

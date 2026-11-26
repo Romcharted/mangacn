@@ -123,17 +123,24 @@ export function States() {
   )
 }
 
+/** Live: scroll up; the "back to the latest" button appears. */
 export function Thumb() {
   return (
-    <div className="ink-case relative h-32 w-52 bg-background p-2">
-      <div className="flex flex-col items-start gap-2">
-        <Bubble variant="secondary">
-          <BubbleContent>Page 14 gave me chills.</BubbleContent>
-        </Bubble>
-        <Bubble align="end">
-          <BubbleContent>Wait for chapter 13.</BubbleContent>
-        </Bubble>
-      </div>
+    <div className="ink-case relative h-32 w-56 bg-background text-xs">
+      <MessageScrollerProvider>
+        <MessageScroller className="h-full">
+          <MessageScrollerViewport className="p-2">
+            <MessageScrollerContent>
+              {START.map((line) => (
+                <MessageScrollerItem key={line.id} messageId={line.id}>
+                  <Line line={line} />
+                </MessageScrollerItem>
+              ))}
+            </MessageScrollerContent>
+          </MessageScrollerViewport>
+          <MessageScrollerButton />
+        </MessageScroller>
+      </MessageScrollerProvider>
     </div>
   )
 }

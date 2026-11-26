@@ -101,11 +101,11 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none flex items-center gap-2">
-      <Toggle size="sm" variant="outline" aria-label="Bold" defaultPressed tabIndex={-1}>
+    <div className="flex items-center gap-2">
+      <Toggle size="sm" variant="outline" aria-label="Bold" defaultPressed>
         Bold
       </Toggle>
-      <Toggle size="sm" variant="outline" aria-label="Italic" tabIndex={-1}>
+      <Toggle size="sm" variant="outline" aria-label="Italic">
         Italic
       </Toggle>
     </div>

@@ -1,11 +1,12 @@
+import { useState } from "react"
 import { ImpactLines, withImpact } from "@/lib/manga/gestures"
 
 /** A plain element made to hit: data-[impact]:animate-hit + <ImpactLines /> + withImpact(). */
-function Hit({ children }: { children: React.ReactNode }) {
+function Hit({ children, onHit }: { children: React.ReactNode; onHit?: () => void }) {
   return (
     <button
       type="button"
-      onClick={withImpact()}
+      onClick={withImpact(onHit)}
       className="relative border-ink bg-primary px-4 py-2 font-letter text-primary-foreground uppercase focus-ink press active:bg-background active:text-foreground data-[impact]:animate-hit"
     >
       {children}
@@ -32,10 +33,12 @@ export function Preview() {
   )
 }
 
+/** Live: each hit lands, and is counted. */
 export function Thumb() {
+  const [hits, setHits] = useState(0)
   return (
     <div className="px-6">
-      <Hit>Hit me</Hit>
+      <Hit onHit={() => setHits((n) => n + 1)}>{hits ? `Hit ×${hits}` : "Hit me"}</Hit>
     </div>
   )
 }

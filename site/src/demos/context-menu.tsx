@@ -116,14 +116,21 @@ export function States() {
   )
 }
 
+/** Live: right-click (or long-press) the box for the real menu. */
 export function Thumb() {
+  const [picked, setPicked] = useState("Right-click me")
   return (
-    <div className="pointer-events-none w-full">
-      <ContextMenuTwin className="w-40">
-        <ContextMenuTwinRow>Bookmark</ContextMenuTwinRow>
-        <ContextMenuTwinRow highlighted>Share</ContextMenuTwinRow>
-        <ContextMenuTwinRow destructive>Delete</ContextMenuTwinRow>
-      </ContextMenuTwin>
-    </div>
+    <ContextMenu>
+      <ContextMenuTrigger className="grid h-24 w-44 place-items-center border-ink bg-background p-2 text-center font-letter text-sm uppercase hover-invert">
+        {picked}
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-40">
+        <ContextMenuItem onSelect={() => setPicked("Bookmarked")}>Bookmark</ContextMenuItem>
+        <ContextMenuItem onSelect={() => setPicked("Shared")}>Share</ContextMenuItem>
+        <ContextMenuItem variant="destructive" onSelect={() => setPicked("Deleted")}>
+          Delete
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   )
 }

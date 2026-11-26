@@ -189,12 +189,12 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none w-56" aria-hidden>
+    <div className="w-56">
       <InputGroup>
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
-        <InputGroupInput tabIndex={-1} placeholder="Search series…" />
+        <InputGroupInput placeholder="Search series…" />
         <InputGroupAddon align="inline-end">
           <Kbd>/</Kbd>
         </InputGroupAddon>

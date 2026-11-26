@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { BookOpen, ChevronRight, Lock } from "lucide-react"
 import {
   Item,
@@ -113,15 +113,17 @@ export function States() {
   )
 }
 
+/** Live: the row lifts on hover; a click marks the volume read. */
 export function Thumb() {
+  const [read, setRead] = useState(false)
   return (
-    <div className="pointer-events-none w-56">
-      <Item variant="outline" size="xs">
+    <div className="w-56">
+      <Item variant="outline" size="xs" interactive role="button" tabIndex={0} onClick={() => setRead((r) => !r)} aria-pressed={read}>
         <ItemMedia>
           <BookOpen />
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>Vol. 2</ItemTitle>
+          <ItemTitle>{read ? "Vol. 2 · read" : "Vol. 2"}</ItemTitle>
         </ItemContent>
       </Item>
     </div>

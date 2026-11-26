@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { FileTextIcon, PlusIcon, RefreshCwIcon, XIcon } from "lucide-react"
 
 import {
@@ -12,17 +13,11 @@ import {
   AttachmentTrigger,
 } from "@registry/manga/ui/attachment"
 import { force, Tile, Tiles } from "../state-grid"
+import { artSrc } from "../mapless"
 
-/** A comic page drawn in ink: a paper frame, a dark panel, a few lines of lettering. */
+/** A page of "Mapless", the showcase's series (AI-generated, see public/art/CREDITS.md). */
 function PageArt() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-full" aria-hidden>
-      <rect x="2" y="2" width="20" height="20" fill="var(--background)" stroke="var(--foreground)" strokeWidth="1.5" />
-      <rect x="5" y="5" width="14" height="9" fill="var(--foreground)" />
-      <path d="M5 17h10M5 19.5h6" stroke="var(--foreground)" strokeWidth="1.5" />
-      <path d="M14 14l4-2" stroke="var(--foreground)" strokeWidth="1.5" />
-    </svg>
-  )
+  return <img src={artSrc("page-1-bridge", 64)} alt="" className="size-full object-cover object-top" />
 }
 
 function PdfArt() {
@@ -239,7 +234,15 @@ export function States() {
   )
 }
 
+/** Live: remove the file, then put it back. */
 export function Thumb() {
+  const [gone, setGone] = useState(false)
+  if (gone)
+    return (
+      <button type="button" onClick={() => setGone(false)} className="h-14 w-52 cursor-pointer border-ink border-dashed font-letter text-sm uppercase hover-invert focus-ink">
+        Removed · undo
+      </button>
+    )
   return (
     <Attachment className="w-52">
       <AttachmentMedia>
@@ -249,6 +252,11 @@ export function Thumb() {
         <AttachmentTitle>page-12.png</AttachmentTitle>
         <AttachmentDescription>PNG · 2.1 MB</AttachmentDescription>
       </AttachmentContent>
+      <AttachmentActions>
+        <AttachmentAction aria-label="Remove page-12.png" onClick={() => setGone(true)}>
+          <XIcon />
+        </AttachmentAction>
+      </AttachmentActions>
     </Attachment>
   )
 }

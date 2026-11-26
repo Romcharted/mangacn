@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { ReleaseCalendar, ReleaseRow, type Release } from "@registry/manga/signature/release-calendar"
 import { Tile, force } from "../state-grid"
 
@@ -108,11 +109,14 @@ export function States() {
   )
 }
 
+/** Live: press a release; it is marked as opened. */
 export function Thumb() {
+  const [opened, setOpened] = useState<string | null>(null)
+  const row = (r: Release) => <ReleaseRow release={{ ...r, href: undefined, chapter: opened === r.id ? "Opening…" : r.chapter }} onSelect={() => setOpened(r.id)} />
   return (
-    <div className="grid w-44 gap-2 pointer-events-none">
-      <ReleaseRow release={RELEASES[4]} />
-      <ReleaseRow release={RELEASES[5]} />
+    <div className="grid w-64 gap-2 [zoom:0.55]">
+      {row(RELEASES[4])}
+      {row(RELEASES[5])}
     </div>
   )
 }

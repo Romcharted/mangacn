@@ -107,12 +107,14 @@ export function States() {
   )
 }
 
+/** Live: the field opens its calendar; the small calendar picks a day too. */
 export function Thumb() {
+  const [day, setDay] = React.useState<Date | undefined>(d(12))
   return (
-    <div inert className="flex flex-col items-start gap-2">
-      <DatePicker aria-label="Release day" defaultValue={d(12)} className="w-52" />
+    <div className="flex flex-col items-start gap-2">
+      <DatePicker aria-label="Release day" value={day} onValueChange={setDay} className="w-52" />
       <div className="relative ms-6 [zoom:0.24]">
-        <Calendar mode="single" selected={d(12)} defaultMonth={JUNE} today={TODAY} />
+        <Calendar mode="single" selected={day} onSelect={setDay} defaultMonth={JUNE} today={TODAY} />
       </div>
     </div>
   )

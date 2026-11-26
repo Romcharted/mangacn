@@ -72,12 +72,11 @@ export function States() {
   )
 }
 
+/** Live: scroll the strip inside its frame. */
 export function Thumb() {
-  const wide = (p: ReaderStripPage): ReaderStripPage => ({ ...p, width: 480, height: 200 })
   return (
-    <div aria-hidden className="grid w-36 gap-1.5">
-      <ReaderPage page={wide(P2)} index={0} count={2} status="loaded" />
-      <ReaderPage page={wide(P3)} index={1} count={2} status="loaded" />
+    <div className="h-32 w-40 overflow-y-auto overscroll-contain">
+      <ReaderStrip aria-label="Mapless, chapter 1" pages={[P1, P2, P3]} gap="sm" />
     </div>
   )
 }

@@ -74,8 +74,8 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="w-24">
-      <ObiBand tone="accent" size="md" headline="Mapless">
+    <div className="w-28">
+      <ObiBand tone="accent" size="sm" headline="Mapless">
         <Dusk />
       </ObiBand>
     </div>

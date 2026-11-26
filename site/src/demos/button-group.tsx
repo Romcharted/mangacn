@@ -97,12 +97,12 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none">
+    <div>
       <ButtonGroup aria-label="Pages">
-        <Button variant="outline" size="sm" tabIndex={-1}>
+        <Button variant="outline" size="sm">
           Prev
         </Button>
-        <Button variant="outline" size="sm" tabIndex={-1}>
+        <Button variant="outline" size="sm">
           Next
         </Button>
       </ButtonGroup>

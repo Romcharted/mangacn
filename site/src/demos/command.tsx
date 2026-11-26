@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Search } from "lucide-react"
 import { Button } from "@registry/manga/ui/button"
 import {
   Command,
@@ -135,16 +134,17 @@ export function States() {
 
 // A still drawing of the palette, not a live <Command>: cmdk scrolls its selected item into view when it
 // mounts, which drags the whole gallery page down to this card.
+/** Live: type to filter, hover or arrow keys to pick. */
 export function Thumb() {
   return (
-    <div aria-hidden className="ink-case w-60 bg-background p-1 text-base">
-      <div className="flex items-center gap-2 border-b-2 border-border px-2 py-2 italic">
-        <Search aria-hidden className="size-4" /> Search…
-      </div>
-      <div className="grid gap-0.5 p-1 pt-1.5">
-        <span className="ink-fill px-2 py-1.5">Chapter 12 — The rooftop</span>
-        <span className="px-2 py-1.5">Bookmark this page</span>
-      </div>
-    </div>
+    <Command className="ink-case w-72 text-base [zoom:0.7]">
+      <CommandInput placeholder="Search…" />
+      <CommandList className="max-h-24">
+        <CommandEmpty>No result.</CommandEmpty>
+        <CommandItem>Chapter 1 — The ink bridge</CommandItem>
+        <CommandItem>Bookmark this page</CommandItem>
+        <CommandItem>Open the map</CommandItem>
+      </CommandList>
+    </Command>
   )
 }

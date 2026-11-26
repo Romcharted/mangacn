@@ -259,7 +259,7 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none -my-10 w-72 scale-[0.6]" aria-hidden inert>
+    <div className="-my-10 w-72 scale-[0.6]">
       <Questionnaire aria-label="Plan your one-shot" defaultItem="b">
         <QuestionnaireProgress />
         <QuestionnaireItem name="a">

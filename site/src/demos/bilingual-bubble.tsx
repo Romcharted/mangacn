@@ -63,6 +63,7 @@ function HoverSwitch({ state }: { state: "hover" | "focus" | "active" }) {
   )
 }
 
+/** Live: hover or press to switch languages. */
 export function Thumb() {
-  return <BilingualBubble original="おはよう" translation="Morning" tail="bottom" className="pointer-events-none" />
+  return <BilingualBubble original="おはよう" translation="Morning" tail="bottom" />
 }

@@ -130,16 +130,13 @@ export function States() {
   )
 }
 
+/** Live: a click adds or takes back a reaction. */
 export function Thumb() {
-  return (
-    <div inert className="pointer-events-none">
-      <ReactionPicker
-        reactions={[
-          { kind: "love", count: 12, active: true },
-          { kind: "surprise", count: 5 },
-          { kind: "sweat", count: 2 },
-        ]}
-      />
-    </div>
-  )
+  const [reactions, setReactions] = useState<Reaction[]>([
+    { kind: "love", count: 12, active: true },
+    { kind: "surprise", count: 5 },
+    { kind: "sweat", count: 2 },
+  ])
+  const react = (kind: ManpuKind) => setReactions((list) => toggle(list, kind))
+  return <ReactionPicker reactions={reactions} onReact={react} max={4} />
 }

@@ -147,17 +147,17 @@ export function States() {
   )
 }
 
+/** Live: type a code. */
 export function Thumb() {
+  const [value, setValue] = React.useState("42")
   return (
-    <div inert>
-      <InputOTP maxLength={4} value="42" aria-label="Code">
-        <InputOTPGroup>
-          <InputOTPSlot index={0} />
-          <InputOTPSlot index={1} />
-          <InputOTPSlot index={2} />
-          <InputOTPSlot index={3} />
-        </InputOTPGroup>
-      </InputOTP>
-    </div>
+    <InputOTP maxLength={4} value={value} onChange={setValue} aria-label="Code">
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+      </InputOTPGroup>
+    </InputOTP>
   )
 }

@@ -73,5 +73,5 @@ function Forced({ state }: { state: "hover" | "focus" | "active" }) {
 
 /** Live: a click on the text or the arrow moves to the next line. */
 export function Thumb() {
-  return <DialogueBox lines={LINES.slice(0, 2)} showCount={false} className="w-56 [&_p]:text-xs" />
+  return <DialogueBox lines={LINES.slice(0, 2)} showCount={false} className="w-96 [zoom:0.6]" />
 }

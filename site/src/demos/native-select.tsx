@@ -93,9 +93,11 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none" aria-hidden>
-      <NativeSelect tabIndex={-1} defaultValue="rtl" className="w-52">
+    <div>
+      <NativeSelect defaultValue="rtl" className="w-52">
         <NativeSelectOption value="rtl">Right to left</NativeSelectOption>
+        <NativeSelectOption value="ltr">Left to right</NativeSelectOption>
+        <NativeSelectOption value="ttb">Top to bottom</NativeSelectOption>
       </NativeSelect>
     </div>
   )

@@ -84,15 +84,15 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="pointer-events-none">
+    <div>
       <ToggleGroup aria-label="Alignment" defaultValue={["center"]}>
-        <ToggleGroupItem value="left" aria-label="Align left" tabIndex={-1}>
+        <ToggleGroupItem value="left" aria-label="Align left">
           Left
         </ToggleGroupItem>
-        <ToggleGroupItem value="center" aria-label="Align centre" tabIndex={-1}>
+        <ToggleGroupItem value="center" aria-label="Align centre">
           Centre
         </ToggleGroupItem>
-        <ToggleGroupItem value="right" aria-label="Align right" tabIndex={-1}>
+        <ToggleGroupItem value="right" aria-label="Align right">
           Right
         </ToggleGroupItem>
       </ToggleGroup>

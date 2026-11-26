@@ -213,14 +213,20 @@ export function States() {
   )
 }
 
+/** Live: the first step folds open. */
 export function Thumb() {
   return (
-    <div className="pointer-events-none w-56" aria-hidden>
+    <div className="w-56">
       <Trace>
-        <TraceLine>
-          <TraceIcon />
-          <TraceTitle>Read chapter-12.md</TraceTitle>
-        </TraceLine>
+        <TraceCollapsible>
+          <TraceCollapsibleTrigger>
+            <TraceLine>
+              <TraceIcon />
+              <TraceTitle>Read chapter-12.md</TraceTitle>
+            </TraceLine>
+          </TraceCollapsibleTrigger>
+          <TraceCollapsibleContent>18 panels, 3 pages</TraceCollapsibleContent>
+        </TraceCollapsible>
         <TraceLine status="error">
           <TraceIcon />
           <TraceTitle>Font not found</TraceTitle>

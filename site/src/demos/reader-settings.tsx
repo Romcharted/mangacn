@@ -43,9 +43,10 @@ export function States() {
   )
 }
 
+/** Live: switch the reading mode. */
 export function Thumb() {
   return (
-    <div className="pointer-events-none w-40" inert>
+    <div className="w-40">
       <ReaderSettings hide={["direction", "fit", "background"]} />
     </div>
   )

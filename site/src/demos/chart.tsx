@@ -202,11 +202,13 @@ export function States() {
   )
 }
 
+/** Live: hover a bar for its values. */
 export function Thumb() {
   return (
-    <ChartContainer config={config} className="p-2 [--chart-h:7.5rem]">
+    <ChartContainer config={config} className="w-60 p-2 [--chart-h:7.5rem]">
       <BarChart data={monthly}>
         <XAxis dataKey="month" tickLine={false} axisLine={axisLine} />
+        <ChartTooltip content={<ChartTooltipContent />} cursor={cursor} />
         <Bar dataKey="reads" fill={chartFill("reads", keys)} stroke="currentColor" strokeWidth={2} />
         <Bar dataKey="sales" fill={chartFill("sales", keys)} stroke="currentColor" strokeWidth={2} />
       </BarChart>

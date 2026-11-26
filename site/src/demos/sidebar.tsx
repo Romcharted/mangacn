@@ -290,19 +290,20 @@ export function States() {
 }
 
 export function Thumb() {
+  const [at, setAt] = useState("library")
   return (
-    <SidebarProvider className="block! min-h-0! w-full! pointer-events-none">
+    <SidebarProvider className="block! min-h-0! w-full!">
       <div className="ink-case relative mx-auto w-56 p-2">
         <SidebarGroupLabel>Browse</SidebarGroupLabel>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton isActive>
+            <SidebarMenuButton isActive={at === "library"} onClick={() => setAt("library")}>
               <Library />
               <span>Library</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
+            <SidebarMenuButton isActive={at === "chapters"} onClick={() => setAt("chapters")}>
               <List />
               <span>Chapters</span>
             </SidebarMenuButton>

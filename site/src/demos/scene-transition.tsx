@@ -68,11 +68,19 @@ export function States() {
   )
 }
 
+/** Live: a click plays the stepped wipe inside the box. */
 export function Thumb() {
+  const { play, transition, playing } = useSceneTransition({ variant: "panels", scope: "container" })
+  const [scene, setScene] = useState(0)
   return (
-    <div className="relative isolate grid h-24 w-40 place-items-center overflow-hidden border-ink bg-background font-letter uppercase">
-      Scene
-      <SceneTransition playing={false} frame={3} variant="panels" scope="container" />
-    </div>
+    <button
+      type="button"
+      disabled={playing}
+      onClick={() => void play(() => setScene((s) => s + 1))}
+      className="relative isolate grid h-24 w-40 cursor-pointer place-items-center overflow-hidden border-ink bg-background font-letter uppercase hover-invert focus-ink"
+    >
+      {scene % 2 ? "Next scene" : "Scene"}
+      {transition}
+    </button>
   )
 }

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { VersusPanel, VersusSide } from "@registry/manga/signature/versus-panel"
 import { Button } from "@registry/manga/ui/button"
 import { artSrc } from "../mapless"
@@ -108,15 +109,20 @@ export function States() {
   )
 }
 
+/** Live: pick a side; the ink moves to it. */
 export function Thumb() {
+  const [pick, setPick] = useState<0 | 1>(1)
+  const side = (i: 0 | 1, name: string) => (
+    <VersusSide highlight={pick === i} className="p-0! text-center">
+      <button type="button" aria-pressed={pick === i} onClick={() => setPick(i)} className="size-full cursor-pointer p-2 font-letter text-lg uppercase focus-ink">
+        {name}
+      </button>
+    </VersusSide>
+  )
   return (
-    <VersusPanel label="VS" className="w-44" aria-hidden>
-      <VersusSide className="text-center">
-        <span className="font-letter text-lg uppercase">A</span>
-      </VersusSide>
-      <VersusSide highlight className="text-center">
-        <span className="font-letter text-lg uppercase">B</span>
-      </VersusSide>
+    <VersusPanel label="VS" className="w-80 [zoom:0.6]">
+      {side(0, "Suzu")}
+      {side(1, "Eraser")}
     </VersusPanel>
   )
 }

@@ -184,8 +184,8 @@ export function States() {
 export function Thumb() {
   const pages = useMemo(() => chapterPages(), [])
   return (
-    <div className="w-40">
-      <PageReader pages={pages} spread="single" direction="ltr" className="h-32! min-h-0!" />
+    <div className="w-72 [zoom:0.5]">
+      <PageReader pages={pages} spread="single" direction="ltr" className="h-[16.5rem]! min-h-0!" />
     </div>
   )
 }

@@ -74,6 +74,12 @@ export function States() {
   )
 }
 
+/** Live: a click adds a like; the number takes the hit. */
 export function Thumb() {
-  return <ImpactCounter value={128} label="likes" size="sm" />
+  const [n, setN] = useState(128)
+  return (
+    <button type="button" aria-label="Like" onClick={() => setN((v) => v + 1)} className="cursor-pointer p-1 hover-thicken focus-ink">
+      <ImpactCounter value={n} label="likes" size="sm" />
+    </button>
+  )
 }

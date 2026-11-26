@@ -6,7 +6,7 @@ import { installCommand } from "./registry"
 import { Deferred } from "./load-error"
 import { BLOCK_PROPS } from "./block-art"
 
-const LunchBreak = lazy(() => import("./pages/lunch-break").then((m) => ({ default: m.LunchBreak })))
+const LetteredBridge = lazy(() => import("./examples/manga-page").then((m) => ({ default: m.LetteredBridge })))
 
 /*
  * Full interfaces (registry:block items): each one lives in registry/manga/blocks/<slug>/<slug>.tsx,
@@ -192,9 +192,9 @@ export function HomeInterfaces() {
         ))}
         <TabsContent value="manga-page">
           <div data-demo className="grid justify-items-center border-ink-panel bg-background p-4 sm:p-8">
-            <div className="w-full max-w-2xl">
+            <div className="w-full max-w-md">
               <Pending>
-                <LunchBreak />
+                <LetteredBridge />
               </Pending>
             </div>
           </div>

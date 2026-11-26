@@ -96,10 +96,12 @@ export function States() {
   )
 }
 
+/** Live: pick a range. */
 export function Thumb() {
+  const [range, setRange] = React.useState<DateRange | undefined>({ from: d(8), to: d(12) })
   return (
-    <div inert className="[zoom:0.38]">
-      <Calendar mode="range" selected={{ from: d(8), to: d(12) }} defaultMonth={JUNE} today={TODAY} />
+    <div className="[zoom:0.38]">
+      <Calendar mode="range" selected={range} onSelect={setRange} defaultMonth={JUNE} today={TODAY} />
     </div>
   )
 }

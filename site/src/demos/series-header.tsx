@@ -67,15 +67,11 @@ export function States() {
   )
 }
 
+/** Live: the real header, small; "Read more" unfolds the summary. */
 export function Thumb() {
   return (
-    <div className="flex w-36 gap-2 ink-case p-1.5">
-      <img src={coverUrl(1)} alt="" className="w-11 border-ink" />
-      <div className="grid content-start gap-1">
-        <span className="font-letter text-sm leading-none uppercase">Mapless</span>
-        <span className="text-[0.6rem] leading-tight">Studio Mapless</span>
-        <span className="text-[0.6rem] leading-tight">Adventure · 2 vols</span>
-      </div>
+    <div className="w-[26rem] [zoom:0.42]">
+      <SeriesHeader title="Mapless" author="Studio Mapless" cover={coverUrl(1)} status="ongoing" summary={SUMMARY} as="h3" />
     </div>
   )
 }

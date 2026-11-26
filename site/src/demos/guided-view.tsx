@@ -119,8 +119,8 @@ function OverviewOn() {
 export function Thumb() {
   const pages = useMemo(() => scans().slice(1), [])
   return (
-    <div className="w-32">
-      <GuidedView pages={pages} direction="ltr" className="h-32! min-h-0!" />
+    <div className="w-64 [zoom:0.5]">
+      <GuidedView pages={pages} direction="ltr" className="h-[16.5rem]! min-h-0!" />
     </div>
   )
 }
