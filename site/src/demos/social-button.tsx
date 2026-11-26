@@ -1,8 +1,8 @@
 import { AuthDivider, SocialButton } from "@registry/manga/signature/social-button"
 import { Button } from "@registry/manga/ui/button"
 import { Tile, Tiles, force } from "../state-grid"
-// The official Google icon, showcase only (the SocialButton item ships no logo).
-import { GoogleMark } from "../brands"
+// The official Google and Apple marks, showcase only (the SocialButton item ships no logo).
+import { AppleMark, GoogleMark } from "../brands"
 
 // A neutral stand-in for a mark (a letter in a fine frame), used in the frozen tiles.
 function Placeholder({ letter }: { letter: string }) {
@@ -16,7 +16,7 @@ export function Preview() {
       <SocialButton provider="google" logo={<GoogleMark />}>
         Continue with Google
       </SocialButton>
-      <SocialButton provider="apple" logo={<Placeholder letter="A" />}>
+      <SocialButton provider="apple" logo={<AppleMark />}>
         Continue with Apple
       </SocialButton>
       <AuthDivider />

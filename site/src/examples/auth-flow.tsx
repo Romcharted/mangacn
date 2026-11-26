@@ -1,12 +1,12 @@
 import { lazy, useState, type ReactNode } from "react"
 import { Tabs, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
-import { GoogleMark } from "../brands"
+import { AppleMark, GoogleMark } from "../brands"
 import { Deferred } from "../load-error"
 
 /*
  * #examples/auth: the five Auth screens, each its own registry:block, wired together. Every block takes
  * `onNavigate(screen)`; here it switches the screen on show. Only the screen on show is loaded. The official
- * Google mark comes from the site (site/public/brands): the blocks themselves ship no logo.
+ * Google and Apple marks come from the site (site/public/brands): the blocks themselves ship no logo.
  */
 export type AuthScreen = "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password"
 type Purpose = "sign-in" | "sign-up" | "reset"
@@ -27,10 +27,10 @@ export const AUTH_SCREENS: { slug: AuthScreen; title: string }[] = [
   { slug: "reset-password", title: "Reset password" },
 ]
 
-// Google keeps its official mark; Apple shows its label only until its official artwork is added.
+// Each service keeps its official mark (site/public/brands); the blocks themselves ship none.
 const PROVIDERS: Provider[] = [
   { id: "google", label: "Continue with Google", logo: <GoogleMark /> },
-  { id: "apple", label: "Continue with Apple" },
+  { id: "apple", label: "Continue with Apple", logo: <AppleMark /> },
 ]
 
 // Where a code screen is reached from decides what it unlocks.

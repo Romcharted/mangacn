@@ -13,3 +13,12 @@ export function GoogleMark() {
     </>
   )
 }
+
+/**
+ * The official Apple logo, unmodified file (black, transparent background). Apple publishes it in black and
+ * in white: black on paper, and in dark mode the same file shown white (colour only, the drawing untouched),
+ * as Apple's guidelines allow. About 20 px tall in the 32 px slot, so it weighs as much as the Google "G".
+ */
+export function AppleMark() {
+  return <img src={`${import.meta.env.BASE_URL}brands/apple-logo-black.png`} alt="" width={16} height={20} className="h-5 w-auto dark:invert" />
+}
