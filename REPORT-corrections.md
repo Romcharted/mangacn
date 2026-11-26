@@ -80,9 +80,22 @@ Le commit `2b44bb4` corrige le compte rendu principal : il y a 128 items dans le
 - **`titleAs` et `as`** sont deux petites props nouvelles. Les blocs restent des pages complètes par défaut (`h1`).
 - **Last train** : en plus des cases 1 et du quai, j'ai remplacé la photo du wagon, la seule qui restait illisible à 375 px.
 
+## Ajout demandé ensuite : Little Nemo, case 7
+
+À 375 px, la case ne pouvait pas contenir ses trois bulles. La page repliée en bande donne à une case panoramique un rapport largeur / hauteur de 1,7, et une bulle y fait au moins 9,5 rem de large. La tirade du héraut demandait à elle seule 152 × 221 px dans une case de 309 × 182 px.
+
+- **Ajout au modèle de page** (`e8efa6b`) : deux champs facultatifs. Sans eux, rien ne change.
+  - `foldRatio` sur une case : sa forme une fois la page repliée sur téléphone.
+  - `fold` sur une bulle, une légende ou un SFX (et la prop `fold` de `Place`) : son autre place une fois replié. En données, `fold.pointAt` donne aussi la cible de la queue.
+  - Le code exporté par le studio reprend les deux champs, sauf `fold.pointAt`, qui n'a pas d'équivalent en JSX.
+- **Case 7** (`aca2cdf`) :
+  - sur téléphone, la case devient haute (`foldRatio: 0.78`) : les géants parlent en haut, le héraut en dessous ;
+  - à 1280 px, les deux bulles des géants sont décalées pour ne plus toucher la tirade.
+- **Vérification** : aucun chevauchement dans les cases 3 et 7, à 375 et 1280 px, en clair et en sombre. Captures regardées.
+
 ## Restes repérés, non traités (hors de la demande)
 
-- **Little Nemo, case 7 (le héraut et les géants), à 375 px** : les trois bulles se chevauchent. Les cases sont étroites et la longue tirade du héraut devient très haute. À 1280 px, elles se touchent à peine (7 px).
+- **Little Nemo, case 7, à 375 px** : quelques lettres du lettrage d'origine du scan restent visibles au bord gauche, à côté de la tirade.
 - **Little Nemo, case 3** : un petit reste du lettrage d'origine du scan (« TA-TA ») dépasse sous la bulle « Success to you! ».
 - **Studio** : le panneau de réglages remonte avec la fin de la page une fois qu'on a dépassé le bas de la planche. Il reste visible pendant tout le temps où la planche est à l'écran.
 
