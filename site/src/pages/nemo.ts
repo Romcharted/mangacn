@@ -94,6 +94,8 @@ export const NEMO: PageData = {
       panels: [
         {
           label: "Panel 7",
+          // folded on a phone, the panorama becomes a tall panel: the giants talk at the top, the herald below
+          foldRatio: 0.78,
           art: { src: img("7"), alt: "By the sea, Nemo faces four huge sleeping giants holding clubs; a tiny herald speaks for him." },
           items: [
             {
@@ -103,9 +105,26 @@ export const NEMO: PageData = {
               maxWidth: 26,
               text: "Guards of the fourth gate! In the name of her most gracious majesty the Princess of Slumberland, I command you to arise! And allow to pass her new playmate, Little Nemo.",
               pointAt: { x: 37, y: 86 },
+              fold: { x: 0, y: 24, anchor: "top-left", maxWidth: 49 },
             },
-            { type: "bubble", x: 58, y: 11, maxWidth: 18, text: "Little Nemo, he looks quite husky to me.", pointAt: { x: 66, y: 22 } },
-            { type: "bubble", x: 75, y: 9, maxWidth: 16, text: "You mean big Nemo, don't you?", pointAt: { x: 80, y: 18 } },
+            {
+              type: "bubble",
+              x: 60,
+              y: 11,
+              maxWidth: 18,
+              text: "Little Nemo, he looks quite husky to me.",
+              pointAt: { x: 66, y: 22 },
+              fold: { x: 0, y: 1, anchor: "top-left", maxWidth: 49, pointAt: { x: 55, y: 30 } },
+            },
+            {
+              type: "bubble",
+              x: 78,
+              y: 9,
+              maxWidth: 16,
+              text: "You mean big Nemo, don't you?",
+              pointAt: { x: 80, y: 18 },
+              fold: { x: 100, y: 1, anchor: "top-right", maxWidth: 49, pointAt: { x: 80, y: 30 } },
+            },
           ],
         },
         {
