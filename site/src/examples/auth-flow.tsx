@@ -1,6 +1,7 @@
-import { Suspense, lazy, useState, type ReactNode } from "react"
+import { lazy, useState, type ReactNode } from "react"
 import { Tabs, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { GoogleMark } from "../brands"
+import { Deferred } from "../load-error"
 
 /*
  * #examples/auth: the five Auth screens, each its own registry:block, wired together. Every block takes
@@ -55,7 +56,8 @@ export function AuthFlow() {
         </TabsList>
       </Tabs>
       <div className="border-t-[length:var(--mg-bw-panel)] border-border">
-        <Suspense
+        <Deferred
+          resetKey={screen}
           fallback={
             <div role="status" className="grid min-h-[32rem] place-items-center font-letter text-sm uppercase">
               Inking…
@@ -67,7 +69,7 @@ export function AuthFlow() {
           {screen === "forgot-password" && <ForgotPassword key="forgot-password" {...nav} />}
           {screen === "verify-code" && <VerifyCode key={`verify-${purpose}`} {...nav} purpose={purpose} />}
           {screen === "reset-password" && <ResetPassword key="reset-password" {...nav} />}
-        </Suspense>
+        </Deferred>
       </div>
     </div>
   )

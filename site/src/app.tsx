@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState, type ReactNode } from "react"
+import { lazy, useEffect, useRef, useState, type ReactNode } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { CopyForAi } from "./ai"
 import { track } from "./visits"
@@ -6,6 +6,7 @@ import { Code, CopyButton } from "./copy"
 import { CategoryPill, SiteHeader } from "./header"
 import { Hero } from "./hero"
 import { HomeExample, HomeInterfaces, InterfacePage } from "./interfaces"
+import { Deferred, LoadBoundary, LoadError } from "./load-error"
 import { useNarrow } from "./narrow"
 import { useHash, usePrefs } from "./prefs"
 import { CATEGORIES, GITHUB_URL, categories, categoryOf, filterItems, installCommand, items, useDemo, type Item } from "./registry"
@@ -39,8 +40,14 @@ function useNearScreen<E extends Element>(): [React.RefObject<E | null>, boolean
   return [ref, near]
 }
 
+// A page loaded on demand: a placeholder while it loads, a Reload panel if it fails (see load-error.tsx).
 function Lazy({ children }: { children: ReactNode }) {
-  return <Suspense fallback={<Loading className="mt-6 min-h-[60vh]" />}>{children}</Suspense>
+  const hash = useHash()
+  return (
+    <Deferred resetKey={hash} className="mt-6 min-h-[60vh]" fallback={<Loading className="mt-6 min-h-[60vh]" />}>
+      {children}
+    </Deferred>
+  )
 }
 
 export function App() {
@@ -193,12 +200,20 @@ function Gallery({ category, onCategory }: { category: string | null; onCategory
 // The thumbnail's demo chunk loads when the card comes within 400px of the screen.
 function Thumbnail({ item }: { item: Item }) {
   const [ref, near] = useNearScreen<HTMLSpanElement>()
-  const { demo } = useDemo(item.name, near)
+  const { demo, failed } = useDemo(item.name, near)
   const Thumb = demo?.Thumb
   const font = FONT_SAMPLE[item.name]
   return (
     <span ref={ref} className="grid place-items-center">
-      {Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>{FONT_TEXT[item.name] ?? "Aa"}</span> : null}
+      {failed ? (
+        <LoadError compact />
+      ) : Thumb ? (
+        <LoadBoundary compact>
+          <Thumb />
+        </LoadBoundary>
+      ) : font ? (
+        <span className={`${font} text-5xl`}>{FONT_TEXT[item.name] ?? "Aa"}</span>
+      ) : null}
     </span>
   )
 }
@@ -255,7 +270,7 @@ function CompactCard({ item }: { item: Item }) {
 /* ---------- Detail ---------- */
 
 function Detail({ item }: { item: Item }) {
-  const { demo, ready } = useDemo(item.name)
+  const { demo, ready, failed } = useDemo(item.name)
   const narrow = useNarrow()
   const list = items.filter((i) => i.type !== "registry:block")
   const index = list.indexOf(item)
@@ -314,7 +329,17 @@ function Detail({ item }: { item: Item }) {
         </TabsList>
         <TabsContent value="preview">
           <div data-demo className="relative border-ink-fine bg-background p-4 sm:p-6">
-            {!ready ? <Loading /> : demo?.Preview ? <demo.Preview /> : <p>No live preview for this item.</p>}
+            {!ready ? (
+              <Loading />
+            ) : failed ? (
+              <LoadError />
+            ) : demo?.Preview ? (
+              <LoadBoundary resetKey={item.name}>
+                <demo.Preview />
+              </LoadBoundary>
+            ) : (
+              <p>No live preview for this item.</p>
+            )}
           </div>
         </TabsContent>
         {item.meta?.usage && (

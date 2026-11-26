@@ -1,8 +1,9 @@
-import { Suspense, lazy, useId, useState, type ComponentType, type ReactNode } from "react"
+import { lazy, useId, useState, type ComponentType, type ReactNode } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { track } from "./visits"
 import { CodeToggle, CopyButton } from "./copy"
 import { installCommand } from "./registry"
+import { Deferred } from "./load-error"
 
 const LunchBreak = lazy(() => import("./pages/lunch-break").then((m) => ({ default: m.LunchBreak })))
 
@@ -28,7 +29,7 @@ const sources = import.meta.glob<string>("../../registry/manga/blocks/*/*.tsx", 
 /** A block while its chunk loads: a frame of about its size, so the page does not jump. */
 function Pending({ children }: { children: ReactNode }) {
   return (
-    <Suspense
+    <Deferred
       fallback={
         <div role="status" className="grid min-h-[32rem] place-items-center font-letter text-sm uppercase">
           Inking…
@@ -36,7 +37,7 @@ function Pending({ children }: { children: ReactNode }) {
       }
     >
       {children}
-    </Suspense>
+    </Deferred>
   )
 }
 
@@ -136,7 +137,7 @@ export function InterfacePage({ slug }: { slug: string }) {
         <CopyButton text={installFor(found)} onCopied={() => track("copy-install", { item: slug })} className="border-s-[length:var(--mg-bw)]" />
       </div>
       <div data-demo className="mt-6 border-ink-panel bg-background md:overflow-clip">
-        <Pending>
+        <Pending key={slug}>
           <Component />
         </Pending>
       </div>

@@ -64,6 +64,8 @@ const demoLoaders = Object.fromEntries(
 )
 const loaded = new Map<string, Demo>()
 const pending = new Map<string, Promise<Demo | undefined>>()
+// Demos whose chunk failed to load: the card or page shows a Reload panel instead of loading forever.
+const failed = new Set<string>()
 
 export function loadDemo(name: string): Promise<Demo | undefined> {
   if (loaded.has(name)) return Promise.resolve(loaded.get(name))
@@ -72,27 +74,35 @@ export function loadDemo(name: string): Promise<Demo | undefined> {
   if (!pending.has(name)) {
     pending.set(
       name,
-      load().then((demo) => {
-        loaded.set(name, demo)
-        return demo
-      }),
+      load().then(
+        (demo) => {
+          loaded.set(name, demo)
+          return demo
+        },
+        (error: unknown) => {
+          console.error(`[mangacn] the demo of ${name} failed to load`, error)
+          failed.add(name)
+          pending.delete(name)
+          return undefined
+        },
+      ),
     )
   }
   return pending.get(name)!
 }
 
 /** The demo module of an item: undefined while it loads (or when the item has none), then the module. */
-export function useDemo(name: string, enabled = true): { demo: Demo | undefined; ready: boolean } {
+export function useDemo(name: string, enabled = true): { demo: Demo | undefined; ready: boolean; failed: boolean } {
   const [, rerender] = useState(0)
   useEffect(() => {
-    if (!enabled || loaded.has(name)) return
+    if (!enabled || loaded.has(name) || failed.has(name)) return
     let live = true
     void loadDemo(name).then(() => live && rerender((n) => n + 1))
     return () => {
       live = false
     }
   }, [name, enabled])
-  return { demo: loaded.get(name), ready: loaded.has(name) || !demoLoaders[name] }
+  return { demo: loaded.get(name), ready: loaded.has(name) || failed.has(name) || !demoLoaders[name], failed: failed.has(name) }
 }
 
 export function filterItems(query: string, category: string | null) {
