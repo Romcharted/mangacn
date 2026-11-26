@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
 import { LayoutGrid, Settings2 } from "lucide-react"
-import { PageReader } from "@registry/manga/signature/page-reader"
+import { PageReader, type PageReaderPage } from "@registry/manga/signature/page-reader"
+import { Page } from "@registry/manga/signature/panel"
 import { PageThumbnails } from "@registry/manga/signature/page-thumbnails"
 import { ReaderSettings, defaultReaderSettings, type ReaderSettingsValue } from "@registry/manga/signature/reader-settings"
 import { ChapterEnd } from "@registry/manga/signature/chapter-end"
@@ -10,10 +11,13 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Tile } from "../state-grid"
 import { ForceInside } from "../force-inside"
 import { chapterPages } from "./reader-art"
+import { JSON_CHAPTER } from "./reader-json"
 
 /** The live reader: settings and all pages in sheets, a chapter end card after the last page. */
 export function Preview() {
-  const pages = useMemo(() => chapterPages(4), [])
+  const scans = useMemo(() => chapterPages(4), [])
+  const [source, setSource] = useState<"scans" | "data">("scans")
+  const pages: PageReaderPage[] = source === "scans" ? scans : JSON_CHAPTER.map((page, i) => ({ page, alt: `Page ${i + 1}` }))
   const [page, setPage] = useState(0)
   const [settings, setSettings] = useState<ReaderSettingsValue>(defaultReaderSettings)
   const [sheet, setSheet] = useState<"pages" | "settings" | null>(null)
@@ -29,11 +33,35 @@ export function Preview() {
   )
   return (
     <div className="grid gap-3">
+      <div className="flex flex-wrap gap-2">
+        {(["scans", "data"] as const).map((s) => (
+          <button
+            key={s}
+            type="button"
+            aria-pressed={source === s}
+            onClick={() => {
+              setSource(s)
+              setPage(0)
+            }}
+            className="min-h-11 border-ink px-3 font-letter text-sm uppercase aria-pressed:ink-fill focus-ink sm:min-h-9"
+          >
+            {s === "scans" ? "Scans (images)" : "Page data (JSON)"}
+          </button>
+        ))}
+      </div>
       {settings.mode === "strip" ? (
         <div className="grid gap-3">
           <div className="flex justify-end gap-1">{tools}</div>
           <div className="h-[36rem] overflow-y-auto border-ink-panel p-3">
-            <ReaderStrip pages={pages} gap="sm" />
+            {source === "scans" ? (
+              <ReaderStrip pages={scans} gap="sm" />
+            ) : (
+              <div className="mx-auto grid max-w-xl gap-3">
+                {JSON_CHAPTER.map((p, i) => (
+                  <Page key={i} page={p} reading={settings.direction} label={`Page ${i + 1}`} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       ) : (
@@ -125,6 +153,11 @@ export function States() {
               defaultPage={8}
               end={<ChapterEnd chapter="Chapter 2" next={{ number: 3, title: "Paper boats", date: "Dec 3" }} />}
             />
+          </div>
+        </Tile>
+        <Tile label="page data (JSON) · a spread drawn by Page" size="full">
+          <div className="w-full">
+            <PageReader pages={JSON_CHAPTER.map((page) => ({ page }))} spread="double" coverAlone={false} direction="ltr" className="h-[26rem]! min-h-0!" />
           </div>
         </Tile>
         <Tile label="page edge · hover (paper plate, brush arrow)" size="full">

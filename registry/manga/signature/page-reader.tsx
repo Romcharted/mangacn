@@ -7,6 +7,8 @@ import { Maximize, Minimize, ZoomIn, ZoomOut } from "lucide-react"
 
 import { Button } from "@/components/ui/manga/button"
 import { ReaderPage, type ReaderStripPage } from "@/components/manga/reader-strip"
+import { Page } from "@/components/manga/panel"
+import { pageGeometry, type PageData } from "@/components/manga/page-geometry"
 import { ReadingProgress } from "@/components/manga/reading-progress"
 
 /*
@@ -20,7 +22,11 @@ import { ReadingProgress } from "@/components/manga/reading-progress"
  * the page, it follows the finger with no steps; letting go snaps back or turns.
  */
 
-export type PageReaderPage = ReaderStripPage
+/** A page of the page model (PageData), drawn by Page: panels, art and real lettering. */
+export type PageReaderDataPage = { page: PageData; alt?: string }
+/** A scan ({ src, alt, width, height }) or a page of the page model ({ page }). */
+export type PageReaderPage = ReaderStripPage | PageReaderDataPage
+const isData = (p: PageReaderPage): p is PageReaderDataPage => "page" in p
 export type PageReaderSpread = "single" | "double" | "auto"
 export type PageReaderDirection = "rtl" | "ltr"
 export type PageReaderFit = "contain" | "width" | "height"
@@ -162,7 +168,8 @@ function PageReader({
     const to = Math.min(pages.length - 1, view[view.length - 1] + preload)
     const imgs: HTMLImageElement[] = []
     for (let i = from; i <= to; i++) {
-      const src = pages[i]?.src
+      const p = pages[i]
+      const src = p && !isData(p) ? p.src : undefined
       if (!src || loaded.has(src)) continue
       const img = new Image()
       img.decoding = "async"
@@ -185,12 +192,22 @@ function PageReader({
     }
   })
   const shown = atEnd ? [] : view.map((i) => pages[i]).filter(Boolean)
+  // page-model pages: their proportions come from their format (and their reading order from the reader)
+  const geometries = React.useMemo(
+    () => new Map(pages.filter(isData).map((p) => [p, pageGeometry({ ...p.page, reading: p.page.reading ?? direction })])),
+    [pages, direction],
+  )
+  const aspect = (p: PageReaderPage) => {
+    if (!isData(p)) return p.width / p.height
+    const g = geometries.get(p)
+    return g ? g.width / g.height : 2 / 3
+  }
   const pad = 24
   const aw = Math.max(0, stage.w - pad - shown.length * chrome)
   const ah = Math.max(0, stage.h - pad - chrome)
-  const ratio = shown.reduce((s, p) => s + p.width / p.height, 0) || 1
+  const ratio = shown.reduce((s, p) => s + aspect(p), 0) || 1
   const artH = fit === "width" ? aw / ratio : fit === "height" ? ah : Math.min(ah, aw / ratio)
-  const widthOf = (p: PageReaderPage) => Math.max(0, Math.floor(artH * (p.width / p.height) + chrome))
+  const widthOf = (p: PageReaderPage) => Math.max(0, Math.floor(artH * aspect(p) + chrome))
 
   /* Pointer: a swipe turns (the page follows the finger), a drag pans when zoomed, a double click zooms. */
   const [drag, setDrag] = React.useState(0)
@@ -478,7 +495,17 @@ function PageReader({
                   const i = pages.indexOf(p)
                   return (
                     <div key={i} style={{ width: widthOf(p) }} className="shrink-0">
-                      <ReaderPage page={p} index={i} count={n} status={loaded.has(p.src) ? "loaded" : undefined} className="max-w-none!" />
+                      {isData(p) ? (
+                        // same frame as ReaderPage (2px ink line), so both kinds of page sit alike in a spread
+                        <figure data-slot="reader-page" data-status="loaded" className="relative m-0 w-full border-ink bg-background">
+                          <Page page={{ ...p.page, reading: p.page.reading ?? direction }} fold="never" label={p.alt ?? `Page ${i + 1}`} />
+                          <figcaption className="sr-only">
+                            Page {i + 1} of {n}
+                          </figcaption>
+                        </figure>
+                      ) : (
+                        <ReaderPage page={p} index={i} count={n} status={loaded.has(p.src) ? "loaded" : undefined} className="max-w-none!" />
+                      )}
                     </div>
                   )
                 })}
