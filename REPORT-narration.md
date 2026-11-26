@@ -1,4 +1,4 @@
-ÉTAPE 1 TERMINÉE
+TOUT TERMINÉ
 
 # Compte rendu — chat « Narration »
 
@@ -71,6 +71,13 @@ Art de démo partagé : `site/src/story-art.tsx` (visages et scènes abstraits, 
 - Le paramètre `orientation="auto"` du Yonkoma n'était pas demandé ; il sert à Story landing en grand écran.
 - La couverture, la boîte de dialogue et le bloc ne dépendent pas d'Avatar : portraits dessinés en SVG dans une case carrée.
 
-## Étape 2
+## Étape 2 — rebranchement sur le nouveau modèle de page (fait)
 
-En attente du signal de `REPORT-page.md`.
+Signal vu à 01:21 (`REPORT-page.md` : « ÉTAPE 1 TERMINÉE »), au deuxième passage.
+
+- **Yonkoma** est maintenant une `Page` au format `strip` (hauteur libre) : une `Tier` par case en vertical, une seule `Tier` de quatre `Panel` en ligne (ordre de lecture géré par la page, droite à gauche en `rtl`). L'API ne change pas (4 enfants, `title`, `labels`, `numbered`, `orientation`, `aspect` qui accepte aussi un nombre). Les `Panel` sont créés directement dans les `Tier` (règle « enfants directs » du chat Page) ; un enfant donné en fragment est déplié dans sa case, pour que ses `Place` (bulles avec `pointAt`, légendes, SFX) passent au-dessus du cadre comme sur toute page. Le strip se mesure : `line` et `margin` donnent un trait d'environ 3 px et `lettering` garde un lettrage lisible quelle que soit la largeur (une case de strip est une petite page). `auto` passe en ligne à 40rem comme avant ; je n'utilise pas le repli à 480 px de `Page` (`fold="never"`), le strip étant déjà vertical.
+- **Story landing** : les légendes du strip sont des `PanelCaption position="free"` posées avec `Place`, plus une onomatopée `Sfx` (ドン) dans la case 4 ; l'item dépend maintenant aussi de `panel`.
+- Démo Yonkoma : bulles et SFX posées avec `Place` et `pointAt`.
+- Vérifications : `tsc`, `npm run build`, `npm run check` (125 items) ; captures 375 / 1280, clair et sombre, Chromium, Firefox et WebKit de la fiche Yonkoma et de Story landing ; réinstallation de `yonkoma` et `story-landing` depuis GitHub dans les quatre projets neufs, version « page » bien installée, les quatre `npm run build` passent ; contrôle visuel (Vite : strip en ligne à 1280 ; Next.js en production : strip en ligne après hydratation).
+- Doute : au premier rendu serveur (Next.js), le strip `auto` est vertical tant que sa largeur n'est pas mesurée, puis passe en ligne à l'hydratation (petit saut de mise en page). Une requête de conteneur ne suffit plus, car la structure de la page (une ou quatre `Tier`) est calculée en JavaScript.
+- Règle proposée : **une pièce qui pose une page dans un petit espace règle `line` et `lettering` d'après sa largeur mesurée** (les unités de page sont pensées pour une planche entière).
