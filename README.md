@@ -64,7 +64,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 
 <!-- items:start -->
 
-116 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+125 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
 
 ### Foundations
 
@@ -204,6 +204,14 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Release Calendar | `release-calendar` | A week of releases: a day strip on phones, seven columns on wide screens. |
 | Social Button | `social-button` | A sign-in button with a logo plate and an “or” rule. |
 | Password Strength | `password-strength` | A four-step gauge that fills with speed lines. |
+| Yonkoma | `yonkoma` | Four panels, top to bottom, to tell it in four beats. |
+| Dialogue Box | `dialogue-box` | A character speaks, line after line, with an arrow to go on. |
+| Chapter Title | `chapter-title` | A chapter page that opens a section. |
+| Magazine Cover | `magazine-cover` | A magazine cover: masthead, issue, cover lines around the art. |
+| Scene Transition | `scene-transition` | A stepped wipe between two scenes. |
+| Ruby | `ruby` | Furigana over the characters they read. |
+| Vertical Text | `vertical-text` | Text written top to bottom, columns right to left. |
+| Bilingual Bubble | `bilingual-bubble` | A speech bubble that flips between the original and its translation. |
 
 ### Full interfaces
 
@@ -221,6 +229,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Reset password | `reset-password` | A new password with a strength gauge, then a 'Saved!' stamp. |
 | Sign up | `sign-up` | A manga panel beside the sign-up form, with a strength gauge and social buttons. |
 | Forgot password | `forgot-password` | A manga panel beside a one-field recovery form that stamps “Sent!”. |
+| Story landing | `story-landing` | A product page told as a manga: cover, four-panel strip, a guide, chapters. |
 
 <!-- items:end -->
 

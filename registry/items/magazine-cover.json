@@ -1,0 +1,80 @@
+{
+  "name": "magazine-cover",
+  "type": "registry:component",
+  "title": "Magazine Cover",
+  "description": "A manga magazine cover in a 3:4 case: the masthead in the SFX face across a band of ink at the top with an optional tagline, the issue and date in a box at its end, cover lines on paper plates down both sides of the art (one may be an accent flat for the big news) and a headline plate at the foot. Every word rests on a flat, never on the art. The lettering scales with the cover (container units), from a thumbnail to full width on a phone. Static, a link (href) or a button (onSelect) with the hover lift, ink focus ring and pressed offset.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/magazine-cover.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/magazine-cover.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/magazine-cover\". The art is an image URL (give imageAlt) or any node; it fills the whole cover, under the masthead band and the plates. Without art a screentone is drawn. Keep cover lines short: they take at most half the width each.",
+  "meta": {
+    "tagline": "A magazine cover: masthead, issue, cover lines around the art.",
+    "usage": "import { MagazineCover } from \"@/components/manga/magazine-cover\"\n\n<MagazineCover\n  title=\"Weekly Ink\"\n  issue=\"No. 12\"\n  date=\"Spring\"\n  image=\"/covers/12.jpg\"\n  imageAlt=\"A rookie in front of a huge sun\"\n  lines={[{ text: \"New series!\", highlight: true }, { text: \"Bonus poster\", side: \"end\" }]}\n  headline=\"The rookie's first page\"\n/>",
+    "props": [
+      {
+        "name": "title",
+        "type": "ReactNode",
+        "description": "The masthead."
+      },
+      {
+        "name": "issue",
+        "type": "ReactNode",
+        "description": "Issue number, in the box at the band's end."
+      },
+      {
+        "name": "date",
+        "type": "ReactNode",
+        "description": "Date or season under the issue."
+      },
+      {
+        "name": "tagline",
+        "type": "ReactNode",
+        "description": "A short line under the masthead."
+      },
+      {
+        "name": "image",
+        "type": "string | ReactNode",
+        "description": "Image URL or any node, filling the cover. Without it, a screentone."
+      },
+      {
+        "name": "imageAlt",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Alternative text of an image URL."
+      },
+      {
+        "name": "lines",
+        "type": "{ text; side?: \"start\" | \"end\"; highlight? }[]",
+        "description": "Cover lines on plates around the art. highlight: an accent flat."
+      },
+      {
+        "name": "headline",
+        "type": "ReactNode",
+        "description": "The main cover line, on a plate at the foot."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "description": "Makes the cover a link."
+      },
+      {
+        "name": "onSelect",
+        "type": "() => void",
+        "description": "Makes the cover a button."
+      }
+    ]
+  }
+}

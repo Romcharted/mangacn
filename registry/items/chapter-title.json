@@ -1,0 +1,85 @@
+{
+  "name": "chapter-title",
+  "type": "registry:component",
+  "title": "Chapter Title",
+  "description": "A chapter title page used as a section header: a big number in the SFX face with a small label above it, the title in lettering (a real heading, read as \"Chapter 3: title\"), a 3px ink rule and an optional subtitle, and an optional column of vertical text at the end side against a narrow band of speed lines on its edge (never under the letters). Paper or ink. animated: the number pops and the rule grows from the start in steps when it appears; still with reduced motion.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/vertical-text",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/chapter-title.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/chapter-title.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/chapter-title\". Pass titleId and point the section's aria-labelledby at it. The number and label are hidden from screen readers and repeated inside the heading.",
+  "meta": {
+    "tagline": "A chapter page that opens a section.",
+    "usage": "import { ChapterTitle } from \"@/components/manga/chapter-title\"\n\n<section aria-labelledby=\"ch3\">\n  <ChapterTitle titleId=\"ch3\" number=\"03\" title=\"The first panel\" vertical=\"第三話\" />\n  …\n</section>",
+    "props": [
+      {
+        "name": "number",
+        "type": "ReactNode",
+        "description": "The chapter number, shown big."
+      },
+      {
+        "name": "title",
+        "type": "ReactNode",
+        "description": "The heading."
+      },
+      {
+        "name": "label",
+        "type": "ReactNode",
+        "default": "\"Chapter\"",
+        "description": "Small lettering above the number."
+      },
+      {
+        "name": "subtitle",
+        "type": "ReactNode",
+        "description": "A line under the rule."
+      },
+      {
+        "name": "vertical",
+        "type": "ReactNode",
+        "description": "A short column of vertical text at the end side."
+      },
+      {
+        "name": "verticalLang",
+        "type": "string",
+        "default": "\"ja\"",
+        "description": "Language of the vertical text."
+      },
+      {
+        "name": "as",
+        "type": "\"h1\" | \"h2\" | \"h3\"",
+        "default": "\"h2\"",
+        "description": "Heading level."
+      },
+      {
+        "name": "titleId",
+        "type": "string",
+        "description": "id of the heading."
+      },
+      {
+        "name": "variant",
+        "type": "\"paper\" | \"ink\"",
+        "default": "\"paper\"",
+        "description": "Paper page or ink page."
+      },
+      {
+        "name": "animated",
+        "type": "boolean",
+        "default": "false",
+        "description": "Number pops, rule grows when it appears."
+      }
+    ]
+  }
+}

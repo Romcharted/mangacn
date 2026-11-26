@@ -1,0 +1,62 @@
+{
+  "name": "ruby",
+  "type": "registry:component",
+  "title": "Ruby",
+  "description": "Furigana: small readings over (or under, or beside in vertical text) the characters they read, in native <ruby> / <rt> markup with <rp> fallbacks so the text copies, wraps and reads aloud. One reading over a whole word (base + reading) or one per character (parts). reveal=\"hover\" hides the readings for learners until the word is hovered or focused, keeping their room so nothing reflows; the word is then focusable with a dotted underline that thickens on hover and the ink focus ring. CSS only, no JavaScript.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/ruby.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/ruby.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/ruby\". The kit's fonts do not cover kanji: Japanese text falls back to the system's Japanese face (or add one of your own, such as Noto Sans JP, to --font-manga-body).",
+  "meta": {
+    "tagline": "Furigana over the characters they read.",
+    "usage": "import { Ruby } from \"@/components/manga/ruby\"\n\n<p lang=\"ja\">\n  <Ruby parts={[[\"漢\", \"かん\"], [\"字\", \"じ\"]]} />を<Ruby base=\"読\" reading=\"よ\" />む\n</p>",
+    "props": [
+      {
+        "name": "base",
+        "type": "ReactNode",
+        "description": "The characters (group ruby)."
+      },
+      {
+        "name": "reading",
+        "type": "ReactNode",
+        "description": "The reading over the whole base."
+      },
+      {
+        "name": "parts",
+        "type": "[base, reading?][]",
+        "description": "One reading per character or group (mono ruby). Takes over base and reading."
+      },
+      {
+        "name": "position",
+        "type": "\"over\" | \"under\"",
+        "default": "\"over\"",
+        "description": "Side of the reading. In vertical text, over is on the right."
+      },
+      {
+        "name": "reveal",
+        "type": "\"always\" | \"hover\" | \"never\"",
+        "default": "\"always\"",
+        "description": "hover: readings show on hover or focus (room kept). never: hidden but still read aloud."
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "default": "\"ja\"",
+        "description": "Language of the text."
+      }
+    ]
+  }
+}

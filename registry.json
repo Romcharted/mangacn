@@ -291,6 +291,13 @@
               "animation": "none !important",
               "transition": "none !important"
             }
+          },
+          "@media (pointer: coarse)": {
+            ".touch-hit:not(:active, [data-fx])::after": {
+              "content": "\"\" !important",
+              "position": "absolute !important",
+              "inset": "min(0px, calc(50% - 22px)) !important"
+            }
           }
         },
         "@utility tone-10": {
@@ -847,15 +854,6 @@
           },
           "100%": {
             "scale": "1 1"
-          }
-        },
-        "@utility touch-hit": {
-          "@media (pointer: coarse)": {
-            "&:not(:active, [data-fx])::after": {
-              "content": "\"\" !important",
-              "position": "absolute !important",
-              "inset": "min(0px, calc(50% - 22px)) !important"
-            }
           }
         },
         "@utility hover-lift": {
@@ -5970,6 +5968,599 @@
       }
     },
     {
+      "name": "yonkoma",
+      "type": "registry:component",
+      "title": "Yonkoma",
+      "description": "A four-panel strip read top to bottom, to explain something in four beats. The API is four children, one per panel, plus an optional title box; the panels are Panels on a PanelGrid (3px frames, a list of four for screen readers with a label per panel) with a small number box in the corner. orientation=\"horizontal\" puts the four in a row in the manga reading order; \"auto\" stacks them on phones and lines them up once the strip's container is 40rem wide. Any aspect ratio per panel.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/panel",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/yonkoma.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/yonkoma.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/yonkoma\". Each child fills its panel (an absolute, overflow-hidden box): position your art and bubbles inside it. Pass labels so each panel has a spoken description.",
+      "meta": {
+        "tagline": "Four panels, top to bottom, to tell it in four beats.",
+        "usage": "import { Yonkoma } from \"@/components/manga/yonkoma\"\n\n<Yonkoma title=\"How it works\" labels={[\"Install\", \"Import\", \"Style\", \"Ship\"]}>\n  <StepOne />\n  <StepTwo />\n  <StepThree />\n  <StepFour />\n</Yonkoma>",
+        "props": [
+          {
+            "name": "children",
+            "type": "ReactNode",
+            "description": "Four children, one per panel. Extra ones are left out."
+          },
+          {
+            "name": "title",
+            "type": "ReactNode",
+            "description": "Title box above the strip."
+          },
+          {
+            "name": "numbered",
+            "type": "boolean",
+            "default": "true",
+            "description": "Number box in each panel's corner."
+          },
+          {
+            "name": "labels",
+            "type": "[string, string, string, string]",
+            "description": "Spoken description of each panel (default \"Panel 1 of 4\"…)."
+          },
+          {
+            "name": "orientation",
+            "type": "\"vertical\" | \"horizontal\" | \"auto\"",
+            "default": "\"vertical\"",
+            "description": "A column, a row in the reading order, or a column that becomes a row from 40rem."
+          },
+          {
+            "name": "aspect",
+            "type": "string",
+            "default": "\"4 / 3\"",
+            "description": "Aspect ratio of each panel."
+          }
+        ]
+      }
+    },
+    {
+      "name": "dialogue-box",
+      "type": "registry:component",
+      "title": "Dialogue Box",
+      "description": "A character dialogue box for a queue of lines: a case with a square portrait (a case inside it) on the start or end side, the speaker on an ink name plate on the top edge (it pops when the speaker changes), the line writing itself at 12 fps with a stepped block caret and no reflow, and a 44px arrow button that shows the whole line at once while it writes, then goes to the next line (the arrow blinks in two hard steps), with a 2 / 5 count. A click on the text does the same. After the last line it loops or stays (loop={false}) and calls onEnd. Controlled or not; progress freezes a line for previews. Each finished line is announced; reduced motion shows lines at once.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/gestures",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/dialogue-box.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/dialogue-box.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/dialogue-box\". A line's text is a plain string (it is written out character by character); the portrait is an image URL or any node drawn in a square box.",
+      "meta": {
+        "tagline": "A character speaks, line after line, with an arrow to go on.",
+        "usage": "import { DialogueBox } from \"@/components/manga/dialogue-box\"\n\n<DialogueBox\n  lines={[\n    { speaker: \"Sensei\", portrait: \"/faces/sensei.png\", text: \"Welcome to the studio.\" },\n    { speaker: \"Rookie\", portrait: \"/faces/rookie.png\", side: \"end\", text: \"Where do I start?\" },\n  ]}\n  onEnd={() => setTutorialDone(true)}\n/>",
+        "props": [
+          {
+            "name": "lines",
+            "type": "{ speaker; text: string; portrait?; side?: \"start\" | \"end\" }[]",
+            "description": "The queue of lines."
+          },
+          {
+            "name": "index",
+            "type": "number",
+            "description": "Current line (controlled)."
+          },
+          {
+            "name": "defaultIndex",
+            "type": "number",
+            "default": "0",
+            "description": "First line (uncontrolled)."
+          },
+          {
+            "name": "onIndexChange",
+            "type": "(index: number) => void",
+            "description": "Called when the line changes."
+          },
+          {
+            "name": "onEnd",
+            "type": "() => void",
+            "description": "Called when the reader goes on after the last line."
+          },
+          {
+            "name": "loop",
+            "type": "boolean",
+            "default": "true",
+            "description": "Start again after the last line; false stays on it."
+          },
+          {
+            "name": "speed",
+            "type": "number",
+            "default": "2",
+            "description": "Characters per frame at 12 fps. 0 shows lines at once."
+          },
+          {
+            "name": "progress",
+            "type": "number",
+            "description": "Freezes the line at this fraction (0–1), for previews."
+          },
+          {
+            "name": "showCount",
+            "type": "boolean",
+            "default": "true",
+            "description": "Shows \"2 / 5\" next to the arrow."
+          },
+          {
+            "name": "labels",
+            "type": "{ skip?; next?; end? }",
+            "description": "Spoken names of the arrow button in each state."
+          }
+        ]
+      }
+    },
+    {
+      "name": "chapter-title",
+      "type": "registry:component",
+      "title": "Chapter Title",
+      "description": "A chapter title page used as a section header: a big number in the SFX face with a small label above it, the title in lettering (a real heading, read as \"Chapter 3: title\"), a 3px ink rule and an optional subtitle, and an optional column of vertical text at the end side against a narrow band of speed lines on its edge (never under the letters). Paper or ink. animated: the number pops and the rule grows from the start in steps when it appears; still with reduced motion.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/vertical-text",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/chapter-title.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/chapter-title.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/chapter-title\". Pass titleId and point the section's aria-labelledby at it. The number and label are hidden from screen readers and repeated inside the heading.",
+      "meta": {
+        "tagline": "A chapter page that opens a section.",
+        "usage": "import { ChapterTitle } from \"@/components/manga/chapter-title\"\n\n<section aria-labelledby=\"ch3\">\n  <ChapterTitle titleId=\"ch3\" number=\"03\" title=\"The first panel\" vertical=\"第三話\" />\n  …\n</section>",
+        "props": [
+          {
+            "name": "number",
+            "type": "ReactNode",
+            "description": "The chapter number, shown big."
+          },
+          {
+            "name": "title",
+            "type": "ReactNode",
+            "description": "The heading."
+          },
+          {
+            "name": "label",
+            "type": "ReactNode",
+            "default": "\"Chapter\"",
+            "description": "Small lettering above the number."
+          },
+          {
+            "name": "subtitle",
+            "type": "ReactNode",
+            "description": "A line under the rule."
+          },
+          {
+            "name": "vertical",
+            "type": "ReactNode",
+            "description": "A short column of vertical text at the end side."
+          },
+          {
+            "name": "verticalLang",
+            "type": "string",
+            "default": "\"ja\"",
+            "description": "Language of the vertical text."
+          },
+          {
+            "name": "as",
+            "type": "\"h1\" | \"h2\" | \"h3\"",
+            "default": "\"h2\"",
+            "description": "Heading level."
+          },
+          {
+            "name": "titleId",
+            "type": "string",
+            "description": "id of the heading."
+          },
+          {
+            "name": "variant",
+            "type": "\"paper\" | \"ink\"",
+            "default": "\"paper\"",
+            "description": "Paper page or ink page."
+          },
+          {
+            "name": "animated",
+            "type": "boolean",
+            "default": "false",
+            "description": "Number pops, rule grows when it appears."
+          }
+        ]
+      }
+    },
+    {
+      "name": "magazine-cover",
+      "type": "registry:component",
+      "title": "Magazine Cover",
+      "description": "A manga magazine cover in a 3:4 case: the masthead in the SFX face across a band of ink at the top with an optional tagline, the issue and date in a box at its end, cover lines on paper plates down both sides of the art (one may be an accent flat for the big news) and a headline plate at the foot. Every word rests on a flat, never on the art. The lettering scales with the cover (container units), from a thumbnail to full width on a phone. Static, a link (href) or a button (onSelect) with the hover lift, ink focus ring and pressed offset.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/magazine-cover.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/magazine-cover.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/magazine-cover\". The art is an image URL (give imageAlt) or any node; it fills the whole cover, under the masthead band and the plates. Without art a screentone is drawn. Keep cover lines short: they take at most half the width each.",
+      "meta": {
+        "tagline": "A magazine cover: masthead, issue, cover lines around the art.",
+        "usage": "import { MagazineCover } from \"@/components/manga/magazine-cover\"\n\n<MagazineCover\n  title=\"Weekly Ink\"\n  issue=\"No. 12\"\n  date=\"Spring\"\n  image=\"/covers/12.jpg\"\n  imageAlt=\"A rookie in front of a huge sun\"\n  lines={[{ text: \"New series!\", highlight: true }, { text: \"Bonus poster\", side: \"end\" }]}\n  headline=\"The rookie's first page\"\n/>",
+        "props": [
+          {
+            "name": "title",
+            "type": "ReactNode",
+            "description": "The masthead."
+          },
+          {
+            "name": "issue",
+            "type": "ReactNode",
+            "description": "Issue number, in the box at the band's end."
+          },
+          {
+            "name": "date",
+            "type": "ReactNode",
+            "description": "Date or season under the issue."
+          },
+          {
+            "name": "tagline",
+            "type": "ReactNode",
+            "description": "A short line under the masthead."
+          },
+          {
+            "name": "image",
+            "type": "string | ReactNode",
+            "description": "Image URL or any node, filling the cover. Without it, a screentone."
+          },
+          {
+            "name": "imageAlt",
+            "type": "string",
+            "default": "\"\"",
+            "description": "Alternative text of an image URL."
+          },
+          {
+            "name": "lines",
+            "type": "{ text; side?: \"start\" | \"end\"; highlight? }[]",
+            "description": "Cover lines on plates around the art. highlight: an accent flat."
+          },
+          {
+            "name": "headline",
+            "type": "ReactNode",
+            "description": "The main cover line, on a plate at the foot."
+          },
+          {
+            "name": "href",
+            "type": "string",
+            "description": "Makes the cover a link."
+          },
+          {
+            "name": "onSelect",
+            "type": "() => void",
+            "description": "Makes the cover a button."
+          }
+        ]
+      }
+    },
+    {
+      "name": "scene-transition",
+      "type": "registry:component",
+      "title": "Scene Transition",
+      "description": "A wipe that sweeps the screen (or a container) between two sections or pages, in steps: four frames to cover, a hold, four frames to uncover, at 12 fps, swapping the scene while the screen is covered. Across in the reading order (right to left with data-reading=\"rtl\" or dir=\"rtl\") or downward. Variants: ink (an ink flat), tone (a 50% screentone on paper edged with ink lines), panels (four ink panels with paper gutters dropped one per frame). An optional caption pops in the middle during the hold, on a paper narration box. As a hook (useSceneTransition: play(swap) returns a promise) or a component (playing, onCovered, onDone). The overlay is aria-hidden and catches clicks while it plays; with reduced motion the scene is swapped at once.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/gestures",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/scene-transition.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/scene-transition.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/scene-transition\". With scope=\"container\", render the transition inside a positioned element (relative, overflow hidden). Move focus to the new scene yourself once the promise resolves (or in onDone).",
+      "meta": {
+        "tagline": "A stepped wipe between two scenes.",
+        "usage": "import { useSceneTransition } from \"@/components/manga/scene-transition\"\n\nconst { play, transition } = useSceneTransition({ variant: \"panels\", caption: \"Meanwhile…\" })\n\n<button onClick={() => play(() => setPage(2))}>Next page</button>\n{transition}",
+        "props": [
+          {
+            "name": "variant",
+            "type": "\"ink\" | \"tone\" | \"panels\"",
+            "default": "\"ink\"",
+            "description": "Ink flat, 50% screentone, or four ink panels."
+          },
+          {
+            "name": "direction",
+            "type": "\"reading\" | \"down\"",
+            "default": "\"reading\"",
+            "description": "Across in the reading order, or from top to bottom."
+          },
+          {
+            "name": "scope",
+            "type": "\"screen\" | \"container\"",
+            "default": "\"screen\"",
+            "description": "Fixed over the viewport, or over the nearest positioned ancestor."
+          },
+          {
+            "name": "hold",
+            "type": "number",
+            "default": "2",
+            "description": "Frames the screen stays covered."
+          },
+          {
+            "name": "caption",
+            "type": "ReactNode",
+            "description": "Narration box shown in the middle while covered."
+          },
+          {
+            "name": "playing",
+            "type": "boolean",
+            "description": "Component only: plays each time it turns true."
+          },
+          {
+            "name": "onCovered / onDone",
+            "type": "() => void",
+            "description": "Component only: swap the scene / the scene is uncovered."
+          },
+          {
+            "name": "frame",
+            "type": "number",
+            "description": "Component only: freezes one frame, for previews."
+          }
+        ]
+      }
+    },
+    {
+      "name": "ruby",
+      "type": "registry:component",
+      "title": "Ruby",
+      "description": "Furigana: small readings over (or under, or beside in vertical text) the characters they read, in native <ruby> / <rt> markup with <rp> fallbacks so the text copies, wraps and reads aloud. One reading over a whole word (base + reading) or one per character (parts). reveal=\"hover\" hides the readings for learners until the word is hovered or focused, keeping their room so nothing reflows; the word is then focusable with a dotted underline that thickens on hover and the ink focus ring. CSS only, no JavaScript.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/ruby.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/ruby.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/ruby\". The kit's fonts do not cover kanji: Japanese text falls back to the system's Japanese face (or add one of your own, such as Noto Sans JP, to --font-manga-body).",
+      "meta": {
+        "tagline": "Furigana over the characters they read.",
+        "usage": "import { Ruby } from \"@/components/manga/ruby\"\n\n<p lang=\"ja\">\n  <Ruby parts={[[\"漢\", \"かん\"], [\"字\", \"じ\"]]} />を<Ruby base=\"読\" reading=\"よ\" />む\n</p>",
+        "props": [
+          {
+            "name": "base",
+            "type": "ReactNode",
+            "description": "The characters (group ruby)."
+          },
+          {
+            "name": "reading",
+            "type": "ReactNode",
+            "description": "The reading over the whole base."
+          },
+          {
+            "name": "parts",
+            "type": "[base, reading?][]",
+            "description": "One reading per character or group (mono ruby). Takes over base and reading."
+          },
+          {
+            "name": "position",
+            "type": "\"over\" | \"under\"",
+            "default": "\"over\"",
+            "description": "Side of the reading. In vertical text, over is on the right."
+          },
+          {
+            "name": "reveal",
+            "type": "\"always\" | \"hover\" | \"never\"",
+            "default": "\"always\"",
+            "description": "hover: readings show on hover or focus (room kept). never: hidden but still read aloud."
+          },
+          {
+            "name": "lang",
+            "type": "string",
+            "default": "\"ja\"",
+            "description": "Language of the text."
+          }
+        ]
+      }
+    },
+    {
+      "name": "vertical-text",
+      "type": "registry:component",
+      "title": "Vertical Text",
+      "description": "Vertical writing (tategaki) with CSS writing modes: characters run top to bottom and columns right to left, whatever the page's reading order or writing direction, and the text stays real text. A column height wraps it into new columns; the reading, lettering or SFX face; Latin letters lying on their side or upright; an optional fine rule between columns like a manuscript sheet. Tcy sets a short number upright in one cell (tate-chu-yoko).",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/vertical-text.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/vertical-text.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/vertical-text\". Give it a height (prop or class) to wrap long text into several columns; without one a column is as tall as its text. The kit's fonts do not cover kanji: Japanese text falls back to the system's Japanese face.",
+      "meta": {
+        "tagline": "Text written top to bottom, columns right to left.",
+        "usage": "import { Tcy, VerticalText } from \"@/components/manga/vertical-text\"\n\n<VerticalText height=\"12rem\">\n  雨の夜、<Tcy>12</Tcy>時。\n</VerticalText>",
+        "props": [
+          {
+            "name": "as",
+            "type": "\"div\" | \"p\" | \"span\" | \"h1\" | \"h2\" | \"h3\" | \"h4\"",
+            "default": "\"div\"",
+            "description": "Rendered element."
+          },
+          {
+            "name": "height",
+            "type": "string",
+            "description": "Column height (any CSS length). Text wraps into a new column on the left."
+          },
+          {
+            "name": "font",
+            "type": "\"reading\" | \"letter\" | \"sfx\"",
+            "default": "\"reading\"",
+            "description": "Reading face, lettering face or the SFX face."
+          },
+          {
+            "name": "upright",
+            "type": "boolean",
+            "default": "false",
+            "description": "Latin letters stand upright instead of lying on their side."
+          },
+          {
+            "name": "ruled",
+            "type": "boolean",
+            "default": "false",
+            "description": "A fine ink rule between columns."
+          },
+          {
+            "name": "lang",
+            "type": "string",
+            "default": "\"ja\"",
+            "description": "Language of the text."
+          }
+        ]
+      }
+    },
+    {
+      "name": "bilingual-bubble",
+      "type": "registry:component",
+      "title": "Bilingual Bubble",
+      "description": "A SpeechBubble (wrapped, not changed) that switches between the original line and its translation. Both texts share one grid cell, so the bubble keeps the size of the longer one and never jumps; the hidden one is invisible and aria-hidden, each carries its own lang. A two-cell switch sits on top of the bubble (pressed buttons: the current language an ink flat that sweeps in, cells thicken on hover, a click hits, focus stays inside the cell, 44px on phones); the line that comes in pops in steps. Controlled or not; every SpeechBubble variant and tail.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/speech-bubble",
+        "Romcharted/mangacn/gestures",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/bilingual-bubble.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/bilingual-bubble.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/bilingual-bubble\". Every SpeechBubble prop (variant, tail, tailAlign, seed) passes through. The kit's lettering face has no Japanese glyphs: Japanese lines fall back to the system's Japanese face.",
+      "meta": {
+        "tagline": "A speech bubble that flips between the original and its translation.",
+        "usage": "import { BilingualBubble } from \"@/components/manga/bilingual-bubble\"\n\n<BilingualBubble original=\"おはよう！\" translation=\"Good morning!\" tail=\"bottom\" />",
+        "props": [
+          {
+            "name": "original",
+            "type": "ReactNode",
+            "description": "The line as first written."
+          },
+          {
+            "name": "translation",
+            "type": "ReactNode",
+            "description": "The same line, translated."
+          },
+          {
+            "name": "originalLang / translationLang",
+            "type": "string",
+            "default": "\"ja\" / \"en\"",
+            "description": "Language of each text."
+          },
+          {
+            "name": "originalLabel / translationLabel",
+            "type": "string",
+            "default": "\"JA\" / \"EN\"",
+            "description": "Labels on the switch."
+          },
+          {
+            "name": "showing",
+            "type": "\"original\" | \"translation\"",
+            "description": "Shown text (controlled)."
+          },
+          {
+            "name": "defaultShowing",
+            "type": "\"original\" | \"translation\"",
+            "default": "\"original\"",
+            "description": "Shown text at first."
+          },
+          {
+            "name": "onShowingChange",
+            "type": "(showing) => void",
+            "description": "Called when the switch changes."
+          },
+          {
+            "name": "switchAlign",
+            "type": "\"start\" | \"end\"",
+            "default": "\"end\"",
+            "description": "Where the switch sits above the bubble."
+          },
+          {
+            "name": "switchLabel",
+            "type": "string",
+            "default": "\"Language\"",
+            "description": "Spoken name of the switch."
+          }
+        ]
+      }
+    },
+    {
       "name": "dashboard",
       "type": "registry:block",
       "title": "Dashboard",
@@ -6579,6 +7170,48 @@
             "type": "(screen: \"sign-in\" | \"sign-up\" | \"forgot-password\" | \"verify-code\" | \"reset-password\") => void",
             "default": "undefined",
             "description": "Called by 'Back to sign in' and 'Enter the code'. Without it these do nothing."
+          }
+        ]
+      }
+    },
+    {
+      "name": "story-landing",
+      "type": "registry:block",
+      "title": "Story landing",
+      "description": "A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around drawn art) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip that explains the product in four beats (a column on phones, four in a row from 40rem), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a \"Meanwhile…\" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.",
+      "categories": [
+        "blocks"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/magazine-cover",
+        "Romcharted/mangacn/chapter-title",
+        "Romcharted/mangacn/yonkoma",
+        "Romcharted/mangacn/dialogue-box",
+        "Romcharted/mangacn/scene-transition",
+        "Romcharted/mangacn/speech-bubble",
+        "Romcharted/mangacn/sfx",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/blocks/story-landing/story-landing.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/blocks/story-landing.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/blocks/story-landing\". The root fills its container and follows the page (no inner scroll). The chapter transition covers the viewport (scope \"screen\"). The art is drawn inline in the file: replace it with your own drawings.",
+      "meta": {
+        "tagline": "A product page told as a manga: cover, four-panel strip, a guide, chapters.",
+        "usage": "import { StoryLanding } from \"@/components/manga/blocks/story-landing\"\n\n<StoryLanding />",
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Size and placement of the whole interface."
           }
         ]
       }

@@ -1,6 +1,6 @@
 # mangacn
 
-> 116 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
+> 125 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -2199,6 +2199,212 @@ import { PasswordStrength, passwordScore } from "@/components/manga/password-str
 <PasswordStrength score={3} labels={["Empty", "Poor", "OK", "Good", "Great"]} />
 ```
 
+### Yonkoma (`yonkoma`)
+
+A four-panel strip read top to bottom, to explain something in four beats. The API is four children, one per panel, plus an optional title box; the panels are Panels on a PanelGrid (3px frames, a list of four for screen readers with a label per panel) with a small number box in the corner. orientation="horizontal" puts the four in a row in the manga reading order; "auto" stacks them on phones and lines them up once the strip's container is 40rem wide. Any aspect ratio per panel.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/yonkoma`
+- Categories: manga
+- Props:
+  - `children`: `ReactNode` — Four children, one per panel. Extra ones are left out.
+  - `title`: `ReactNode` — Title box above the strip.
+  - `numbered`: `boolean` (default `true`) — Number box in each panel's corner.
+  - `labels`: `[string, string, string, string]` — Spoken description of each panel (default "Panel 1 of 4"…).
+  - `orientation`: `"vertical" | "horizontal" | "auto"` (default `"vertical"`) — A column, a row in the reading order, or a column that becomes a row from 40rem.
+  - `aspect`: `string` (default `"4 / 3"`) — Aspect ratio of each panel.
+
+```tsx
+import { Yonkoma } from "@/components/manga/yonkoma"
+
+<Yonkoma title="How it works" labels={["Install", "Import", "Style", "Ship"]}>
+  <StepOne />
+  <StepTwo />
+  <StepThree />
+  <StepFour />
+</Yonkoma>
+```
+
+### Dialogue Box (`dialogue-box`)
+
+A character dialogue box for a queue of lines: a case with a square portrait (a case inside it) on the start or end side, the speaker on an ink name plate on the top edge (it pops when the speaker changes), the line writing itself at 12 fps with a stepped block caret and no reflow, and a 44px arrow button that shows the whole line at once while it writes, then goes to the next line (the arrow blinks in two hard steps), with a 2 / 5 count. A click on the text does the same. After the last line it loops or stays (loop={false}) and calls onEnd. Controlled or not; progress freezes a line for previews. Each finished line is announced; reduced motion shows lines at once.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/dialogue-box`
+- Categories: manga
+- Props:
+  - `lines`: `{ speaker; text: string; portrait?; side?: "start" | "end" }[]` — The queue of lines.
+  - `index`: `number` — Current line (controlled).
+  - `defaultIndex`: `number` (default `0`) — First line (uncontrolled).
+  - `onIndexChange`: `(index: number) => void` — Called when the line changes.
+  - `onEnd`: `() => void` — Called when the reader goes on after the last line.
+  - `loop`: `boolean` (default `true`) — Start again after the last line; false stays on it.
+  - `speed`: `number` (default `2`) — Characters per frame at 12 fps. 0 shows lines at once.
+  - `progress`: `number` — Freezes the line at this fraction (0–1), for previews.
+  - `showCount`: `boolean` (default `true`) — Shows "2 / 5" next to the arrow.
+  - `labels`: `{ skip?; next?; end? }` — Spoken names of the arrow button in each state.
+
+```tsx
+import { DialogueBox } from "@/components/manga/dialogue-box"
+
+<DialogueBox
+  lines={[
+    { speaker: "Sensei", portrait: "/faces/sensei.png", text: "Welcome to the studio." },
+    { speaker: "Rookie", portrait: "/faces/rookie.png", side: "end", text: "Where do I start?" },
+  ]}
+  onEnd={() => setTutorialDone(true)}
+/>
+```
+
+### Chapter Title (`chapter-title`)
+
+A chapter title page used as a section header: a big number in the SFX face with a small label above it, the title in lettering (a real heading, read as "Chapter 3: title"), a 3px ink rule and an optional subtitle, and an optional column of vertical text at the end side against a narrow band of speed lines on its edge (never under the letters). Paper or ink. animated: the number pops and the rule grows from the start in steps when it appears; still with reduced motion.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/chapter-title`
+- Categories: manga
+- Props:
+  - `number`: `ReactNode` — The chapter number, shown big.
+  - `title`: `ReactNode` — The heading.
+  - `label`: `ReactNode` (default `"Chapter"`) — Small lettering above the number.
+  - `subtitle`: `ReactNode` — A line under the rule.
+  - `vertical`: `ReactNode` — A short column of vertical text at the end side.
+  - `verticalLang`: `string` (default `"ja"`) — Language of the vertical text.
+  - `as`: `"h1" | "h2" | "h3"` (default `"h2"`) — Heading level.
+  - `titleId`: `string` — id of the heading.
+  - `variant`: `"paper" | "ink"` (default `"paper"`) — Paper page or ink page.
+  - `animated`: `boolean` (default `false`) — Number pops, rule grows when it appears.
+
+```tsx
+import { ChapterTitle } from "@/components/manga/chapter-title"
+
+<section aria-labelledby="ch3">
+  <ChapterTitle titleId="ch3" number="03" title="The first panel" vertical="第三話" />
+  …
+</section>
+```
+
+### Magazine Cover (`magazine-cover`)
+
+A manga magazine cover in a 3:4 case: the masthead in the SFX face across a band of ink at the top with an optional tagline, the issue and date in a box at its end, cover lines on paper plates down both sides of the art (one may be an accent flat for the big news) and a headline plate at the foot. Every word rests on a flat, never on the art. The lettering scales with the cover (container units), from a thumbnail to full width on a phone. Static, a link (href) or a button (onSelect) with the hover lift, ink focus ring and pressed offset.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/magazine-cover`
+- Categories: manga
+- Props:
+  - `title`: `ReactNode` — The masthead.
+  - `issue`: `ReactNode` — Issue number, in the box at the band's end.
+  - `date`: `ReactNode` — Date or season under the issue.
+  - `tagline`: `ReactNode` — A short line under the masthead.
+  - `image`: `string | ReactNode` — Image URL or any node, filling the cover. Without it, a screentone.
+  - `imageAlt`: `string` (default `""`) — Alternative text of an image URL.
+  - `lines`: `{ text; side?: "start" | "end"; highlight? }[]` — Cover lines on plates around the art. highlight: an accent flat.
+  - `headline`: `ReactNode` — The main cover line, on a plate at the foot.
+  - `href`: `string` — Makes the cover a link.
+  - `onSelect`: `() => void` — Makes the cover a button.
+
+```tsx
+import { MagazineCover } from "@/components/manga/magazine-cover"
+
+<MagazineCover
+  title="Weekly Ink"
+  issue="No. 12"
+  date="Spring"
+  image="/covers/12.jpg"
+  imageAlt="A rookie in front of a huge sun"
+  lines={[{ text: "New series!", highlight: true }, { text: "Bonus poster", side: "end" }]}
+  headline="The rookie's first page"
+/>
+```
+
+### Scene Transition (`scene-transition`)
+
+A wipe that sweeps the screen (or a container) between two sections or pages, in steps: four frames to cover, a hold, four frames to uncover, at 12 fps, swapping the scene while the screen is covered. Across in the reading order (right to left with data-reading="rtl" or dir="rtl") or downward. Variants: ink (an ink flat), tone (a 50% screentone on paper edged with ink lines), panels (four ink panels with paper gutters dropped one per frame). An optional caption pops in the middle during the hold, on a paper narration box. As a hook (useSceneTransition: play(swap) returns a promise) or a component (playing, onCovered, onDone). The overlay is aria-hidden and catches clicks while it plays; with reduced motion the scene is swapped at once.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/scene-transition`
+- Categories: manga
+- Props:
+  - `variant`: `"ink" | "tone" | "panels"` (default `"ink"`) — Ink flat, 50% screentone, or four ink panels.
+  - `direction`: `"reading" | "down"` (default `"reading"`) — Across in the reading order, or from top to bottom.
+  - `scope`: `"screen" | "container"` (default `"screen"`) — Fixed over the viewport, or over the nearest positioned ancestor.
+  - `hold`: `number` (default `2`) — Frames the screen stays covered.
+  - `caption`: `ReactNode` — Narration box shown in the middle while covered.
+  - `playing`: `boolean` — Component only: plays each time it turns true.
+  - `onCovered / onDone`: `() => void` — Component only: swap the scene / the scene is uncovered.
+  - `frame`: `number` — Component only: freezes one frame, for previews.
+
+```tsx
+import { useSceneTransition } from "@/components/manga/scene-transition"
+
+const { play, transition } = useSceneTransition({ variant: "panels", caption: "Meanwhile…" })
+
+<button onClick={() => play(() => setPage(2))}>Next page</button>
+{transition}
+```
+
+### Ruby (`ruby`)
+
+Furigana: small readings over (or under, or beside in vertical text) the characters they read, in native <ruby> / <rt> markup with <rp> fallbacks so the text copies, wraps and reads aloud. One reading over a whole word (base + reading) or one per character (parts). reveal="hover" hides the readings for learners until the word is hovered or focused, keeping their room so nothing reflows; the word is then focusable with a dotted underline that thickens on hover and the ink focus ring. CSS only, no JavaScript.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/ruby`
+- Categories: manga
+- Props:
+  - `base`: `ReactNode` — The characters (group ruby).
+  - `reading`: `ReactNode` — The reading over the whole base.
+  - `parts`: `[base, reading?][]` — One reading per character or group (mono ruby). Takes over base and reading.
+  - `position`: `"over" | "under"` (default `"over"`) — Side of the reading. In vertical text, over is on the right.
+  - `reveal`: `"always" | "hover" | "never"` (default `"always"`) — hover: readings show on hover or focus (room kept). never: hidden but still read aloud.
+  - `lang`: `string` (default `"ja"`) — Language of the text.
+
+```tsx
+import { Ruby } from "@/components/manga/ruby"
+
+<p lang="ja">
+  <Ruby parts={[["漢", "かん"], ["字", "じ"]]} />を<Ruby base="読" reading="よ" />む
+</p>
+```
+
+### Vertical Text (`vertical-text`)
+
+Vertical writing (tategaki) with CSS writing modes: characters run top to bottom and columns right to left, whatever the page's reading order or writing direction, and the text stays real text. A column height wraps it into new columns; the reading, lettering or SFX face; Latin letters lying on their side or upright; an optional fine rule between columns like a manuscript sheet. Tcy sets a short number upright in one cell (tate-chu-yoko).
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/vertical-text`
+- Categories: manga
+- Props:
+  - `as`: `"div" | "p" | "span" | "h1" | "h2" | "h3" | "h4"` (default `"div"`) — Rendered element.
+  - `height`: `string` — Column height (any CSS length). Text wraps into a new column on the left.
+  - `font`: `"reading" | "letter" | "sfx"` (default `"reading"`) — Reading face, lettering face or the SFX face.
+  - `upright`: `boolean` (default `false`) — Latin letters stand upright instead of lying on their side.
+  - `ruled`: `boolean` (default `false`) — A fine ink rule between columns.
+  - `lang`: `string` (default `"ja"`) — Language of the text.
+
+```tsx
+import { Tcy, VerticalText } from "@/components/manga/vertical-text"
+
+<VerticalText height="12rem">
+  雨の夜、<Tcy>12</Tcy>時。
+</VerticalText>
+```
+
+### Bilingual Bubble (`bilingual-bubble`)
+
+A SpeechBubble (wrapped, not changed) that switches between the original line and its translation. Both texts share one grid cell, so the bubble keeps the size of the longer one and never jumps; the hidden one is invisible and aria-hidden, each carries its own lang. A two-cell switch sits on top of the bubble (pressed buttons: the current language an ink flat that sweeps in, cells thicken on hover, a click hits, focus stays inside the cell, 44px on phones); the line that comes in pops in steps. Controlled or not; every SpeechBubble variant and tail.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/bilingual-bubble`
+- Categories: manga
+- Props:
+  - `original`: `ReactNode` — The line as first written.
+  - `translation`: `ReactNode` — The same line, translated.
+  - `originalLang / translationLang`: `string` (default `"ja" / "en"`) — Language of each text.
+  - `originalLabel / translationLabel`: `string` (default `"JA" / "EN"`) — Labels on the switch.
+  - `showing`: `"original" | "translation"` — Shown text (controlled).
+  - `defaultShowing`: `"original" | "translation"` (default `"original"`) — Shown text at first.
+  - `onShowingChange`: `(showing) => void` — Called when the switch changes.
+  - `switchAlign`: `"start" | "end"` (default `"end"`) — Where the switch sits above the bubble.
+  - `switchLabel`: `string` (default `"Language"`) — Spoken name of the switch.
+
+```tsx
+import { BilingualBubble } from "@/components/manga/bilingual-bubble"
+
+<BilingualBubble original="おはよう！" translation="Good morning!" tail="bottom" />
+```
+
 ### Dashboard (`dashboard`)
 
 A full dashboard made only with mangacn: a collapsible Sidebar (a sheet on phones), four Stat key figures, a bar chart and a line chart in screentone patterns (Chart), a Data Table of chapters with Badge statuses, a period switch (Button Group of pressed buttons) and a Command palette opened with Ctrl/⌘ K. Works in light, dark, any accent and at phone width.
@@ -2396,4 +2602,19 @@ The password-recovery screen of the mangacn auth flow, made only with the kit. A
 import { ForgotPassword } from "@/components/manga/blocks/forgot-password"
 
 <ForgotPassword className="min-h-svh" onNavigate={(screen) => router.push(`/${screen}`)} />
+```
+
+### Story landing (`story-landing`)
+
+A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around drawn art) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip that explains the product in four beats (a column on phones, four in a row from 40rem), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a "Meanwhile…" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/story-landing`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Size and placement of the whole interface.
+
+```tsx
+import { StoryLanding } from "@/components/manga/blocks/story-landing"
+
+<StoryLanding />
 ```

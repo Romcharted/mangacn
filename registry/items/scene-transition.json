@@ -1,0 +1,74 @@
+{
+  "name": "scene-transition",
+  "type": "registry:component",
+  "title": "Scene Transition",
+  "description": "A wipe that sweeps the screen (or a container) between two sections or pages, in steps: four frames to cover, a hold, four frames to uncover, at 12 fps, swapping the scene while the screen is covered. Across in the reading order (right to left with data-reading=\"rtl\" or dir=\"rtl\") or downward. Variants: ink (an ink flat), tone (a 50% screentone on paper edged with ink lines), panels (four ink panels with paper gutters dropped one per frame). An optional caption pops in the middle during the hold, on a paper narration box. As a hook (useSceneTransition: play(swap) returns a promise) or a component (playing, onCovered, onDone). The overlay is aria-hidden and catches clicks while it plays; with reduced motion the scene is swapped at once.",
+  "categories": [
+    "manga"
+  ],
+  "registryDependencies": [
+    "Romcharted/mangacn/gestures",
+    "Romcharted/mangacn/base"
+  ],
+  "dependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "registry/manga/signature/scene-transition.tsx",
+      "type": "registry:component",
+      "target": "@components/manga/scene-transition.tsx"
+    }
+  ],
+  "docs": "Import from \"@/components/manga/scene-transition\". With scope=\"container\", render the transition inside a positioned element (relative, overflow hidden). Move focus to the new scene yourself once the promise resolves (or in onDone).",
+  "meta": {
+    "tagline": "A stepped wipe between two scenes.",
+    "usage": "import { useSceneTransition } from \"@/components/manga/scene-transition\"\n\nconst { play, transition } = useSceneTransition({ variant: \"panels\", caption: \"Meanwhile…\" })\n\n<button onClick={() => play(() => setPage(2))}>Next page</button>\n{transition}",
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"ink\" | \"tone\" | \"panels\"",
+        "default": "\"ink\"",
+        "description": "Ink flat, 50% screentone, or four ink panels."
+      },
+      {
+        "name": "direction",
+        "type": "\"reading\" | \"down\"",
+        "default": "\"reading\"",
+        "description": "Across in the reading order, or from top to bottom."
+      },
+      {
+        "name": "scope",
+        "type": "\"screen\" | \"container\"",
+        "default": "\"screen\"",
+        "description": "Fixed over the viewport, or over the nearest positioned ancestor."
+      },
+      {
+        "name": "hold",
+        "type": "number",
+        "default": "2",
+        "description": "Frames the screen stays covered."
+      },
+      {
+        "name": "caption",
+        "type": "ReactNode",
+        "description": "Narration box shown in the middle while covered."
+      },
+      {
+        "name": "playing",
+        "type": "boolean",
+        "description": "Component only: plays each time it turns true."
+      },
+      {
+        "name": "onCovered / onDone",
+        "type": "() => void",
+        "description": "Component only: swap the scene / the scene is uncovered."
+      },
+      {
+        "name": "frame",
+        "type": "number",
+        "description": "Component only: freezes one frame, for previews."
+      }
+    ]
+  }
+}

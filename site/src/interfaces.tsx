@@ -44,6 +44,7 @@ const CATALOG: { slug: string; title: string; summary: string; screens?: string[
   { slug: "tasks", title: "Tasks", summary: "A task board: stamps for statuses, filters and actions on a selection." },
   { slug: "ai-chat", title: "AI chat", summary: "Thinking in a thought bubble, errors shouted, answers typed as they come." },
   { slug: "landing-page", title: "Landing page", summary: "An opening page, features in panels, pricing as a versus, reviews in bubbles." },
+  { slug: "story-landing", title: "Story landing", summary: "A product page told as a manga: a magazine cover, a four-panel strip, a guide who talks, chapters." },
   {
     slug: "auth",
     title: "Auth",

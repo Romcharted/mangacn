@@ -261,7 +261,7 @@ export function ResetPassword({ className, onNavigate, email = "mika@inkwell.app
             </h1>
             {!done && (
               <p>
-                Choose a new password for <strong className="font-bold break-all">{email}</strong>.
+                Choose a new password for <strong className="font-bold wrap-anywhere">{email}</strong>.
               </p>
             )}
           </header>
