@@ -33,11 +33,11 @@ export function Examples() {
 
       <section aria-labelledby="ex-page" className="mt-10 space-y-4">
         <h2 id="ex-page" className="font-letter text-3xl uppercase">
-          A manga page
+          Three manga pages
         </h2>
         <p className="max-w-prose">
-          PanelGrid, Panel, PanelCaption and Sfx, with speech bubbles, speed lines and screentones. Switch the layout and the reading
-          order; the code follows.
+          Page, Tier, Panel, Place and PanelArt: three pages on one model. Bubbles aim their tails, sound effects and lettering
+          follow the page width, and under 480px the page folds into a strip.
         </p>
         <MangaPage />
       </section>
