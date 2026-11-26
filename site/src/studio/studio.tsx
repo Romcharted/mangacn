@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react"
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode } from "react"
 import { Button } from "@registry/manga/ui/button"
 import { Page } from "@registry/manga/signature/panel"
 import {
@@ -170,6 +170,17 @@ export function Studio() {
     }
   }
 
+  // height of the sticky toolbar (wide screens), so the settings stick right under it
+  const barRef = useRef<HTMLDivElement>(null)
+  const [barHeight, setBarHeight] = useState(0)
+  useEffect(() => {
+    const el = barRef.current
+    if (!el) return
+    const observer = new ResizeObserver(() => setBarHeight(el.offsetHeight))
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   const importRef = useRef<HTMLInputElement>(null)
   const pictureRef = useRef<HTMLInputElement>(null)
   const [paste, setPaste] = useState("")
@@ -191,7 +202,11 @@ export function Studio() {
         </p>
       </header>
 
-      <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-4 border-ink p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      {/* Wide screens: the toolbar (templates, undo / redo) stays under the site header while the page scrolls. */}
+      <div
+        ref={barRef}
+        className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-4 border-ink bg-background p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:sticky lg:top-14 lg:z-20 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]"
+      >
         <label className="grid gap-1">
           <span className="font-mono text-xs">template (keeps your pictures and bubbles, in order)</span>
           <span className="relative grid">
@@ -241,9 +256,19 @@ export function Studio() {
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <section aria-label="Page" className="grid content-start justify-items-center border-ink-fine p-3 sm:p-6">
-          <div className={shown.spread ? "w-full" : "w-full max-w-2xl"}>
+      <div
+        className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_22rem]"
+        style={{ "--studio-bar": `${barHeight}px`, "--page-ratio": geometry.width / geometry.height } as CSSProperties}
+      >
+        {/*
+         * Phones and tablets: the page sticks under the site header, at a reduced size, so the effect of a
+         * slider shows while it moves. Wide screens: the page scrolls, the settings stick beside it.
+         */}
+        <section
+          aria-label="Page"
+          className="grid content-start justify-items-center border-ink-fine bg-background p-3 max-lg:sticky max-lg:top-14 max-lg:z-20 max-lg:self-start sm:p-6"
+        >
+          <div className={`${shown.spread ? "w-full" : "w-full max-w-2xl"} max-lg:w-[min(100%,calc(38dvh*var(--page-ratio)))]`}>
             <Canvas
               page={shown}
               geometry={geometry}
@@ -263,18 +288,21 @@ export function Studio() {
               onDrop={(files, path) => pickPicture(files, path)}
             />
           </div>
-          <p className="mt-3 max-w-prose text-sm">
-            Click a panel to select it, drag a circle on a cut to move it, its square to slant it. Drag a bubble to move it, the red ring
-            to aim its tail, double-click it to write. Drop a picture on a panel.
-          </p>
           {msg && (
             <p role="status" className="mt-2 font-mono text-xs">
               {msg}
             </p>
           )}
         </section>
+        <p className="max-w-prose justify-self-center text-sm lg:col-start-1 lg:row-start-2">
+          Click a panel to select it, drag a circle on a cut to move it, its square to slant it. Drag a bubble to move it, the red ring
+          to aim its tail, double-click it to write. Drop a picture on a panel.
+        </p>
 
-        <aside aria-label="Selection" className="grid content-start gap-4">
+        <aside
+          aria-label="Selection"
+          className="grid content-start gap-4 lg:sticky lg:top-[calc(3.5rem+var(--studio-bar)+1rem)] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:max-h-[calc(100dvh-3.5rem-var(--studio-bar)-2rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pe-1"
+        >
           {panel && sel ? (
             <fieldset className="grid gap-3 border-ink p-3">
               <legend className="px-1 font-letter text-sm uppercase">Panel {geometry.panels.findIndex((g) => samePath(g.path, sel)) + 1}</legend>
@@ -568,13 +596,14 @@ function Canvas({ page, base, geometry, sel, item, editing, onSelect, onEdit, on
       : Math.max(...ps.map((p) => p.box.y + p.box.h)) - Math.min(...ps.map((p) => p.box.y))
   }
 
-  const begin = (e: ReactPointerEvent, d: Drag) => {
+  // target: where to capture the pointer, when the handle itself goes away on the next render (a grip of another panel)
+  const begin = (e: ReactPointerEvent, d: Drag, target?: Element | null) => {
     e.stopPropagation()
     e.preventDefault()
     drag.current = d
     // capture on the handle (a double-click still reaches it); the moves bubble up to the svg
     try {
-      ;(e.currentTarget as Element).setPointerCapture(e.pointerId)
+      ;(target ?? (e.currentTarget as Element)).setPointerCapture(e.pointerId)
     } catch {
       try {
         svg.current?.setPointerCapture(e.pointerId)
@@ -728,6 +757,35 @@ function Canvas({ page, base, geometry, sel, item, editing, onSelect, onEdit, on
             </g>
           )
         })}
+        {/*
+         * lettering of the other panels: invisible grips, so a bubble moves from the first gesture (it selects
+         * its panel and starts the drag at once). Pointer only: the keyboard reaches them through their panel.
+         */}
+        {geometry.panels.map((g) =>
+          samePath(g.path, sel)
+            ? null
+            : (getPanel(page, g.path)?.items ?? []).map((_, i) => {
+                const b = rects[g.path.join(".")]?.[i]
+                if (!b) return null
+                return (
+                  <rect
+                    key={`${g.index}-${i}`}
+                    data-grip="item"
+                    x={b.x}
+                    y={b.y}
+                    width={b.w}
+                    height={b.h}
+                    fill="transparent"
+                    className="cursor-move"
+                    aria-hidden
+                    onPointerDown={(e) => {
+                      onSelect(g.path, i)
+                      begin(e, { kind: "item", panel: g.path, item: i, x0: toUnits(e).x, y0: toUnits(e).y, start: base, box: g.box, moved: false }, svg.current)
+                    }}
+                  />
+                )
+              }),
+        )}
         {/* lettering of the selected panel: drag the box, aim the tail */}
         {selected &&
           items.map((it, i) => {
