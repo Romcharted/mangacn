@@ -67,6 +67,9 @@ export default defineConfig({
     },
   },
   server: { fs: { allow: [r(".")] } },
+  // Prebundled at start: discovered late, after a long session, react-dom was left unoptimized and the dev
+  // server answered 504 (Outdated Optimize Dep), so Author site and PageReader no longer opened.
+  optimizeDeps: { include: ["react", "react-dom", "react-dom/client", "react/jsx-runtime", "react/jsx-dev-runtime"] },
   build: {
     outDir: "dist",
     emptyOutDir: true,
