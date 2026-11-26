@@ -291,6 +291,13 @@
               "animation": "none !important",
               "transition": "none !important"
             }
+          },
+          "@media (pointer: coarse)": {
+            ".touch-hit:not(:active, [data-fx])::after": {
+              "content": "\"\" !important",
+              "position": "absolute !important",
+              "inset": "min(0px, calc(50% - 22px)) !important"
+            }
           }
         },
         "@utility tone-10": {
@@ -847,15 +854,6 @@
           },
           "100%": {
             "scale": "1 1"
-          }
-        },
-        "@utility touch-hit": {
-          "@media (pointer: coarse)": {
-            "&:not(:active, [data-fx])::after": {
-              "content": "\"\" !important",
-              "position": "absolute !important",
-              "inset": "min(0px, calc(50% - 22px)) !important"
-            }
           }
         },
         "@utility hover-lift": {
