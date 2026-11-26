@@ -923,6 +923,7 @@ Plain styled elements for manga text, with no state and no gesture of their own.
 - Categories: foundations
 - Props:
   - `sfx`: `boolean` — On TypographyH1 and TypographyH2: use the SFX face instead of the lettering face.
+  - `as`: `"h1" | "h2" | "p"` (default `"h1"`) — On TypographyH1: the element, for the H1 look on another level (a block title inside a page that has its h1, a specimen).
   - `TypographyTable`: `table props` — Native thead / tbody / tr / th / td children, in a case with the kit Table look.
 
 ```tsx
@@ -1611,6 +1612,7 @@ Manga-styled wrapper around your shadcn Calendar (react-day-picker). No frame of
   - `captionLayout`: `"label" | "dropdown" | "dropdown-months" | "dropdown-years"` (default `"label"`) — Dropdowns draw month and year selects with a 2px line and a brush chevron (use with startMonth / endMonth).
   - `numberOfMonths`: `number` — Months side by side from 640px; they stack on phones.
   - `disabled`: `Matcher | Matcher[]` — Days that cannot be chosen: dashed line-through, not-allowed cursor.
+  - `locale`: `Partial<DayPickerLocale>` (default `enUS`) — Month names, weekdays and the month dropdown. English by default, whatever the browser language.
   - `CalendarDayButton`: `component` — The styled day cell, for custom components={{ DayButton }}.
 
 ```tsx
@@ -1635,7 +1637,8 @@ mangacn's own Date Picker (shadcn documents it as a recipe, not an item): DatePi
   - `placeholder`: `string` (default `"Pick a date" · "Pick dates"`) — Shown in the same ink, italic, while nothing is chosen.
   - `disabled`: `boolean` — Dashed line and tone frame; the calendar cannot open.
   - `formatString`: `string` (default `"LLL d, y"`) — date-fns format of each date in the trigger.
-  - `calendarProps`: `Partial<PropsBase>` — Extra Calendar props: captionLayout, startMonth, endMonth, disabled days, locale…
+  - `locale`: `Locale` (default `enUS`) — date-fns locale of the trigger and the calendar. English by default, whatever the browser language.
+  - `calendarProps`: `Partial<PropsBase>` — Extra Calendar props: captionLayout, startMonth, endMonth, disabled days…
   - `aria-invalid`: `boolean` — The error look: accent line and a "!" mark.
   - `datePickerTriggerClassName`: `(className?) => string` — The trigger look, for a static twin or a trigger of your own.
 
@@ -1928,7 +1931,7 @@ A manga read page by page from a list of images ({ src, alt, width, height }). O
   - `coverAlone`: `boolean` (default `true`) — In spreads, the first page stands alone.
   - `direction`: `"rtl" | "ltr"` (default `"rtl"`) — Manga order (next page on the left) or western order.
   - `fit`: `"contain" | "width" | "height"` (default `"contain"`) — Whole page in view, fill the width (scrolls down) or fill the height.
-  - `background`: `"paper" | "ink" | "tone"` (default `"paper"`) — What shows around the pages.
+  - `background`: `"paper" | "ink" | "tone"` (default `"paper"`) — What shows around the pages. "ink" stays black in both themes.
   - `preload`: `number` (default `2`) — Pages fetched ahead of and behind the view.
   - `end`: `ReactNode` — One more view after the last page, e.g. a ChapterEnd.
   - `onEnd`: `() => void` — Called on reaching the end view, or on asking past the last page when there is none.
@@ -2489,6 +2492,7 @@ A full dashboard made only with mangacn: a collapsible Sidebar (a sheet on phone
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { Dashboard } from "@/components/manga/blocks/dashboard"
@@ -2504,6 +2508,7 @@ A production task board made only with mangacn: a Data Table whose statuses are 
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { Tasks } from "@/components/manga/blocks/tasks"
@@ -2519,6 +2524,7 @@ A product landing page made only with mangacn, for an invented manga publishing 
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { LandingPage } from "@/components/manga/blocks/landing-page"
@@ -2549,6 +2555,7 @@ A webtoon-style chapter reader made only with mangacn: a top bar with the series
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole reader.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { MangaReader } from "@/components/manga/blocks/manga-reader"
@@ -2579,6 +2586,7 @@ A developer's portfolio made only with mangacn: a top bar whose section buttons 
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { Portfolio } from "@/components/manga/blocks/portfolio"
@@ -2594,6 +2602,7 @@ A library catalog made only with mangacn: a search field (Input Group with a sea
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { Catalog } from "@/components/manga/blocks/catalog"
@@ -2611,6 +2620,7 @@ The sign-in screen of the mangacn auth flow, made only with the kit. A manga Pan
   - `className`: `string` — Size and placement of the whole interface.
   - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` (default `undefined`) — Called by 'Forgot password?', 'Create an account' and 'Enter your code'. Without it these do nothing.
   - `providers`: `{ id: string; label: string; logo?: React.ReactNode }[]` (default `[{ id: "google", label: "Continue with Google" }, { id: "apple", label: "Continue with Apple" }]`) — Third-party sign-in buttons. The block ships no logo; an empty list hides the divider and the buttons.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { SignIn } from "@/components/manga/blocks/sign-in"
@@ -2634,6 +2644,7 @@ The one-time code screen of a manga auth flow, made only with mangacn. A manga P
   - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` — Called by 'Use another email' (back to sign-in, sign-up or forgot-password) and, for reset, by 'Choose a new password'. Without it they do nothing.
   - `onContinue`: `() => void` — Called by the button shown once a sign-in or sign-up code is accepted.
   - `className`: `string` — Size and placement of the whole interface.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { VerifyCode } from "@/components/manga/blocks/verify-code"
@@ -2651,6 +2662,7 @@ The last screen of a manga 'forgot password' flow, made only with mangacn. A man
   - `email`: `string` (default `"mika@inkwell.app"`) — The account whose password changes.
   - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` — Called by 'Back to sign in' after the password is saved. Without it the button does nothing.
   - `className`: `string` — Size and placement of the whole interface.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { ResetPassword } from "@/components/manga/blocks/reset-password"
@@ -2668,6 +2680,7 @@ The sign-up screen of the mangacn auth flow, made only with the kit. A manga Pan
   - `className`: `string` — Size and placement of the whole interface.
   - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` (default `undefined`) — Called by 'Sign in' and 'Enter the code'. Without it these do nothing.
   - `providers`: `{ id: string; label: string; logo?: React.ReactNode }[]` (default `[{ id: "google", label: "Continue with Google" }, { id: "apple", label: "Continue with Apple" }]`) — Third-party sign-up buttons. The block ships no logo; an empty list hides the divider and the buttons.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { SignUp } from "@/components/manga/blocks/sign-up"
@@ -2688,6 +2701,7 @@ The password-recovery screen of the mangacn auth flow, made only with the kit. A
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
   - `onNavigate`: `(screen: "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password") => void` (default `undefined`) — Called by 'Back to sign in' and 'Enter the code'. Without it these do nothing.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { ForgotPassword } from "@/components/manga/blocks/forgot-password"
@@ -2703,6 +2717,7 @@ A product landing page told as a short manga, made only with mangacn, for an inv
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
+  - `titleAs`: `"h1" | "h2"` (default `"h1"`) — The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1.
 
 ```tsx
 import { StoryLanding } from "@/components/manga/blocks/story-landing"
