@@ -1,8 +1,15 @@
-ÉTAPE 3 TERMINÉE
+TOUT TERMINÉ
 
 # Compte rendu du chat principal
 
-Les étapes 1 à 3 sont finies et fusionnées dans `main`. Il me reste à récupérer le travail de la nuit (chats « Page », « Lecture », « Narration ») et à mettre à jour la liste des composants du README avant d'écrire `TOUT TERMINÉ`.
+Les étapes 1 à 3 sont finies et fusionnées dans `main`.
+
+Les chats « Page », « Lecture » et « Narration » ont fini eux aussi : leurs comptes rendus commencent par `TOUT TERMINÉ`. L'assemblage final et les points à trancher sont dans `REPORT-final.md`.
+
+Après leur dernier push (`e673fb5`), j'ai récupéré `main` :
+- `npm ci`, le build complet et `npm run check` passent ; les 128 items sont complets.
+- La liste du README compte bien les 128 items.
+- J'ai refait la capture d'accueil du README, car les onglets d'exemples de l'accueil ont changé.
 
 La branche `theme/webtoon` est supprimée, en local et sur GitHub.
 
