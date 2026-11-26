@@ -56,9 +56,9 @@ export const NEMO: PageData = {
           label: "Panel 3",
           art: { src: img("3"), alt: "Nemo bends down to say goodbye to the jester; the little men wave." },
           items: [
-            { type: "bubble", x: 86, y: 30, maxWidth: 36, text: "Well, good-bye! You have done splendidly. Good bye! To you all!", pointAt: { x: 66, y: 12 } },
-            { type: "bubble", x: 87, y: 58, maxWidth: 31, text: "Success to you! Best wishes, Nemo!", pointAt: { x: 88, y: 80 } },
-            { type: "bubble", x: 64, y: 66, maxWidth: 26, text: "Ta ta! Nemo! Ta-ta!", pointAt: { x: 72, y: 84 } },
+            { type: "bubble", x: 100, y: 21, anchor: "top-right", maxWidth: 56, text: "Well, good-bye! You have done splendidly. Good bye! To you all!", pointAt: { x: 66, y: 12 } },
+            { type: "bubble", x: 100, y: 47, anchor: "top-right", maxWidth: 48, text: "Success to you! Best wishes, Nemo!", pointAt: { x: 88, y: 80 } },
+            { type: "bubble", x: 3, y: 70, anchor: "top-left", maxWidth: 36, text: "Ta ta! Nemo! Ta-ta!", pointAt: { x: 72, y: 84 } },
           ],
         },
       ],
