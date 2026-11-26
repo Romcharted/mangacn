@@ -7,6 +7,7 @@
     "registry/items/font-body.json",
     "registry/items/font-lettering.json",
     "registry/items/font-sfx.json",
+    "registry/items/font-japanese.json",
     "registry/items/gestures.json",
     "registry/items/button.json",
     "registry/items/input.json",

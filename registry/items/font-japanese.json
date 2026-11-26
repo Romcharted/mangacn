@@ -1,0 +1,26 @@
+{
+  "name": "font-japanese",
+  "type": "registry:font",
+  "title": "Font: Zen Kaku Gothic New",
+  "description": "Japanese reading face (kana and kanji, SIL OFL) for furigana, vertical text and original-language bubbles. Sets --font-manga-jp, which base adds as the Japanese fallback of every text face. Optional: not installed by base; without it the system's Japanese font is used.",
+  "categories": [
+    "foundations"
+  ],
+  "font": {
+    "family": "'Zen Kaku Gothic New', sans-serif",
+    "provider": "google",
+    "import": "Zen_Kaku_Gothic_New",
+    "variable": "--font-manga-jp",
+    "weight": [
+      "400",
+      "700"
+    ],
+    "subsets": [
+      "latin"
+    ],
+    "dependency": "@fontsource/zen-kaku-gothic-new"
+  },
+  "meta": {
+    "tagline": "A Japanese reading face for furigana and vertical text."
+  }
+}

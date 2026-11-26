@@ -1,6 +1,7 @@
 @import "@fontsource-variable/atkinson-hyperlegible-next";
 @import "@fontsource/patrick-hand-sc";
 @import "@fontsource/dela-gothic-one";
+@import "@fontsource/zen-kaku-gothic-new/400.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -16,4 +17,5 @@
   --font-manga-body: "Atkinson Hyperlegible Next Variable", ui-sans-serif, system-ui, sans-serif;
   --font-manga-letter: "Patrick Hand SC", "Comic Sans MS", cursive;
   --font-manga-sfx: "Dela Gothic One", Impact, sans-serif;
+  --font-manga-jp: "Zen Kaku Gothic New", sans-serif;
 }

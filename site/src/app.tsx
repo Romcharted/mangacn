@@ -120,7 +120,13 @@ export function App() {
 
 /* ---------- Gallery ---------- */
 
-const FONT_SAMPLE: Record<string, string> = { "font-body": "font-sans", "font-lettering": "font-letter", "font-sfx": "font-sfx" }
+const FONT_SAMPLE: Record<string, string> = {
+  "font-body": "font-sans",
+  "font-lettering": "font-letter",
+  "font-sfx": "font-sfx",
+  "font-japanese": "font-[family-name:var(--font-manga-jp)]",
+}
+const FONT_TEXT: Record<string, string> = { "font-japanese": "あ字" }
 
 function Gallery({ category, onCategory }: { category: string | null; onCategory: (c: string | null) => void }) {
   const narrow = useNarrow()
@@ -192,7 +198,7 @@ function Thumbnail({ item }: { item: Item }) {
   const font = FONT_SAMPLE[item.name]
   return (
     <span ref={ref} className="grid place-items-center">
-      {Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>Aa</span> : null}
+      {Thumb ? <Thumb /> : font ? <span className={`${font} text-5xl`}>{FONT_TEXT[item.name] ?? "Aa"}</span> : null}
     </span>
   )
 }
