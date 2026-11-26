@@ -9,7 +9,8 @@ import { Art } from "../mapless"
 export function NotFound() {
   return (
     <div className="mx-auto grid w-full max-w-3xl gap-6">
-      <PanelGrid cols={3} rows={2} className="aspect-[3/2] w-full">
+      {/* at most 30rem: the startled Suzu panel stays at the size of its crop (160px) */}
+      <PanelGrid cols={3} rows={2} className="mx-auto aspect-[3/2] w-full max-w-[30rem]">
         <Panel colSpan={2} rowSpan={2}>
           <SpeedLines hole={0.38} animated className="absolute inset-0 grid place-items-center">
             <Sfx size="xl" rotate={-6}>

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import { Button } from "@registry/manga/ui/button"
 import { Carousel, CarouselContent, CarouselDots, CarouselItem, CarouselNext, CarouselPrevious } from "@registry/manga/ui/carousel"
-import { artSrc, type ArtName } from "../mapless"
+import { Art as Picture, type ArtName } from "../mapless"
 import { force, Tile, Tiles } from "../state-grid"
 
 type Art = (p: { className?: string }) => ReactNode
@@ -9,21 +9,22 @@ type Art = (p: { className?: string }) => ReactNode
 /* Crops of "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md). */
 const pic =
   (name: ArtName): Art =>
-  ({ className }) => <img src={artSrc(name, 200)} alt="" draggable={false} className={(className ?? "") + " object-cover"} />
+  ({ className }) => <Picture name={name} alt="" shown="36rem" className={(className ?? "") + " object-cover"} />
 const Skyline = pic("lighthouse-night")
 const Rain = pic("bridge-far")
 const Harbour = pic("kuro-sleeping")
 const Lantern = pic("map")
-const Eyes = pic("suzu-shock")
+const Knight = pic("eraser-full")
+const Pair = pic("suzu-full")
 const Figure = pic("suzu-profile")
 const Runner = pic("spear-clash")
 
 const chapters: { n: number; title: string; art: Art }[] = [
   { n: 12, title: "The lighthouse", art: Skyline },
   { n: 13, title: "The ink bridge", art: Rain },
-  { n: 14, title: "Kuro sleeps", art: Harbour },
+  { n: 14, title: "Suzu and Kuro", art: Pair },
   { n: 15, title: "A new map", art: Lantern },
-  { n: 16, title: "The Eraser", art: Eyes },
+  { n: 16, title: "The Eraser", art: Knight },
 ]
 
 /** One slide: art on top (a light tone around it, never under text), the caption on paper. */
@@ -226,7 +227,7 @@ export function Thumb() {
     <div className="w-48">
       <Carousel opts={{ align: "start" }}>
         <CarouselContent>
-          {[Skyline, Rain, Lantern, Eyes].map((A, i) => (
+          {[Skyline, Rain, Lantern, Knight].map((A, i) => (
             <CarouselItem key={i} className="basis-1/2">
               <div className="h-20 overflow-hidden ink-case-inner">
                 <A className="size-full" />

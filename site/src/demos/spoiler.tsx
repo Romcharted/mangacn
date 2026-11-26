@@ -5,7 +5,7 @@ import { artSrc } from "../mapless"
 
 // A panel from "Mapless", the showcase's series (AI-generated, see public/art/CREDITS.md).
 function Panel() {
-  return <img src={artSrc("spear-clash", 320)} alt="The Eraser's spear smashes the ink bridge" className="block aspect-[4/3] h-auto w-full object-cover" />
+  return <img src={artSrc("spear-clash", 320)} alt="The Eraser's spear smashes the ink bridge" className="mx-auto block aspect-[4/3] h-auto w-full max-w-[23rem] object-cover" />
 }
 
 export function Preview() {

@@ -56,7 +56,7 @@ const STORY_ART: StoryLandingArt = {
   cover: artSrc("suzu-portrait", 360),
   guide: artSrc("suzu-face", 96),
   reader: artSrc("kuro", 96),
-  beats: [panel("map"), panel("suzu-drawing"), panel("suzu-shock"), panel("suzu-face")],
+  beats: [panel("map"), panel("suzu-drawing"), panel("suzu-profile"), panel("suzu-face")],
 }
 
 const PORTFOLIO_ART: PortfolioArt = {

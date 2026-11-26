@@ -1,9 +1,10 @@
 import { AspectRatio } from "@registry/manga/ui/aspect-ratio"
-import { artSrc } from "../mapless"
+import { Art as Picture } from "../mapless"
 
 /* A picture from "Mapless" (AI-generated, see public/art/CREDITS.md), cropped to whatever ratio the box has. */
 function Art() {
-  return <img src={artSrc("suzu-full", 240)} alt="Suzu on a cliff, Kuro over her shoulders" className="size-full object-cover" />
+  // the wide bridge: enough pixels for every frame of the demo, the 16 / 9 one included
+  return <Picture name="bridge-far" shown="36rem" className="size-full object-cover" />
 }
 
 const frames = [

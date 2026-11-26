@@ -9,7 +9,7 @@ const Tower = () => <VolumeCover volume={2} />
 
 export function Preview() {
   return (
-    <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
+    <div className="grid max-w-2xl grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
       <ObiBand tone="accent" size="md" headline="Mapless" caption="Over 2 million copies in print" badge="NEW">
         <Dusk />
       </ObiBand>

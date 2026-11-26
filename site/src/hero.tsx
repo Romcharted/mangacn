@@ -46,7 +46,7 @@ export function Hero() {
         </div>
       </div>
       <div className="relative col-span-2 col-start-5 row-span-2 row-start-1 overflow-hidden border-ink-panel reading-rtl:col-start-1">
-        <Art name="kuro" shown="20vw" loading="eager" className="absolute inset-0 size-full object-cover" />
+        <Art name="kuro-sleeping" shown="(min-width: 64rem) 13rem, 34vw" loading="eager" className="absolute inset-0 size-full object-cover" />
       </div>
       <SpeedLines variant="motion" animated seed={5} className="col-span-2 col-start-5 row-span-2 row-start-3 border-ink-panel reading-rtl:col-start-1">
         <div className="grid h-full place-items-center">

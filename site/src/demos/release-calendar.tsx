@@ -2,10 +2,10 @@ import { useState } from "react"
 import { ReleaseCalendar, ReleaseRow, type Release } from "@registry/manga/signature/release-calendar"
 import { Tile, force } from "../state-grid"
 
-import { artSrc, type ArtName } from "../mapless"
+import { Art, type ArtName } from "../mapless"
 
 // Covers: crops of "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md).
-const pic = (name: ArtName) => <img src={artSrc(name, 80)} alt="" className="size-full object-cover" />
+const pic = (name: ArtName) => <Art name={name} alt="" shown="(min-width: 40rem) 24rem, 100vw" className="size-full object-cover" />
 const Sun = () => pic("lighthouse-night")
 const Bars = () => pic("bridge-far")
 
