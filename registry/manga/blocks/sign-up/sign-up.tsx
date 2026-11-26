@@ -1,8 +1,7 @@
 "use client"
 
 /*
- * Sign up — the account screen of the mangacn auth flow, made only with the kit. A manga Panel (the reader drawn
- * whole in SVG, hugging a brand-new volume, focus SpeedLines, a SpeechBubble and an Sfx "ワクワク" that react to
+ * Sign up — the account screen of the mangacn auth flow, made only with the kit. A manga Panel (the picture you pass for each state (pictures; none ships with the block), focus SpeedLines, a SpeechBubble and an Sfx "ワクワク" that react to
  * the state) sits on the start side of the form from 48rem of container width, and above it in 4:3 when narrower.
  * The form: name, email, password with a show/hide toggle and a PasswordStrength gauge, a terms Checkbox, a Create
  * account Button with its loading state, social buttons behind an "or" divider, and a link to sign in.
@@ -31,6 +30,9 @@ import { cn } from "cn"
 export type AuthScreen = "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password"
 export type AuthProvider = { id: string; label: string; logo?: React.ReactNode }
 
+/** The panel's picture for each state: waiting, after an error, after success. */
+export type AuthPictures = { idle?: string; error?: string; done?: string }
+
 export type SignUpProps = {
   className?: string
   /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
@@ -39,6 +41,8 @@ export type SignUpProps = {
   onNavigate?: (screen: AuthScreen) => void
   /** Third-party sign-up buttons. The block ships no logo: pass your own marks. */
   providers?: AuthProvider[]
+  /** Pictures for the panel, one per state (image URLs): the block ships none. Without them the panel keeps its speed lines. */
+  pictures?: AuthPictures
 }
 
 type Mood = "idle" | "error" | "done"
@@ -69,52 +73,8 @@ function validate(name: string, email: string, password: string, terms: boolean)
   return errors
 }
 
-/** The reader of the auth flow, drawn whole for this block, hugging a brand-new volume. */
-function Reader({ className }: { className?: string }) {
-  const id = `tone-${React.useId().replace(/[^\w-]/g, "")}`
-  return (
-    <svg aria-hidden viewBox="0 0 200 224" className={cn("text-foreground", className)} fill="none">
-      <defs>
-        <pattern id={id} width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="1.5" cy="1.5" r="1.2" fill="currentColor" />
-          <circle cx="4.5" cy="4.5" r="1.2" fill="currentColor" />
-        </pattern>
-      </defs>
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M52 108C44 62 70 36 102 36s58 26 48 72l-4 22H56z" fill="currentColor" />
-        <path d="M88 132v28h24v-28z" fill="var(--background)" />
-        <path d="M12 222c6-46 40-64 88-64s82 18 88 64z" fill={`url(#${id})`} />
-        <path d="M78 159l22 28 22-28z" fill="var(--background)" />
-        <ellipse cx="100" cy="100" rx="38" ry="44" fill="var(--background)" />
-        <path
-          d="M60 98C57 62 78 46 100 46s43 16 40 52l-10-16-8 12-10-16-10 16-10-16-10 16-10-16z"
-          fill="currentColor"
-        />
-        {/* raised brows, an open grin */}
-        <path d="M76 93q8-5 16 0M124 93q-8-5-16 0" />
-        <path d="M92 124q8 12 16 0z" strokeWidth="2.5" fill="currentColor" />
-        <path d="M70 121l5-5M76 122l5-5M119 122l5-5M125 121l5-5" strokeWidth="1.5" />
-      </g>
-      <ellipse cx="86" cy="108" rx="5.5" ry="9" fill="currentColor" />
-      <ellipse cx="114" cy="108" rx="5.5" ry="9" fill="currentColor" />
-      <circle cx="88" cy="104" r="2.2" fill="var(--background)" />
-      <circle cx="116" cy="104" r="2.2" fill="var(--background)" />
-      <circle cx="84" cy="112" r="1.2" fill="var(--background)" />
-      <circle cx="112" cy="112" r="1.2" fill="var(--background)" />
-      {/* a brand-new volume, hugged, a star on its cover */}
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M70 174h56v46H70z" fill="var(--background)" />
-        <path d="M126 174l6 4v42h-6" fill="var(--background)" />
-        <path d="M98 184l3.5 7.5 8 1-6 5.5 1.5 8-7-4-7 4 1.5-8-6-5.5 8-1z" strokeWidth="2" fill="currentColor" />
-        <ellipse cx="68" cy="200" rx="9" ry="7" fill="var(--background)" />
-        <ellipse cx="134" cy="204" rx="9" ry="7" fill="var(--background)" />
-      </g>
-    </svg>
-  )
-}
-
 /** The picture: 4:3 above the form, full height beside it from 48rem of container width. */
-function Scene({ mood }: { mood: Mood }) {
+function Scene({ mood, picture }: { mood: Mood; picture?: string }) {
   return (
     <aside aria-label="Inkwell" className="grid">
       <Panel className="aspect-[4/3] [@media(orientation:landscape)_and_(max-height:32rem)]:aspect-auto [@media(orientation:landscape)_and_(max-height:32rem)]:h-[80svh] w-full @3xl/main:aspect-auto @3xl/main:h-full @3xl/main:min-h-[36rem]">
@@ -128,8 +88,8 @@ function Scene({ mood }: { mood: Mood }) {
           seed={31}
           className="absolute! inset-0 hidden @3xl/main:block"
         />
+        {picture && <img src={picture} alt="" className="absolute inset-0 size-full object-cover object-[50%_22%]" />}
         <div className="absolute end-[4%] bottom-0 aspect-[200/224] h-[86%] @3xl/main:end-[6%] @3xl/main:h-[58%]">
-          <Reader className="size-full" />
           {mood === "error" ? (
             <Manpu kind="surprise" size="30%" className="absolute! -top-[6%] start-[2%]" />
           ) : (
@@ -193,7 +153,7 @@ function PasswordInput({
   )
 }
 
-export function SignUp({ className, titleAs: TitleTag = "h1", onNavigate, providers = DEFAULT_PROVIDERS }: SignUpProps) {
+export function SignUp({ className, titleAs: TitleTag = "h1", onNavigate, pictures, providers = DEFAULT_PROVIDERS }: SignUpProps) {
   const uid = React.useId()
   const rootRef = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -268,7 +228,7 @@ export function SignUp({ className, titleAs: TitleTag = "h1", onNavigate, provid
   return (
     <div ref={rootRef} data-manga="sign-up" className={cn("@container/main w-full bg-background text-foreground", className)}>
       <div className="grid gap-5 p-3 @md/main:p-6 @3xl/main:min-h-[40rem] @3xl/main:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] @3xl/main:gap-8">
-        <Scene mood={mood} />
+        <Scene mood={mood} picture={pictures?.[mood]} />
 
         <section
           aria-labelledby={`${uid}-title`}

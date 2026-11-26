@@ -1,8 +1,8 @@
 "use client"
 
 /*
- * Verify code — the one-time code screen of the auth flow, made only with mangacn. A manga Panel (the reader
- * drawn whole in SVG, holding the email that just arrived, focus SpeedLines around her, a SpeechBubble that
+ * Verify code — the one-time code screen of the auth flow, made only with mangacn. A manga Panel (the picture
+ * you pass for each state: pictures, none ships with the block), focus SpeedLines around her, a SpeechBubble that
  * reacts to each state, "ピコン" Sfx) sits on the start side when the block is 48rem wide, and above the form
  * in 4:3 on phones. The form: InputOTP (one group of 6 digits), a Button with its loading state, a resend link
  * after a 30 s countdown (only the end is announced) and "Use another email".
@@ -27,6 +27,9 @@ import { cn } from "cn"
 export type AuthScreen = "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password"
 export type VerifyPurpose = "sign-in" | "sign-up" | "reset"
 
+/** The panel's picture for each state: waiting, after an error, after success. */
+export type AuthPictures = { idle?: string; error?: string; done?: string }
+
 export type VerifyCodeProps = {
   className?: string
   /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
@@ -39,6 +42,8 @@ export type VerifyCodeProps = {
   email?: string
   /** Called by the button shown once a sign-in or sign-up code is accepted. */
   onContinue?: () => void
+  /** Pictures for the panel, one per state (image URLs): the block ships none. Without them the panel keeps its speed lines. */
+  pictures?: AuthPictures
 }
 
 type Mood = "idle" | "error" | "success"
@@ -97,72 +102,6 @@ const BUBBLE: Record<Mood, string> = {
 
 const touch = "max-sm:min-h-11"
 
-/** The reader of the auth flow, drawn whole (bust and hands' prop), holding the email that just arrived. */
-function Reader({ mood, className }: { mood: Mood; className?: string }) {
-  const id = `tone-${React.useId().replace(/[^\w-]/g, "")}`
-  return (
-    <svg aria-hidden viewBox="0 0 200 224" className={cn("text-foreground", className)} fill="none">
-      <defs>
-        <pattern id={id} width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="1.5" cy="1.5" r="1.2" fill="currentColor" />
-          <circle cx="4.5" cy="4.5" r="1.2" fill="currentColor" />
-        </pattern>
-      </defs>
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        {/* hair behind the head */}
-        <path d="M52 108C44 62 70 36 102 36s58 26 48 72l-4 22H56z" fill="currentColor" />
-        {/* neck and jacket */}
-        <path d="M88 132v28h24v-28z" fill="var(--background)" />
-        <path d="M12 222c6-46 40-64 88-64s82 18 88 64z" fill={`url(#${id})`} />
-        <path d="M78 159l22 28 22-28z" fill="var(--background)" />
-        {/* head, fringe */}
-        <ellipse cx="100" cy="100" rx="38" ry="44" fill="var(--background)" />
-        <path
-          d="M60 98C57 62 78 46 100 46s43 16 40 52l-10-16-8 12-10-16-10 16-10-16-10 16-10-16z"
-          fill="currentColor"
-        />
-        {/* brows, mouth, blush: they follow the mood */}
-        {mood === "error" ? (
-          <path d="M76 92l17-4M124 92l-17-4" />
-        ) : (
-          <path d="M76 97l17 3M124 97l-17 3" />
-        )}
-        {mood === "success" ? (
-          <path d="M91 124q9 11 18 0z" fill="var(--background)" strokeWidth="2.5" />
-        ) : mood === "error" ? (
-          <ellipse cx="100" cy="127" rx="4" ry="5" fill="var(--background)" strokeWidth="2.5" />
-        ) : (
-          <path d="M94 127q6 6 12 0" strokeWidth="2.5" />
-        )}
-        <path d="M70 121l5-5M76 122l5-5M119 122l5-5M125 121l5-5" strokeWidth="1.5" />
-        {mood === "error" && <path d="M146 74q7 9 0 14q-7-5 0-14z" fill="var(--background)" strokeWidth="2" />}
-        {mood === "success" && <path d="M79 111q7-9 14 0M107 111q7-9 14 0" />}
-      </g>
-      {mood === "idle" && (
-        <>
-          <ellipse cx="86" cy="109" rx="5" ry="8" fill="currentColor" />
-          <ellipse cx="114" cy="109" rx="5" ry="8" fill="currentColor" />
-          <circle cx="88" cy="105" r="1.8" fill="var(--background)" />
-          <circle cx="116" cy="105" r="1.8" fill="var(--background)" />
-        </>
-      )}
-      {mood === "error" && (
-        <>
-          <circle cx="86" cy="109" r="3.5" fill="currentColor" />
-          <circle cx="114" cy="109" r="3.5" fill="currentColor" />
-        </>
-      )}
-      {/* the email that just arrived, held up with both hands */}
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M54 182h92v40H54z" fill="var(--background)" />
-        <path d="M54 182l46 24 46-24" />
-        <path d="M44 196q10-6 14 4v14q-8 6-14-2z M156 196q-10-6-14 4v14q8 6 14-2z" fill="var(--background)" />
-        <path d="M150 170l8-8M156 176l10-2M144 166l2-10" strokeWidth="2.5" />
-      </g>
-    </svg>
-  )
-}
-
 /** G8: an accent box with a jagged edge, a "!" mark and a shake, announced as an alert. */
 function ErrorBox({ children }: { children: React.ReactNode }) {
   return (
@@ -180,6 +119,7 @@ export function VerifyCode({
   className,
   titleAs: TitleTag = "h1",
   onNavigate,
+  pictures,
   purpose = "sign-in",
   email = "mika@inkwell.app",
   onContinue,
@@ -279,10 +219,7 @@ export function VerifyCode({
               seed={31}
               className="absolute! inset-0 hidden @3xl/main:block"
             />
-            <Reader
-              mood={mood}
-              className="absolute end-[4%] bottom-0 h-[84%] @3xl/main:end-[6%] @3xl/main:h-[62%]"
-            />
+            {pictures?.[mood === "success" ? "done" : mood] && <img src={pictures[mood === "success" ? "done" : mood]} alt="" className="absolute inset-0 size-full object-cover object-[50%_22%]" />}
             <SpeechBubble
               key={mood}
               variant={mood === "error" ? "shout" : "speech"}

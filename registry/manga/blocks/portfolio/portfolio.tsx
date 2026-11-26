@@ -2,7 +2,7 @@
 
 /*
  * Portfolio — a developer's portfolio made only with mangacn: an opening spread of Panels (focus SpeedLines,
- * a TonedImage portrait, a SpeechBubble, Sfx), projects as a manga page of Cards (drawn thumbnails, Badge tags,
+ * a TonedImage portrait, a SpeechBubble, Sfx), projects as a manga page of Cards (thumbnails passed in `art`, Badge tags,
  * a CodeBlock), skills as a CharacterCard, experience as a vertical Stepper, and a contact form (Field, Input,
  * Textarea, Button) that validates and shows a brush check when sent. No network: nothing is posted and links
  * do not navigate. One column on phones; container queries (`@container/main`) widen it.
@@ -26,10 +26,14 @@ import { Stepper } from "@/components/manga/stepper"
 import { TonedImage } from "@/components/manga/toned-image"
 import { cn } from "cn"
 
-/** The developer, drawn in greys as a data URL: TonedImage turns it into a screentone (and its negative in dark mode). */
-const PORTRAIT = `data:image/svg+xml,${encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><defs><radialGradient id="g" cx=".3" cy=".25" r=".9"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#7d7d7d"/></radialGradient></defs><rect width="300" height="300" fill="url(#g)"/><path d="M36 300 C44 214 256 214 264 300Z" fill="#262626"/><path d="M118 232 L150 268 L182 232Z" fill="#a3a3a3"/><rect x="134" y="178" width="32" height="44" fill="#b3b3b3"/><ellipse cx="150" cy="138" rx="50" ry="58" fill="#cfcfcf"/><path d="M94 142 C84 64 216 64 206 142 C198 106 172 94 150 104 C126 92 102 108 94 142Z" fill="#111"/><path d="M150 102 L128 128 L146 118Z" fill="#111"/><rect x="110" y="130" width="32" height="24" fill="none" stroke="#111" stroke-width="5"/><rect x="158" y="130" width="32" height="24" fill="none" stroke="#111" stroke-width="5"/><path d="M142 140 H158" stroke="#111" stroke-width="4"/><path d="M136 178 Q150 188 164 178" fill="none" stroke="#333" stroke-width="4"/><path d="M100 218 C108 256 192 256 200 218" fill="none" stroke="#111" stroke-width="10"/><rect x="88" y="204" width="24" height="32" fill="#111"/><rect x="188" y="204" width="24" height="32" fill="#111"/></svg>`,
-)}`
+/** Pictures: passed in `art`, none ships with the block. */
+export type PortfolioArt = {
+  /** The developer's portrait. A photo is toned as a screentone; set `inked` for a picture that is already inked. */
+  portrait?: string
+  inked?: boolean
+  /** One thumbnail per project, by project id. Without one, a screentone box. */
+  projects?: Partial<Record<string, string>>
+}
 
 type Project = {
   id: string
@@ -41,108 +45,6 @@ type Project = {
   wide?: boolean
   fresh?: boolean
   install?: string
-  Art: (props: { className?: string }) => React.ReactElement
-}
-
-/* ---------- Thumbnails, drawn with the kit's ink and paper (they follow dark mode and the accent) ---------- */
-
-function useTone() {
-  const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, "")
-  const defs = (
-    <defs>
-      <pattern id={`${id}-dots`} width="6" height="6" patternUnits="userSpaceOnUse">
-        <circle cx="1.5" cy="1.5" r="1.3" className="fill-foreground" />
-        <circle cx="4.5" cy="4.5" r="1.3" className="fill-foreground" />
-      </pattern>
-    </defs>
-  )
-  return [defs, `url(#${id}-dots)`] as const
-}
-
-function KitArt({ className }: { className?: string }) {
-  const [defs, tone] = useTone()
-  return (
-    <svg viewBox="0 0 320 180" role="img" aria-label="Reader parts: a button, a field, a switch and a page card" className={className}>
-      {defs}
-      <rect width="320" height="180" className="fill-background" />
-      <rect x="0" y="0" width="84" height="180" fill={tone} />
-      <rect x="84" y="0" width="3" height="180" className="fill-foreground" />
-      <rect x="112" y="26" width="92" height="32" className="fill-foreground" />
-      <rect x="126" y="38" width="64" height="8" className="fill-background" />
-      <rect x="112" y="76" width="176" height="30" strokeWidth="3" className="fill-background stroke-foreground" />
-      <rect x="122" y="88" width="70" height="6" className="fill-foreground" />
-      <rect x="112" y="124" width="56" height="28" strokeWidth="3" className="fill-background stroke-foreground" />
-      <rect x="144" y="130" width="18" height="16" className="fill-foreground" />
-      <rect x="222" y="22" width="74" height="40" strokeWidth="3" className="fill-background stroke-foreground" />
-      <rect x="228" y="28" width="28" height="28" fill={tone} />
-      <rect x="190" y="124" width="98" height="28" strokeWidth="3" className="fill-background stroke-foreground" />
-      <path d="M200 138 h60" strokeWidth="6" className="stroke-foreground" />
-    </svg>
-  )
-}
-
-function ReaderArt({ className }: { className?: string }) {
-  const [defs, tone] = useTone()
-  return (
-    <svg viewBox="0 0 320 180" role="img" aria-label="A phone showing a vertical comic strip" className={className}>
-      {defs}
-      <rect width="320" height="180" className="fill-background" />
-      {[30, 52, 74, 96, 118, 140].map((y, i) => (
-        <path key={y} d={`M${i % 2 ? 24 : 40} ${y} H112 M208 ${y + 8} H${i % 2 ? 296 : 280}`} strokeWidth={i % 3 ? 2 : 4} className="stroke-foreground" />
-      ))}
-      <rect x="122" y="8" width="76" height="164" strokeWidth="4" className="fill-background stroke-foreground" />
-      <rect x="130" y="18" width="60" height="44" strokeWidth="2" className="stroke-foreground" fill={tone} />
-      <rect x="130" y="68" width="60" height="40" strokeWidth="2" className="fill-background stroke-foreground" />
-      <circle cx="160" cy="92" r="10" className="fill-foreground" />
-      <path d="M144 108 C146 96 174 96 176 108Z" className="fill-foreground" />
-      <rect x="130" y="114" width="60" height="44" strokeWidth="2" className="fill-foreground stroke-foreground" />
-      <path d="M138 150 L160 122 L182 150Z" className="fill-background" />
-    </svg>
-  )
-}
-
-function ToneArt({ className }: { className?: string }) {
-  const cols = 16
-  const rows = 8
-  return (
-    <svg viewBox="0 0 320 180" role="img" aria-label="Halftone dots growing from small to large" className={className}>
-      <rect width="320" height="180" className="fill-background" />
-      {Array.from({ length: cols * rows }, (_, k) => {
-        const i = k % cols
-        const j = Math.floor(k / cols)
-        return <circle key={k} cx={20 + i * 18.6} cy={18 + j * 16 + (i % 2 ? 8 : 0)} r={0.8 + i * 0.52} className="fill-foreground" />
-      })}
-      <rect x="20" y="156" width="280" height="14" strokeWidth="3" className="fill-background stroke-foreground" />
-      <rect x="20" y="156" width="190" height="14" className="fill-foreground" />
-      <rect x="204" y="150" width="14" height="26" strokeWidth="3" className="fill-background stroke-foreground" />
-    </svg>
-  )
-}
-
-function MapArt({ className }: { className?: string }) {
-  const [defs, tone] = useTone()
-  return (
-    <svg viewBox="0 0 320 180" role="img" aria-label="A street map with lantern pins" className={className}>
-      {defs}
-      <rect width="320" height="180" className="fill-background" />
-      <rect x="16" y="14" width="86" height="58" fill={tone} />
-      <rect x="196" y="100" width="108" height="66" fill={tone} />
-      <rect x="122" y="14" width="56" height="58" strokeWidth="2" className="fill-background stroke-foreground" />
-      <path d="M0 86 H320 M110 0 V180 M186 0 V180 M0 150 C80 140 120 170 186 150" strokeWidth="8" className="fill-none stroke-foreground" />
-      <path d="M0 86 H320 M110 0 V180 M186 0 V180 M0 150 C80 140 120 170 186 150" strokeWidth="3" className="fill-none stroke-background" />
-      <path d="M60 120 L148 120 L148 40 L250 40" strokeWidth="5" className="fill-none stroke-foreground" />
-      {[
-        [60, 120],
-        [148, 40],
-        [250, 40],
-      ].map(([x, y]) => (
-        <g key={`${x}-${y}`}>
-          <rect x={x - 9} y={y - 13} width="18" height="22" strokeWidth="3" className="fill-background stroke-foreground" />
-          <rect x={x - 5} y={y - 8} width="10" height="12" className="fill-foreground" />
-        </g>
-      ))}
-    </svg>
-  )
 }
 
 const PROJECTS: Project[] = [
@@ -156,7 +58,6 @@ const PROJECTS: Project[] = [
     wide: true,
     fresh: true,
     install: "npm install @inkpot/reader",
-    Art: KitArt,
   },
   {
     id: "ledger",
@@ -165,7 +66,6 @@ const PROJECTS: Project[] = [
     year: "2024",
     text: "Downloads chapters for the train and syncs your place once you are back online. Used by 40k readers a month.",
     tags: ["PWA", "IndexedDB", "React"],
-    Art: ReaderArt,
   },
   {
     id: "tonelab",
@@ -174,7 +74,6 @@ const PROJECTS: Project[] = [
     year: "2023",
     text: "Turns any picture into dots, lines or cross-hatching in the browser and exports it as a clean SVG.",
     tags: ["Canvas", "WebGL", "SVG"],
-    Art: ToneArt,
   },
   {
     id: "market",
@@ -184,7 +83,6 @@ const PROJECTS: Project[] = [
     text: "Map, timetable and live queue lengths for 300 stalls of a city festival, built in six weeks by a team of four, in three languages.",
     tags: ["Maps", "Next.js", "i18n"],
     wide: true,
-    Art: MapArt,
   },
 ]
 
@@ -275,7 +173,17 @@ const touch = "max-sm:min-h-11"
 
 /* ---------- The interface ---------- */
 
-export function Portfolio({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
+export function Portfolio({
+  className,
+  titleAs: TitleTag = "h1",
+  art = {},
+}: {
+  className?: string
+  /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
+  titleAs?: "h1" | "h2"
+  /** The portrait and the project thumbnails (image URLs). The block ships none. */
+  art?: PortfolioArt
+}) {
   const [rootRef, wide] = useWide<HTMLDivElement>()
   const [opened, setOpened] = React.useState<Set<string>>(() => new Set())
   const [form, setForm] = React.useState<Form>(EMPTY)
@@ -369,7 +277,15 @@ export function Portfolio({ className, titleAs: TitleTag = "h1" }: { className?:
                 Hi! I&apos;m Noa. I build interfaces that read like a good page.
               </SpeechBubble>
               <div className="relative size-44 border-ink-panel bg-background @md/main:size-52">
-                <TonedImage src={PORTRAIT} alt="Portrait of Noa Kirishima, glasses and headphones" density={5} contrast={1.2} className="size-full" />
+                {art.portrait && art.inked ? (
+                  <img src={art.portrait} alt="Portrait of Noa Kirishima" className="size-full object-cover" />
+                ) : art.portrait ? (
+                  <TonedImage src={art.portrait} alt="Portrait of Noa Kirishima" density={5} contrast={1.2} className="size-full" />
+                ) : (
+                  <span aria-hidden className="grid size-full place-items-center font-letter text-6xl uppercase">
+                    NK
+                  </span>
+                )}
               </div>
             </div>
           </Panel>
@@ -437,7 +353,11 @@ export function Portfolio({ className, titleAs: TitleTag = "h1" }: { className?:
                   </CardHeader>
                   <CardContent className={cn("grid gap-4", p.wide && "@3xl/main:grid-cols-2 @3xl/main:items-start @3xl/main:gap-6")}>
                     <div className="overflow-hidden border-ink">
-                      <p.Art className="block h-auto w-full" />
+                      {art.projects?.[p.id] ? (
+                        <img src={art.projects[p.id]} alt="" className="block aspect-video h-auto w-full object-cover" />
+                      ) : (
+                        <span aria-hidden className="block aspect-video w-full tone-35" />
+                      )}
                     </div>
                     <div className="grid min-w-0 gap-4">
                       <p>{p.text}</p>
@@ -493,7 +413,8 @@ export function Portfolio({ className, titleAs: TitleTag = "h1" }: { className?:
             <CharacterCard
               name="Noa Kirishima"
               role="Frontend engineer · Lv. 8"
-              image={PORTRAIT}
+              image={art.portrait}
+              toned={!art.inked}
               stats={STATS}
               tags={["Design systems", "Motion", "i18n"]}
               quote="Ship it, then make it read better."

@@ -4,6 +4,7 @@ import { track } from "./visits"
 import { CodeToggle, CopyButton } from "./copy"
 import { installCommand } from "./registry"
 import { Deferred } from "./load-error"
+import { BLOCK_PROPS } from "./block-art"
 
 const LunchBreak = lazy(() => import("./pages/lunch-break").then((m) => ({ default: m.LunchBreak })))
 
@@ -55,8 +56,8 @@ const CATALOG: { slug: string; title: string; summary: string; screens?: string[
     screens: ["sign-in", "sign-up", "forgot-password", "verify-code", "reset-password"],
   },
   { slug: "manga-reader", title: "Manga reader", summary: "A vertical strip, chapters in a sheet, progress and reading order." },
-  { slug: "author-site", title: "Author site", summary: "A manga author's site: catalog, series page, then the chapter read page by page or panel by panel." },
-  { slug: "catalog", title: "Catalog", summary: "Volume cards, filters, tabs and search." },
+  { slug: "author-site", title: "Author site", summary: "The site of one series, Mapless: its volumes, the series page, then the chapter read page by page or panel by panel." },
+  { slug: "catalog", title: "Catalog", summary: "The books of one series in volume cards, with filters, tabs and search." },
   { slug: "portfolio", title: "Developer portfolio", summary: "Intro, projects in panels, skills as a character sheet, contact." },
 ]
 
@@ -69,7 +70,14 @@ function blockInterface(entry: { slug: string; title: string; summary: string })
   const path = blockPath(entry.slug)
   const load = modules[path]
   if (!load) return []
-  const Component = lazy(() => load().then((mod) => ({ default: mod[pascal(entry.slug)] })))
+  const props = BLOCK_PROPS[entry.slug] ?? {}
+  const Component = lazy(() =>
+    load().then((mod) => {
+      const Block = mod[pascal(entry.slug)] as ComponentType<Record<string, unknown>>
+      // the showcase passes its pictures (the blocks ship none)
+      return { default: (p: { titleAs?: "h1" | "h2" }) => <Block {...props} {...p} /> }
+    }),
+  )
   return [{ ...entry, Component, source: () => sources[path]().then(userPaths) }]
 }
 

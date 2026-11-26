@@ -2,6 +2,7 @@ import { lazy, useState, type ReactNode } from "react"
 import { Tabs, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
 import { AppleMark, GoogleMark } from "../brands"
 import { Deferred } from "../load-error"
+import { AUTH_PICTURES } from "../block-art"
 
 /*
  * #examples/auth: the five Auth screens, each its own registry:block, wired together. Every block takes
@@ -64,11 +65,11 @@ export function AuthFlow() {
             </div>
           }
         >
-          {screen === "sign-in" && <SignIn titleAs="h2" key="sign-in" {...nav} providers={PROVIDERS} />}
-          {screen === "sign-up" && <SignUp titleAs="h2" key="sign-up" {...nav} providers={PROVIDERS} />}
-          {screen === "forgot-password" && <ForgotPassword titleAs="h2" key="forgot-password" {...nav} />}
-          {screen === "verify-code" && <VerifyCode titleAs="h2" key={`verify-${purpose}`} {...nav} purpose={purpose} />}
-          {screen === "reset-password" && <ResetPassword titleAs="h2" key="reset-password" {...nav} />}
+          {screen === "sign-in" && <SignIn titleAs="h2" key="sign-in" {...nav} providers={PROVIDERS} pictures={AUTH_PICTURES["sign-in"]} />}
+          {screen === "sign-up" && <SignUp titleAs="h2" key="sign-up" {...nav} providers={PROVIDERS} pictures={AUTH_PICTURES["sign-up"]} />}
+          {screen === "forgot-password" && <ForgotPassword titleAs="h2" key="forgot-password" {...nav} pictures={AUTH_PICTURES["forgot-password"]} />}
+          {screen === "verify-code" && <VerifyCode titleAs="h2" key={`verify-${purpose}`} {...nav} purpose={purpose} pictures={AUTH_PICTURES["verify-code"]} />}
+          {screen === "reset-password" && <ResetPassword titleAs="h2" key="reset-password" {...nav} pictures={AUTH_PICTURES["reset-password"]} />}
         </Deferred>
       </div>
     </div>

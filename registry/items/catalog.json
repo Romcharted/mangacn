@@ -2,7 +2,7 @@
   "name": "catalog",
   "type": "registry:block",
   "title": "Catalog",
-  "description": "A library catalog made only with mangacn: a search field (Input Group with a search icon and a clear button), shelf Tabs in the underline variant (All / Reading / Completed / Wishlist), filters (genre Native Select, status Toggles for new / ongoing / completed / hiatus, sort Native Select), a live result count, and a grid of Volume Cards with abstract covers drawn in inline SVG (ink, paper and screentone dots). When nothing matches, the kit Empty state offers to clear the search and filters. Mobile first: one column at 360 px with two cards per row and a Filters button that opens the fields in a bottom Drawer; from 48rem of its own width (container query @3xl/main) the filters sit in a case beside a grid of three to five columns. Works with Base UI and Radix, in light, dark and any accent.",
+  "description": "The catalog of one manga series, made only with mangacn: a search field (Input Group with a search icon and a clear button), shelf Tabs in the underline variant (All / Reading / Completed / Wishlist), filters (genre Native Select, status Toggles for new / ongoing / completed / hiatus, sort Native Select), a live result count, and a grid of Volume Cards whose covers you pass in covers (a screentone cover without one). When nothing matches, the kit Empty state offers to clear the search and filters. Mobile first: one column at 360 px with two cards per row and a Filters button that opens the fields in a bottom Drawer; from 48rem of its own width (container query @3xl/main) the filters sit in a case beside a grid of three to five columns. Works with Base UI and Radix, in light, dark and any accent.",
   "categories": [
     "blocks"
   ],
@@ -30,11 +30,16 @@
       "target": "@components/manga/blocks/catalog.tsx"
     }
   ],
-  "docs": "Import from \"@/components/manga/blocks/catalog\". The root fills its container and follows the page (no inner scroll). Replace VOLUMES with your own data and the SVG covers with image URLs (VolumeCard takes a string or a node as cover).",
+  "docs": "Import from \"@/components/manga/blocks/catalog\". The root fills its container and follows the page (no inner scroll). Replace VOLUMES with your own books and pass their cover image URLs in covers; the block ships no image.",
   "meta": {
     "tagline": "Volume cards, filters, tabs and search.",
     "usage": "import { Catalog } from \"@/components/manga/blocks/catalog\"\n\n<Catalog className=\"min-h-svh\" />",
     "props": [
+      {
+        "name": "covers",
+        "type": "Partial<Record<CatalogCover, string>>",
+        "description": "Cover image URLs by book. Without one, a screentone cover."
+      },
       {
         "name": "className",
         "type": "string",

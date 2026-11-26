@@ -1,11 +1,12 @@
 "use client"
 
 /*
- * Author site: the site of a manga author, end to end — the catalog of their series, a series page, then
- * the chapter read page by page (PageReader) or panel by panel (GuidedView). Made only with mangacn.
- * Chapters are pages of the page model (PageData): panels, drawn art and real lettering, so the reader and
- * the guided view work from the same data. The art is drawn in SVG for this repo: replace SERIES and
- * chapterPages() with your own works. The demo never navigates: the three screens are one component's state.
+ * Author site: the site of one manga series, end to end — its volumes (two out, the next one coming), the
+ * series page, then the chapter read page by page (PageReader) or panel by panel (GuidedView). Made only with
+ * mangacn. Chapters are pages of the page model (PageData): panels, pictures and real lettering, so the reader and
+ * the guided view work from the same data. The block ships no image: pass the covers and the panel pictures in
+ * `art` (without them, covers are screentone and panels stay empty). Replace SERIES with your own series.
+ * The demo never navigates: the three screens are one component's state.
  */
 
 import * as React from "react"
@@ -29,168 +30,73 @@ import { Shelf, type ShelfVolume } from "@/components/manga/shelf"
 import { Spoiler } from "@/components/manga/spoiler"
 import { VolumeCard } from "@/components/manga/volume-card"
 
-/* ---------- Drawings (made for this repo): ink on paper, as SVG URLs ---------- */
+/* ---------- Pictures: passed in `art`, none ships with the block ---------- */
 
-const INK = "#1f1b17"
-const PAPER = "#f8f5ee"
-const DEFS = `<defs><pattern id="t" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="2" cy="2" r="1.3" fill="${INK}"/><circle cx="6" cy="6" r="1.3" fill="${INK}"/></pattern><pattern id="l" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)"><rect width="6" height="1.6" fill="${INK}"/></pattern></defs>`
-const url = (w: number, h: number, body: string) =>
-  `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${DEFS}<rect width="${w}" height="${h}" fill="${PAPER}"/>${body}</svg>`)}`
-const r1 = (n: number) => Math.round(n * 10) / 10
-function rng(seed: number) {
-  let s = seed >>> 0 || 1
-  return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296
-}
-function focusLines(cx: number, cy: number, hole: number, count: number, seed: number) {
-  const rand = rng(seed)
-  let d = ""
-  for (let i = 0; i < count; i++) {
-    const a = (i / count) * Math.PI * 2 + rand() * 0.05
-    const w = 0.004 + rand() * 0.012
-    const inner = hole * (1 + rand() * 0.45)
-    d += `M${r1(cx + Math.cos(a - w) * 900)} ${r1(cy + Math.sin(a - w) * 900)}L${r1(cx + Math.cos(a) * inner)} ${r1(cy + Math.sin(a) * inner)}L${r1(cx + Math.cos(a + w) * 900)} ${r1(cy + Math.sin(a + w) * 900)}Z`
-  }
-  return `<path d="${d}" fill="${INK}"/>`
-}
-function strokes(x: number, y: number, w: number, h: number, count: number, seed: number, slant = 0.35) {
-  const rand = rng(seed)
-  let d = ""
-  for (let i = 0; i < count; i++) {
-    const len = 14 + rand() * 26
-    d += `M${r1(x + rand() * w)} ${r1(y + rand() * h)}l${r1(-len * slant)} ${r1(len)}`
-  }
-  return `<path d="${d}" stroke="${INK}" stroke-width="1.6" stroke-linecap="round"/>`
-}
-const bust = (x: number, y: number, s: number, fill = PAPER) =>
-  `<g transform="translate(${x} ${y}) scale(${s})"><path d="M6 124c4-40 22-58 44-58s40 18 44 58z" fill="${fill}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><circle cx="50" cy="36" r="26" fill="${fill}" stroke="${INK}" stroke-width="4"/><path d="M22 30c2-20 20-30 36-26 14 4 22 16 20 30-8-8-20-10-30-6-10 3-18 4-26 2z" fill="${INK}"/></g>`
-const back = (x: number, y: number, s: number) =>
-  `<g transform="translate(${x} ${y}) scale(${s})"><path d="M6 124c4-40 22-58 44-58s40 18 44 58z" fill="${INK}" stroke="${PAPER}" stroke-width="4"/><circle cx="50" cy="36" r="26" fill="${INK}" stroke="${PAPER}" stroke-width="4"/></g>`
-const lantern = (x: number, y: number, s: number) =>
-  `<g transform="translate(${x} ${y}) scale(${s})"><path d="M30 0v14M30 96v14" stroke="${INK}" stroke-width="3"/><rect x="14" y="14" width="32" height="8" fill="${INK}"/><ellipse cx="30" cy="56" rx="28" ry="34" fill="${PAPER}" stroke="${INK}" stroke-width="4"/><path d="M6 44h48M4 58h52M7 72h46" stroke="${INK}" stroke-width="2"/><rect x="14" y="88" width="32" height="8" fill="${INK}"/></g>`
-const boat = (x: number, y: number, s: number) =>
-  `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 40h120l-20 24H20z" fill="${PAPER}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><path d="M60 40V0l34 40z" fill="${PAPER}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/></g>`
-const roofs = (x: number, y: number, s: number) =>
-  `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 100V58l20-16 20 16v-8l24-20 24 20v10h10V44l18-14 18 14v18h14V50l16-12 16 12v50z" fill="${INK}"/></g>`
-const waves = (y: number, w: number, n: number) =>
-  Array.from({ length: n }, (_, i) => `<path d="M-10 ${y + i * 26}q25 -14 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0 50 0 50 0" fill="none" stroke="${INK}" stroke-width="4"/>`).join("") +
-  `<rect y="${y + n * 26}" width="${w}" height="400" fill="url(#t)"/>`
-const anvil = (x: number, y: number, s: number) =>
-  `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0h110c-4 14-20 20-40 22v18h20v14H20V40h20V22C18 20 4 14 0 0z" fill="${INK}"/></g>`
+/** The panels of a chapter page, by what they show. */
+export type AuthorSiteScene = "opening" | "rival" | "hero" | "detail" | "clash" | "pet" | "night" | "ending"
 
-type Theme = "lantern" | "boat" | "forge"
-type Scene = "wide" | "face" | "pair" | "detail" | "burst" | "crowd" | "night"
-
-/** One panel's art, 480 × 360, from the series' theme. */
-function scene(theme: Theme, kind: Scene, seed: number) {
-  const prop = theme === "lantern" ? lantern(190, 90, 1.4) : theme === "boat" ? boat(180, 150, 1.1) : anvil(185, 170, 1)
-  const far =
-    theme === "lantern" ? `<rect width="480" height="200" fill="url(#t)"/><circle cx="380" cy="80" r="40" fill="${PAPER}" stroke="${INK}" stroke-width="5"/>${roofs(0, 180, 2.4)}` : theme === "boat" ? `<circle cx="380" cy="80" r="40" fill="none" stroke="${INK}" stroke-width="5"/>${waves(210, 480, 3)}${boat(60, 150, 0.9)}` : `<rect width="480" height="360" fill="url(#l)"/>${focusLines(240, 300, 60, 60, seed)}${anvil(150, 220, 1.6)}`
-  const art: Record<Scene, string> = {
-    wide: far,
-    face: `${focusLines(240, 190, 120, 110, seed)}<circle cx="240" cy="190" r="120" fill="${PAPER}"/>${bust(170, 110, 1.4)}`,
-    pair: `<rect y="270" width="480" height="90" fill="url(#t)"/>${bust(40, 150, 1.5)}${bust(300, 150, 1.5, INK)}`,
-    detail: `${strokes(0, 0, 480, 360, 40, seed, -0.2)}${prop}`,
-    burst: `${focusLines(240, 180, 100, 130, seed)}<circle cx="240" cy="180" r="100" fill="${PAPER}"/>${theme === "forge" ? anvil(185, 150, 1.1) : theme === "boat" ? boat(180, 150, 1.1) : lantern(206, 100, 1.2)}`,
-    crowd: `${strokes(0, 0, 480, 360, 130, seed)}${back(60, 200, 1.1)}${back(200, 220, 1)}${back(330, 205, 1.1)}`,
-    night: `<rect width="480" height="360" fill="${INK}"/>${theme === "lantern" ? lantern(200, 90, 1.4) : `<circle cx="360" cy="90" r="40" fill="${PAPER}"/>`}${back(120, 230, 1)}`,
-  }
-  return url(480, 360, art[kind])
+export type AuthorSiteArt = {
+  /** Volume covers by volume number (1, 2, …); the volume after the last one out may have a teaser. */
+  covers?: Record<number, string>
+  /** One picture per kind of panel; the chapters reuse them. */
+  scenes?: Partial<Record<AuthorSiteScene, string>>
 }
 
-/** A 2:3 cover for a volume. */
-function cover(theme: Theme, volume: number, title: string) {
-  const art =
-    theme === "lantern"
-      ? `${focusLines(200, 330, 90, 90, volume)}<circle cx="200" cy="330" r="90" fill="${PAPER}"/>${lantern(150, 240, 1.6)}`
-      : theme === "boat"
-        ? `<circle cx="300" cy="200" r="50" fill="none" stroke="${INK}" stroke-width="6"/>${waves(380, 400, 3)}${boat(110, 300, 1.5)}`
-        : `<rect width="400" height="600" fill="url(#l)"/>${focusLines(200, 420, 70, 80, volume)}${anvil(110, 360, 1.6)}`
-  return url(
-    400,
-    600,
-    `${art}<rect x="24" y="500" width="352" height="76" fill="${PAPER}" stroke="${INK}" stroke-width="4"/><text x="200" y="552" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-size="36" textLength="300" lengthAdjust="spacingAndGlyphs" fill="${INK}">${title.toUpperCase()}</text><rect x="3" y="3" width="394" height="594" fill="none" stroke="${INK}" stroke-width="6"/>`,
-  )
-}
+const ArtContext = React.createContext<AuthorSiteArt>({})
 
-/* ---------- The author's works ---------- */
+/* ---------- The series ---------- */
 
 type Chapter = { n: number; title: string; date: string; lines: [string, string, string] }
+type Volume = { n: number; date: string; chapters: number[] }
 type Series = {
   id: string
-  theme: Theme
   title: string
   altTitle: string
   status: "ongoing" | "completed" | "hiatus" | "new"
   genres: string[]
   summary: string
-  volumes: number
   readers: string
+  volumes: Volume[]
   chapters: Chapter[]
   /** The next chapter when it is not out yet. */
   upcoming?: { n: number; title: string; date: string; day: 0 | 1 | 2 | 3 | 4 | 5 | 6 }
-  obi?: string
+  /** The next volume when it is not out yet. */
+  nextVolume?: { n: number; date: string }
 }
 
-const AUTHOR = "Nao Arai"
+const AUTHOR = "Studio Mapless"
 
-const SERIES: Series[] = [
-  {
-    id: "lantern-street",
-    theme: "lantern",
-    title: "Lantern Street",
-    altTitle: "The night market stories",
-    status: "ongoing",
-    genres: ["Slice of life", "Mystery"],
-    summary:
-      "Every autumn the night market on Lantern Street sells lanterns that hold one wish each. Mio mends the broken ones in her grandmother's stall, until a lantern comes back with a wish that is not hers, written in a hand she has never seen. To find its owner she follows the lanterns past the river, where the market stays open long after the street goes dark.",
-    volumes: 2,
-    readers: "12.4k",
-    chapters: [
-      { n: 1, title: "The night market", date: "Oct 1", lines: ["The night market opens at dusk.", "This one is cracked.", "Then I'll mend it."] },
-      { n: 2, title: "A wish that is not mine", date: "Oct 15", lines: ["A second evening.", "Who wrote this?", "Not me."] },
-      { n: 3, title: "Past the river", date: "Nov 1", lines: ["The bridge is longer at night.", "Are you lost?", "No. Following."] },
-    ],
-    upcoming: { n: 4, title: "The keeper's debt", date: "Dec 3", day: 2 },
-  },
-  {
-    id: "paper-boats",
-    theme: "boat",
-    title: "Paper Boats",
-    altTitle: "A fleet of two",
-    status: "new",
-    genres: ["Adventure", "Comedy"],
-    summary: "Two kids fold a fleet of paper boats to cross a flooded town, one street at a time. Every boat carries a message; not all of them sink.",
-    volumes: 1,
-    readers: "3.1k",
-    chapters: [
-      { n: 1, title: "High water", date: "Nov 12", lines: ["The water came up in one night.", "Fold faster!", "It floats!"] },
-      { n: 2, title: "The second boat", date: "Nov 19", lines: ["Down Canal Street.", "Is that a letter?", "Read it!"] },
-    ],
-    upcoming: { n: 3, title: "Harbour lights", date: "Nov 26", day: 2 },
-    obi: "New series",
-  },
-  {
-    id: "tidal-forge",
-    theme: "forge",
-    title: "Tidal Forge",
-    altTitle: "The smith who hammers the sea",
-    status: "completed",
-    genres: ["Fantasy", "Drama"],
-    summary: "A smith forges tools out of tides for a village that lives off the sea, until the sea asks for one tool back. Complete in two volumes.",
-    volumes: 2,
-    readers: "21.8k",
-    chapters: [
-      { n: 1, title: "Cold iron", date: "Mar 2", lines: ["The tide was early.", "Hammer it again.", "It sings."] },
-      { n: 2, title: "What the sea wants", date: "Apr 6", lines: ["Low tide, no wind.", "Give it back.", "Never."] },
-    ],
-  },
-]
+// One invented series. Replace it with your own.
+const SERIES: Series = {
+  id: "mapless",
+  title: "Mapless",
+  altTitle: "The cartographer of the drifting sky",
+  status: "ongoing",
+  genres: ["Adventure", "Fantasy"],
+  summary:
+    "Above the clouds the islands drift, and no map stays true for long. Suzu, an apprentice cartographer, draws the way as she walks: what her brush inks becomes real, bridges included. Kuro, a small dragon made of her ink, keeps watch while she sleeps. But every new road brings the Eraser, a white knight whose spear undoes whatever Suzu makes.",
+  readers: "12.4k",
+  volumes: [
+    { n: 1, date: "Spring", chapters: [1, 2, 3] },
+    { n: 2, date: "Autumn", chapters: [4, 5, 6] },
+  ],
+  chapters: [
+    { n: 1, title: "The ink bridge", date: "Mar 1", lines: ["Day 41. No map shows this bridge.", "Nothing new gets drawn here.", "Then I'll draw it anyway!"] },
+    { n: 2, title: "The white knight", date: "Mar 15", lines: ["He waits on every far cliff.", "Turn back, cartographer.", "Kuro, stay close."] },
+    { n: 3, title: "The lighthouse", date: "Apr 1", lines: ["An old lighthouse, still lit.", "Who keeps it?", "Nobody. Not anymore."] },
+    { n: 4, title: "A map that moves", date: "Sep 1", lines: ["The islands drifted in the night.", "My map is wrong again.", "Then we draw a new one."] },
+    { n: 5, title: "Kuro sleeps", date: "Sep 15", lines: ["Even ink gets tired.", "Five more minutes…", "Fine. Four."] },
+    { n: 6, title: "The spear falls", date: "Oct 1", lines: ["The bridge held. For a moment.", "What is drawn can be undone.", "Not this time!"] },
+  ],
+  upcoming: { n: 7, title: "Past the edge of the map", date: "Dec 3", day: 2 },
+  nextVolume: { n: 3, date: "March" },
+}
 
-/** Three pages of page data for a chapter, from the series' theme; the chapter number moves the lines. */
-function chapterPages(series: Series, chapter: Chapter): PageData[] {
-  const k = chapter.n * 17 + series.title.length
-  const t = series.theme
-  const art = (kind: Scene, alt: string, extra: Partial<PanelData["art"]> = {}) => ({ src: scene(t, kind, k + alt.length), alt, ...extra })
+/** Three pages of page data for a chapter; the pictures come from `art.scenes`. */
+function chapterPages(series: Series, chapter: Chapter, scenes: AuthorSiteArt["scenes"] = {}): PageData[] {
+  const art = (kind: AuthorSiteScene, alt: string, extra: Partial<NonNullable<PanelData["art"]>> = {}) =>
+    scenes[kind] ? { src: scenes[kind], alt, ...extra } : undefined
+  const even = chapter.n % 2 === 0
   return [
     {
       version: 1,
@@ -202,7 +108,7 @@ function chapterPages(series: Series, chapter: Chapter): PageData[] {
             {
               bleed: true,
               label: `Title: chapter ${chapter.n}, ${chapter.title}`,
-              art: art("wide", `${series.title}: the opening view`),
+              art: art(even ? "night" : "opening", `${series.title}: the opening view`),
               items: [
                 { type: "caption", x: 4, y: 6, anchor: "top-left", text: `${series.title} · Chapter ${chapter.n}` },
                 { type: "caption", x: 96, y: 92, anchor: "bottom-right", text: chapter.lines[0] },
@@ -213,11 +119,11 @@ function chapterPages(series: Series, chapter: Chapter): PageData[] {
         {
           slant: -4,
           panels: [
-            { width: 1.2, label: "A closer look", art: art("detail", "A closer look at the thing that matters") },
+            { width: 1.2, label: "A closer look", art: art(even ? "pet" : "detail", "A closer look at the thing that matters") },
             {
-              label: "Someone speaks",
-              art: art("face", "A face in focus lines", { zoom: 1.2 }),
-              items: [{ type: "bubble", x: 50, y: 14, text: chapter.lines[1], pointAt: { x: 50, y: 62 }, maxWidth: 85 }],
+              label: "The knight speaks",
+              art: art("rival", "The Eraser, spear in hand", { y: 30 }),
+              items: [{ type: "bubble", x: 50, y: 12, text: chapter.lines[1], pointAt: { x: 50, y: 40 }, maxWidth: 85 }],
             },
           ],
         },
@@ -231,11 +137,11 @@ function chapterPages(series: Series, chapter: Chapter): PageData[] {
           panels: [
             {
               width: 1.3,
-              label: "Two people face each other",
-              art: art("pair", "Two people face each other"),
-              items: [{ type: "bubble", x: 74, y: 18, text: chapter.lines[2], pointAt: { x: 78, y: 60 }, maxWidth: 45 }],
+              label: "Suzu answers",
+              art: art("hero", "Suzu, startled, Kuro rearing behind her"),
+              items: [{ type: "bubble", x: 30, y: 14, text: chapter.lines[2], pointAt: { x: 62, y: 46 }, maxWidth: 50 }],
             },
-            { label: "A crowd passes", shape: "tilted", art: art("crowd", "A crowd seen from behind") },
+            { label: "Kuro", shape: "tilted", art: art("pet", "Kuro, the ink dragon", { y: 45 }) },
           ],
         },
         {
@@ -244,8 +150,8 @@ function chapterPages(series: Series, chapter: Chapter): PageData[] {
             {
               shape: "jagged",
               label: "The moment it happens",
-              art: art("burst", "The moment it happens, in concentration lines"),
-              items: [{ type: "sfx", x: 18, y: 20, text: chapter.n % 2 ? "FWOOM" : "KRAK", size: "lg", rotate: -10 }],
+              art: art("clash", "The spear meets the ink", { y: 60 }),
+              items: [{ type: "sfx", x: 78, y: 20, text: even ? "KRAK" : "SPLASH", size: "lg", rotate: -10 }],
             },
           ],
         },
@@ -261,12 +167,12 @@ function chapterPages(series: Series, chapter: Chapter): PageData[] {
             {
               ink: true,
               label: "Night falls",
-              art: art("night", "Night falls on a figure walking away"),
-              items: [{ type: "caption", x: 50, y: 8, anchor: "top", text: "And the night went on." }],
+              art: art("ending", "Suzu looks into the night", { y: 30 }),
+              items: [{ type: "caption", x: 50, y: 8, anchor: "top", text: "And the sky kept drifting." }],
             },
           ],
         },
-        { panels: [{ label: "The view again", art: art("wide", "The opening view, later") }] },
+        { panels: [{ label: "The view again", art: art(even ? "opening" : "night", "The view, later") }] },
       ],
     },
   ]
@@ -289,44 +195,52 @@ function SectionTitle({ id, children }: { id: string; children: React.ReactNode 
   )
 }
 
-function seriesCover(s: Series, volume = s.volumes) {
-  const img = cover(s.theme, volume, s.title)
-  return s.obi ? <ObiBand cover={img} headline={s.obi} caption={`by ${AUTHOR}`} size="sm" className="size-full" /> : img
-}
-
-function Catalog({ open, read }: { open: (id: string) => void; read: (id: string, chapter: number) => void }) {
-  const volumes: ShelfVolume[] = SERIES.flatMap((s) =>
-    Array.from({ length: s.volumes }, (_, v) => ({
-      id: `${s.id}-${v + 1}`,
-      title: s.title,
-      volume: v + 1,
-      author: AUTHOR,
-      cover: cover(s.theme, v + 1, s.title),
-      status: s.status === "new" ? ("new" as const) : v + 1 < s.volumes || s.status === "completed" ? ("completed" as const) : s.status,
-      thickness: (s.theme === "forge" ? 3 : s.theme === "boat" ? 1 : 2) as 1 | 2 | 3,
-      spine: (s.theme === "lantern" ? "band" : s.theme === "forge" ? "tone" : "plain") as ShelfVolume["spine"],
-    })),
-  )
-  const latest = SERIES.map((s) => ({ s, c: s.chapters[s.chapters.length - 1] }))
+function Catalog({ open, read, readUpTo }: { open: (id: string) => void; read: (id: string, chapter: number) => void; readUpTo: number }) {
+  const { covers = {} } = React.useContext(ArtContext)
+  const s = SERIES
+  const shelf: ShelfVolume[] = s.volumes.map((v, i) => ({
+    id: `${s.id}-${v.n}`,
+    title: s.title,
+    volume: v.n,
+    author: AUTHOR,
+    cover: covers[v.n],
+    status: "completed" as const,
+    read: v.chapters.filter((c) => c <= readUpTo).length,
+    total: v.chapters.length,
+    thickness: (i % 2 ? 3 : 2) as 1 | 2 | 3,
+    spine: (i % 2 ? "tone" : "band") as ShelfVolume["spine"],
+  }))
+  const latest = s.chapters.slice(-3).reverse()
   return (
     <div className="grid gap-10">
       <section aria-labelledby="as-works" className="grid gap-4">
-        <SectionTitle id="as-works">Works</SectionTitle>
+        <SectionTitle id="as-works">Volumes</SectionTitle>
         <ul className="m-0 grid list-none grid-cols-2 gap-x-4 gap-y-6 p-0 @2xl/site:grid-cols-3">
-          {SERIES.map((s) => (
-            <li key={s.id} className="min-w-0">
+          {s.volumes.map((v) => (
+            <li key={v.n} className="min-w-0">
               <VolumeCard
                 title={s.title}
-                volume={s.volumes}
-                author={s.altTitle}
-                cover={seriesCover(s)}
-                status={s.status}
-                read={s.id === "lantern-street" ? 2 : 0}
-                total={s.chapters.length}
+                volume={v.n}
+                author={`Out in ${v.date}`}
+                cover={covers[v.n]}
+                status={v.n === s.volumes.length ? s.status : "completed"}
+                read={v.chapters.filter((c) => c <= readUpTo).length}
+                total={v.chapters.length}
                 onSelect={() => open(s.id)}
               />
             </li>
           ))}
+          {s.nextVolume && (
+            <li className="min-w-0">
+              <ObiBand
+                cover={covers[s.nextVolume.n]}
+                headline="Coming soon"
+                caption={`Vol. ${s.nextVolume.n} · ${s.nextVolume.date}`}
+                size="sm"
+                className="w-full"
+              />
+            </li>
+          )}
         </ul>
       </section>
 
@@ -336,27 +250,29 @@ function Catalog({ open, read }: { open: (id: string) => void; read: (id: string
           <ReleaseCalendar
             today={2}
             layout="strip"
-            releases={SERIES.flatMap((s) =>
-              s.upcoming ? [{ id: `${s.id}-up`, day: s.upcoming.day, title: s.title, chapter: `Ch. ${s.upcoming.n} · ${s.upcoming.title}`, time: "18:00", status: "new" as "new" | "break" }] : [],
-            ).concat([{ id: "tidal-forge-break", day: 4, title: "Tidal Forge", chapter: "Extra chapter", time: "12:00", status: "break" as const }])}
-            onSelect={(r) => open(String(r.id).replace(/-(up|break)$/, ""))}
+            releases={[
+              ...(s.upcoming ? [{ id: "up", day: s.upcoming.day, title: s.title, chapter: `Ch. ${s.upcoming.n} · ${s.upcoming.title}`, time: "18:00", status: "new" as const }] : []),
+              { id: "break", day: 4, title: `${s.title}: extras`, chapter: "Sketchbook pages", time: "12:00", status: "break" as const },
+            ]}
+            onSelect={() => open(s.id)}
           />
         </section>
         <section aria-labelledby="as-latest" className="grid content-start gap-4">
           <SectionTitle id="as-latest">Most read this month</SectionTitle>
           <RankingList
-            entries={[...SERIES]
-              .sort((a, b) => parseFloat(b.readers) - parseFloat(a.readers))
-              .map((s, i) => ({ id: s.id, title: s.title, subtitle: `${s.chapters.length} chapters`, score: `${s.readers} readers`, change: i === 2 ? ("new" as const) : i === 0 ? 0 : 1, cover: cover(s.theme, 1, s.title) }))}
-            onSelect={(e) => open(e.id)}
+            entries={[6, 1, 3].map((n, i) => {
+              const c = s.chapters[n - 1]
+              return { id: String(n), title: c.title, subtitle: `Chapter ${n}`, score: `${[9.8, 7.1, 5.4][i]}k readers`, change: i === 0 ? ("new" as const) : 0 }
+            })}
+            onSelect={(e) => read(s.id, Number(e.id))}
           />
           <p className="text-sm">
             Latest chapters:{" "}
-            {latest.map(({ s, c }, i) => (
-              <React.Fragment key={`${s.id}-${c.n}`}>
+            {latest.map((c, i) => (
+              <React.Fragment key={c.n}>
                 {i > 0 && " · "}
                 <button type="button" onClick={() => read(s.id, c.n)} className="cursor-pointer font-letter uppercase underline decoration-2 underline-offset-4 hover:decoration-4 focus-ink">
-                  {s.title} {c.n}
+                  Ch. {c.n}
                 </button>
               </React.Fragment>
             ))}
@@ -366,13 +282,14 @@ function Catalog({ open, read }: { open: (id: string) => void; read: (id: string
 
       <section aria-labelledby="as-shelf" className="grid gap-4">
         <SectionTitle id="as-shelf">The shelf</SectionTitle>
-        <Shelf volumes={volumes} openLabel="Series page" onOpen={(v) => open(String(v.id).replace(/-\d+$/, ""))} />
+        <Shelf volumes={shelf} openLabel="Series page" onOpen={() => open(s.id)} />
       </section>
     </div>
   )
 }
 
 function SeriesPage({ series, readUpTo, read, back }: { series: Series; readUpTo: number; read: (chapter: number) => void; back: () => void }) {
+  const { covers = {}, scenes = {} } = React.useContext(ArtContext)
   const last = series.chapters[series.chapters.length - 1]
   const resume = Math.min(readUpTo + 1, last.n)
   return (
@@ -382,12 +299,12 @@ function SeriesPage({ series, readUpTo, read, back }: { series: Series; readUpTo
         title={series.title}
         altTitle={series.altTitle}
         author={`Story and art: ${AUTHOR}`}
-        cover={seriesCover(series)}
+        cover={covers[series.volumes.length]}
         status={series.status}
         genres={series.genres}
         stats={[
           { label: "Chapters", value: series.chapters.length },
-          { label: "Volumes", value: series.volumes },
+          { label: "Volumes", value: series.volumes.length },
           { label: "Readers", value: series.readers },
         ]}
         summary={series.summary}
@@ -444,11 +361,11 @@ function SeriesPage({ series, readUpTo, read, back }: { series: Series; readUpTo
         </ol>
       </section>
 
-      {series.upcoming && (
+      {series.upcoming && scenes.clash && (
         <section aria-labelledby="as-preview" className="grid gap-3">
           <SectionTitle id="as-preview">Next chapter preview</SectionTitle>
           <Spoiler label={`Chapter ${series.upcoming.n} preview`} className="block max-w-md">
-            <img src={scene(series.theme, "burst", 99)} alt={`A preview panel of chapter ${series.upcoming.n}`} className="block w-full border-ink" />
+            <img src={scenes.clash} alt={`A preview panel of chapter ${series.upcoming.n}`} className="block w-full border-ink" />
           </Spoiler>
         </section>
       )}
@@ -456,7 +373,7 @@ function SeriesPage({ series, readUpTo, read, back }: { series: Series; readUpTo
       <div>
         <Button variant="outline" onClick={back}>
           <Arrow to="left" />
-          All works
+          Home
         </Button>
       </div>
     </div>
@@ -464,7 +381,8 @@ function SeriesPage({ series, readUpTo, read, back }: { series: Series; readUpTo
 }
 
 function Reader({ series, chapter, go, toSeries }: { series: Series; chapter: Chapter; go: (n: number) => void; toSeries: () => void }) {
-  const pages = React.useMemo(() => chapterPages(series, chapter), [series, chapter])
+  const { scenes } = React.useContext(ArtContext)
+  const pages = React.useMemo(() => chapterPages(series, chapter, scenes), [series, chapter, scenes])
   const [settings, setSettings] = React.useState<ReaderSettingsValue>(defaultReaderSettings)
   const [mode, setMode] = React.useState<"pages" | "panels">("pages")
   const [page, setPage] = React.useState(0)
@@ -588,9 +506,16 @@ function Reader({ series, chapter, go, toSeries }: { series: Series; chapter: Ch
 
 /* ---------- The site ---------- */
 
-export function AuthorSite({ className }: { className?: string }) {
+export function AuthorSite({
+  className,
+  art = {},
+}: {
+  className?: string
+  /** Covers and panel pictures (image URLs). The block ships none. */
+  art?: AuthorSiteArt
+}) {
   const [screen, setScreen] = React.useState<Screen>({ name: "catalog" })
-  const [progress, setProgress] = React.useState<Record<string, number>>({ "lantern-street": 2 })
+  const [progress, setProgress] = React.useState<Record<string, number>>({ [SERIES.id]: 2 })
   const rootRef = React.useRef<HTMLDivElement>(null)
   const show = (next: Screen) => {
     setScreen(next)
@@ -599,19 +524,20 @@ export function AuthorSite({ className }: { className?: string }) {
     const el = rootRef.current
     if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ block: "start" })
   }
-  const series = screen.name === "catalog" ? null : SERIES.find((s) => s.id === screen.id) ?? null
+  const series = screen.name === "catalog" ? null : SERIES
   const chapter = screen.name === "reader" && series ? series.chapters.find((c) => c.n === screen.chapter) ?? series.chapters[0] : null
 
   return (
+    <ArtContext.Provider value={art}>
     <div ref={rootRef} data-manga="author-site" className={cn("@container/site w-full scroll-mt-16 bg-background text-foreground", className)}>
       <header className="flex flex-wrap items-center justify-between gap-3 border-b-[length:var(--mg-bw-panel)] border-border px-3 py-3 @2xl/site:px-6">
         <button type="button" onClick={() => show({ name: "catalog" })} className="cursor-pointer text-start focus-ink">
-          <span className="block font-letter text-3xl leading-none tracking-wide uppercase">{AUTHOR}</span>
-          <span className="block font-mono text-xs">Manga, one chapter at a time</span>
+          <span className="block font-letter text-3xl leading-none tracking-wide uppercase">{SERIES.title}</span>
+          <span className="block font-mono text-xs">By {AUTHOR}, one chapter at a time</span>
         </button>
         <nav aria-label="Site" className="flex flex-wrap gap-1">
           <Button variant={screen.name === "catalog" ? "default" : "ghost"} aria-current={screen.name === "catalog" ? "page" : undefined} onClick={() => show({ name: "catalog" })} className="max-sm:min-h-11">
-            Works
+            Home
           </Button>
           {series && (
             <Button variant={screen.name === "series" ? "default" : "ghost"} aria-current={screen.name === "series" ? "page" : undefined} onClick={() => show({ name: "series", id: series.id })} className="max-sm:min-h-11">
@@ -625,7 +551,7 @@ export function AuthorSite({ className }: { className?: string }) {
         <ol className="m-0 flex list-none flex-wrap gap-1 p-0">
           <li>
             <button type="button" onClick={() => show({ name: "catalog" })} className="cursor-pointer underline underline-offset-2 focus-ink">
-              Works
+              Home
             </button>
           </li>
           {series && (
@@ -641,7 +567,7 @@ export function AuthorSite({ className }: { className?: string }) {
       </nav>
 
       <main key={JSON.stringify(screen)} className="animate-slide-in px-3 pt-4 pb-10 @2xl/site:px-6">
-        {screen.name === "catalog" && <Catalog open={(id) => show({ name: "series", id })} read={(id, n) => show({ name: "reader", id, chapter: n })} />}
+        {screen.name === "catalog" && <Catalog open={(id) => show({ name: "series", id })} read={(id, n) => show({ name: "reader", id, chapter: n })} readUpTo={progress[SERIES.id] ?? 0} />}
         {screen.name === "series" && series && (
           <SeriesPage series={series} readUpTo={progress[series.id] ?? 0} read={(n) => show({ name: "reader", id: series.id, chapter: n })} back={() => show({ name: "catalog" })} />
         )}
@@ -650,5 +576,6 @@ export function AuthorSite({ className }: { className?: string }) {
         )}
       </main>
     </div>
+    </ArtContext.Provider>
   )
 }

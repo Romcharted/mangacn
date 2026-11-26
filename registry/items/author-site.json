@@ -2,7 +2,7 @@
   "name": "author-site",
   "type": "registry:block",
   "title": "Author Site",
-  "description": "The site of a manga author, end to end, made only with mangacn: a header with the author's name and a breadcrumb, then three screens that lead to each other. Catalog: the works as VolumeCards (the newest one wrapped in an ObiBand), this week's releases in a ReleaseCalendar (strip of days), the most read series in a RankingList with big numbers, links to the latest chapters and a Shelf of every volume (pull one, then open its series). Series page: a SeriesHeader (cover, stamp status, genres, figures, folding summary, Start reading / Continue), the chapter list (read chapters carry a brush check, the next one shows its date) and a Spoiler hiding the next chapter's preview. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, drawn art, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other, and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.",
+  "description": "The site of one manga series, made only with mangacn: its volumes (VolumeCards, an ObiBand for the volume still to come), the week's releases, the most read chapters and the shelf, then the series page and the chapter. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, pictures, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other, and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.",
   "categories": [
     "blocks"
   ],
@@ -35,11 +35,16 @@
       "target": "@components/manga/blocks/author-site.tsx"
     }
   ],
-  "docs": "Import from \"@/components/manga/blocks/author-site\". The works, chapters and pages are data at the top of the file: replace SERIES with your series and chapterPages() with your chapters as PageData (or give PageReader and GuidedView scans). The three screens are the component's state: wire show() to your router to give each one a URL.",
+  "docs": "Import from \"@/components/manga/blocks/author-site\". The works, chapters and pages are data at the top of the file: replace SERIES with your series and chapterPages() with your chapters as PageData (or give PageReader and GuidedView scans). The three screens are the component's state: wire show() to your router to give each one a URL. The block ships no image: pass the volume covers and one picture per kind of panel in art (without them, covers are screentone and panels stay empty).",
   "meta": {
     "tagline": "A manga author's site: catalog, series page, then the chapter read page by page or panel by panel.",
     "usage": "import { AuthorSite } from \"@/components/manga/blocks/author-site\"\n\n<AuthorSite />",
     "props": [
+      {
+        "name": "art",
+        "type": "{ covers?: Record<number, string>; scenes?: Partial<Record<AuthorSiteScene, string>> }",
+        "description": "Volume covers by number and the pictures of the chapter panels (image URLs)."
+      },
       {
         "name": "className",
         "type": "string",

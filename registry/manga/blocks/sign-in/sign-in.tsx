@@ -1,8 +1,7 @@
 "use client"
 
 /*
- * Sign in — the first screen of the mangacn auth flow, made only with the kit. A manga Panel (the reader drawn
- * whole in SVG, focus SpeedLines around her, a SpeechBubble and an Sfx "ドキッ" that react to the state) sits on
+ * Sign in — the first screen of the mangacn auth flow, made only with the kit. A manga Panel (the picture you pass for each state (pictures; none ships with the block), focus SpeedLines around her, a SpeechBubble and an Sfx "ドキッ" that react to the state) sits on
  * the start side of the form from 48rem of container width, and above it in 4:3 when narrower. The form: email,
  * password with a show/hide toggle, "Keep me signed in", a Sign in Button with its loading state, a "Forgot
  * password?" link, social buttons behind an "or" divider, and a link to create an account.
@@ -30,6 +29,9 @@ import { cn } from "cn"
 export type AuthScreen = "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password"
 export type AuthProvider = { id: string; label: string; logo?: React.ReactNode }
 
+/** The panel's picture for each state: waiting, after an error, after success. */
+export type AuthPictures = { idle?: string; error?: string; done?: string }
+
 export type SignInProps = {
   className?: string
   /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
@@ -38,6 +40,8 @@ export type SignInProps = {
   onNavigate?: (screen: AuthScreen) => void
   /** Third-party sign-in buttons. The block ships no logo: pass your own marks. */
   providers?: AuthProvider[]
+  /** Pictures for the panel, one per state (image URLs): the block ships none. Without them the panel keeps its speed lines. */
+  pictures?: AuthPictures
 }
 
 type Mood = "idle" | "error" | "done"
@@ -65,49 +69,8 @@ function validate(email: string, password: string): Errors {
   return errors
 }
 
-/** The reader of the auth flow, drawn whole (bust and open volume) for this block: ink lines, paper, a toned jacket. */
-function Reader({ className }: { className?: string }) {
-  const id = `tone-${React.useId().replace(/[^\w-]/g, "")}`
-  return (
-    <svg aria-hidden viewBox="0 0 200 224" className={cn("text-foreground", className)} fill="none">
-      <defs>
-        <pattern id={id} width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="1.5" cy="1.5" r="1.2" fill="currentColor" />
-          <circle cx="4.5" cy="4.5" r="1.2" fill="currentColor" />
-        </pattern>
-      </defs>
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M52 108C44 62 70 36 102 36s58 26 48 72l-4 22H56z" fill="currentColor" />
-        <path d="M88 132v28h24v-28z" fill="var(--background)" />
-        <path d="M12 222c6-46 40-64 88-64s82 18 88 64z" fill={`url(#${id})`} />
-        <path d="M78 159l22 28 22-28z" fill="var(--background)" />
-        <ellipse cx="100" cy="100" rx="38" ry="44" fill="var(--background)" />
-        <path
-          d="M60 98C57 62 78 46 100 46s43 16 40 52l-10-16-8 12-10-16-10 16-10-16-10 16-10-16z"
-          fill="currentColor"
-        />
-        <path d="M76 97l17 3M124 97l-17 3" />
-        <path d="M94 127q6 6 12 0" strokeWidth="2.5" />
-        <path d="M70 121l5-5M76 122l5-5M119 122l5-5M125 121l5-5" strokeWidth="1.5" />
-      </g>
-      <ellipse cx="86" cy="109" rx="5" ry="8" fill="currentColor" />
-      <ellipse cx="114" cy="109" rx="5" ry="8" fill="currentColor" />
-      <circle cx="88" cy="105" r="1.8" fill="var(--background)" />
-      <circle cx="116" cy="105" r="1.8" fill="var(--background)" />
-      {/* the open volume, held in both hands */}
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M46 198l54-12 54 12v20l-54-12-54 12z" fill="var(--background)" />
-        <path d="M100 186v20" />
-        <path d="M58 200l32-7M58 206l32-7M110 193l32 7M110 199l32 7" strokeWidth="1.5" />
-        <ellipse cx="46" cy="208" rx="9" ry="7" fill="var(--background)" />
-        <ellipse cx="154" cy="208" rx="9" ry="7" fill="var(--background)" />
-      </g>
-    </svg>
-  )
-}
-
 /** The picture: 4:3 above the form, full height beside it from 48rem of container width. */
-function Scene({ mood }: { mood: Mood }) {
+function Scene({ mood, picture }: { mood: Mood; picture?: string }) {
   return (
     <aside aria-label="Inkwell" className="grid">
       <Panel className="aspect-[4/3] [@media(orientation:landscape)_and_(max-height:32rem)]:aspect-auto [@media(orientation:landscape)_and_(max-height:32rem)]:h-[80svh] w-full @3xl/main:aspect-auto @3xl/main:h-full @3xl/main:min-h-[36rem]">
@@ -121,8 +84,8 @@ function Scene({ mood }: { mood: Mood }) {
           seed={23}
           className="absolute! inset-0 hidden @3xl/main:block"
         />
+        {picture && <img src={picture} alt="" className="absolute inset-0 size-full object-cover object-[50%_22%]" />}
         <div className="absolute end-[4%] bottom-0 aspect-[200/224] h-[86%] @3xl/main:end-[6%] @3xl/main:h-[58%]">
-          <Reader className="size-full" />
           {mood === "error" && <Manpu kind="surprise" size="30%" className="absolute! -top-[6%] start-[2%]" />}
           {mood === "done" && <Manpu kind="sparkle" size="26%" className="absolute! -top-[2%] end-[0%]" />}
         </div>
@@ -183,7 +146,7 @@ function PasswordInput({
   )
 }
 
-export function SignIn({ className, titleAs: TitleTag = "h1", onNavigate, providers = DEFAULT_PROVIDERS }: SignInProps) {
+export function SignIn({ className, titleAs: TitleTag = "h1", onNavigate, pictures, providers = DEFAULT_PROVIDERS }: SignInProps) {
   const uid = React.useId()
   const rootRef = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -257,7 +220,7 @@ export function SignIn({ className, titleAs: TitleTag = "h1", onNavigate, provid
   return (
     <div ref={rootRef} data-manga="sign-in" className={cn("@container/main w-full bg-background text-foreground", className)}>
       <div className="grid gap-5 p-3 @md/main:p-6 @3xl/main:min-h-[40rem] @3xl/main:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] @3xl/main:gap-8">
-        <Scene mood={mood} />
+        <Scene mood={mood} picture={pictures?.[mood]} />
 
         <section
           aria-labelledby={`${uid}-title`}

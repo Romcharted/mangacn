@@ -1,8 +1,8 @@
 "use client"
 
 /*
- * Forgot password — the recovery screen of the mangacn auth flow, made only with the kit. A manga Panel (the
- * reader drawn whole in SVG, a sweat drop, focus SpeedLines, a SpeechBubble and an Sfx "ハッ" that react to the
+ * Forgot password — the recovery screen of the mangacn auth flow, made only with the kit. A manga Panel (
+ * the picture you pass for each state (pictures; none ships with the block), a sweat drop, focus SpeedLines, a SpeechBubble and an Sfx "ハッ" that react to the
  * state) sits on the start side of the form from 48rem of container width, and above it in 4:3 when narrower.
  * The form: email, a Send code Button with its loading state, and a link back to sign in.
  * States: field errors (empty or invalid email), an unknown email (demo: an address containing "unknown") as a
@@ -24,12 +24,17 @@ import { cn } from "cn"
 
 export type AuthScreen = "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password"
 
+/** The panel's picture for each state: waiting, after an error, after success. */
+export type AuthPictures = { idle?: string; error?: string; done?: string }
+
 export type ForgotPasswordProps = {
   className?: string
   /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
   titleAs?: "h1" | "h2"
   /** Called by the links and the next-step button. Without it they do nothing (the block never navigates). */
   onNavigate?: (screen: AuthScreen) => void
+  /** Pictures for the panel, one per state (image URLs): the block ships none. Without them the panel keeps its speed lines. */
+  pictures?: AuthPictures
 }
 
 type Mood = "idle" | "error" | "done"
@@ -48,53 +53,8 @@ function validate(email: string): string | undefined {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return "That address is missing its @ or its domain."
 }
 
-/** The reader of the auth flow, drawn whole for this block: caught off guard, the volume lowered. */
-function Reader({ className }: { className?: string }) {
-  const id = `tone-${React.useId().replace(/[^\w-]/g, "")}`
-  return (
-    <svg aria-hidden viewBox="0 0 200 224" className={cn("text-foreground", className)} fill="none">
-      <defs>
-        <pattern id={id} width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="1.5" cy="1.5" r="1.2" fill="currentColor" />
-          <circle cx="4.5" cy="4.5" r="1.2" fill="currentColor" />
-        </pattern>
-      </defs>
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M52 108C44 62 70 36 102 36s58 26 48 72l-4 22H56z" fill="currentColor" />
-        <path d="M88 132v28h24v-28z" fill="var(--background)" />
-        <path d="M12 222c6-46 40-64 88-64s82 18 88 64z" fill={`url(#${id})`} />
-        <path d="M78 159l22 28 22-28z" fill="var(--background)" />
-        <ellipse cx="100" cy="100" rx="38" ry="44" fill="var(--background)" />
-        <path
-          d="M60 98C57 62 78 46 100 46s43 16 40 52l-10-16-8 12-10-16-10 16-10-16-10 16-10-16z"
-          fill="currentColor"
-        />
-        {/* worried brows, a small round mouth */}
-        <path d="M76 95q8 2 16-4M124 95q-8 2-16-4" />
-        <ellipse cx="100" cy="128" rx="4" ry="5" strokeWidth="2.5" fill="var(--background)" />
-        <path d="M70 121l5-5M76 122l5-5M119 122l5-5M125 121l5-5" strokeWidth="1.5" />
-      </g>
-      {/* wide eyes: rings with small pupils */}
-      <g stroke="currentColor" strokeWidth="2.5">
-        <ellipse cx="86" cy="109" rx="6" ry="8" fill="var(--background)" />
-        <ellipse cx="114" cy="109" rx="6" ry="8" fill="var(--background)" />
-      </g>
-      <circle cx="86" cy="110" r="2.5" fill="currentColor" />
-      <circle cx="114" cy="110" r="2.5" fill="currentColor" />
-      {/* the volume, lowered and tilted */}
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M52 206l50-16 50 8v18l-50-8-50 16z" fill="var(--background)" />
-        <path d="M102 190v18" />
-        <path d="M64 206l28-9M64 212l28-9M112 197l30 5M112 203l30 5" strokeWidth="1.5" />
-        <ellipse cx="52" cy="214" rx="9" ry="7" fill="var(--background)" />
-        <ellipse cx="152" cy="208" rx="9" ry="7" fill="var(--background)" />
-      </g>
-    </svg>
-  )
-}
-
 /** The picture: 4:3 above the form, full height beside it from 48rem of container width. */
-function Scene({ mood }: { mood: Mood }) {
+function Scene({ mood, picture }: { mood: Mood; picture?: string }) {
   return (
     <aside aria-label="Inkwell" className="grid">
       <Panel className="aspect-[4/3] [@media(orientation:landscape)_and_(max-height:32rem)]:aspect-auto [@media(orientation:landscape)_and_(max-height:32rem)]:h-[80svh] w-full @3xl/main:aspect-auto @3xl/main:h-full @3xl/main:min-h-[36rem]">
@@ -108,8 +68,8 @@ function Scene({ mood }: { mood: Mood }) {
           seed={17}
           className="absolute! inset-0 hidden @3xl/main:block"
         />
+        {picture && <img src={picture} alt="" className="absolute inset-0 size-full object-cover object-[50%_22%]" />}
         <div className="absolute end-[4%] bottom-0 aspect-[200/224] h-[86%] @3xl/main:end-[6%] @3xl/main:h-[58%]">
-          <Reader className="size-full" />
           {mood === "done" ? (
             <Manpu kind="sparkle" size="26%" className="absolute! -top-[2%] end-[0%]" />
           ) : (
@@ -149,7 +109,7 @@ function ErrorBox({ title, children }: { title: string; children: React.ReactNod
   )
 }
 
-export function ForgotPassword({ className, titleAs: TitleTag = "h1", onNavigate }: ForgotPasswordProps) {
+export function ForgotPassword({ className, titleAs: TitleTag = "h1", onNavigate, pictures }: ForgotPasswordProps) {
   const uid = React.useId()
   const rootRef = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -207,7 +167,7 @@ export function ForgotPassword({ className, titleAs: TitleTag = "h1", onNavigate
   return (
     <div ref={rootRef} data-manga="forgot-password" className={cn("@container/main w-full bg-background text-foreground", className)}>
       <div className="grid gap-5 p-3 @md/main:p-6 @3xl/main:min-h-[40rem] @3xl/main:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] @3xl/main:gap-8">
-        <Scene mood={mood} />
+        <Scene mood={mood} picture={pictures?.[mood]} />
 
         <section
           aria-labelledby={`${uid}-title`}

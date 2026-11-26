@@ -117,47 +117,19 @@ function Heading({ no, id, children }: { no: string; id: string; children: React
   )
 }
 
-/** An open book of panels with a pen above it: the splash art, drawn for this block. Paper fill knocks out the lines behind. */
-function BookArt({ className }: { className?: string }) {
-  const ink = "var(--foreground)"
-  const paper = "var(--background)"
-  return (
-    <svg aria-hidden viewBox="0 0 200 150" className={className}>
-      <g stroke={ink} strokeWidth="3" strokeLinejoin="round">
-        {/* cover */}
-        <path d="M14 126 C48 116 80 116 100 130 C120 116 152 116 186 126 L186 134 C152 124 120 124 100 140 C80 124 48 124 14 134 Z" fill={ink} />
-        {/* pages */}
-        <path d="M100 46 C80 34 48 34 20 42 L20 124 C48 114 80 114 100 128 Z" fill={paper} />
-        <path d="M100 46 C120 34 152 34 180 42 L180 124 C152 114 120 114 100 128 Z" fill={paper} />
-      </g>
-      <g stroke={ink} strokeWidth="2" fill={paper}>
-        {/* panels on the left page */}
-        <rect x="30" y="48" width="28" height="30" />
-        <rect x="62" y="46" width="30" height="32" />
-        <rect x="30" y="82" width="62" height="30" />
-        {/* panels on the right page */}
-        <rect x="108" y="46" width="62" height="28" />
-        <rect x="108" y="78" width="28" height="34" />
-        <rect x="140" y="78" width="30" height="34" />
-        {/* a bubble and a figure */}
-        <ellipse cx="124" cy="58" rx="10" ry="6" />
-        <circle cx="76" cy="58" r="6" fill={ink} />
-        <path d="M68 78 C68 68 84 68 84 78" fill={ink} />
-        <path d="M36 104 L50 90 L64 104 L78 90 L86 104" fill="none" />
-      </g>
-      {/* the pen, nib down */}
-      <g stroke={ink} strokeWidth="3" strokeLinejoin="round">
-        <path d="M150 8 L170 28 L152 36 L142 26 Z" fill={ink} />
-        <path d="M142 26 L134 40 L148 34" fill={paper} />
-        <path d="M148 18 L160 30" stroke={paper} strokeWidth="2" />
-      </g>
-    </svg>
-  )
-}
-
 /* ---------- The interface ---------- */
 
-export function LandingPage({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
+export function LandingPage({
+  className,
+  titleAs: TitleTag = "h1",
+  cover,
+}: {
+  className?: string
+  /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
+  titleAs?: "h1" | "h2"
+  /** The cover shown in the opening panel (an image URL). The block ships none: without it, a screentone cover. */
+  cover?: string
+}) {
   const [rootRef, wide] = useWide<HTMLDivElement>()
   const uid = React.useId()
   const [menu, setMenu] = React.useState(false)
@@ -296,7 +268,11 @@ export function LandingPage({ className, titleAs: TitleTag = "h1" }: { className
             <Panel cut={wide ? { side: "start", size: 48 } : undefined} className="min-h-64">
               <SpeedLines variant="focus" originX={50} originY={55} hole={0.62} density={0.55} className="absolute inset-0" />
               <div className={cn("relative grid h-full place-items-center p-6", wide && "ps-14")}>
-                <BookArt className="w-full max-w-60" />
+                {cover ? (
+                  <img src={cover} alt="" className="aspect-[2/3] w-full max-w-48 border-ink object-cover" />
+                ) : (
+                  <span aria-hidden className="block aspect-[2/3] w-full max-w-48 border-ink bg-background tone-35" />
+                )}
               </div>
               <Burst variant="accent" points={12} seed={9} className="absolute end-2 top-2 z-10 min-h-20 min-w-20 px-6 py-5 text-base">
                 NEW!

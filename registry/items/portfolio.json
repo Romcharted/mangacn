@@ -2,7 +2,7 @@
   "name": "portfolio",
   "type": "registry:block",
   "title": "Developer portfolio",
-  "description": "A developer's portfolio made only with mangacn: a top bar whose section buttons scroll in place, an opening spread of two Panels with a slanted gutter (focus SpeedLines behind a TonedImage portrait drawn in SVG, a SpeechBubble, Sfx lettering and a band of motion lines), projects as a manga page of Cards (wide, two, wide) with drawn thumbnails, Badge tags, a CodeBlock install snippet and links that do not navigate, skills as a CharacterCard with stat bars, a career as a vertical Stepper, and a contact form (Field, Input, Textarea, Button) that validates on submit, shakes its errors, shows a loading button and then a brush-check success panel. No network. One column on phones; container queries widen it. Works in light, dark, any accent and in manga reading order.",
+  "description": "A developer's portfolio made only with mangacn: a top bar whose section buttons scroll in place, an opening spread of two Panels with a slanted gutter (focus SpeedLines behind the portrait you pass (toned by TonedImage, or shown as it is when inked), a SpeechBubble, Sfx lettering and a band of motion lines), projects as a manga page of Cards (wide, two, wide) with the thumbnails you pass, Badge tags, a CodeBlock install snippet and links that do not navigate, skills as a CharacterCard with stat bars, a career as a vertical Stepper, and a contact form (Field, Input, Textarea, Button) that validates on submit, shakes its errors, shows a loading button and then a brush-check success panel. No network. One column on phones; container queries widen it. Works in light, dark, any accent and in manga reading order.",
   "categories": [
     "blocks"
   ],
@@ -34,11 +34,16 @@
       "target": "@components/manga/blocks/portfolio.tsx"
     }
   ],
-  "docs": "Import from \"@/components/manga/blocks/portfolio\". The page follows the document scroll; replace the name, portrait (a data URL or any picture URL), projects, stats and career in the constants at the top of the file. The contact form only validates and shows a success panel: wire `submit` to your own endpoint.",
+  "docs": "Import from \"@/components/manga/blocks/portfolio\". The page follows the document scroll; replace the name, projects, stats and career in the constants at the top of the file. The contact form only validates and shows a success panel: wire `submit` to your own endpoint. The block ships no image: pass the portrait and the project thumbnails in art.",
   "meta": {
     "tagline": "Intro panels, projects on a manga page, skills as a character sheet, a contact form.",
     "usage": "import { Portfolio } from \"@/components/manga/blocks/portfolio\"\n\n<Portfolio />",
     "props": [
+      {
+        "name": "art",
+        "type": "{ portrait?: string; inked?: boolean; projects?: Record<string, string> }",
+        "description": "The portrait and one thumbnail per project id (image URLs); inked shows the portrait without tone."
+      },
       {
         "name": "className",
         "type": "string",

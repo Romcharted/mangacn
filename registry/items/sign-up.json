@@ -2,7 +2,7 @@
   "name": "sign-up",
   "type": "registry:block",
   "title": "Sign up",
-  "description": "The sign-up screen of the mangacn auth flow, made only with the kit. A manga Panel: the reader drawn whole in SVG hugging a brand-new volume (ink lines, paper fills, a screentone jacket), focus SpeedLines, a SpeechBubble ('A new reader!', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sparkle and the Sfx ワクワク. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: name and email Fields, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit) and a PasswordStrength gauge, a terms Checkbox ('I accept the Terms and the Privacy notice'), a Create account Button with its loading state (fields stay enabled), SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'Already have an account? Sign in'. Errors with focus on the first wrong field: empty fields, invalid email, weak password (passwordScore under 2), terms unchecked; a taken email (demo: an address starting with 'taken') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Created!', 'Check your inbox' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
+  "description": "The sign-up screen of the mangacn auth flow, made only with the kit. A manga Panel: the picture you pass for each state (pictures), focus SpeedLines, a SpeechBubble ('A new reader!', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sparkle and the Sfx ワクワク. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: name and email Fields, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit) and a PasswordStrength gauge, a terms Checkbox ('I accept the Terms and the Privacy notice'), a Create account Button with its loading state (fields stay enabled), SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'Already have an account? Sign in'. Errors with focus on the first wrong field: empty fields, invalid email, weak password (passwordScore under 2), terms unchecked; a taken email (demo: an address starting with 'taken') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Created!', 'Check your inbox' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.",
   "categories": [
     "blocks"
   ],
@@ -33,11 +33,16 @@
       "target": "@components/manga/blocks/sign-up.tsx"
     }
   ],
-  "docs": "Import from \"@/components/manga/blocks/sign-up\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Wire onNavigate to your router, pass your own provider marks through providers, and replace the simulated timeouts in submit and social with your own calls. The password check uses passwordScore from the Password Strength item.",
+  "docs": "Import from \"@/components/manga/blocks/sign-up\". The root fills its container width; the panel and the form sit side by side once the block is 48rem wide. Wire onNavigate to your router, pass your own provider marks through providers, and replace the simulated timeouts in submit and social with your own calls. The password check uses passwordScore from the Password Strength item. Pass pictures (one image URL per state: idle, error, done) to fill the panel; the block ships no image.",
   "meta": {
     "tagline": "A manga panel beside the sign-up form, with a strength gauge and social buttons.",
     "usage": "import { SignUp } from \"@/components/manga/blocks/sign-up\"\n\n<SignUp\n  className=\"min-h-svh\"\n  onNavigate={(screen) => router.push(`/${screen}`)}\n  providers={[{ id: \"google\", label: \"Continue with Google\", logo: <GoogleMark /> }]}\n/>",
     "props": [
+      {
+        "name": "pictures",
+        "type": "{ idle?: string; error?: string; done?: string }",
+        "description": "Image URLs for the panel, one per state. Without them the panel shows its speed lines only."
+      },
       {
         "name": "className",
         "type": "string",

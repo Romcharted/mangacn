@@ -7,6 +7,8 @@
  * chapter. Jumping to a chapter plays a stepped scene transition (instant with reduced motion), then moves
  * focus to the chapter's heading. The strip is a Yonkoma on the page model: captions and the sound effect
  * are `Place`d on its panels, sized with the page. Nothing is posted; links never navigate.
+ * The block ships no image: pass the cover, the faces and the strip's pictures in `art` (without them the
+ * cover is screentone, the faces are left out and the panels stay blank).
  * One column on phones; container queries (`@container/story`) widen it.
  */
 import * as React from "react"
@@ -22,89 +24,22 @@ import { Sfx } from "@/components/manga/sfx"
 import { SpeechBubble } from "@/components/manga/speech-bubble"
 import { Yonkoma } from "@/components/manga/yonkoma"
 
-/* ---------- Art, drawn for this block (ink = currentColor, paper = the background) ---------- */
+/* ---------- Pictures: passed in `art`, none ships with the block ---------- */
 
-const paper = "var(--background)"
-
-function CoverArt() {
-  const rays = Array.from({ length: 18 }, (_, i) => {
-    const a = (i / 18) * Math.PI * 2
-    const b = a + 0.09
-    return `M100 128L${(100 + Math.cos(a) * 260).toFixed(1)} ${(128 + Math.sin(a) * 260).toFixed(1)}L${(100 + Math.cos(b) * 260).toFixed(1)} ${(128 + Math.sin(b) * 260).toFixed(1)}Z`
-  }).join("")
-  return (
-    <svg aria-hidden viewBox="0 0 200 266" preserveAspectRatio="xMidYMid slice" className="size-full">
-      <rect width="200" height="266" fill={paper} />
-      <path d={rays} fill="currentColor" />
-      <circle cx="100" cy="128" r="46" fill={paper} stroke="currentColor" strokeWidth="5" />
-      {/* a figure holding a calendar page up, stamped */}
-      <path d="M60 266c6-40 20-58 40-58s34 18 40 58z" fill="currentColor" />
-      <circle cx="100" cy="190" r="20" fill="currentColor" />
-      <rect x="74" y="96" width="52" height="58" fill={paper} stroke="currentColor" strokeWidth="4" />
-      <path d="M74 110h52" stroke="currentColor" strokeWidth="4" />
-      <path d="M86 132l10 10 18-22" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="square" />
-      <path d="M78 154l-8 22M122 154l8 22" stroke="currentColor" strokeWidth="6" />
-    </svg>
-  )
+export type StoryLandingArt = {
+  /** The magazine cover's picture. */
+  cover?: string
+  /** The guide's face, in the dialogue box. */
+  guide?: string
+  /** The reader's face, when they answer. */
+  reader?: string
+  /** One picture per panel of the four-panel strip. */
+  beats?: [string, string, string, string]
 }
 
-function Guide() {
-  return (
-    <svg aria-hidden viewBox="0 0 100 100" className="size-full">
-      <rect width="100" height="100" fill={paper} />
-      <path d="M14 100c4-18 18-26 36-26s32 8 36 26z" fill="currentColor" />
-      <ellipse cx="50" cy="50" rx="24" ry="27" fill={paper} stroke="currentColor" strokeWidth="3.5" />
-      <path d="M24 52c-4-26 10-38 26-38s32 10 28 38c-4-10-6-16-10-18-10 6-26 6-40 0-2 4-3 10-4 18z" fill="currentColor" />
-      <path d="M70 20 84 8M74 26l14-4" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <circle cx="41" cy="55" r="3" fill="currentColor" />
-      <circle cx="59" cy="55" r="3" fill="currentColor" />
-      <path d="M43 67c4 4 10 4 14 0" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function Reader() {
-  return (
-    <svg aria-hidden viewBox="0 0 100 100" className="size-full">
-      <rect width="100" height="100" fill="currentColor" />
-      <path d="M18 100c4-16 16-24 32-24s28 8 32 24z" fill={paper} />
-      <ellipse cx="50" cy="54" rx="22" ry="25" fill={paper} />
-      <path d="M28 52c-2-22 8-32 22-32s26 10 22 32c-6-8-14-12-22-12s-16 4-22 12z" fill="currentColor" stroke={paper} strokeWidth="2.5" />
-      <ellipse cx="42" cy="58" rx="3.5" ry="5" fill="currentColor" />
-      <ellipse cx="58" cy="58" rx="3.5" ry="5" fill="currentColor" />
-      <path d="M46 70h8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-/** One beat of the four-panel strip. */
-function Beat({ step }: { step: 1 | 2 | 3 | 4 }) {
-  return (
-    <svg aria-hidden viewBox="0 0 160 120" preserveAspectRatio="xMidYMax meet" className="absolute inset-x-0 bottom-0 mx-auto h-[82%] w-full">
-      {/* a desk and a calendar page, the same in every panel */}
-      <path d="M0 108h160" stroke="currentColor" strokeWidth="4" />
-      <rect x="54" y="40" width="52" height="60" fill={paper} stroke="currentColor" strokeWidth="3.5" />
-      <path d="M54 54h52" stroke="currentColor" strokeWidth="3.5" />
-      {step === 1 && <path d="M66 72h28M66 84h18" stroke="currentColor" strokeWidth="4" />}
-      {step === 2 && <path d="M66 76l8 8 16-18" fill="none" stroke="currentColor" strokeWidth="6" />}
-      {step === 3 && (
-        <>
-          <path d="M68 66l24 24M92 66 68 90" stroke="currentColor" strokeWidth="5" />
-          <path d="M126 34c4 8 8 10 8 15a8 8 0 0 1-16 0c0-5 4-7 8-15z" fill={paper} stroke="currentColor" strokeWidth="3" />
-        </>
-      )}
-      {step === 4 && (
-        <>
-          <rect x="62" y="62" width="36" height="30" fill="currentColor" />
-          <path d="M70 78l7 7 13-14" fill="none" stroke={paper} strokeWidth="5" />
-          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
-            const a = (i / 8) * Math.PI * 2
-            return <path key={i} d={`M${80 + Math.cos(a) * 44} ${70 + Math.sin(a) * 44}L${80 + Math.cos(a) * 58} ${70 + Math.sin(a) * 58}`} stroke="currentColor" strokeWidth="4" />
-          })}
-        </>
-      )}
-    </svg>
-  )
+/** One beat of the four-panel strip: its picture fills the panel. */
+function Beat({ src }: { src?: string }) {
+  return src ? <img src={src} alt="" draggable={false} className="absolute inset-0 size-full object-cover" /> : null
 }
 
 /* ---------- Content ---------- */
@@ -125,11 +60,11 @@ const STRIP_LABELS: [string, string, string, string] = [
 ]
 const STRIP_CAPTIONS = ["Pick one small goal.", "Do it. Check.", "Missed? A cross. Move on.", "Seven checks: a chapter!"]
 
-const LINES: DialogueLine[] = [
-  { speaker: "Fude", portrait: <Guide />, text: "Hi! I'm Fude. I keep your week the way a mangaka keeps a story: one page at a time." },
-  { speaker: "Fude", portrait: <Guide />, text: "Each day is a panel. Do your goal and I ink a check in it. Skip it and I draw a cross. No guilt, just the next panel." },
-  { speaker: "You", portrait: <Reader />, side: "end", text: "And when the week is over?" },
-  { speaker: "Fude", portrait: <Guide />, text: "Then it becomes a chapter, with a title you choose. Your habits end up as a little volume you can flip through." },
+const lines = (art: StoryLandingArt): DialogueLine[] => [
+  { speaker: "Fude", portrait: art.guide, text: "Hi! I'm Fude. I keep your week the way a mangaka keeps a story: one page at a time." },
+  { speaker: "Fude", portrait: art.guide, text: "Each day is a panel. Do your goal and I ink a check in it. Skip it and I draw a cross. No guilt, just the next panel." },
+  { speaker: "You", portrait: art.reader, side: "end", text: "And when the week is over?" },
+  { speaker: "Fude", portrait: art.guide, text: "Then it becomes a chapter, with a title you choose. Your habits end up as a little volume you can flip through." },
 ]
 
 const QUOTES = [
@@ -142,7 +77,17 @@ const stop = (e: React.MouseEvent) => e.preventDefault()
 
 /* ---------- The interface ---------- */
 
-export function StoryLanding({ className, titleAs: TitleTag = "h1" }: { className?: string; /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */ titleAs?: "h1" | "h2" }) {
+export function StoryLanding({
+  className,
+  titleAs: TitleTag = "h1",
+  art = {},
+}: {
+  className?: string
+  /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
+  titleAs?: "h1" | "h2"
+  /** The cover, the faces and the strip's pictures (image URLs). The block ships none. */
+  art?: StoryLandingArt
+}) {
   const rootRef = React.useRef<HTMLDivElement>(null)
   const uid = React.useId()
   const [started, setStarted] = React.useState(false)
@@ -181,7 +126,7 @@ export function StoryLanding({ className, titleAs: TitleTag = "h1" }: { classNam
             tagline="Your week, one panel a day"
             issue="No. 1"
             date="This week"
-            image={<CoverArt />}
+            image={art.cover}
             lines={[
               { text: "New! Weeks become chapters", highlight: true },
               { text: "A guide who never nags" },
@@ -240,7 +185,7 @@ export function StoryLanding({ className, titleAs: TitleTag = "h1" }: { classNam
             {STRIP_CAPTIONS.map((caption, i) => (
               // a fragment: its Place elements sit on the page and may cross the frame
               <React.Fragment key={caption}>
-                <Beat step={(i + 1) as 1 | 2 | 3 | 4} />
+                <Beat src={art.beats?.[i]} />
                 <Place x={96} y={6} anchor="top-right" maxWidth={70}>
                   <PanelCaption aria-hidden position="free">
                     {caption}
@@ -259,7 +204,7 @@ export function StoryLanding({ className, titleAs: TitleTag = "h1" }: { classNam
         {/* Chapter 2: the guide speaks */}
         <section aria-labelledby={`${uid}-guide`} tabIndex={-1} className="grid scroll-mt-4 gap-6 outline-none">
           <ChapterTitle titleId={`${uid}-guide`} number="02" title="Meet your guide" vertical="案内" variant="ink" subtitle="Click the arrow to hear Fude out." />
-          <DialogueBox lines={LINES} className="mx-auto max-w-2xl" />
+          <DialogueBox lines={lines(art)} className="mx-auto max-w-2xl" />
         </section>
 
         {/* Chapter 3: readers, in bubbles */}

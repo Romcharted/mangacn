@@ -2,7 +2,7 @@
   "name": "landing-page",
   "type": "registry:block",
   "title": "Landing page",
-  "description": "A product landing page made only with mangacn, for an invented manga publishing app: a top nav that folds into a Sheet below 42rem of container width, an opening splash page of Panels on a PanelGrid (lettering headline, focus SpeedLines and an accent Burst around the drawn art, never under text, a shout Button and an outline Button, an ink panel of key figures; three columns with a slanted gutter from 48rem), features in cases (ink-case), pricing as a VersusPanel (Free vs Pro, Pro highlighted, monthly or yearly with pressed buttons in a Button Group), reviews in SpeechBubbles with square Avatars, a FAQ in the Accordion and a footer with link columns and a newsletter InputGroup in a Field that validates the address. One column on phones, container queries widen it; links never navigate. Works in light, dark, any accent and at phone width.",
+  "description": "A product landing page made only with mangacn, for an invented manga publishing app: a top nav that folds into a Sheet below 42rem of container width, an opening splash page of Panels on a PanelGrid (lettering headline, focus SpeedLines and an accent Burst around the cover you pass, never under text, a shout Button and an outline Button, an ink panel of key figures; three columns with a slanted gutter from 48rem), features in cases (ink-case), pricing as a VersusPanel (Free vs Pro, Pro highlighted, monthly or yearly with pressed buttons in a Button Group), reviews in SpeechBubbles with square Avatars, a FAQ in the Accordion and a footer with link columns and a newsletter InputGroup in a Field that validates the address. One column on phones, container queries widen it; links never navigate. Works in light, dark, any accent and at phone width.",
   "categories": [
     "blocks"
   ],
@@ -32,11 +32,16 @@
       "target": "@components/manga/blocks/landing-page.tsx"
     }
   ],
-  "docs": "Import from \"@/components/manga/blocks/landing-page\". The root fills its container and follows the page (no inner scroll). The layout reacts to the width of the block itself (container queries), so it also works inside a narrower frame. The FAQ Accordion gets type=\"multiple\" through a loosely typed spread (FAQ_MODE): Radix requires it, Base UI ignores it, so the file works with both.",
+  "docs": "Import from \"@/components/manga/blocks/landing-page\". The root fills its container and follows the page (no inner scroll). The layout reacts to the width of the block itself (container queries), so it also works inside a narrower frame. The FAQ Accordion gets type=\"multiple\" through a loosely typed spread (FAQ_MODE): Radix requires it, Base UI ignores it, so the file works with both. Pass the opening panel's cover as an image URL in cover; the block ships none (a screentone cover without it).",
   "meta": {
     "tagline": "An opening page, features in panels, pricing as a versus, reviews in bubbles.",
     "usage": "import { LandingPage } from \"@/components/manga/blocks/landing-page\"\n\n<LandingPage />",
     "props": [
+      {
+        "name": "cover",
+        "type": "string",
+        "description": "Image URL of the cover in the opening panel. Without it, a screentone cover."
+      },
       {
         "name": "className",
         "type": "string",

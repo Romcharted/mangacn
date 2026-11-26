@@ -1,8 +1,8 @@
 "use client"
 
 /*
- * Reset password — the last screen of the "forgot password" flow, made only with mangacn. A manga Panel (the
- * reader drawn whole in SVG, a key in her hands, focus SpeedLines around her, a SpeechBubble that reacts to
+ * Reset password — the last screen of the "forgot password" flow, made only with mangacn. A manga Panel (
+ * the picture you pass for each state (pictures; none ships with the block), focus SpeedLines around her, a SpeechBubble that reacts to
  * each state, "キラッ" Sfx) sits on the start side when the block is 48rem wide, and above the form in 4:3 on
  * phones. The form: a new password in an InputGroup with a show/hide toggle and a PasswordStrength gauge, a
  * confirmation, a Save Button with its loading state.
@@ -28,6 +28,9 @@ import { cn } from "cn"
 
 export type AuthScreen = "sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password"
 
+/** The panel's picture for each state: waiting, after an error, after success. */
+export type AuthPictures = { idle?: string; error?: string; done?: string }
+
 export type ResetPasswordProps = {
   className?: string
   /** The title's heading level: "h1" when the block is the page, "h2" inside a page that already has its h1. */
@@ -36,6 +39,8 @@ export type ResetPasswordProps = {
   onNavigate?: (screen: AuthScreen) => void
   /** The account whose password changes. */
   email?: string
+  /** Pictures for the panel, one per state (image URLs): the block ships none. Without them the panel keeps its speed lines. */
+  pictures?: AuthPictures
 }
 
 type Mood = "idle" | "error" | "success"
@@ -60,73 +65,6 @@ function validate(password: string, confirm: string): Errors {
   return errors
 }
 
-/** The reader of the auth flow, drawn whole (bust and hands' prop), holding the key to a new password. */
-function Reader({ mood, className }: { mood: Mood; className?: string }) {
-  const id = `tone-${React.useId().replace(/[^\w-]/g, "")}`
-  return (
-    <svg aria-hidden viewBox="0 0 200 224" className={cn("text-foreground", className)} fill="none">
-      <defs>
-        <pattern id={id} width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="1.5" cy="1.5" r="1.2" fill="currentColor" />
-          <circle cx="4.5" cy="4.5" r="1.2" fill="currentColor" />
-        </pattern>
-      </defs>
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        {/* hair behind the head */}
-        <path d="M52 108C44 62 70 36 102 36s58 26 48 72l-4 22H56z" fill="currentColor" />
-        {/* neck and jacket */}
-        <path d="M88 132v28h24v-28z" fill="var(--background)" />
-        <path d="M12 222c6-46 40-64 88-64s82 18 88 64z" fill={`url(#${id})`} />
-        <path d="M78 159l22 28 22-28z" fill="var(--background)" />
-        {/* head, fringe */}
-        <ellipse cx="100" cy="100" rx="38" ry="44" fill="var(--background)" />
-        <path
-          d="M60 98C57 62 78 46 100 46s43 16 40 52l-10-16-8 12-10-16-10 16-10-16-10 16-10-16z"
-          fill="currentColor"
-        />
-        {/* brows, mouth, blush: they follow the mood */}
-        {mood === "error" ? (
-          <path d="M76 92l17-4M124 92l-17-4" />
-        ) : (
-          <path d="M76 97l17 3M124 97l-17 3" />
-        )}
-        {mood === "success" ? (
-          <path d="M91 124q9 11 18 0z" fill="var(--background)" strokeWidth="2.5" />
-        ) : mood === "error" ? (
-          <ellipse cx="100" cy="127" rx="4" ry="5" fill="var(--background)" strokeWidth="2.5" />
-        ) : (
-          <path d="M94 127q6 6 12 0" strokeWidth="2.5" />
-        )}
-        <path d="M70 121l5-5M76 122l5-5M119 122l5-5M125 121l5-5" strokeWidth="1.5" />
-        {mood === "error" && <path d="M146 74q7 9 0 14q-7-5 0-14z" fill="var(--background)" strokeWidth="2" />}
-        {mood === "success" && <path d="M79 111q7-9 14 0M107 111q7-9 14 0" />}
-      </g>
-      {mood === "idle" && (
-        <>
-          <ellipse cx="86" cy="109" rx="5" ry="8" fill="currentColor" />
-          <ellipse cx="114" cy="109" rx="5" ry="8" fill="currentColor" />
-          <circle cx="88" cy="105" r="1.8" fill="var(--background)" />
-          <circle cx="116" cy="105" r="1.8" fill="var(--background)" />
-        </>
-      )}
-      {mood === "error" && (
-        <>
-          <circle cx="86" cy="109" r="3.5" fill="currentColor" />
-          <circle cx="114" cy="109" r="3.5" fill="currentColor" />
-        </>
-      )}
-      {/* a big key, held up with both hands, and its glint */}
-      <g stroke="currentColor" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round">
-        <circle cx="62" cy="204" r="15" fill="var(--background)" />
-        <circle cx="62" cy="204" r="5" />
-        <path d="M77 199h75v10h-6v10h-9v-10h-8v7h-9v-7H77z" fill="var(--background)" />
-        <path d="M40 196q10-6 14 4v14q-8 6-14-2z M110 196q-10-6-14 4v14q8 6 14-2z" fill="var(--background)" />
-        <path d="M166 172v22M155 183h22" strokeWidth="2.5" />
-      </g>
-    </svg>
-  )
-}
-
 /** G8: an accent box with a jagged edge, a "!" mark and a shake, announced as an alert. */
 function ErrorBox({ children }: { children: React.ReactNode }) {
   return (
@@ -140,7 +78,7 @@ function ErrorBox({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function ResetPassword({ className, titleAs: TitleTag = "h1", onNavigate, email = "mika@inkwell.app" }: ResetPasswordProps) {
+export function ResetPassword({ className, titleAs: TitleTag = "h1", onNavigate, pictures, email = "mika@inkwell.app" }: ResetPasswordProps) {
   const uid = React.useId()
   const rootRef = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -214,10 +152,7 @@ export function ResetPassword({ className, titleAs: TitleTag = "h1", onNavigate,
               seed={47}
               className="absolute! inset-0 hidden @3xl/main:block"
             />
-            <Reader
-              mood={mood}
-              className="absolute end-[4%] bottom-0 h-[84%] @3xl/main:end-[6%] @3xl/main:h-[62%]"
-            />
+            {pictures?.[mood === "success" ? "done" : mood] && <img src={pictures[mood === "success" ? "done" : mood]} alt="" className="absolute inset-0 size-full object-cover object-[50%_22%]" />}
             <SpeechBubble
               key={mood}
               variant={mood === "error" ? "shout" : "speech"}
