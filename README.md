@@ -64,7 +64,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 
 <!-- items:start -->
 
-125 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
+127 items. Each one installs with `npx shadcn@latest add Romcharted/mangacn/<name>`.
 
 ### Foundations
 
@@ -194,6 +194,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Reading Progress | `reading-progress` | How far the reader has gone, in speed lines. |
 | Page Reader | `page-reader` | A manga read page by page: spreads, reading order, swipe, zoom and full screen. |
 | Page Thumbnails | `page-thumbnails` | Every page of a chapter in a grid, to jump anywhere. |
+| Guided View | `guided-view` | A manga read panel by panel: the screen zooms from one panel to the next. |
 | Reader Settings | `reader-settings` | Reading order, mode, fit and background for a manga reader. |
 | Chapter End | `chapter-end` | The end card of a chapter: to be continued, and the next chapter. |
 | Shelf | `shelf` | Volumes on a shelf, spine out: pull one to open it. |
@@ -222,6 +223,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 | Landing page | `landing-page` | An opening page, features in panels, pricing as a versus, reviews in bubbles. |
 | AI chat | `ai-chat` | Thinking in a thought bubble, errors shouted, answers typed as they come. |
 | Manga Reader | `manga-reader` | A vertical strip, chapters in a sheet, progress and reading order. |
+| Author Site | `author-site` | A manga author's site: catalog, series page, then the chapter read page by page or panel by panel. |
 | Developer portfolio | `portfolio` | Intro panels, projects on a manga page, skills as a character sheet, a contact form. |
 | Catalog | `catalog` | Volume cards, filters, tabs and search. |
 | Sign in | `sign-in` | A manga panel beside the sign-in form, with social buttons and a jagged error box. |

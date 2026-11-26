@@ -5189,11 +5189,12 @@
       "name": "page-reader",
       "type": "registry:component",
       "title": "Page Reader",
-      "description": "A manga read page by page from a list of images ({ src, alt, width, height }). One page or two-page spreads (auto: spreads when the stage is wide and landscape; the cover stands alone), manga order (right to left: the next page is on the left, a spread puts the lower page on the right) or western order. Turn with the page edges (invisible zones that show a paper plate with a brush arrow on hover), the arrow keys (following the order), Page Up / Down, Home / End, a swipe (the page follows the finger with no steps, then turns or snaps back; it resists at both ends) or the toolbar. Fit: whole page, width (scrolls down) or height. Background: paper, ink or tone. Zoom 100–300 % with buttons, + / - / 0 or a double click at a point, then drag to pan. Full screen asks the browser (Fullscreen API on the document) and falls back to a fixed immersive mode (iOS Safari); Escape leaves. Pages around the current one are fetched ahead (preload), and a page known to be loaded shows at once. Each page is a ReaderPage (ink frame, loading panel, jagged error panel with Retry, a paper mat in dark mode). A turned page slides in from the side it comes from in three steps. An optional end view after the last page holds a ChapterEnd. The toolbar has a ReadingProgress with a page counter and a slot for your own buttons (settings, thumbnails). Controlled or not (page / onPageChange). Built at 375 px first: 44 px controls, two toolbar rows.",
+      "description": "A manga read page by page from a list of images ({ src, alt, width, height }). One page or two-page spreads (auto: spreads when the stage is wide and landscape; the cover stands alone), manga order (right to left: the next page is on the left, a spread puts the lower page on the right) or western order. Turn with the page edges (invisible zones that show a paper plate with a brush arrow on hover), the arrow keys (following the order), Page Up / Down, Home / End, a swipe (the page follows the finger with no steps, then turns or snaps back; it resists at both ends) or the toolbar. Fit: whole page, width (scrolls down) or height. Background: paper, ink or tone. Zoom 100–300 % with buttons, + / - / 0 or a double click at a point, then drag to pan. Full screen asks the browser (Fullscreen API on the document) and falls back to a fixed immersive mode (iOS Safari); Escape leaves. Pages around the current one are fetched ahead (preload), and a page known to be loaded shows at once. Each page is a ReaderPage (ink frame, loading panel, jagged error panel with Retry, a paper mat in dark mode). A turned page slides in from the side it comes from in three steps. An optional end view after the last page holds a ChapterEnd. The toolbar has a ReadingProgress with a page counter and a slot for your own buttons (settings, thumbnails). Controlled or not (page / onPageChange). Built at 375 px first: 44 px controls, two toolbar rows. PageReader also takes pages of the page model ({ page: PageData }), drawn by Page with real lettering; scans and data pages can be mixed.",
       "categories": [
         "manga"
       ],
       "registryDependencies": [
+        "Romcharted/mangacn/panel",
         "Romcharted/mangacn/reader-strip",
         "Romcharted/mangacn/reading-progress",
         "Romcharted/mangacn/button",
@@ -5217,8 +5218,8 @@
         "props": [
           {
             "name": "pages",
-            "type": "{ src: string; alt: string; width: number; height: number }[]",
-            "description": "The pages, in reading order."
+            "type": "({ src: string; alt: string; width: number; height: number } | { page: PageData; alt?: string })[]",
+            "description": "Scans, or pages of the page model, in reading order."
           },
           {
             "name": "page",
@@ -5299,11 +5300,12 @@
       "name": "page-thumbnails",
       "type": "registry:component",
       "title": "Page Thumbnails",
-      "description": "Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view.",
+      "description": "Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view. It also takes pages of the page model ({ page: PageData }), drawn small by Page.",
       "categories": [
         "manga"
       ],
       "registryDependencies": [
+        "Romcharted/mangacn/panel",
         "Romcharted/mangacn/reader-strip",
         "Romcharted/mangacn/base"
       ],
@@ -5324,8 +5326,8 @@
         "props": [
           {
             "name": "pages",
-            "type": "{ src: string; alt: string; width: number; height: number }[]",
-            "description": "The pages, in reading order."
+            "type": "({ src: string; alt: string; width: number; height: number } | { page: PageData; alt?: string })[]",
+            "description": "Scans, or pages of the page model, in reading order."
           },
           {
             "name": "current",
@@ -5359,6 +5361,87 @@
             "name": "className",
             "type": "string",
             "description": "Added to the nav."
+          }
+        ]
+      }
+    },
+    {
+      "name": "guided-view",
+      "type": "registry:component",
+      "title": "Guided View",
+      "description": "A manga read panel by panel, made for phones: the screen zooms from one panel to the next. It reads the panel geometry of the page model (pageGeometry: every panel's box in reading order, insets included), so a page written as PageData is drawn by Page and guided without any extra data; scans work too, with the box of each panel in percent of the page. The page is drawn once at a fixed width and a camera fits the current panel in the stage, moving in four steps (333 ms); the panels around it hide under a paper veil with wide dots that steps aside while the camera travels. A new page slides in from the side it comes from. Next and previous by tapping the page edges (on hover a paper plate with a brush arrow), the arrow keys following the reading order, Space, Page Up / Down, Home / End, a swipe (the page follows the finger, then turns or snaps back) or the toolbar. Whole page shows the page with every panel as a target (the current one framed, hover thickens a panel's line). A ReadingProgress counts the panels; a live region reads each panel's label. Optional end view (e.g. a ChapterEnd) and a slot for your buttons. Reduced motion: the camera jumps.",
+      "categories": [
+        "manga"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/panel",
+        "Romcharted/mangacn/reader-strip",
+        "Romcharted/mangacn/reading-progress",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/signature/guided-view.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/guided-view.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/guided-view\". Pass pages of the page model as { page: PageData }: their panels are found with pageGeometry, in reading order. For scans pass { src, alt, width, height, panels: [{ x, y, w, h, label? }] } with boxes in percent of the page. Give panels a label (PanelData.label): it is what a screen reader hears at each step.",
+      "meta": {
+        "tagline": "A manga read panel by panel: the screen zooms from one panel to the next.",
+        "usage": "import { GuidedView } from \"@/components/manga/guided-view\"\nimport type { PageData } from \"@/components/manga/page-geometry\"\n\nconst pages: PageData[] = [/* your pages */]\n\n<GuidedView\n  pages={pages.map((page) => ({ page }))}\n  direction=\"rtl\"\n  onPositionChange={({ page, panel }) => save(page, panel)}\n/>",
+        "props": [
+          {
+            "name": "pages",
+            "type": "({ page: PageData; alt?: string } | { src: string; alt: string; width: number; height: number; panels: { x: number; y: number; w: number; h: number; label?: string }[] })[]",
+            "description": "Page-model pages, or scans with their panel boxes (percent of the page)."
+          },
+          {
+            "name": "position",
+            "type": "{ page: number; panel: number }",
+            "description": "Current panel, controlled (0-based)."
+          },
+          {
+            "name": "defaultPosition",
+            "type": "{ page: number; panel: number }",
+            "default": "{ page: 0, panel: 0 }",
+            "description": "Current panel, uncontrolled."
+          },
+          {
+            "name": "onPositionChange",
+            "type": "(position: { page: number; panel: number }) => void",
+            "description": "Called at each step."
+          },
+          {
+            "name": "direction",
+            "type": "\"rtl\" | \"ltr\"",
+            "default": "\"rtl\"",
+            "description": "Order of taps, swipes and arrows, and of data pages that do not set reading."
+          },
+          {
+            "name": "end",
+            "type": "ReactNode",
+            "description": "Shown after the last panel."
+          },
+          {
+            "name": "onEnd",
+            "type": "() => void",
+            "description": "Called past the last panel."
+          },
+          {
+            "name": "toolbar",
+            "type": "ReactNode",
+            "description": "Your own buttons in the toolbar."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root; set its height here (default min(46rem, 86svh))."
           }
         ]
       }
@@ -6875,6 +6958,56 @@
             "name": "className",
             "type": "string",
             "description": "Size and placement of the whole reader."
+          }
+        ]
+      }
+    },
+    {
+      "name": "author-site",
+      "type": "registry:block",
+      "title": "Author Site",
+      "description": "The site of a manga author, end to end, made only with mangacn: a header with the author's name and a breadcrumb, then three screens that lead to each other. Catalog: the works as VolumeCards (the newest one wrapped in an ObiBand), this week's releases in a ReleaseCalendar (strip of days), the most read series in a RankingList with big numbers, links to the latest chapters and a Shelf of every volume (pull one, then open its series). Series page: a SeriesHeader (cover, stamp status, genres, figures, folding summary, Start reading / Continue), the chapter list (read chapters carry a brush check, the next one shows its date) and a Spoiler hiding the next chapter's preview. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, drawn art, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other, and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.",
+      "categories": [
+        "blocks"
+      ],
+      "registryDependencies": [
+        "Romcharted/mangacn/page-reader",
+        "Romcharted/mangacn/guided-view",
+        "Romcharted/mangacn/page-thumbnails",
+        "Romcharted/mangacn/reader-settings",
+        "Romcharted/mangacn/chapter-end",
+        "Romcharted/mangacn/series-header",
+        "Romcharted/mangacn/shelf",
+        "Romcharted/mangacn/ranking-list",
+        "Romcharted/mangacn/release-calendar",
+        "Romcharted/mangacn/spoiler",
+        "Romcharted/mangacn/obi-band",
+        "Romcharted/mangacn/volume-card",
+        "Romcharted/mangacn/panel",
+        "Romcharted/mangacn/sheet",
+        "Romcharted/mangacn/button",
+        "Romcharted/mangacn/base"
+      ],
+      "dependencies": [
+        "cn",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/manga/blocks/author-site/author-site.tsx",
+          "type": "registry:component",
+          "target": "@components/manga/blocks/author-site.tsx"
+        }
+      ],
+      "docs": "Import from \"@/components/manga/blocks/author-site\". The works, chapters and pages are data at the top of the file: replace SERIES with your series and chapterPages() with your chapters as PageData (or give PageReader and GuidedView scans). The three screens are the component's state: wire show() to your router to give each one a URL.",
+      "meta": {
+        "tagline": "A manga author's site: catalog, series page, then the chapter read page by page or panel by panel.",
+        "usage": "import { AuthorSite } from \"@/components/manga/blocks/author-site\"\n\n<AuthorSite />",
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the root."
           }
         ]
       }

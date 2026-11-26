@@ -1,6 +1,6 @@
 # mangacn
 
-> 125 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
+> 127 shadcn/ui registry items that redraw shadcn in a manga style (ink, paper, screentone) with one accent colour, a dark mode (the negative of the page) and right-to-left reading order. MIT. Installed with the shadcn CLI straight from GitHub.
 
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
@@ -1908,12 +1908,12 @@ import { ReadingProgress } from "@/components/manga/reading-progress"
 
 ### Page Reader (`page-reader`)
 
-A manga read page by page from a list of images ({ src, alt, width, height }). One page or two-page spreads (auto: spreads when the stage is wide and landscape; the cover stands alone), manga order (right to left: the next page is on the left, a spread puts the lower page on the right) or western order. Turn with the page edges (invisible zones that show a paper plate with a brush arrow on hover), the arrow keys (following the order), Page Up / Down, Home / End, a swipe (the page follows the finger with no steps, then turns or snaps back; it resists at both ends) or the toolbar. Fit: whole page, width (scrolls down) or height. Background: paper, ink or tone. Zoom 100–300 % with buttons, + / - / 0 or a double click at a point, then drag to pan. Full screen asks the browser (Fullscreen API on the document) and falls back to a fixed immersive mode (iOS Safari); Escape leaves. Pages around the current one are fetched ahead (preload), and a page known to be loaded shows at once. Each page is a ReaderPage (ink frame, loading panel, jagged error panel with Retry, a paper mat in dark mode). A turned page slides in from the side it comes from in three steps. An optional end view after the last page holds a ChapterEnd. The toolbar has a ReadingProgress with a page counter and a slot for your own buttons (settings, thumbnails). Controlled or not (page / onPageChange). Built at 375 px first: 44 px controls, two toolbar rows.
+A manga read page by page from a list of images ({ src, alt, width, height }). One page or two-page spreads (auto: spreads when the stage is wide and landscape; the cover stands alone), manga order (right to left: the next page is on the left, a spread puts the lower page on the right) or western order. Turn with the page edges (invisible zones that show a paper plate with a brush arrow on hover), the arrow keys (following the order), Page Up / Down, Home / End, a swipe (the page follows the finger with no steps, then turns or snaps back; it resists at both ends) or the toolbar. Fit: whole page, width (scrolls down) or height. Background: paper, ink or tone. Zoom 100–300 % with buttons, + / - / 0 or a double click at a point, then drag to pan. Full screen asks the browser (Fullscreen API on the document) and falls back to a fixed immersive mode (iOS Safari); Escape leaves. Pages around the current one are fetched ahead (preload), and a page known to be loaded shows at once. Each page is a ReaderPage (ink frame, loading panel, jagged error panel with Retry, a paper mat in dark mode). A turned page slides in from the side it comes from in three steps. An optional end view after the last page holds a ChapterEnd. The toolbar has a ReadingProgress with a page counter and a slot for your own buttons (settings, thumbnails). Controlled or not (page / onPageChange). Built at 375 px first: 44 px controls, two toolbar rows. PageReader also takes pages of the page model ({ page: PageData }), drawn by Page with real lettering; scans and data pages can be mixed.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/page-reader`
 - Categories: manga
 - Props:
-  - `pages`: `{ src: string; alt: string; width: number; height: number }[]` — The pages, in reading order.
+  - `pages`: `({ src: string; alt: string; width: number; height: number } | { page: PageData; alt?: string })[]` — Scans, or pages of the page model, in reading order.
   - `page`: `number` — First page shown (0-based), controlled. pages.length is the end view when end is set.
   - `defaultPage`: `number` (default `0`) — First page shown, uncontrolled.
   - `onPageChange`: `(page: number) => void` — Called with the first page of the new view.
@@ -1943,12 +1943,12 @@ import { ChapterEnd } from "@/components/manga/chapter-end"
 
 ### Page Thumbnails (`page-thumbnails`)
 
-Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view.
+Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view. It also takes pages of the page model ({ page: PageData }), drawn small by Page.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/page-thumbnails`
 - Categories: manga
 - Props:
-  - `pages`: `{ src: string; alt: string; width: number; height: number }[]` — The pages, in reading order.
+  - `pages`: `({ src: string; alt: string; width: number; height: number } | { page: PageData; alt?: string })[]` — Scans, or pages of the page model, in reading order.
   - `current`: `number | number[]` — The page or pages on screen.
   - `readUntil`: `number` (default `0`) — Pages before this index get a brush check.
   - `onSelect`: `(page: number) => void` — Called with the page chosen.
@@ -1965,6 +1965,36 @@ import { PageThumbnails } from "@/components/manga/page-thumbnails"
   readUntil={page}
   direction="rtl"
   onSelect={(i) => setPage(i)}
+/>
+```
+
+### Guided View (`guided-view`)
+
+A manga read panel by panel, made for phones: the screen zooms from one panel to the next. It reads the panel geometry of the page model (pageGeometry: every panel's box in reading order, insets included), so a page written as PageData is drawn by Page and guided without any extra data; scans work too, with the box of each panel in percent of the page. The page is drawn once at a fixed width and a camera fits the current panel in the stage, moving in four steps (333 ms); the panels around it hide under a paper veil with wide dots that steps aside while the camera travels. A new page slides in from the side it comes from. Next and previous by tapping the page edges (on hover a paper plate with a brush arrow), the arrow keys following the reading order, Space, Page Up / Down, Home / End, a swipe (the page follows the finger, then turns or snaps back) or the toolbar. Whole page shows the page with every panel as a target (the current one framed, hover thickens a panel's line). A ReadingProgress counts the panels; a live region reads each panel's label. Optional end view (e.g. a ChapterEnd) and a slot for your buttons. Reduced motion: the camera jumps.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/guided-view`
+- Categories: manga
+- Props:
+  - `pages`: `({ page: PageData; alt?: string } | { src: string; alt: string; width: number; height: number; panels: { x: number; y: number; w: number; h: number; label?: string }[] })[]` — Page-model pages, or scans with their panel boxes (percent of the page).
+  - `position`: `{ page: number; panel: number }` — Current panel, controlled (0-based).
+  - `defaultPosition`: `{ page: number; panel: number }` (default `{ page: 0, panel: 0 }`) — Current panel, uncontrolled.
+  - `onPositionChange`: `(position: { page: number; panel: number }) => void` — Called at each step.
+  - `direction`: `"rtl" | "ltr"` (default `"rtl"`) — Order of taps, swipes and arrows, and of data pages that do not set reading.
+  - `end`: `ReactNode` — Shown after the last panel.
+  - `onEnd`: `() => void` — Called past the last panel.
+  - `toolbar`: `ReactNode` — Your own buttons in the toolbar.
+  - `className`: `string` — Added to the root; set its height here (default min(46rem, 86svh)).
+
+```tsx
+import { GuidedView } from "@/components/manga/guided-view"
+import type { PageData } from "@/components/manga/page-geometry"
+
+const pages: PageData[] = [/* your pages */]
+
+<GuidedView
+  pages={pages.map((page) => ({ page }))}
+  direction="rtl"
+  onPositionChange={({ page, panel }) => save(page, panel)}
 />
 ```
 
@@ -2510,6 +2540,21 @@ A webtoon-style chapter reader made only with mangacn: a top bar with the series
 import { MangaReader } from "@/components/manga/blocks/manga-reader"
 
 <MangaReader />
+```
+
+### Author Site (`author-site`)
+
+The site of a manga author, end to end, made only with mangacn: a header with the author's name and a breadcrumb, then three screens that lead to each other. Catalog: the works as VolumeCards (the newest one wrapped in an ObiBand), this week's releases in a ReleaseCalendar (strip of days), the most read series in a RankingList with big numbers, links to the latest chapters and a Shelf of every volume (pull one, then open its series). Series page: a SeriesHeader (cover, stamp status, genres, figures, folding summary, Start reading / Continue), the chapter list (read chapters carry a brush check, the next one shows its date) and a Spoiler hiding the next chapter's preview. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, drawn art, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other, and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.
+
+- Install: `npx shadcn@latest add Romcharted/mangacn/author-site`
+- Categories: blocks
+- Props:
+  - `className`: `string` — Added to the root.
+
+```tsx
+import { AuthorSite } from "@/components/manga/blocks/author-site"
+
+<AuthorSite />
 ```
 
 ### Developer portfolio (`portfolio`)
