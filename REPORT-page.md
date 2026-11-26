@@ -1,6 +1,13 @@
-ÉTAPE 2 TERMINÉE
+TOUT TERMINÉ
 
 # Compte rendu — chat « Page »
+
+## Étape 3 — assemblage final (fait)
+
+Voir `REPORT-final.md` : besoins du socle appliqués (volet `animate-wipe`, `--pu` enregistré, item `font-japanese` et
+repli japonais), 18 règles ajoutées à `AGENTS.md` (et celles laissées à votre décision), accueil avec Story landing,
+Author site et une planche, parcours automatique des 143 routes du site sous trois moteurs, réinstallation des
+128 items dans 4 projets neufs (un défaut shadcn en amont dans Vite + Base UI, détaillé).
 
 Branche `feat/page-model` (worktree `/home/romain/mangacn-page`, serveur local 5201). Captures, vidéos et projets
 d'installation : dossier de notes partagé `side-session-notes/…/page/step1/` et `…/page/step2/` (hors dépôt) et
