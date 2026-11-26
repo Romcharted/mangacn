@@ -416,6 +416,8 @@ The manga page model. Page is a book page in a fixed format (pocket, magazine, s
   - `shape`: `"straight" | "tilted" | "jagged" | "cloud" | "memory"` (default `"straight"`) — On Panel: outline (tilted: tilt in degrees).
   - `bleed / frameless / overflow / ink`: `boolean` — On Panel: runs off the page, no outline, content may leave the frame, ink background.
   - `inset`: `{ x, y, w, h }` — On Panel: laid over the previous panel, box in percent of it.
+  - `foldRatio`: `number` (default `1.7 at most`) — On Panel: width / height once the page folds into a strip on a phone. A crowded panorama gets the height its lettering needs.
+  - `Place fold`: `{ x?, y?, anchor?, maxWidth? }` — On Place (and on a page item in data, with pointAt for a bubble's tail): another placement once the page folds on a phone.
   - `art / items`: `PanelArtData / PageItem[]` — On Panel: picture and bubbles as data (or children).
   - `x / y / anchor`: `number | string / Anchor` — On Place: position in percent of the panel, and the anchor point.
   - `maxWidth / clip / contain / rotate`: `number | string / boolean / boolean / number` — On Place: maximum width (default the child's maxWidth, then 60%), stay inside the frame, nudge back inside the panel (default true), tilt.

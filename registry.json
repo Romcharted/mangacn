@@ -2115,6 +2115,17 @@
             "description": "On Panel: laid over the previous panel, box in percent of it."
           },
           {
+            "name": "foldRatio",
+            "type": "number",
+            "default": "1.7 at most",
+            "description": "On Panel: width / height once the page folds into a strip on a phone. A crowded panorama gets the height its lettering needs."
+          },
+          {
+            "name": "Place fold",
+            "type": "{ x?, y?, anchor?, maxWidth? }",
+            "description": "On Place (and on a page item in data, with pointAt for a bubble's tail): another placement once the page folds on a phone."
+          },
+          {
             "name": "art / items",
             "type": "PanelArtData / PageItem[]",
             "description": "On Panel: picture and bubbles as data (or children)."
