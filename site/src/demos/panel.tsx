@@ -4,6 +4,7 @@ import {
   PAGE_TEMPLATES,
   Page,
   Panel,
+  PanelArt,
   PanelCaption,
   Place,
   Tier,
@@ -19,6 +20,7 @@ import { Choice, Flag, Playground } from "../playground"
 import { Tile, Tiles } from "../state-grid"
 import { to } from "../router"
 import type { Example } from "../registry"
+import { ALT, artSrc, type ArtName } from "../mapless"
 
 const TEMPLATES = Object.keys(PAGE_TEMPLATES) as PageTemplate[]
 const FORMATS = Object.keys(PAGE_FORMATS) as PageFormat[]
@@ -27,10 +29,27 @@ const FORMATS = Object.keys(PAGE_FORMATS) as PageFormat[]
 const numbered = (n: number) => (
   <Panel key={n}>
     <Place x="50%" y="50%">
-      <span className="font-letter text-[length:calc(var(--pu)*6)] leading-none">{n}</span>
+      <span className="font-letter text-[length:max(12px,calc(var(--pu)*6))] leading-none">{n}</span>
     </Place>
   </Panel>
 )
+
+// Pictures of "Mapless" (AI-generated, see public/art/CREDITS.md) for the panels of the preview, large files only.
+const PANEL_ART: ArtName[] = ["bridge-far", "suzu-portrait", "map", "lighthouse-night", "suzu-face", "eraser-full", "suzu-full"]
+/** A panel filled with a picture of the series; its reading order on top when `showNumber`. */
+const filled = (showNumber: boolean) => (n: number) => {
+  const name = PANEL_ART[(n - 1) % PANEL_ART.length]
+  return (
+    <Panel key={n}>
+      <PanelArt src={artSrc(name, 480)} alt={ALT[name]} />
+      {showNumber && (
+        <Place x="6%" y="6%" anchor="top-left">
+          <span className="inline-grid min-w-6 place-items-center bg-background px-1 font-letter text-[length:max(12px,calc(var(--pu)*4))] leading-tight ring-[length:var(--mg-bw)] ring-foreground">{n}</span>
+        </Place>
+      )}
+    </Panel>
+  )
+}
 
 type Tiers = { panels: object[] }[]
 function count(tiers: Tiers): number {
@@ -62,6 +81,7 @@ const HAND = `<Page format="square">
 export function Preview() {
   const [template, setTemplate] = useState<PageTemplate>("big-plus-two")
   const [format, setFormat] = useState<PageFormat>("pocket")
+  const [numbers, setNumbers] = useState(false)
   const [rtl, setRtl] = useState(false)
   const n = slots(template)
   const code = `import { Page, Panel, PanelArt, Place } from "@/components/manga/panel"
@@ -87,7 +107,7 @@ ${n
         preview={
           <div className={format === "strip" ? "w-full max-w-sm" : template === "spread" ? "w-full max-w-2xl" : "w-full max-w-md"}>
             <Page template={template} format={format} reading={rtl ? "rtl" : "ltr"} fold="never" label={`${PAGE_TEMPLATES[template].label} template`}>
-              {n.map(numbered)}
+              {n.map(filled(numbers))}
             </Page>
           </div>
         }
@@ -96,6 +116,7 @@ ${n
             <Choice label="template" value={template} options={TEMPLATES} onChange={setTemplate} />
             <Choice label="format" value={format} options={FORMATS} onChange={setFormat} />
             <Flag label="read right to left" checked={rtl} onChange={setRtl} />
+            <Flag label="show the reading order" checked={numbers} onChange={setNumbers} />
             <p className="text-sm">The numbers are the reading order: the order of the panels in the code.</p>
           </>
         }
@@ -317,8 +338,10 @@ export function States() {
 
 export function Thumb() {
   return (
-    <div className="w-[4.5rem]">
-      <Page template="diagonal" fold="never" label="Page thumbnail" />
+    <div className="w-28">
+      <Page template="diagonal" fold="never" label="Page thumbnail">
+        {[1, 2, 3].map(filled(false))}
+      </Page>
     </div>
   )
 }
