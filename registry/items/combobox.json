@@ -27,11 +27,6 @@
     "usage": "import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from \"@/components/ui/manga/combobox\"\n\n<Combobox items={series}>\n  <ComboboxInput placeholder=\"Find a series…\" />\n  <ComboboxContent>\n    <ComboboxEmpty>No series found</ComboboxEmpty>\n    <ComboboxList>\n      {(item) => <ComboboxItem key={item} value={item}>{item}</ComboboxItem>}\n    </ComboboxList>\n  </ComboboxContent>\n</Combobox>",
     "props": [
       {
-        "name": "showClear",
-        "type": "boolean",
-        "description": "On ComboboxInput: a small 2px square clear button."
-      },
-      {
         "name": "aria-invalid",
         "type": "boolean",
         "description": "On ComboboxInput or ComboboxChipsInput: the error look on the field."
@@ -39,7 +34,8 @@
       {
         "name": "sideOffset",
         "type": "number",
-        "description": "On ComboboxContent: gap to the input (14 by default: room for the notch and the focus ring)."
+        "default": "14",
+        "description": "On ComboboxContent: gap to the input (room for the notch and the focus ring)."
       },
       {
         "name": "ComboboxChips / ComboboxChip",
