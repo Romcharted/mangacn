@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "Labels, help text and errors with a “!” mark.",
     "usage": "import { Field, FieldDescription, FieldError, FieldLabel } from \"@/components/ui/manga/field\"\n\n<Field>\n  <FieldLabel htmlFor=\"email\">Email</FieldLabel>\n  <Input id=\"email\" aria-invalid />\n  <FieldError>Add the end of your address.</FieldError>\n</Field>",
-    "props": []
+    "props": [
+      {
+        "name": "data-invalid",
+        "type": "\"true\"",
+        "description": "On Field: marks the field as invalid; its text stays in the foreground colour. FieldError is always in the accent colour with a \"!\" mark."
+      }
+    ]
   }
 }
