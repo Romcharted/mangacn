@@ -1,4 +1,7 @@
 import { Button } from "@registry/manga/ui/button"
+import { Input } from "@registry/manga/ui/input"
+import { Label } from "@registry/manga/ui/label"
+import type { Example } from "../registry"
 import {
   Dialog,
   DialogBody,
@@ -38,13 +41,55 @@ function Sample({ size = "default", long = false, flash = false, label }: { size
 }
 
 export function Preview() {
+  return <Sample label="Leave the chapter" />
+}
+
+function WithFlash() {
+  return <Sample label="Open with a flash" flash />
+}
+
+function Sizes() {
   return (
-    <div className="flex flex-wrap gap-3">
-      <Sample label="Open dialog" />
-      <Sample label="With flash" flash />
+    <div className="flex flex-wrap justify-center gap-3">
+      {(["sm", "default", "lg", "full"] as const).map((s) => (
+        <Sample key={s} size={s} label={s} />
+      ))}
     </div>
   )
 }
+
+function ScrollingBody() {
+  return <Sample long label="Read the summary" />
+}
+
+function EditProfile() {
+  return (
+    <Dialog>
+      <DialogTrigger render={<Button />}>Edit profile</DialogTrigger>
+      <DialogContent size="sm">
+        <DialogHeader>
+          <DialogTitle>Your pen name</DialogTitle>
+          <DialogDescription>Readers see it under every chapter you post.</DialogDescription>
+        </DialogHeader>
+        <form id="pen-name" className="grid gap-2" onSubmit={(e) => e.preventDefault()}>
+          <Label htmlFor="pen">Pen name</Label>
+          <Input id="pen" defaultValue="Suzu" />
+        </form>
+        <DialogFooter>
+          <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
+          <DialogClose render={<Button type="submit" form="pen-name" />}>Save</DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "WithFlash", title: "With a flash", description: "flash draws concentration lines around the window as it opens, for the moments that deserve it.", Component: WithFlash },
+  { fn: "Sizes", title: "Sizes", description: "sm, default, lg and full set the width; the height follows the content.", Component: Sizes },
+  { fn: "ScrollingBody", title: "Scrolling body", description: "DialogBody scrolls on its own while the title and the buttons stay in place.", Component: ScrollingBody },
+  { fn: "EditProfile", title: "A form", description: "A short form in a small dialog; the Save button submits it and closes the window.", Component: EditProfile },
+]
 
 export function States() {
   return (
