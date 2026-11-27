@@ -12,6 +12,11 @@ export type Item = {
   title: string
   description: string
   categories: string[]
+  registryDependencies?: string[]
+  dependencies?: string[]
+  devDependencies?: string[]
+  files?: { path: string; type: string; target?: string }[]
+  docs?: string
   meta?: { tagline?: string; usage?: string; props?: Prop[] }
 }
 
@@ -58,7 +63,13 @@ export const categoryOf = cat
  * Demos load on demand, one chunk per item: a gallery card fetches its demo when it scrolls near the screen,
  * an item page when it opens. The first paint then needs only the site's own code, not the whole kit.
  */
-export type Demo = { Preview?: ComponentType; States?: ComponentType; Thumb?: ComponentType }
+/**
+ * What a demo file exports. Preview: the main example (centred in the Preview / Code frame). examples: the
+ * named examples of the Examples section; `fn` is the name of the function in the file, shown in its Code tab.
+ * States: the grid of frozen states. Thumb: the gallery thumbnail.
+ */
+export type Example = { fn: string; title: string; description: string; Component: ComponentType; wide?: boolean }
+export type Demo = { Preview?: ComponentType; States?: ComponentType; Thumb?: ComponentType; examples?: Example[]; previewWide?: boolean }
 const demoLoaders = Object.fromEntries(
   Object.entries(import.meta.glob<Demo>("./demos/*.tsx")).map(([path, load]) => [path.replace(/^.*\/(.+)\.tsx$/, "$1"), load]),
 )
