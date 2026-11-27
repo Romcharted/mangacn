@@ -9,6 +9,7 @@ import {
   CodeBlockLine,
   CodeBlockTitle,
 } from "@registry/manga/ui/code-block"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 const install = `npx shadcn@latest add button`
@@ -21,7 +22,7 @@ export function Hero() {
 
 export function Preview() {
   return (
-    <div className="grid w-full max-w-2xl gap-6">
+    <div className="w-full max-w-md">
       <CodeBlock>
         <CodeBlockHeader>
           <CodeBlockTitle>hero.tsx</CodeBlockTitle>
@@ -32,7 +33,13 @@ export function Preview() {
         <CodeBlockContent>{usage}</CodeBlockContent>
         <CodeBlockFooter>tsx · 5 lines</CodeBlockFooter>
       </CodeBlock>
+    </div>
+  )
+}
 
+function Diff() {
+  return (
+    <div className="w-full max-w-md">
       <CodeBlock>
         <CodeBlockHeader>
           <CodeBlockTitle>chapter.diff</CodeBlockTitle>
@@ -47,7 +54,13 @@ export function Preview() {
           <CodeBlockLine>{"}"}</CodeBlockLine>
         </CodeBlockContent>
       </CodeBlock>
+    </div>
+  )
+}
 
+function Highlighted() {
+  return (
+    <div className="w-full max-w-md">
       <CodeBlock>
         <CodeBlockHeader>
           <CodeBlockTitle>config.ts</CodeBlockTitle>
@@ -62,6 +75,44 @@ export function Preview() {
     </div>
   )
 }
+
+function Small() {
+  return (
+    <div className="w-full max-w-sm">
+      <CodeBlock size="sm">
+        <CodeBlockHeader>
+          <CodeBlockTitle>install</CodeBlockTitle>
+          <CodeBlockActions>
+            <CodeBlockCopyButton value={install} />
+          </CodeBlockActions>
+        </CodeBlockHeader>
+        <CodeBlockContent>{install}</CodeBlockContent>
+      </CodeBlock>
+    </div>
+  )
+}
+
+function Destructive() {
+  return (
+    <div className="w-full max-w-md">
+      <CodeBlock variant="destructive">
+        <CodeBlockHeader>
+          <CodeBlockTitle>reset.sh</CodeBlockTitle>
+        </CodeBlockHeader>
+        <CodeBlockContent>
+          <CodeBlockLine variant="removed">{"rm -rf chapters/"}</CodeBlockLine>
+        </CodeBlockContent>
+      </CodeBlock>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Diff", title: "Diff", description: "Removed lines are struck through in accent, and added lines carry an ink bar and a plus mark.", Component: Diff },
+  { fn: "Highlighted", title: "Line numbers", description: "lineNumbers numbers the lines from startLine, and variant=\"highlighted\" bars one line in ink.", Component: Highlighted },
+  { fn: "Small", title: "Small", description: "size=\"sm\" sets a smaller block for a short command.", Component: Small },
+  { fn: "Destructive", title: "Destructive", description: "variant=\"destructive\" puts the frame and the text in accent, for a command that deletes.", Component: Destructive },
+]
 
 /** A static block for the frozen states (the copy button is the interactive part). */
 function Frame({ children }: { children: ReactNode }) {
