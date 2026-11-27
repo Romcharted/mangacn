@@ -47,7 +47,8 @@ const AUTHOR_ART: AuthorSiteArt = {
 
 const READER_ART: MangaReaderArt = {
   cover: <VolumeCover volume={2} />,
-  pages: (["bridge-far", "eraser-panel", "suzu-shock", "spear-clash", "ink-drop", "lighthouse-night", "suzu-drawing", "kuro-sleeping", "map", "suzu-profile", "cover-3-teaser"] as const).map(
+  // whole pages at one width, not crops: the cover of volume 1, the bridge page, the lighthouse page, then the chapter again
+  pages: (["cover-1", "page-1-bridge", "page-2-lighthouse", "page-1-bridge", "page-2-lighthouse", "page-1-bridge", "page-2-lighthouse"] as const).map(
     (name) => artPage(name),
   ),
 }
