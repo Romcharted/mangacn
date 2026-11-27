@@ -9,29 +9,50 @@ import {
   TraceLine,
   TraceTitle,
 } from "@registry/manga/ui/trace"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 export function Preview() {
-  const [open, setOpen] = useState(true)
   const [opened, setOpened] = useState<string | null>(null)
   return (
-    <div className="grid max-w-xl gap-4">
-      <p className="font-letter text-xl tracking-wide uppercase">Agent run · Inking chapter 12</p>
+    <div className="grid w-full max-w-xl gap-4">
       <Trace>
         <TraceLine>
           <TraceIcon />
           <TraceTitle>Read chapter-12.md</TraceTitle>
           <TraceDescription>0.4s</TraceDescription>
         </TraceLine>
-        <button type="button" onClick={() => setOpened("style-guide.md")}>
+        <button type="button" className="block w-full min-h-11 text-start sm:min-h-8" onClick={() => setOpened("style-guide.md")}>
           <TraceLine>
             <TraceIcon />
             <TraceTitle>Opened style-guide.md</TraceTitle>
             <TraceDescription>0.2s</TraceDescription>
           </TraceLine>
         </button>
+        <TraceLine status="running">
+          <TraceIcon />
+          <TraceTitle>Inking pages 9–16…</TraceTitle>
+        </TraceLine>
+      </Trace>
+      <p className="min-h-6 text-sm" aria-live="polite">
+        {opened ? `Showing ${opened}.` : "Click a line to open its file."}
+      </p>
+    </div>
+  )
+}
+
+function Groups() {
+  const [open, setOpen] = useState(true)
+  return (
+    <div className="grid w-full max-w-xl gap-4">
+      <Trace>
+        <TraceLine>
+          <TraceIcon />
+          <TraceTitle>Read chapter-12.md</TraceTitle>
+          <TraceDescription>0.4s</TraceDescription>
+        </TraceLine>
         <TraceCollapsible open={open} onOpenChange={setOpen}>
-          <TraceCollapsibleTrigger>
+          <TraceCollapsibleTrigger className="block w-full min-h-11 text-start sm:min-h-8">
             <TraceLine>
               <TraceIcon />
               <TraceTitle>Searched references · 3 results</TraceTitle>
@@ -43,11 +64,34 @@ export function Preview() {
             <span>“speed lines, low angle”: cover-draft.png</span>
           </TraceCollapsibleContent>
         </TraceCollapsible>
+      </Trace>
+    </div>
+  )
+}
+
+function Errors() {
+  return (
+    <div className="grid w-full max-w-xl gap-4">
+      <Trace>
         <TraceLine status="error">
           <TraceIcon />
           <TraceTitle>Fetch font “Brush Bold”: not found</TraceTitle>
           <TraceDescription>0.9s</TraceDescription>
         </TraceLine>
+        <TraceLine>
+          <TraceIcon />
+          <TraceTitle>Used the fallback font</TraceTitle>
+          <TraceDescription>0.1s</TraceDescription>
+        </TraceLine>
+      </Trace>
+    </div>
+  )
+}
+
+function FullRun() {
+  return (
+    <div className="grid w-full max-w-xl gap-4">
+      <Trace>
         <TraceLine>
           <TraceIcon />
           <TraceTitle>Inked pages 1–8</TraceTitle>
@@ -61,17 +105,20 @@ export function Preview() {
           <TraceIcon />
           <TraceTitle>Lay screentones</TraceTitle>
         </TraceLine>
-        <TraceLine status="pending">
+        <TraceLine status="error">
           <TraceIcon />
-          <TraceTitle>Letter the speech bubbles</TraceTitle>
+          <TraceTitle>Letter the speech bubbles: font missing</TraceTitle>
         </TraceLine>
       </Trace>
-      <p className="min-h-6 text-sm" aria-live="polite">
-        {opened ? `Showing ${opened}.` : "Click a line to open its file."}
-      </p>
     </div>
   )
 }
+
+export const examples: Example[] = [
+  { fn: "Groups", title: "A collapsible group", description: "TraceCollapsible folds a group of steps; the brush chevron turns and the lines unfold along the rail.", Component: Groups },
+  { fn: "Errors", title: "An error line", description: "status=\"error\" marks a failed step in accent with a “!”, followed by the step that took over.", Component: Errors },
+  { fn: "FullRun", title: "A full run", description: "done, running, pending and error lines together, as an agent log shows them while it works.", Component: FullRun },
+]
 
 export function States() {
   return (
@@ -112,7 +159,7 @@ export function States() {
       </Tile>
       <Tile label="clickable · rest" size="lg">
         <Trace>
-          <button type="button">
+          <button type="button" className="block w-full min-h-11 text-start sm:min-h-8">
             <TraceLine>
               <TraceIcon />
               <TraceTitle>Opened style-guide.md</TraceTitle>
@@ -122,7 +169,7 @@ export function States() {
       </Tile>
       <Tile label="clickable · hover" size="lg">
         <Trace>
-          <button type="button" {...force("hover")}>
+          <button type="button" className="block w-full min-h-11 text-start sm:min-h-8" {...force("hover")}>
             <TraceLine>
               <TraceIcon />
               <TraceTitle>Opened style-guide.md</TraceTitle>
@@ -132,7 +179,7 @@ export function States() {
       </Tile>
       <Tile label="clickable · focus" size="lg">
         <Trace>
-          <button type="button" {...force("focus")}>
+          <button type="button" className="block w-full min-h-11 text-start sm:min-h-8" {...force("focus")}>
             <TraceLine>
               <TraceIcon />
               <TraceTitle>Opened style-guide.md</TraceTitle>
@@ -142,7 +189,7 @@ export function States() {
       </Tile>
       <Tile label="clickable · error, hover" size="lg">
         <Trace>
-          <a href="#" onClick={(e) => e.preventDefault()} {...force("hover")}>
+          <a href="#" className="block min-h-11 sm:min-h-8" onClick={(e) => e.preventDefault()} {...force("hover")}>
             <TraceLine status="error">
               <TraceIcon />
               <TraceTitle>Fetch failed: retry</TraceTitle>
@@ -153,7 +200,7 @@ export function States() {
       <Tile label="group · closed" size="lg">
         <Trace>
           <TraceCollapsible>
-            <TraceCollapsibleTrigger>
+            <TraceCollapsibleTrigger className="block w-full min-h-11 text-start sm:min-h-8">
               <TraceLine>
                 <TraceIcon />
                 <TraceTitle>Searched references</TraceTitle>
@@ -167,7 +214,7 @@ export function States() {
       <Tile label="group · open" size="lg">
         <Trace>
           <TraceCollapsible defaultOpen>
-            <TraceCollapsibleTrigger>
+            <TraceCollapsibleTrigger className="block w-full min-h-11 text-start sm:min-h-8">
               <TraceLine>
                 <TraceIcon />
                 <TraceTitle>Searched references</TraceTitle>
@@ -184,7 +231,7 @@ export function States() {
       <Tile label="group · hover, focus" size="lg">
         <Trace>
           <TraceCollapsible>
-            <TraceCollapsibleTrigger data-force="hover focus">
+            <TraceCollapsibleTrigger className="block w-full min-h-11 text-start sm:min-h-8" data-force="hover focus">
               <TraceLine>
                 <TraceIcon />
                 <TraceTitle>Searched references</TraceTitle>
@@ -197,7 +244,7 @@ export function States() {
       <Tile label="group · error inside" size="lg">
         <Trace>
           <TraceCollapsible defaultOpen>
-            <TraceCollapsibleTrigger>
+            <TraceCollapsibleTrigger className="block w-full min-h-11 text-start sm:min-h-8">
               <TraceLine status="error">
                 <TraceIcon />
                 <TraceTitle>Exported pages: 1 failed</TraceTitle>
