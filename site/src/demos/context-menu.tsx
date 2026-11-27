@@ -17,55 +17,95 @@ import {
   ContextMenuTwin,
   ContextMenuTwinRow,
 } from "@registry/manga/ui/context-menu"
+import type { Example } from "../registry"
 import { Tile, Tiles } from "../state-grid"
 
 /* The trigger area: a 2px panel (solid line: dashes would mean disabled). */
 const area =
-  "grid min-h-44 w-full place-items-center border-ink bg-background p-6 text-center text-sm select-none"
+  "grid min-h-44 w-72 max-w-full place-items-center border-ink bg-background p-6 text-center text-sm select-none"
 
 export function Preview() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className={area}>Right-click or long-press this page</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuLabel>Page</ContextMenuLabel>
+          <ContextMenuItem>
+            Bookmark <ContextMenuShortcut>B</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Share <ContextMenuShortcut>S</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+function Submenu() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className={area}>Right-click this page to save it</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuLabel>Page</ContextMenuLabel>
+          <ContextMenuSub>
+            <ContextMenuSubTrigger>Download</ContextMenuSubTrigger>
+            <ContextMenuSubContent>
+              <ContextMenuItem>As PDF</ContextMenuItem>
+              <ContextMenuItem>As images</ContextMenuItem>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+function ViewOptions() {
   const [furigana, setFurigana] = useState(true)
   const [order, setOrder] = useState("rtl")
   return (
-    <div className="pb-72">
-      <ContextMenu>
-        <ContextMenuTrigger className={area}>Right-click or long-press this page</ContextMenuTrigger>
-        <ContextMenuContent>
-          <ContextMenuGroup>
-            <ContextMenuLabel>Page</ContextMenuLabel>
-            <ContextMenuItem>
-              Bookmark <ContextMenuShortcut>B</ContextMenuShortcut>
-            </ContextMenuItem>
-            <ContextMenuItem>
-              Share <ContextMenuShortcut>S</ContextMenuShortcut>
-            </ContextMenuItem>
-            <ContextMenuSub>
-              <ContextMenuSubTrigger>Download</ContextMenuSubTrigger>
-              <ContextMenuSubContent>
-                <ContextMenuItem>As PDF</ContextMenuItem>
-                <ContextMenuItem>As images</ContextMenuItem>
-              </ContextMenuSubContent>
-            </ContextMenuSub>
-          </ContextMenuGroup>
-          <ContextMenuSeparator />
-          <ContextMenuGroup>
-            <ContextMenuLabel>View</ContextMenuLabel>
-            <ContextMenuCheckboxItem checked={furigana} onCheckedChange={setFurigana}>
-              Furigana
-            </ContextMenuCheckboxItem>
-            <ContextMenuRadioGroup value={order} onValueChange={setOrder}>
-              <ContextMenuRadioItem value="rtl">Right to left</ContextMenuRadioItem>
-              <ContextMenuRadioItem value="ltr">Left to right</ContextMenuRadioItem>
-            </ContextMenuRadioGroup>
-          </ContextMenuGroup>
-          <ContextMenuSeparator />
-          <ContextMenuItem disabled>Print (soon)</ContextMenuItem>
-          <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
-    </div>
+    <ContextMenu>
+      <ContextMenuTrigger className={area}>Right-click to change the view</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuLabel>View</ContextMenuLabel>
+          <ContextMenuCheckboxItem checked={furigana} onCheckedChange={setFurigana}>
+            Furigana
+          </ContextMenuCheckboxItem>
+          <ContextMenuRadioGroup value={order} onValueChange={setOrder}>
+            <ContextMenuRadioItem value="rtl">Right to left</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="ltr">Left to right</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
   )
 }
+
+function Disabled() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className={area}>Right-click a page</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>Bookmark</ContextMenuItem>
+        <ContextMenuItem disabled>Print (soon)</ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem variant="destructive">Delete page</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Submenu", title: "With a sub-menu", description: "ContextMenuSubTrigger opens a second list with a brush chevron; here the download formats.", Component: Submenu },
+  { fn: "ViewOptions", title: "Checkboxes and radios", description: "A checkbox row gets a brush check and a radio group an ink diamond; the state is kept in the page.", Component: ViewOptions },
+  { fn: "Disabled", title: "Disabled and destructive", description: "disabled keeps a row in the list but blocks it; variant=\"destructive\" marks the risky row in accent.", Component: Disabled },
+]
 
 export function States() {
   return (

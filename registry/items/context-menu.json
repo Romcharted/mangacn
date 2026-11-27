@@ -24,6 +24,17 @@
   "meta": {
     "tagline": "A case that opens at the pointer; the row under it turns to ink.",
     "usage": "import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from \"@/components/ui/manga/context-menu\"\n\n<ContextMenu>\n  <ContextMenuTrigger>Right-click this page</ContextMenuTrigger>\n  <ContextMenuContent>\n    <ContextMenuItem>Bookmark</ContextMenuItem>\n    <ContextMenuItem variant=\"destructive\">Delete</ContextMenuItem>\n  </ContextMenuContent>\n</ContextMenu>",
-    "props": []
+    "props": [
+      {
+        "name": "ContextMenuTwin",
+        "type": "component",
+        "description": "A static look-alike of an open menu, for documentation and state grids. Takes className and children."
+      },
+      {
+        "name": "ContextMenuTwinRow",
+        "type": "component",
+        "description": "One row of the static menu. Takes the booleans highlighted, checked, radio, disabled, destructive and sub."
+      }
+    ]
   }
 }
