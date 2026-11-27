@@ -1,16 +1,22 @@
 import { useState } from "react"
 import { BilingualBubble, type BilingualSide } from "@registry/manga/signature/bilingual-bubble"
+import type { Example } from "../registry"
 import { Tile } from "../state-grid"
 
 export function Preview() {
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <BilingualBubble original="おはよう！今日もがんばろう。" translation="Morning! Let's give it our all today." tail="bottom" tailAlign="start" switchAlign="start" />
+      <span className="px-2 font-letter text-sm uppercase">Rin</span>
+    </div>
+  )
+}
+
+function Controlled() {
   const [side, setSide] = useState<BilingualSide>("original")
   return (
-    <div className="grid max-w-xl gap-10">
-      <div className="flex flex-col items-start gap-1">
-        <BilingualBubble original="おはよう！今日もがんばろう。" translation="Morning! Let's give it our all today." tail="bottom" tailAlign="start" switchAlign="start" />
-        <span className="px-2 font-letter text-sm uppercase">Rin</span>
-      </div>
-      <div className="flex flex-col items-end gap-1">
+    <div className="flex w-full justify-center">
+      <div className="flex flex-col items-center gap-1">
         <BilingualBubble
           original="ちょっと待って…"
           translation="Wait a second…"
@@ -22,12 +28,31 @@ export function Preview() {
         />
         <span className="px-2 font-letter text-sm uppercase">Kai · controlled: {side}</span>
       </div>
-      <div className="flex flex-col items-start gap-1">
-        <BilingualBubble original="ドカン！" translation="KABOOM!" variant="shout" tail="bottom" switchAlign="start" defaultShowing="translation" />
-      </div>
     </div>
   )
 }
+
+function StartsTranslated() {
+  return (
+    <div className="flex w-full justify-center">
+      <BilingualBubble original="ドカン！" translation="KABOOM!" variant="shout" tail="bottom" switchAlign="start" defaultShowing="translation" />
+    </div>
+  )
+}
+
+function ShortLabels() {
+  return (
+    <div className="flex w-full justify-center">
+      <BilingualBubble original="東京へ行こう" translation="Let's go to Tokyo" originalLabel="JP" translationLabel="EN" variant="whisper" tail="bottom" />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Controlled", title: "Controlled from outside", description: "showing and onShowingChange hand the switch to the page, for a language the reader sets elsewhere too.", Component: Controlled },
+  { fn: "StartsTranslated", title: "Starts translated", description: "defaultShowing sets the text shown first; the switch still flips it.", Component: StartsTranslated },
+  { fn: "ShortLabels", title: "Short labels", description: "originalLabel and translationLabel name each language on the switch.", Component: ShortLabels },
+]
 
 const bubble = (extra: Partial<React.ComponentProps<typeof BilingualBubble>> = {}) => (
   <BilingualBubble original="おはよう！" translation="Good morning!" tail="none" {...extra} />
