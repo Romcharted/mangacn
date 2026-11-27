@@ -119,8 +119,8 @@ export function States() {
 /** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="w-56 h-28 overflow-hidden">
-      <Yonkoma className="w-56" numbered={false} labels={LABELS}>
+    <div className="w-52 h-28 overflow-hidden">
+      <Yonkoma className="w-52" numbered={false} labels={LABELS}>
         {Story({ size: "sm" })}
       </Yonkoma>
     </div>

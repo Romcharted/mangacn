@@ -35,7 +35,7 @@ const numbered = (n: number) => (
 )
 
 // Pictures of "Mapless" (AI-generated, see public/art/CREDITS.md) for the panels of the preview, large files only.
-const PANEL_ART: ArtName[] = ["bridge-far", "suzu-portrait", "map", "lighthouse-night", "suzu-face", "eraser-full", "suzu-full"]
+const PANEL_ART: ArtName[] = ["suzu-portrait", "page-2-lighthouse", "map", "suzu-face", "eraser-full", "suzu-full", "cover-2"]
 /** A panel filled with a picture of the series; its reading order on top when `showNumber`. */
 const filled = (showNumber: boolean) => (n: number) => {
   const name = PANEL_ART[(n - 1) % PANEL_ART.length]

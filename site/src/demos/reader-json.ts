@@ -62,7 +62,7 @@ export const JSON_CHAPTER: PageData[] = [
       {
         panels: [
           {
-            width: 1.3,
+            width: 1.6,
             label: "Suzu inks a map by the fire",
             art: art("suzu-drawing", { y: 40 }),
             items: [{ type: "bubble", x: 68, y: 12, text: "Then I'll draw us another one.", pointAt: { x: 40, y: 30 }, maxWidth: 55 }],
@@ -71,7 +71,7 @@ export const JSON_CHAPTER: PageData[] = [
         ],
       },
       {
-        height: 1.4,
+        height: 1.15,
         panels: [
           {
             shape: "jagged",
