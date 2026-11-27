@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { VersusPanel, VersusSide } from "@registry/manga/signature/versus-panel"
 import { Button } from "@registry/manga/ui/button"
+import type { Example } from "../registry"
 import { artSrc } from "../mapless"
 import { Tile } from "../state-grid"
 
@@ -15,15 +16,15 @@ function Stat({ label, value }: { label: string; value: string }) {
 
 export function Preview() {
   return (
-    <div className="grid gap-12">
-      <VersusPanel role="group" aria-label="Compare plans">
+    <div className="flex w-full justify-center">
+      <VersusPanel role="group" aria-label="Compare plans" className="w-full max-w-xl">
         <VersusSide aria-labelledby="versus-free">
           <h3 id="versus-free" className="font-letter text-3xl uppercase">
             Free
           </h3>
           <p className="mt-1 font-sfx text-4xl">$0</p>
           <p className="mt-2 text-sm">Three chapters a week, on any device.</p>
-          <Button variant="outline" fullWidth className="mt-4">
+          <Button variant="outline" fullWidth className="mt-4 min-h-11 sm:min-h-8">
             Start free
           </Button>
         </VersusSide>
@@ -33,13 +34,19 @@ export function Preview() {
           </h3>
           <p className="mt-1 font-sfx text-4xl">$9</p>
           <p className="mt-2 text-sm">Every chapter the day it drops, and offline reading.</p>
-          <Button variant="outline" fullWidth className="mt-4">
+          <Button variant="outline" fullWidth className="mt-4 min-h-11 sm:min-h-8">
             Go Pro
           </Button>
         </VersusSide>
       </VersusPanel>
+    </div>
+  )
+}
 
-      <VersusPanel label="VS" role="group" aria-label="Compare two fighters">
+function Fighters() {
+  return (
+    <div className="flex w-full justify-center">
+      <VersusPanel label="VS" role="group" aria-label="Compare two fighters" className="w-full max-w-xl">
         <VersusSide aria-labelledby="versus-suzu">
           <img src={artSrc("suzu-face", 80)} alt="" className="mx-auto size-20 border-ink object-cover" />
           <h3 id="versus-suzu" className="font-letter text-2xl uppercase">
@@ -79,6 +86,41 @@ function Halves({ highlight }: { highlight: 0 | 1 }) {
     </VersusPanel>
   )
 }
+
+function Options() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="w-full max-w-sm">
+        <Halves highlight={1} />
+      </div>
+    </div>
+  )
+}
+
+function Pick() {
+  const [pick, setPick] = useState<0 | 1>(0)
+  const side = (i: 0 | 1, name: string) => (
+    <VersusSide highlight={pick === i} className="p-0! text-center">
+      <button type="button" aria-pressed={pick === i} onClick={() => setPick(i)} className="min-h-11 size-full cursor-pointer p-2 font-letter text-lg uppercase focus-ink">
+        {name}
+      </button>
+    </VersusSide>
+  )
+  return (
+    <div className="flex w-full justify-center">
+      <VersusPanel label="VS" className="w-full max-w-sm">
+        {side(0, "Suzu")}
+        {side(1, "Eraser")}
+      </VersusPanel>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Fighters", title: "Two fighters", description: "label sets the lettering on the crossing mark; each side takes a portrait and its own stats.", Component: Fighters },
+  { fn: "Options", title: "Option B highlighted", description: "highlight marks the recommended side; the panel stacks on narrow screens and goes side by side from 36rem.", Component: Options },
+  { fn: "Pick", title: "Pick a side", description: "Click a side: aria-pressed tells the reader which one is chosen, and the ink moves to it.", Component: Pick },
+]
 
 export function States() {
   return (
