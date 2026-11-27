@@ -3,10 +3,14 @@ import { Tile, Tiles } from "../state-grid"
 import { ReaderEnd, ReaderPage, ReaderStrip, type ReaderStripPage } from "@registry/manga/signature/reader-strip"
 import { ReadingProgress } from "@registry/manga/signature/reading-progress"
 import { artPage } from "../mapless"
+import { ChapterEnd } from "@registry/manga/signature/chapter-end"
+import type { Example } from "../registry"
 
 /* Whole pages of "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md): the cover of
    volume 1, the bridge page and the lighthouse page, all shown at the same width. The chapter is read twice to
    make six pages; page 5 fails on purpose and keeps the size of a normal page. */
+export const previewWide = true
+
 const COVER: ReaderStripPage = artPage("cover-1")
 const BRIDGE: ReaderStripPage = artPage("page-1-bridge")
 const LIGHTHOUSE: ReaderStripPage = artPage("page-2-lighthouse")
@@ -71,6 +75,39 @@ export function States() {
     </Tiles>
   )
 }
+
+function Retry() {
+  const [pages, setPages] = useState<ReaderStripPage[]>([COVER, BROKEN, LIGHTHOUSE])
+  return (
+    <ReaderStrip
+      aria-label="Mapless, page 2 fails"
+      pages={pages}
+      gap="sm"
+      onRetry={(i) => setPages((list) => list.map((p, j) => (j === i ? BRIDGE : p)))}
+    />
+  )
+}
+
+function NoGap() {
+  return <ReaderStrip aria-label="Mapless, two pages" pages={[BRIDGE, LIGHTHOUSE]} gap="none" />
+}
+
+function WithEnd() {
+  return (
+    <ReaderStrip
+      aria-label="Mapless, chapter 1"
+      pages={[COVER, LIGHTHOUSE]}
+      gap="sm"
+      end={<ChapterEnd chapter="Chapter 1 · The ink bridge" next={{ number: 2, title: "The lighthouse keeper", href: "#" }} />}
+    />
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Retry", title: "A page to retry", description: "A page that fails keeps its place and shows Retry; onRetry gets the index of the page.", Component: Retry, wide: true },
+  { fn: "NoGap", title: "No gap", description: "gap=\"none\" sets the pages edge to edge, like one long picture.", Component: NoGap, wide: true },
+  { fn: "WithEnd", title: "With a chapter end", description: "The end prop adds a card after the last page, here the next chapter.", Component: WithEnd, wide: true },
+]
 
 /** Live: scroll the strip inside its frame. */
 export function Thumb() {
