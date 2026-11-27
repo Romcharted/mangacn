@@ -12,6 +12,7 @@ import {
   type CardVariant,
 } from "@registry/manga/ui/card"
 import { artSrc } from "../mapless"
+import type { Example } from "../registry"
 
 function Sample({ variant, interactive, selected }: { variant: CardVariant; interactive?: boolean; selected?: boolean }) {
   return (
@@ -28,7 +29,7 @@ function Sample({ variant, interactive, selected }: { variant: CardVariant; inte
         <p>Three days of rain, a folded map and a door that should not be open.</p>
       </CardContent>
       <CardFooter>
-        <Button size="sm" variant={variant === "beta" ? "outline" : "default"}>
+        <Button size="sm" variant={variant === "beta" ? "outline" : "default"} className="min-h-11 sm:min-h-8">
           Read
         </Button>
       </CardFooter>
@@ -38,13 +39,55 @@ function Sample({ variant, interactive, selected }: { variant: CardVariant; inte
 
 export function Preview() {
   return (
-    <div className="grid items-start gap-10 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="w-80">
       <Sample variant="default" interactive />
+    </div>
+  )
+}
+
+function Bleed() {
+  return (
+    <div className="w-80">
       <Sample variant="bleed" />
+    </div>
+  )
+}
+
+function Tilted() {
+  return (
+    <div className="w-80">
       <Sample variant="tilted" />
     </div>
   )
 }
+
+function Splash() {
+  return (
+    <div className="w-80">
+      <Sample variant="splash" />
+    </div>
+  )
+}
+
+function Selected() {
+  return (
+    <div className="w-80">
+      <Card variant="default" selected className="w-full max-w-xs">
+        <CardHeader>
+          <CardTitle>Chapter 12</CardTitle>
+          <CardDescription>Chosen for the next read</CardDescription>
+        </CardHeader>
+      </Card>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Bleed", title: "Bleed", description: "variant=\"bleed\" runs the first image to the edges of the panel, with its frame below.", Component: Bleed },
+  { fn: "Tilted", title: "Tilted", description: "variant=\"tilted\" slants the bottom edge; the text stays upright inside the panel.", Component: Tilted },
+  { fn: "Splash", title: "Splash", description: "variant=\"splash\" drops the frame for focus lines around the title, for a big moment.", Component: Splash },
+  { fn: "Selected", title: "Selected", description: "selected draws a double ink frame around the chosen panel.", Component: Selected },
+]
 
 export function States() {
   return (
