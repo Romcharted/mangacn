@@ -11,6 +11,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@registry/manga/ui/command"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 function Palette({ onPick }: { onPick?: () => void }) {
@@ -49,19 +50,74 @@ function Palette({ onPick }: { onPick?: () => void }) {
 }
 
 export function Preview() {
+  return (
+    <div className="w-80">
+      <Palette />
+    </div>
+  )
+}
+
+function InDialog() {
   const [open, setOpen] = useState(false)
   return (
-    <div className="flex w-full max-w-md flex-col items-start gap-6 pb-48">
+    <div className="flex justify-center">
       <Button onClick={() => setOpen(true)}>Open palette</Button>
       <CommandDialog open={open} onOpenChange={setOpen} title="Command palette">
         <Palette onPick={() => setOpen(false)} />
       </CommandDialog>
-      <div className="w-full">
-        <Palette />
-      </div>
     </div>
   )
 }
+
+function LiveSearch() {
+  const [query, setQuery] = useState("")
+  return (
+    <div className="w-80">
+      <Command>
+        <CommandInput placeholder="Type “rain” or “bridge”…" value={query} onValueChange={setQuery} />
+        <CommandList>
+          <CommandEmpty>No page matches.</CommandEmpty>
+          <CommandGroup heading="Chapters">
+            <CommandItem value="chapter-12 the rooftop">Chapter 12 — The rooftop</CommandItem>
+            <CommandItem value="chapter-13 rain">Chapter 13 — Rain</CommandItem>
+            <CommandItem value="chapter-14 the bridge">Chapter 14 — The bridge</CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </div>
+  )
+}
+
+function Shortcuts() {
+  return (
+    <div className="w-80">
+      <Command>
+        <CommandList>
+          <CommandGroup heading="Keys">
+            <CommandItem value="next-page">
+              Next page
+              <CommandShortcut>→</CommandShortcut>
+            </CommandItem>
+            <CommandItem value="previous-page">
+              Previous page
+              <CommandShortcut>←</CommandShortcut>
+            </CommandItem>
+            <CommandItem value="bookmark">
+              Bookmark this page
+              <CommandShortcut>B</CommandShortcut>
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "InDialog", title: "In a dialog", description: "CommandDialog opens the same palette over the page; picking an item closes it.", Component: InDialog },
+  { fn: "LiveSearch", title: "Live search", description: "Type to filter the list; the empty state appears when nothing matches.", Component: LiveSearch },
+  { fn: "Shortcuts", title: "With shortcuts", description: "CommandShortcut sets a key hint at the end of an item, in mono lettering.", Component: Shortcuts },
+]
 
 /** A row that looks like the list item in a given state, for frozen tiles. */
 function Row({ children, state }: { children: React.ReactNode; state?: "highlighted" | "checked" | "disabled" }) {
