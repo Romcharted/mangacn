@@ -216,7 +216,7 @@ function Catalog({ open, read, readUpTo }: { open: (id: string) => void; read: (
     <div className="grid gap-10">
       <section aria-labelledby="as-works" className="grid gap-4">
         <SectionTitle id="as-works">Volumes</SectionTitle>
-        <ul className="m-0 grid list-none grid-cols-2 gap-x-4 gap-y-6 p-0 @2xl/site:grid-cols-3">
+        <ul className="m-0 grid list-none grid-cols-[repeat(2,minmax(0,16rem))] gap-x-4 gap-y-6 p-0 @2xl/site:grid-cols-[repeat(3,minmax(0,16rem))]">
           {s.volumes.map((v) => (
             <li key={v.n} className="min-w-0">
               <VolumeCard
