@@ -1,16 +1,14 @@
-import { lazy, useId, useState, type ComponentType, type ReactNode } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/manga/ui/tabs"
+import { lazy, useEffect, useRef, useState, type ComponentType, type ReactNode } from "react"
 import { track } from "./visits"
 import { CodeToggle, CopyButton } from "./copy"
 import { installCommand } from "./registry"
 import { Deferred } from "./load-error"
 import { BLOCK_PROPS } from "./block-art"
-
-const LetteredBridge = lazy(() => import("./examples/manga-page").then((m) => ({ default: m.LetteredBridge })))
+import { to } from "./router"
 
 /*
  * Full interfaces (registry:block items): each one lives in registry/manga/blocks/<slug>/<slug>.tsx,
- * exports a component named in PascalCase, and is listed here. Route: #examples/<slug>.
+ * exports a component named in PascalCase, and is listed here. Routes: /examples/<slug>, /view/<slug>.
  * Blocks and their sources load on demand: an interface's code arrives when it is shown, its source text
  * when "Show the code" is opened.
  */
@@ -97,7 +95,7 @@ function flowInterface(entry: { slug: string; title: string; summary: string; sc
 
 export const interfaces: Interface[] = CATALOG.flatMap((entry) => (entry.screens ? flowInterface({ ...entry, screens: entry.screens }) : blockInterface(entry)))
 
-/** The screens of a flow also open on their own (#examples/sign-up…), without a card of their own. */
+/** The screens of a flow also open on their own (/examples/sign-up…), without a card of their own. */
 const screenPages: Interface[] = CATALOG.flatMap((entry) =>
   (entry.screens ?? []).flatMap((slug) =>
     blockInterface({ slug, title: slug.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase()), summary: `One screen of the ${entry.title} example.` }),
@@ -116,156 +114,153 @@ export const userPaths = (src: string) =>
     .replace(/@registry\/manga\/blocks\/[\w-]+\//g, "@/components/manga/blocks/")
     .replace(/"\.\.\/art"/g, `"./art" // your own drawings`)
 
-/** One interface, full width: install, live render, code on demand. */
-export function InterfacePage({ slug }: { slug: string }) {
-  const found = interfaces.find((i) => i.slug === slug) ?? screenPages.find((i) => i.slug === slug)
-  if (!found) {
-    return (
-      <p className="mt-8 border-ink p-6 font-letter text-lg uppercase">
-        No interface called “{slug}”. <a href="#examples" className="underline">See all examples</a>.
+/** Looks an interface up by slug: the ten examples, then the Auth screens on their own. */
+export const findInterface = (slug: string) => interfaces.find((i) => i.slug === slug) ?? screenPages.find((i) => i.slug === slug)
+
+function Unknown({ slug }: { slug: string }) {
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-10">
+      <h1 className="font-letter text-4xl uppercase">No interface called “{slug}”</h1>
+      <p className="mt-4">
+        <a href={to("examples")} className="underline">
+          See all examples
+        </a>
+        .
       </p>
-    )
-  }
+    </div>
+  )
+}
+
+/**
+ * One interface: its install command, then the interface itself, full width and full height (no frame
+ * with a scroll of its own), then its code. "Open full screen" shows it alone, without the site header.
+ */
+export function InterfacePage({ slug }: { slug: string }) {
+  const found = findInterface(slug)
+  useEffect(() => {
+    if (found) document.title = `${found.title} — mangacn examples`
+  }, [found])
+  if (!found) return <Unknown slug={slug} />
   const { title, summary, Component, source } = found
   return (
-    <article aria-labelledby="iface-title" className="pt-6">
-      <nav aria-label="Examples navigation" className="flex flex-wrap gap-2">
-        <a href="#examples" className="inline-flex h-11 items-center border-ink px-3 sm:h-9 font-letter text-sm uppercase hover:ink-fill focus-ink">
-          ← All examples
-        </a>
-      </nav>
-      <header className="mt-6 max-w-prose space-y-2">
-        <h1 id="iface-title" className="font-letter text-5xl leading-none uppercase">
-          {title}
-        </h1>
-        <p className="text-lg">{summary}</p>
-      </header>
-      <div className="mt-5 flex max-w-2xl items-stretch border-ink">
-        <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installFor(found)}</code>
-        <CopyButton text={installFor(found)} onCopied={() => track("copy-install", { item: slug })} className="border-s-[length:var(--mg-bw)]" />
+    <article aria-labelledby="iface-title">
+      <div className="mx-auto max-w-7xl px-4 pt-6">
+        <nav aria-label="Breadcrumb" className="font-mono text-xs">
+          <a href={to("examples")} className="inline-flex min-h-11 items-center underline-offset-4 hover:underline focus-ink sm:min-h-6">
+            Examples
+          </a>
+          <span aria-hidden> / </span>
+          <span>{title}</span>
+        </nav>
+        <header className="mt-3 max-w-prose space-y-2">
+          <h1 id="iface-title" className="font-letter text-4xl leading-none uppercase sm:text-5xl">
+            {title}
+          </h1>
+          <p className="text-lg">{summary}</p>
+        </header>
+        <div className="mt-5 flex flex-wrap items-stretch gap-2">
+          <div className="flex min-w-0 flex-1 basis-72 items-stretch border-ink">
+            <code className="min-w-0 flex-1 truncate px-3 py-2 text-sm">{installFor(found)}</code>
+            <CopyButton text={installFor(found)} onCopied={() => track("copy-install", { item: slug })} className="border-s-[length:var(--mg-bw)]" />
+          </div>
+          <a href={to(`view/${slug}`)} className="inline-flex min-h-11 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink sm:min-h-9">
+            Open full screen
+          </a>
+          <a href="#code" className="inline-flex min-h-11 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink sm:min-h-9">
+            View code
+          </a>
+        </div>
       </div>
-      <div data-demo className="mt-6 border-ink-panel bg-background md:overflow-clip">
+      {/* the interface takes the whole width of the window and its natural height */}
+      <div data-demo data-interface={slug} className="mt-6 border-y-[length:var(--mg-bw-panel)] border-border bg-background">
         <Pending key={slug}>
           <Component titleAs="h2" />
         </Pending>
       </div>
-      <div className="mt-4">
-        <CodeToggle load={source} />
-      </div>
+      <section aria-labelledby="code" className="mx-auto max-w-7xl px-4 pt-8">
+        <h2 id="code" className="scroll-mt-20 font-letter text-3xl uppercase">
+          Code
+        </h2>
+        <div className="mt-3">
+          <CodeToggle load={source} />
+        </div>
+      </section>
     </article>
   )
 }
 
-/** Home page: tabs that switch between live interfaces, like the shadcn site does. */
-export function HomeInterfaces() {
-  const order = ["dashboard", "story-landing", "author-site", "ai-chat"]
-  const shown = order.flatMap((slug) => interfaces.filter((i) => i.slug === slug)).slice(0, 4)
-  if (!shown.length) return null
+/** /view/<slug>: the interface alone, as it would look in your app. */
+export function InterfaceView({ slug }: { slug: string }) {
+  const found = findInterface(slug)
+  useEffect(() => {
+    if (found) document.title = `${found.title} — mangacn`
+  }, [found])
+  if (!found) return <Unknown slug={slug} />
+  const { title, Component } = found
   return (
-    <section aria-labelledby="home-ifaces" className="mt-4 mb-10">
-      <h2 id="home-ifaces" className="sr-only">
-        Interfaces made with the kit
-      </h2>
-      <Tabs variant="underline" defaultValue={shown[0].slug}>
-        <TabsList className="flex-wrap">
-          {shown.map((i) => (
-            <TabsTrigger key={i.slug} value={i.slug}>
-              {i.title}
-            </TabsTrigger>
-          ))}
-          <TabsTrigger value="manga-page">Manga page</TabsTrigger>
-          <a href="#examples" className="ms-auto self-center font-letter text-sm uppercase underline decoration-2 underline-offset-4 focus-ink">
-            All examples →
-          </a>
-        </TabsList>
-        {shown.map((i) => (
-          <TabsContent key={i.slug} value={i.slug}>
-            <div data-demo className="border-ink-panel bg-background md:overflow-clip">
-              <Pending>
-                <i.Component titleAs="h2" />
-              </Pending>
-            </div>
-            <a href={`#examples/${i.slug}`} className="mt-3 inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
-              Open {i.title} with its code →
-            </a>
-          </TabsContent>
-        ))}
-        <TabsContent value="manga-page">
-          <div data-demo className="grid justify-items-center border-ink-panel bg-background p-4 sm:p-8">
-            <div className="w-full max-w-md">
-              <Pending>
-                <LetteredBridge />
-              </Pending>
-            </div>
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <a href="#studio" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
-              Make your own in the page studio →
-            </a>
-            <a href="#panel" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
-              The page model →
-            </a>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </section>
+    <main id="main" aria-label={title} data-interface={slug}>
+      <Pending key={slug}>
+        <Component />
+      </Pending>
+    </main>
   )
 }
 
-/** Cards on the Examples page. */
+/** True once the element is within 300px of the screen (and stays true). */
+function useNear<E extends Element>(): [React.RefObject<E | null>, boolean] {
+  const ref = useRef<E>(null)
+  const [near, setNear] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || near) return
+    const observer = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: "300px" })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [near])
+  return [ref, near]
+}
+
+/**
+ * The vignette of an interface: its top corner at real size (a readable detail, not the whole page shrunk),
+ * a still out of the tab order. It renders when the card comes near the screen.
+ */
+function Vignette({ i }: { i: Interface }) {
+  const [ref, near] = useNear<HTMLDivElement>()
+  const { Component } = i
+  return (
+    <div ref={ref} data-demo inert aria-hidden className="pointer-events-none relative h-52 overflow-hidden border-b-[length:var(--mg-bw)] border-border [contain:strict] [transform:translateZ(0)]">
+      {near && (
+        <div className="w-[64rem]">
+          <Deferred fallback={null}>
+            <Component titleAs="h2" />
+          </Deferred>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/** Cards on the Examples page: vignette, name, one sentence. */
 export function InterfaceCards() {
   if (!interfaces.length) return null
   return (
-    <ul className="mt-6 grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4">
+    <ul className="mt-6 grid grid-cols-[repeat(auto-fill,minmax(min(100%,20rem),1fr))] gap-5">
       {interfaces.map((i) => (
         <li key={i.slug}>
-          <a href={`#examples/${i.slug}`} className="flex h-full flex-col gap-1 border-ink p-4 hover-lift focus-ink">
-            <span className="font-letter text-2xl uppercase">{i.title}</span>
-            <span className="text-sm">{i.summary}</span>
-          </a>
+          <article className="relative flex h-full flex-col border-ink bg-background has-[a:hover]:tone-shadow">
+            <Vignette i={i} />
+            <div className="grid gap-1 p-4">
+              <a
+                href={to(`examples/${i.slug}`)}
+                className="font-letter text-2xl leading-none uppercase after:absolute after:inset-0 hover:underline focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
+              >
+                {i.title}
+              </a>
+              <span className="text-sm">{i.summary}</span>
+            </div>
+          </article>
         </li>
       ))}
     </ul>
-  )
-}
-
-/** Phones, home page: one interface, folded. The button unfolds it in place, the page keeps scrolling. */
-export function HomeExample() {
-  const [open, setOpen] = useState(false)
-  const id = useId()
-  const first = interfaces[0]
-  if (!first) return null
-  const { Component } = first
-  return (
-    <section aria-labelledby={`${id}-title`} className="mt-2 border-ink-panel bg-background">
-      <div className="grid gap-2 p-4">
-        <p className="font-mono text-xs">Made only with the kit</p>
-        <h2 id={`${id}-title`} className="font-letter text-3xl leading-none uppercase">
-          {first.title}
-        </h2>
-        <p>{first.summary}</p>
-        <div className="mt-1 flex flex-wrap gap-2">
-          <button
-            type="button"
-            aria-expanded={open}
-            aria-controls={`${id}-body`}
-            onClick={() => setOpen((o) => !o)}
-            className="inline-flex h-11 items-center gap-2 border-ink px-3 font-letter text-sm uppercase focus-ink aria-expanded:ink-fill after:mark-chevron after:text-xs aria-expanded:after:rotate-180"
-          >
-            {open ? "Fold the example" : "Open the example"}
-          </button>
-          <a href="#examples" className="inline-flex h-11 items-center px-2 font-letter text-sm uppercase underline decoration-2 underline-offset-4 focus-ink">
-            All examples →
-          </a>
-        </div>
-      </div>
-      {open && (
-        <div id={`${id}-body`} data-demo className="border-t-[length:var(--mg-bw-panel)] border-border">
-          <Pending>
-            <Component titleAs="h2" />
-          </Pending>
-        </div>
-      )}
-    </section>
   )
 }
