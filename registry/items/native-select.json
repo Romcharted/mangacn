@@ -39,6 +39,11 @@
         "name": "NativeSelectOptGroup",
         "type": "component",
         "description": "A labelled group of options (native optgroup)."
+      },
+      {
+        "name": "NativeSelectOption",
+        "type": "component",
+        "description": "One option of the list, with the browser's native popup."
       }
     ]
   }
