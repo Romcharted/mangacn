@@ -79,7 +79,7 @@ function MagazineCover({
             key={i}
             data-highlight={l.highlight || undefined}
             className={cn(
-              "font-letter text-[4.6cqi] leading-[1.05] tracking-wide break-words uppercase",
+              "font-letter text-[max(10px,4.6cqi)] leading-[1.05] tracking-wide break-words uppercase",
               l.highlight ? "bg-destructive px-[2.4cqi] py-[1.2cqi] text-primary-foreground" : plate,
             )}
           >
@@ -97,13 +97,13 @@ function MagazineCover({
         {/* masthead band */}
         <span className="flex items-stretch gap-[2cqi] bg-foreground p-[2.4cqi] text-background">
           <span className="min-w-0 flex-1 self-center">
-            <span className="block font-sfx text-[13cqi] leading-none break-words">{title}</span>
-            {tagline != null && <span className="mt-[2cqi] block font-letter text-[3.6cqi] leading-tight tracking-widest uppercase">{tagline}</span>}
+            <span className="block font-sfx text-[max(10px,13cqi)] leading-none break-words">{title}</span>
+            {tagline != null && <span className="mt-[2cqi] block font-letter text-[max(10px,3.6cqi)] leading-tight tracking-widest uppercase">{tagline}</span>}
           </span>
           {(issue != null || date != null) && (
             <span className="grid shrink-0 content-center justify-items-center border-[length:var(--mg-bw)] border-background @max-[10rem]/cover:hidden px-[2cqi] py-[1cqi] text-center">
-              {issue != null && <span className="font-sfx text-[5.6cqi] leading-none">{issue}</span>}
-              {date != null && <span className="mt-[0.8cqi] font-mono text-[2.8cqi] leading-none uppercase">{date}</span>}
+              {issue != null && <span className="font-sfx text-[max(10px,5.6cqi)] leading-none">{issue}</span>}
+              {date != null && <span className="mt-[0.8cqi] font-mono text-[max(10px,2.8cqi)] leading-none uppercase">{date}</span>}
             </span>
           )}
         </span>
@@ -114,7 +114,7 @@ function MagazineCover({
         </span>
         {headline != null && (
           <span className="p-[3cqi] pt-0">
-            <span className={cn(plate, "block border-[length:var(--mg-bw-panel)] font-letter text-[7cqi] leading-[0.95] tracking-wide break-words uppercase")}>
+            <span className={cn(plate, "block border-[length:var(--mg-bw-panel)] font-letter text-[max(10px,7cqi)] leading-[0.95] tracking-wide break-words uppercase")}>
               {headline}
             </span>
           </span>
