@@ -32,12 +32,6 @@
         "description": "default: frameless row. outline: 2px ink case. muted: 1px fine line with a 6px tone band on the start edge."
       },
       {
-        "name": "size",
-        "type": "\"default\" | \"sm\" | \"xs\"",
-        "default": "\"default\"",
-        "description": "Padding and gap of the row."
-      },
-      {
         "name": "interactive",
         "type": "boolean",
         "default": "false",

@@ -10,12 +10,13 @@ import {
   ItemSeparator,
   ItemTitle,
 } from "@registry/manga/ui/item"
+import type { Example } from "../registry"
 import { force, Tile } from "../state-grid"
 
-/** A row that is a link in the demo: it never navigates. */
+/** A row that is a link in the demo: it never navigates. 44px tall on phones. */
 function Row({ children }: { children: ReactNode }) {
   return (
-    <a href="#" className="block focus-ink">
+    <a href="#" className="block min-h-11 focus-ink sm:min-h-8">
       {children}
     </a>
   )
@@ -23,7 +24,7 @@ function Row({ children }: { children: ReactNode }) {
 
 export function Preview() {
   return (
-    <div className="w-full max-w-md">
+    <div className="w-80">
       <ItemGroup>
         <Row>
           <Item interactive>
@@ -71,6 +72,80 @@ export function Preview() {
 
 const variants = ["default", "outline", "muted"] as const
 type Variant = (typeof variants)[number]
+
+function Variants() {
+  return (
+    <div className="grid w-80 gap-2">
+      {variants.map((v) => (
+        <Item key={v} variant={v}>
+          <ItemMedia>
+            <BookOpen />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Vol. 1 · The long night</ItemTitle>
+            <ItemDescription>{v === "default" ? "Frameless row." : v === "outline" ? "A 2px ink case." : "A fine line with a tone band."}</ItemDescription>
+          </ItemContent>
+        </Item>
+      ))}
+    </div>
+  )
+}
+
+function Sizes() {
+  return (
+    <div className="grid w-80 gap-2">
+      {(["default", "sm", "xs"] as const).map((size) => (
+        <Item key={size} variant="outline" size={size}>
+          <ItemMedia>
+            <BookOpen />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Vol. 2 · After the rain</ItemTitle>
+            <ItemDescription>size {size}: the padding and gap of the row.</ItemDescription>
+          </ItemContent>
+        </Item>
+      ))}
+    </div>
+  )
+}
+
+function MarkRead() {
+  const [read, setRead] = useState(false)
+  const toggle = () => setRead((r) => !r)
+  return (
+    <div className="grid w-80 gap-2">
+      <Item
+        variant="outline"
+        interactive
+        role="button"
+        tabIndex={0}
+        aria-pressed={read}
+        className="min-h-11 focus-ink sm:min-h-8"
+        onClick={toggle}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault()
+            toggle()
+          }
+        }}
+      >
+        <ItemMedia>
+          <BookOpen />
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle>{read ? "Vol. 2 · read" : "Vol. 2 · After the rain"}</ItemTitle>
+          <ItemDescription>{read ? "Marked as read. Click to undo." : "Click the row to mark it read."}</ItemDescription>
+        </ItemContent>
+      </Item>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Variants", title: "Variants", description: "default is frameless, outline a 2px ink case, muted a fine line with a tone band for locked volumes.", Component: Variants },
+  { fn: "Sizes", title: "Sizes", description: "size sets the padding of the row: default, sm or xs, for dense lists.", Component: Sizes },
+  { fn: "MarkRead", title: "Marked as read", description: "interactive makes the row answer to hover and click; aria-pressed keeps the read state. Click or press Enter.", Component: MarkRead },
+]
 
 function Sample({ variant, state }: { variant: Variant; state: "rest" | "hover" | "focus" | "disabled" }) {
   const disabled = state === "disabled"
