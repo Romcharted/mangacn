@@ -30,6 +30,11 @@
         "type": "\"text\" | \"avatar\" | \"panel\" | \"block\"",
         "default": "\"block\"",
         "description": "Preset size and frame."
+      },
+      {
+        "name": "SkeletonCard",
+        "type": "component",
+        "description": "A card-shaped placeholder: a panel above two text lines. Takes className."
       }
     ]
   }
