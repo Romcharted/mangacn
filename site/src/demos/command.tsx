@@ -191,14 +191,14 @@ export function States() {
 // A still drawing of the palette, not a live <Command>: cmdk scrolls its selected item into view when it
 // mounts, which drags the whole gallery page down to this card.
 /** Live: type to filter, hover or arrow keys to pick. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <Command className="ink-case w-72 text-base [zoom:0.7]">
+    <Command className="ink-case w-60 text-base">
       <CommandInput placeholder="Search…" />
-      <CommandList className="max-h-24">
+      <CommandList className="max-h-14">
         <CommandEmpty>No result.</CommandEmpty>
         <CommandItem>Chapter 1 — The ink bridge</CommandItem>
-        <CommandItem>Bookmark this page</CommandItem>
         <CommandItem>Open the map</CommandItem>
       </CommandList>
     </Command>
