@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "A line of a conversation: avatar, name, bubbles.",
     "usage": "import { Message, MessageAvatar, MessageContent, MessageHeader } from \"@/components/ui/manga/message\"\n\n<Message>\n  <MessageAvatar>NO</MessageAvatar>\n  <MessageContent>\n    <MessageHeader>Night owl</MessageHeader>\n    {/* Bubble… */}\n  </MessageContent>\n</Message>",
-    "props": []
+    "props": [
+      {
+        "name": "data-manga",
+        "type": "\"message\"",
+        "description": "Set on the root line: the hook to style every message of the page from CSS."
+      }
+    ]
   }
 }
