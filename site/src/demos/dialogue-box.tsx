@@ -103,6 +103,11 @@ function Forced({ state }: { state: "hover" | "focus" | "active" }) {
 }
 
 /** Live: a click on the text or the arrow moves to the next line. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
-  return <DialogueBox lines={LINES.slice(0, 2)} showCount={false} className="w-96 [zoom:0.6]" />
+  return (
+    <div className="w-72 h-32 overflow-hidden">
+      <DialogueBox lines={LINES.slice(0, 1)} showCount={false} />
+    </div>
+  )
 }
