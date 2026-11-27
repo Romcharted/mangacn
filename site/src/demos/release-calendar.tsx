@@ -135,13 +135,13 @@ export const examples: Example[] = [
 ]
 
 /** Live: press a release; it is marked as opened. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   const [opened, setOpened] = useState<string | null>(null)
-  const row = (r: Release) => <ReleaseRow release={{ ...r, href: undefined, chapter: opened === r.id ? "Opening…" : r.chapter }} onSelect={() => setOpened(r.id)} />
+  const r = RELEASES[4]
   return (
-    <div className="grid w-64 gap-2 [zoom:0.55]">
-      {row(RELEASES[4])}
-      {row(RELEASES[5])}
+    <div className="w-64">
+      <ReleaseRow release={{ ...r, href: undefined, chapter: opened === r.id ? "Opening…" : r.chapter }} onSelect={() => setOpened(r.id)} />
     </div>
   )
 }
