@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { RankingList, RankingRow, type RankingEntry } from "@registry/manga/signature/ranking-list"
+import type { Example } from "../registry"
 import { Tile, force } from "../state-grid"
 
 import { artSrc, type ArtName } from "../mapless"
@@ -25,11 +26,45 @@ const SAMPLE = WEEK[1]
 
 export function Preview() {
   return (
-    <div className="max-w-xl">
+    <div className="mx-auto w-full max-w-xl">
       <RankingList entries={WEEK.map((e) => ({ ...e, href: "#" }))} />
     </div>
   )
 }
+
+function Start() {
+  return (
+    <div className="mx-auto w-full max-w-xl">
+      <RankingList entries={WEEK.slice(3, 7)} start={4} />
+    </div>
+  )
+}
+
+function Highlight() {
+  return (
+    <div className="mx-auto w-full max-w-xl">
+      <RankingList entries={WEEK.slice(0, 4)} highlightTop={1} />
+    </div>
+  )
+}
+
+function Pick() {
+  const [picked, setPicked] = useState<string | null>(null)
+  return (
+    <div className="mx-auto grid w-full max-w-xl gap-3">
+      <RankingList entries={WEEK.slice(0, 4)} onSelect={(e) => setPicked(String(e.title))} />
+      <p aria-live="polite" className="font-mono text-sm">
+        {picked ? `Opening ${picked}…` : "Pick a chapter."}
+      </p>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Start", title: "Starting at rank 4", description: "start sets the rank of the first entry; the ranks follow from it.", Component: Start },
+  { fn: "Highlight", title: "One highlighted rank", description: "highlightTop gives the biggest rows to the top ranks; here only rank 1.", Component: Highlight },
+  { fn: "Pick", title: "Pick a chapter", description: "onSelect gives the entry picked; each row is a button and takes the ink.", Component: Pick },
+]
 
 function Row({
   entry,
