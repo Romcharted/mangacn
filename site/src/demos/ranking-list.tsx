@@ -123,12 +123,13 @@ export function States() {
 }
 
 /** Live: pick a chapter; the row takes the ink. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   const [picked, setPicked] = useState<string | null>(null)
   return (
-    <div className="w-72 [zoom:0.5]">
+    <div className="w-64 h-28 overflow-hidden">
       <RankingList
-        entries={WEEK.slice(0, 3).map((e) => ({ ...e, subtitle: picked === e.id ? "Opening…" : e.subtitle }))}
+        entries={WEEK.slice(0, 2).map((e) => ({ ...e, subtitle: picked === e.id ? "Opening…" : e.subtitle }))}
         onSelect={(e) => setPicked(e.id)}
       />
     </div>
