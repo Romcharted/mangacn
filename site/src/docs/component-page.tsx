@@ -325,7 +325,8 @@ export function ComponentPage({ item }: { item: Item }) {
       {demo?.States && (
         <>
           <H2 id="states">States</H2>
-          <div data-demo>
+          {/* a rotated or wide state never pushes the page sideways */}
+          <div data-demo className="min-w-0 overflow-x-auto">
             <demo.States />
           </div>
         </>
