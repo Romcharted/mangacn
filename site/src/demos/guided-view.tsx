@@ -152,10 +152,11 @@ export const examples: Example[] = [
 ]
 
 /** Live: the scans, panel by panel; tap the page edges or use the arrow keys. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   const pages = useMemo(() => scans().slice(1), [])
   return (
-    <div className="w-64 [zoom:0.5]">
+    <div className="w-64 h-32 overflow-hidden">
       <GuidedView pages={pages} direction="ltr" className="h-[16.5rem]! min-h-0!" />
     </div>
   )
