@@ -41,9 +41,32 @@
         "description": "Speed lines on both sides; \"far\" for bursts."
       },
       {
+        "name": "<ImpactLines press>",
+        "type": "boolean",
+        "default": "true",
+        "description": "Also show the lines while the element is pressed. false for a counter that is not a control."
+      },
+      {
         "name": "<FocusFlash />",
         "type": "component",
         "description": "Optional halo of concentration lines around a window as it opens."
+      },
+      {
+        "name": "<FocusFlash className>",
+        "type": "string",
+        "description": "Extra classes on the halo, for example to change its offset or colour."
+      },
+      {
+        "name": "<BubbleTail variant>",
+        "type": "\"speech\" | \"thought\"",
+        "default": "\"speech\"",
+        "description": "The tail of a bubble: a pointed speech tail, or two round thought dots."
+      },
+      {
+        "name": "<BubbleTail weight>",
+        "type": "2 | 3",
+        "default": "2",
+        "description": "The line weight in px, matching the bubble's outline."
       }
     ]
   }
