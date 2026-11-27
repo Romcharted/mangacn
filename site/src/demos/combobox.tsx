@@ -40,7 +40,7 @@ const shelves = [
 /** The input with its own named trigger: the stock trigger has no accessible name, so the demo names it. */
 function PickerInput(props: ComponentProps<typeof ComboboxInput>) {
   return (
-    <ComboboxInput showTrigger={false} {...props}>
+    <ComboboxInput showTrigger={false} {...props} className={`max-sm:h-11! ${props.className ?? ""}`}>
       <InputGroupAddon align="inline-end">
         <ComboboxTrigger
           aria-label={`Open ${props["aria-label"] ?? "the list"}`}
