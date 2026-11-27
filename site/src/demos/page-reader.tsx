@@ -241,10 +241,11 @@ export function States() {
 }
 
 /** Live: a small reader; the page edges turn the pages. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   const pages = useMemo(() => chapterPages(), [])
   return (
-    <div className="w-72 [zoom:0.5]">
+    <div className="w-64 h-32 overflow-hidden">
       <PageReader pages={pages} spread="single" direction="ltr" className="h-[16.5rem]! min-h-0!" />
     </div>
   )
