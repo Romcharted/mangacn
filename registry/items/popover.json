@@ -25,6 +25,12 @@
   "meta": {
     "tagline": "A speech bubble pointing at its trigger.",
     "usage": "import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from \"@/components/ui/manga/popover\"\n\n<Popover>\n  <PopoverTrigger>Details</PopoverTrigger>\n  <PopoverContent><PopoverTitle>Vol. 3</PopoverTitle>18 pages.</PopoverContent>\n</Popover>",
-    "props": []
+    "props": [
+      {
+        "name": "PopoverBubble",
+        "type": "component",
+        "description": "A static bubble with the same look, for previews and docs. Takes side (\"bottom\" | \"top\") and children."
+      }
+    ]
   }
 }
