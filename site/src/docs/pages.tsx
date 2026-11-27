@@ -26,7 +26,7 @@ function Title({ title, lead }: { title: string; lead: ReactNode }) {
   )
 }
 
-const Prose = ({ children }: { children: ReactNode }) => <div className="grid gap-4 [&_a]:underline [&_code]:font-mono [&_code]:text-[0.92em]">{children}</div>
+const Prose = ({ children }: { children: ReactNode }) => <div className="grid grid-cols-[minmax(0,1fr)] gap-4 [&_a]:underline [&_code]:font-mono [&_code]:text-[0.92em]">{children}</div>
 const Doc = ({ name, children }: { name: string; children?: ReactNode }) => (
   <a href={to(componentRoute(name))}>{children ?? items.find((i) => i.name === name)?.title ?? name}</a>
 )
@@ -162,7 +162,7 @@ export function Fonts() {
       <Title title="Fonts" lead="Three fonts under the SIL Open Font License, plus an optional Japanese one." />
       <Prose>
         <H2 id="families">The families</H2>
-        <ul className="grid gap-3">
+        <ul className="grid grid-cols-[minmax(0,1fr)] gap-3">
           {fonts.map((f) => (
             <li key={f.name} className="grid gap-1 border-ink-fine p-3">
               <Doc name={f.name} />
@@ -225,7 +225,7 @@ export function Changelog() {
   return (
     <article aria-labelledby="page-title">
       <Title title="Changelog" lead="What changed, release by release." />
-      <div className="mt-6 grid gap-2">
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-2">
         {blocks.map((b, i) => (
           <Markdown key={i} text={b} />
         ))}
@@ -279,5 +279,5 @@ function Markdown({ text }: { text: string }) {
     }
   }
   flush()
-  return <div className="grid gap-3">{out}</div>
+  return <div className="grid grid-cols-[minmax(0,1fr)] gap-3 [overflow-wrap:anywhere]">{out}</div>
 }

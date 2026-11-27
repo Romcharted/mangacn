@@ -79,7 +79,7 @@ export function AiPanel() {
           <SheetTitle>Use mangacn with an AI</SheetTitle>
           <SheetDescription>Everything a coding agent needs to install and use the kit.</SheetDescription>
         </SheetHeader>
-        <div className="px-4 pb-6">
+        <div className="min-w-0 px-4 pb-6">
           <AiGuide />
         </div>
       </SheetContent>

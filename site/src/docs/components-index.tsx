@@ -92,7 +92,7 @@ function CompactCard({ item }: { item: Item }) {
   return (
     <article data-card={item.name} className="relative flex h-full flex-col border-ink bg-background has-[a:active]:ink-fill">
       <div data-demo data-thumb inert className="pointer-events-none grid h-28 place-items-center overflow-hidden border-b-[length:var(--mg-bw)] border-border p-2">
-        <div className="[zoom:0.7]">
+        <div>
           <Thumbnail item={item} />
         </div>
       </div>

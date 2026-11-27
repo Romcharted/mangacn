@@ -82,7 +82,7 @@ function Install({ item }: { item: Item }) {
   const deps = item.dependencies ?? []
   const command = `${RUN[pm]} shadcn@latest add ${REPO}/${item.name}`
   return (
-    <Tabs variant="underline" defaultValue="cli" className="gap-0">
+    <Tabs variant="underline" defaultValue="cli" className="min-w-0 gap-0">
       <TabsList aria-label="How to install">
         <TabsTrigger value="cli" className="max-sm:min-h-11">
           CLI
@@ -91,7 +91,7 @@ function Install({ item }: { item: Item }) {
           Manual
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="cli" className="mt-3 grid gap-3">
+      <TabsContent value="cli" className="mt-3 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3">
         <div role="radiogroup" aria-label="Package manager" className="flex w-fit border-ink">
           {PMS.map((p) => (
             <button
@@ -112,8 +112,8 @@ function Install({ item }: { item: Item }) {
           <p className="text-sm">The CLI brings what it needs with it: the base tokens, the fonts and any piece it builds on.</p>
         </div>
       </TabsContent>
-      <TabsContent value="manual" className="mt-3">
-        <ol className="grid list-none gap-6 [counter-reset:step]">
+      <TabsContent value="manual" className="mt-3 min-w-0">
+        <ol className="grid list-none grid-cols-[minmax(0,1fr)] gap-6 [counter-reset:step]">
           {upstream && (
             <Step title={`Add shadcn's ${upstream}`}>
               <p className="text-sm">The manga version wraps your own shadcn component, so Radix and Base UI both work.</p>
@@ -142,7 +142,7 @@ function Install({ item }: { item: Item }) {
           )}
           <Step title={item.files && item.files.length > 1 ? "Copy the source files" : "Copy the source file"}>
             {(item.files ?? []).map((f) => (
-              <div key={f.path} className="grid gap-1.5">
+              <div key={f.path} className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-1.5">
                 <p className="font-mono text-xs break-all">{target(f)}</p>
                 <CodeToggle load={() => fileSource(f.path).then(userFile)} label="Show the source" />
               </div>
@@ -167,7 +167,7 @@ const userFile = (src: string) => src
 
 function Step({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <li className="grid gap-2 ps-10 [counter-increment:step] relative before:absolute before:start-0 before:top-0 before:grid before:size-7 before:place-items-center before:border-ink before:font-letter before:text-sm before:content-[counter(step)]">
+    <li className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2 ps-10 [counter-increment:step] relative before:absolute before:start-0 before:top-0 before:grid before:size-7 before:place-items-center before:border-ink before:font-letter before:text-sm before:content-[counter(step)]">
       <p className="font-letter text-lg leading-7 uppercase">{title}</p>
       {children}
     </li>
@@ -183,7 +183,7 @@ function ApiReference({ item }: { item: Item }) {
     </a>
   )
   return (
-    <div className="grid gap-3">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-3">
       {upstream ? (
         <p>
           {props.length ? "The props mangacn adds. " : "mangacn adds no props of its own. "}Every other prop is shadcn&apos;s and works the same: see {upstreamLink}.
@@ -208,8 +208,8 @@ function ApiReference({ item }: { item: Item }) {
               </tr>
             </thead>
             <tbody>
-              {props.map((p) => (
-                <tr key={p.name} className="border-b-[length:var(--mg-bw-fine)] border-border align-top last:border-b-0">
+              {props.map((p, i) => (
+                <tr key={`${p.name}-${i}`} className="border-b-[length:var(--mg-bw-fine)] border-border align-top last:border-b-0">
                   <th scope="row" className="px-3 py-2 text-start font-mono font-bold break-words">
                     {p.name}
                   </th>
@@ -305,11 +305,11 @@ export function ComponentPage({ item }: { item: Item }) {
       {examples.length > 0 && (
         <>
           <H2 id="examples">Examples</H2>
-          <div className="grid gap-12">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-12">
             {examples.map((ex) => {
               const id = `example-${slugify(ex.title)}`
               return (
-                <section key={ex.fn} aria-labelledby={id} className="grid gap-3">
+                <section key={ex.fn} aria-labelledby={id} className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3">
                   <h3 id={id} className="scroll-mt-20 font-letter text-xl leading-none uppercase">
                     {ex.title}
                   </h3>

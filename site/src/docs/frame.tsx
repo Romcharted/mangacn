@@ -47,7 +47,7 @@ export function ExampleFrame({
     }
   }, [tab, live, code, demo, fn])
   return (
-    <Tabs variant="underline" value={tab} onValueChange={(v) => setTab(String(v))} className="gap-0">
+    <Tabs variant="underline" value={tab} onValueChange={(v) => setTab(String(v))} className="min-w-0 gap-0">
       <TabsList aria-label={`${label}: preview or code`}>
         <TabsTrigger value="preview" className="max-sm:min-h-11">
           Preview
@@ -57,7 +57,7 @@ export function ExampleFrame({
         </TabsTrigger>
       </TabsList>
       {/* kept mounted while the Code tab shows: the example keeps its state */}
-      <TabsContent value="preview" keepMounted className="mt-3 data-[hidden]:hidden">
+      <TabsContent value="preview" keepMounted className="mt-3 min-w-0 data-[hidden]:hidden">
         <LiveCode.Provider value={setLive}>
           <Stage wide={wide}>
             <LoadBoundary resetKey={`${demo}:${fn}`}>
@@ -66,7 +66,7 @@ export function ExampleFrame({
           </Stage>
         </LiveCode.Provider>
       </TabsContent>
-      <TabsContent value="code" className="mt-3">
+      <TabsContent value="code" className="mt-3 min-w-0">
         {live ?? code ? (
           <Code text={(live ?? code)!} />
         ) : (
@@ -87,7 +87,7 @@ export function Stage({ children, wide = false }: { children: ReactNode; wide?: 
       data-stage
       className={`flex min-h-[350px] items-center justify-center overflow-x-auto border-ink-fine bg-background ${wide ? "p-3 sm:p-6" : "p-6 sm:p-10"}`}
     >
-      <div data-stage-content className={wide ? "w-full min-w-0" : "flex min-w-0 max-w-full flex-col items-center"}>
+      <div data-stage-content className={wide ? "w-full min-w-0 [&>*]:mx-auto" : "flex w-full min-w-0 flex-col items-center"}>
         {children}
       </div>
     </div>
