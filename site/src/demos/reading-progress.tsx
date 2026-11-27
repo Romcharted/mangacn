@@ -2,6 +2,7 @@ import { useRef, useState } from "react"
 import { Tile, Tiles } from "../state-grid"
 import { Slider } from "@registry/manga/ui/slider"
 import { ReadingProgress } from "@registry/manga/signature/reading-progress"
+import type { Example } from "../registry"
 
 const CHAPTER = [
   "The last train left without her. Mio counted the lights of the platform, one by one, until the station went dark.",
@@ -41,7 +42,7 @@ const PAGES = 8
 export function Preview() {
   const [page, setPage] = useState(3)
   return (
-    <div className="grid max-w-xl gap-8">
+    <div className="mx-auto grid w-full max-w-xl gap-8">
       <ScrollBox />
       <div className="grid gap-3">
         <span id="rp-pages" className="font-letter text-base tracking-wide uppercase">
@@ -92,6 +93,45 @@ export function States() {
     </Tiles>
   )
 }
+
+function RightToLeft() {
+  return (
+    <div data-reading="rtl" className="mx-auto grid w-full max-w-md gap-3">
+      <ReadingProgress value={42} showValue valueText="Page 3 / 8" />
+    </div>
+  )
+}
+
+function ChapterText() {
+  return (
+    <div className="mx-auto w-full max-w-xl">
+      <ScrollBox />
+    </div>
+  )
+}
+
+function PercentSlider() {
+  const [value, setValue] = useState(42)
+  return (
+    <div className="mx-auto grid w-full max-w-md gap-3">
+      <ReadingProgress value={value} showValue />
+      <Slider
+        value={[value]}
+        min={0}
+        max={100}
+        step={1}
+        aria-label="Progress"
+        onValueChange={(v: number | readonly number[]) => setValue(Array.isArray(v) ? (v as readonly number[])[0] : (v as number))}
+      />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "RightToLeft", title: "Read right to left", description: "data-reading=\"rtl\" fills the bar from the right, for manga read that way.", Component: RightToLeft },
+  { fn: "ChapterText", title: "Follows a text", description: "target points the bar at a scrolling box: it fills as the text is read.", Component: ChapterText },
+  { fn: "PercentSlider", title: "Set by a slider", description: "value is a percentage; showValue prints it, here moved by a slider.", Component: PercentSlider },
+]
 
 export function Thumb() {
   return (
