@@ -353,11 +353,11 @@ export function States() {
   )
 }
 
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="-my-10 w-72 scale-[0.6]">
+    <div className="w-60 h-32 overflow-hidden">
       <Questionnaire aria-label="Plan your one-shot" defaultItem="b">
-        <QuestionnaireProgress />
         <QuestionnaireItem name="a">
           <QuestionnaireTitle>Genre</QuestionnaireTitle>
         </QuestionnaireItem>
@@ -369,9 +369,6 @@ export function Thumb() {
             </QuestionnaireChoice>
             <QuestionnaireChoice value="romance">Romance</QuestionnaireChoice>
           </QuestionnaireChoices>
-        </QuestionnaireItem>
-        <QuestionnaireItem name="c">
-          <QuestionnaireTitle>Pages</QuestionnaireTitle>
         </QuestionnaireItem>
       </Questionnaire>
     </div>
