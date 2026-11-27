@@ -24,6 +24,17 @@
   "meta": {
     "tagline": "Diamonds instead of circles; the chosen one turns to ink.",
     "usage": "import { RadioGroup, RadioGroupItem } from \"@/components/ui/manga/radio-group\"\n\n<RadioGroup defaultValue=\"ltr\">\n  <label><RadioGroupItem value=\"ltr\" /> Left to right</label>\n  <label><RadioGroupItem value=\"rtl\" /> Right to left</label>\n</RadioGroup>",
-    "props": []
+    "props": [
+      {
+        "name": "RadioGroupItem",
+        "type": "component",
+        "description": "The diamond option: the line thickens on hover, the checked one turns to ink, and it is dashed when disabled."
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean",
+        "description": "On RadioGroupItem: the accent colour for the error look."
+      }
+    ]
   }
 }
