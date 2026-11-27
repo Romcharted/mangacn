@@ -30,6 +30,7 @@
       {
         "name": "spacing",
         "type": "number",
+        "default": "0",
         "description": "0 (default): one joined frame. Above 0: separate framed toggles with that gap."
       },
       {
