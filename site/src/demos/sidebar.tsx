@@ -62,7 +62,7 @@ export function Preview() {
         <Sidebar collapsible="icon" className={FRAME}>
           <SidebarHeader>
             <div className="font-letter text-2xl leading-none tracking-wide uppercase">Reader</div>
-            <SidebarInput placeholder="Search the library" aria-label="Search the library" />
+            <SidebarInput placeholder="Search the library" aria-label="Search the library" className="max-sm:h-11" />
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
@@ -379,12 +379,12 @@ export function States() {
         </Tile>
         <Tile size="lg" label="input · rest">
           <div className="w-full min-w-0 max-w-56">
-            <SidebarInput placeholder="Search" aria-label="Search" />
+            <SidebarInput placeholder="Search" aria-label="Search" className="max-sm:h-11" />
           </div>
         </Tile>
         <Tile size="lg" label="input · focus">
           <div className="w-full min-w-0 max-w-56">
-            <SidebarInput placeholder="Search" aria-label="Search" className="focus-ink" />
+            <SidebarInput placeholder="Search" aria-label="Search" className="focus-ink max-sm:h-11" />
           </div>
         </Tile>
         <Tile label="trigger · rest">
