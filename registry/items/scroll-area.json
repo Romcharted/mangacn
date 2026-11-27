@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "Ink thumb in a fine track, square corners, no fade.",
     "usage": "import { ScrollArea, ScrollBar } from \"@/components/ui/manga/scroll-area\"\n\n<ScrollArea className=\"h-56\">\n  <p>Long text goes here.</p>\n</ScrollArea>\n\n<ScrollArea className=\"w-56\">\n  <div className=\"w-[28rem]\">Wide content</div>\n  <ScrollBar orientation=\"horizontal\" />\n</ScrollArea>",
-    "props": []
+    "props": [
+      {
+        "name": "data-manga",
+        "type": "\"scroll-area\" | \"scroll-bar\"",
+        "description": "Set on the area and on its bar: the hooks to style the ink thumb and track from CSS."
+      }
+    ]
   }
 }
