@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "Lettering, brush chevrons, the current page in ink.",
     "usage": "import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from \"@/components/ui/manga/breadcrumb\"\n\n<Breadcrumb>\n  <BreadcrumbList>\n    <BreadcrumbItem><BreadcrumbLink href=\"#\">Library</BreadcrumbLink></BreadcrumbItem>\n    <BreadcrumbSeparator />\n    <BreadcrumbItem><BreadcrumbPage>Vol. 3</BreadcrumbPage></BreadcrumbItem>\n  </BreadcrumbList>\n</Breadcrumb>",
-    "props": []
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "On BreadcrumbSeparator: replaces the brush chevron with your own mark, such as a slash."
+      }
+    ]
   }
 }
