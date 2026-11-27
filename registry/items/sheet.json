@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "A case sliding in from the edge.",
     "usage": "import { Sheet, SheetContent, SheetTitle, SheetTrigger } from \"@/components/ui/manga/sheet\"\n\n<Sheet>\n  <SheetTrigger>Contents</SheetTrigger>\n  <SheetContent side=\"right\"><SheetTitle>Chapters</SheetTitle></SheetContent>\n</Sheet>",
-    "props": []
+    "props": [
+      {
+        "name": "data-side",
+        "type": "\"right\" | \"left\" | \"top\" | \"bottom\"",
+        "description": "Set on SheetContent by side. The 3px line and the offset frame follow that edge."
+      }
+    ]
   }
 }
