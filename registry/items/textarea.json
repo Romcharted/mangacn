@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "Input's ink line, for longer text.",
     "usage": "import { Textarea } from \"@/components/ui/manga/textarea\"\n\n<Textarea placeholder=\"Your review…\" />",
-    "props": []
+    "props": [
+      {
+        "name": "data-manga",
+        "type": "\"textarea\"",
+        "description": "Set on the root: the hook the field's lines, the focus ring and the error mark are styled from."
+      }
+    ]
   }
 }
