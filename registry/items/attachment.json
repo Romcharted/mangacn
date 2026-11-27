@@ -31,18 +31,6 @@
         "type": "\"idle\" | \"uploading\" | \"processing\" | \"error\" | \"done\"",
         "default": "\"done\"",
         "description": "The look of the file: running line, spinner, accent error or idle '+'."
-      },
-      {
-        "name": "size",
-        "type": "\"default\" | \"sm\" | \"xs\"",
-        "default": "\"default\"",
-        "description": "Stock sizes, kept."
-      },
-      {
-        "name": "orientation",
-        "type": "\"horizontal\" | \"vertical\"",
-        "default": "\"horizontal\"",
-        "description": "Vertical puts the media on top."
       }
     ]
   }

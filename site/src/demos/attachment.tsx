@@ -12,6 +12,7 @@ import {
   AttachmentTitle,
   AttachmentTrigger,
 } from "@registry/manga/ui/attachment"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 import { artSrc } from "../mapless"
 
@@ -32,6 +33,26 @@ function PdfArt() {
 }
 
 export function Preview() {
+  return (
+    <Attachment className="w-72">
+      <AttachmentTrigger aria-label="Open page-12.png" />
+      <AttachmentMedia>
+        <PageArt />
+      </AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>page-12.png</AttachmentTitle>
+        <AttachmentDescription>PNG · 2.1 MB</AttachmentDescription>
+      </AttachmentContent>
+      <AttachmentActions>
+        <AttachmentAction aria-label="Remove page-12.png">
+          <XIcon />
+        </AttachmentAction>
+      </AttachmentActions>
+    </Attachment>
+  )
+}
+
+function Several() {
   return (
     <AttachmentGroup className="max-w-xl">
       <Attachment>
@@ -90,6 +111,69 @@ export function Preview() {
     </AttachmentGroup>
   )
 }
+
+function Uploading() {
+  return (
+    <Attachment state="uploading" className="w-72">
+      <AttachmentMedia>
+        <PageArt />
+      </AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>page-13.png</AttachmentTitle>
+        <AttachmentDescription>Uploading 64%</AttachmentDescription>
+      </AttachmentContent>
+    </Attachment>
+  )
+}
+
+function Failed() {
+  return (
+    <Attachment state="error" className="w-72">
+      <AttachmentMedia>
+        <FileTextIcon />
+      </AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>sketch-final.psd</AttachmentTitle>
+        <AttachmentDescription>Upload failed: over 20 MB</AttachmentDescription>
+      </AttachmentContent>
+      <AttachmentActions>
+        <AttachmentAction aria-label="Try again">
+          <RefreshCwIcon />
+        </AttachmentAction>
+      </AttachmentActions>
+    </Attachment>
+  )
+}
+
+function Sizes() {
+  return (
+    <div className="flex flex-wrap items-end justify-center gap-4">
+      <Attachment orientation="vertical" size="sm">
+        <AttachmentMedia>
+          <PageArt />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>page-12</AttachmentTitle>
+        </AttachmentContent>
+      </Attachment>
+      <Attachment size="xs">
+        <AttachmentMedia>
+          <PdfArt />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>notes.pdf</AttachmentTitle>
+        </AttachmentContent>
+      </Attachment>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Several", title: "Several files", description: "AttachmentGroup lines up files of different kinds, each with its own state and actions.", Component: Several, wide: true },
+  { fn: "Uploading", title: "Uploading", description: "state=\"uploading\" runs a line along the bottom edge while the file travels.", Component: Uploading },
+  { fn: "Failed", title: "Failed upload", description: "state=\"error\" draws an accent line and a mark; the action offers to try again.", Component: Failed },
+  { fn: "Sizes", title: "Sizes", description: "size=\"sm\" and \"xs\" shrink the file, and orientation=\"vertical\" puts the picture on top.", Component: Sizes },
+]
 
 export function States() {
   return (
