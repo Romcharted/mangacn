@@ -27,11 +27,6 @@
     "usage": "import { Calendar } from \"@/components/ui/manga/calendar\"\n\nconst [date, setDate] = React.useState<Date | undefined>(new Date())\n\n<div className=\"relative w-fit ink-case\">\n  <Calendar mode=\"single\" selected={date} onSelect={setDate} />\n</div>",
     "props": [
       {
-        "name": "mode",
-        "type": "\"single\" | \"multiple\" | \"range\"",
-        "description": "How days are chosen (react-day-picker). Chosen days are ink flats; a range shows a band between its ends."
-      },
-      {
         "name": "captionLayout",
         "type": "\"label\" | \"dropdown\" | \"dropdown-months\" | \"dropdown-years\"",
         "default": "\"label\"",
