@@ -6,6 +6,9 @@ import { Tile } from "../state-grid"
 import { ForceInside } from "../force-inside"
 import { chapterPages } from "./reader-art"
 import { JSON_CHAPTER } from "./reader-json"
+import type { Example } from "../registry"
+
+export const previewWide = true
 
 /** Scans with their panel boxes, measured by hand in percent of the page. */
 function scans(): GuidedImagePage[] {
@@ -29,7 +32,7 @@ export function Preview() {
   )
   return (
     <div className="grid gap-3">
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center justify-center gap-2">
         {choice("data", source, setSource, "Page data")}
         {choice("scans", source, setSource, "Scans + boxes")}
         <span className="w-2" />
@@ -114,6 +117,39 @@ function OverviewOn() {
     </div>
   )
 }
+
+function MangaOrder() {
+  const pages = useMemo(() => scans(), [])
+  return (
+    <div className="mx-auto w-full max-w-sm">
+      <GuidedView pages={pages} direction="rtl" className="h-[30rem]!" />
+    </div>
+  )
+}
+
+function StartOnPanel() {
+  const pages = useMemo(() => scans(), [])
+  return (
+    <div className="mx-auto w-full max-w-sm">
+      <GuidedView pages={pages} direction="ltr" defaultPosition={{ page: 1, panel: 2 }} className="h-[30rem]!" />
+    </div>
+  )
+}
+
+function PageData() {
+  const pages = useMemo(() => JSON_CHAPTER.map((page) => ({ page })), [])
+  return (
+    <div className="mx-auto w-full max-w-sm">
+      <GuidedView pages={pages} direction="ltr" className="h-[30rem]!" />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "MangaOrder", title: "Manga order", description: "direction=\"rtl\" moves from panel to panel right to left, as manga is read.", Component: MangaOrder, wide: true },
+  { fn: "StartOnPanel", title: "Starting on a panel", description: "defaultPosition opens the chapter on a given page and panel: here the third panel of page 2.", Component: StartOnPanel, wide: true },
+  { fn: "PageData", title: "Pages from data", description: "The pages come from data, not scans: each one is drawn from its JSON.", Component: PageData, wide: true },
+]
 
 /** Live: the scans, panel by panel; tap the page edges or use the arrow keys. */
 export function Thumb() {
