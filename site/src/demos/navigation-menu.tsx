@@ -11,7 +11,10 @@ import {
   navigationMenuLinkStyle,
   navigationMenuTriggerStyle,
 } from "@registry/manga/ui/navigation-menu"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
+
+const TOUCH = "min-h-11 sm:min-h-10"
 
 const chapterTitles = ["The long night", "After the rain", "Ink on the bridge"]
 
@@ -51,7 +54,7 @@ function FocusedTrigger() {
     ref.current?.focus({ preventScroll: true })
   }, [])
   return (
-    <button ref={ref} type="button" className={navigationMenuTriggerStyle()}>
+    <button ref={ref} type="button" className={`${navigationMenuTriggerStyle()} ${TOUCH}`}>
       Chapters
     </button>
   )
@@ -59,38 +62,113 @@ function FocusedTrigger() {
 
 export function Preview() {
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem value="chapters">
-          <NavigationMenuTrigger>Chapters</NavigationMenuTrigger>
-          <NavigationMenuIndicator />
-          <NavigationMenuContent>
-            <Chapters active="After the rain" />
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem value="series">
-          <NavigationMenuTrigger>Series</NavigationMenuTrigger>
-          <NavigationMenuIndicator />
-          <NavigationMenuContent>
-            <ul className="grid w-64 gap-1">
-              <li>
-                <NavigationMenuLink href="#">Rooftop Kids</NavigationMenuLink>
-              </li>
-              <li>
-                <NavigationMenuLink href="#">Paper Tide</NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem value="staff">
-          <NavigationMenuLink href="#" className="h-10 text-lg font-letter uppercase">
-            Staff
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+    <div className="flex justify-center">
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem value="chapters">
+            <NavigationMenuTrigger className={TOUCH}>Chapters</NavigationMenuTrigger>
+            <NavigationMenuIndicator />
+            <NavigationMenuContent>
+              <Chapters active="After the rain" />
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem value="series">
+            <NavigationMenuTrigger className={TOUCH}>Series</NavigationMenuTrigger>
+            <NavigationMenuIndicator />
+            <NavigationMenuContent>
+              <ul className="grid w-64 gap-1">
+                <li>
+                  <NavigationMenuLink href="#" className={TOUCH}>
+                    Rooftop Kids
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink href="#" className={TOUCH}>
+                    Paper Tide
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem value="staff">
+            <NavigationMenuLink href="#" className="min-h-11 text-lg font-letter uppercase sm:min-h-10">
+              Staff
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   )
 }
+
+/** Links with no panel: a NavigationMenuLink needs no panel, so the item has no content. */
+function PlainLinks() {
+  return (
+    <div className="flex justify-center">
+      <NavigationMenu>
+        <NavigationMenuList>
+          {["Staff", "Index", "About"].map((label) => (
+            <NavigationMenuItem key={label} value={label}>
+              <NavigationMenuLink href="#" className={TOUCH}>
+                {label}
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          ))}
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
+  )
+}
+
+/** The current link is an ink flat: set active on the link that matches the page. */
+function CurrentLink() {
+  return (
+    <div className="flex justify-center">
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem value="index">
+            <NavigationMenuLink href="#" className={TOUCH}>
+              Index
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem value="staff">
+            <NavigationMenuLink href="#" active className={TOUCH}>
+              Staff
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
+  )
+}
+
+/** A trigger that cannot open yet keeps its label, underlined with dashes. */
+function Disabled() {
+  return (
+    <div className="flex justify-center">
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem value="chapters">
+            <NavigationMenuTrigger disabled className={TOUCH}>
+              Chapters
+            </NavigationMenuTrigger>
+          </NavigationMenuItem>
+          <NavigationMenuItem value="staff">
+            <NavigationMenuLink href="#" className={TOUCH}>
+              Staff
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "PlainLinks", title: "Plain links", description: "Links with no panel: three NavigationMenuLink items side by side.", Component: PlainLinks },
+  { fn: "CurrentLink", title: "Current link", description: "active on NavigationMenuLink turns that link into an ink flat.", Component: CurrentLink },
+  { fn: "Disabled", title: "Disabled trigger", description: "disabled on NavigationMenuTrigger keeps the label and underlines it with dashes.", Component: Disabled },
+]
 
 export function States() {
   return (
@@ -99,7 +177,7 @@ export function States() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem value="a">
-              <NavigationMenuTrigger>Chapters</NavigationMenuTrigger>
+              <NavigationMenuTrigger className={TOUCH}>Chapters</NavigationMenuTrigger>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -108,7 +186,9 @@ export function States() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem value="a">
-              <NavigationMenuTrigger {...force("hover")}>Chapters</NavigationMenuTrigger>
+              <NavigationMenuTrigger className={TOUCH} {...force("hover")}>
+                Chapters
+              </NavigationMenuTrigger>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -118,7 +198,7 @@ export function States() {
       </Tile>
       <Tile label="trigger · open" size="full">
         <div className="grid w-full justify-items-center gap-3">
-          <button type="button" aria-expanded="true" className={navigationMenuTriggerStyle()}>
+          <button type="button" aria-expanded="true" className={`${navigationMenuTriggerStyle()} ${TOUCH}`}>
             Chapters
           </button>
           <NavigationMenuPanel>
@@ -130,7 +210,9 @@ export function States() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem value="a">
-              <NavigationMenuTrigger disabled>Chapters</NavigationMenuTrigger>
+              <NavigationMenuTrigger disabled className={TOUCH}>
+                Chapters
+              </NavigationMenuTrigger>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -139,7 +221,9 @@ export function States() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem value="a">
-              <NavigationMenuLink href="#">Staff</NavigationMenuLink>
+              <NavigationMenuLink href="#" className={TOUCH}>
+                Staff
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -148,7 +232,9 @@ export function States() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem value="a">
-              <NavigationMenuLink href="#" {...force("hover")}>Staff</NavigationMenuLink>
+              <NavigationMenuLink href="#" className={TOUCH} {...force("hover")}>
+                Staff
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -157,7 +243,9 @@ export function States() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem value="a">
-              <NavigationMenuLink href="#" active>Staff</NavigationMenuLink>
+              <NavigationMenuLink href="#" active className={TOUCH}>
+                Staff
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

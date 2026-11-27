@@ -24,6 +24,22 @@
   "meta": {
     "tagline": "Lettering triggers; the open one turns to ink and its panel is a case.",
     "usage": "import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from \"@/components/ui/manga/navigation-menu\"\n\n<NavigationMenu>\n  <NavigationMenuList>\n    <NavigationMenuItem value=\"chapters\">\n      <NavigationMenuTrigger>Chapters</NavigationMenuTrigger>\n      <NavigationMenuContent>\n        <NavigationMenuLink href=\"/chapter-1\">The long night</NavigationMenuLink>\n      </NavigationMenuContent>\n    </NavigationMenuItem>\n  </NavigationMenuList>\n</NavigationMenu>",
-    "props": []
+    "props": [
+      {
+        "name": "navigationMenuTriggerStyle()",
+        "type": "() => string",
+        "description": "Classes for a trigger built by hand (frozen states, plain buttons), the same look as NavigationMenuTrigger."
+      },
+      {
+        "name": "navigationMenuLinkStyle()",
+        "type": "() => string",
+        "description": "Classes for a link built by hand. Set data-active=\"\" on the current link."
+      },
+      {
+        "name": "NavigationMenuPanel",
+        "type": "component",
+        "description": "A static panel with the content case look, for frozen states and docs; it does not open or close."
+      }
+    ]
   }
 }
