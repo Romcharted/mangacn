@@ -17,14 +17,12 @@ import {
   MenubarTwinRow,
   MenubarTriggerTwin,
 } from "@registry/manga/ui/menubar"
+import type { Example } from "../registry"
 import { Tile, Tiles, force } from "../state-grid"
 
 export function Preview() {
-  const [furigana, setFurigana] = useState(true)
-  const [order, setOrder] = useState("rtl")
-  const [pages, setPages] = useState(true)
   return (
-    <div className="pb-72">
+    <div className="flex justify-center">
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>File</MenubarTrigger>
@@ -36,17 +34,29 @@ export function Preview() {
               Open… <MenubarShortcut>O</MenubarShortcut>
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarSub>
-              <MenubarSubTrigger>Export</MenubarSubTrigger>
-              <MenubarSubContent>
-                <MenubarItem>As PDF</MenubarItem>
-                <MenubarItem>As images</MenubarItem>
-              </MenubarSubContent>
-            </MenubarSub>
-            <MenubarSeparator />
             <MenubarItem variant="destructive">Close volume</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>Help</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>Reading keys</MenubarItem>
+            <MenubarItem>About</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    </div>
+  )
+}
+
+/** Checkbox and radio rows keep their state: tick a row and its mark follows. */
+function Options() {
+  const [furigana, setFurigana] = useState(true)
+  const [pages, setPages] = useState(true)
+  const [order, setOrder] = useState("rtl")
+  return (
+    <div className="flex justify-center">
+      <Menubar>
         <MenubarMenu>
           <MenubarTrigger>View</MenubarTrigger>
           <MenubarContent>
@@ -63,26 +73,77 @@ export function Preview() {
             </MenubarRadioGroup>
           </MenubarContent>
         </MenubarMenu>
+      </Menubar>
+    </div>
+  )
+}
+
+/** A row that opens a second panel; its chevron turns while the submenu is open. */
+function WithSubmenu() {
+  return (
+    <div className="flex justify-center">
+      <Menubar>
         <MenubarMenu>
-          <MenubarTrigger>Bookmarks</MenubarTrigger>
+          <MenubarTrigger>File</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem>
-              Add this page <MenubarShortcut>B</MenubarShortcut>
-            </MenubarItem>
-            <MenubarItem disabled>Clear all (soon)</MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
-        <MenubarMenu>
-          <MenubarTrigger>Help</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem>Reading keys</MenubarItem>
-            <MenubarItem>About</MenubarItem>
+            <MenubarSub>
+              <MenubarSubTrigger>Export</MenubarSubTrigger>
+              <MenubarSubContent>
+                <MenubarItem>As PDF</MenubarItem>
+                <MenubarItem>As images</MenubarItem>
+              </MenubarSubContent>
+            </MenubarSub>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
     </div>
   )
 }
+
+/** A key hint sits at the end of the row, in mono. */
+function Shortcuts() {
+  return (
+    <div className="flex justify-center">
+      <Menubar>
+        <MenubarMenu>
+          <MenubarTrigger>Bookmarks</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>
+              Add this page <MenubarShortcut>B</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+              Next bookmark <MenubarShortcut>J</MenubarShortcut>
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    </div>
+  )
+}
+
+/** A row that cannot be chosen yet keeps its place, with a dashed underline. */
+function Disabled() {
+  return (
+    <div className="flex justify-center">
+      <Menubar>
+        <MenubarMenu>
+          <MenubarTrigger>Bookmarks</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>Add this page</MenubarItem>
+            <MenubarItem disabled>Clear all (soon)</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Options", title: "Checkboxes and radios", description: "MenubarCheckboxItem and MenubarRadioItem keep their state: tick a row and its mark follows.", Component: Options },
+  { fn: "WithSubmenu", title: "Submenu", description: "MenubarSub opens a second panel from a row, marked with a chevron.", Component: WithSubmenu },
+  { fn: "Shortcuts", title: "Shortcuts", description: "MenubarShortcut sets a key hint at the end of a row, in mono.", Component: Shortcuts },
+  { fn: "Disabled", title: "Disabled row", description: "disabled keeps a row in place with a dashed underline; it cannot be chosen.", Component: Disabled },
+]
 
 export function States() {
   return (

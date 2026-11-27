@@ -24,6 +24,37 @@
   "meta": {
     "tagline": "A lettering bar of menus; the open one turns to ink.",
     "usage": "import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from \"@/components/ui/manga/menubar\"\n\n<Menubar>\n  <MenubarMenu>\n    <MenubarTrigger>File</MenubarTrigger>\n    <MenubarContent>\n      <MenubarItem>New volume</MenubarItem>\n      <MenubarItem variant=\"destructive\">Close volume</MenubarItem>\n    </MenubarContent>\n  </MenubarMenu>\n</Menubar>",
-    "props": []
+    "props": [
+      {
+        "name": "highlighted",
+        "type": "boolean",
+        "description": "On MenubarTwinRow: the row in its highlighted (ink flat) state, for state grids."
+      },
+      {
+        "name": "checked",
+        "type": "boolean",
+        "description": "On MenubarTwinRow: a checkbox row with its mark."
+      },
+      {
+        "name": "radio",
+        "type": "boolean",
+        "description": "On MenubarTwinRow: a radio row with its mark."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "On MenubarTwinRow: dashed underline, no action."
+      },
+      {
+        "name": "destructive",
+        "type": "boolean",
+        "description": "On MenubarTwinRow: the red row for an action that cannot be undone."
+      },
+      {
+        "name": "sub",
+        "type": "boolean",
+        "description": "On MenubarTwinRow: a chevron for a row that opens a submenu."
+      }
+    ]
   }
 }
