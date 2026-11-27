@@ -3,14 +3,17 @@ import { PageThumbnails } from "@registry/manga/signature/page-thumbnails"
 import { Tile } from "../state-grid"
 import { ForceInside } from "../force-inside"
 import { chapterPages } from "./reader-art"
+import type { Example } from "../registry"
+
+export const previewWide = true
 
 export function Preview() {
   const pages = useMemo(() => chapterPages(), [])
   const [page, setPage] = useState(1)
   const [order, setOrder] = useState<"rtl" | "ltr">("rtl")
   return (
-    <div className="grid gap-3">
-      <div className="flex flex-wrap items-center gap-2 font-mono text-sm">
+    <div className="mx-auto grid w-full max-w-2xl gap-3">
+      <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-sm">
         <span>Order:</span>
         {(["rtl", "ltr"] as const).map((o) => (
           <button
@@ -23,16 +26,49 @@ export function Preview() {
             {o === "rtl" ? "Manga RTL" : "Western LTR"}
           </button>
         ))}
-        <span className="ms-auto" aria-live="polite">
-          Reading page {page + 1}
-        </span>
+        <span aria-live="polite">Reading page {page + 1}</span>
       </div>
-      <div className="max-w-2xl">
-        <PageThumbnails pages={pages} current={page} readUntil={page} direction={order} onSelect={setPage} />
-      </div>
+      <PageThumbnails pages={pages} current={page} readUntil={page} direction={order} onSelect={setPage} />
     </div>
   )
 }
+
+function PickAPage() {
+  const pages = useMemo(() => chapterPages().slice(0, 4), [])
+  const [page, setPage] = useState(0)
+  return (
+    <div className="mx-auto grid w-full max-w-xl gap-3">
+      <PageThumbnails pages={pages} current={page} readUntil={page} onSelect={setPage} direction="ltr" />
+      <p aria-live="polite" className="text-center font-mono text-sm">
+        Page {page + 1} of {pages.length}
+      </p>
+    </div>
+  )
+}
+
+function Spread() {
+  const pages = useMemo(() => chapterPages().slice(0, 4), [])
+  return (
+    <div className="mx-auto w-full max-w-xl">
+      <PageThumbnails pages={pages} current={[1, 2]} readUntil={2} direction="ltr" />
+    </div>
+  )
+}
+
+function MangaOrder() {
+  const pages = useMemo(() => chapterPages().slice(0, 4), [])
+  return (
+    <div className="mx-auto w-full max-w-xl">
+      <PageThumbnails pages={pages} current={0} direction="rtl" />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "PickAPage", title: "Pick a page", description: "A click on a thumbnail goes to that page; the reading mark follows.", Component: PickAPage },
+  { fn: "Spread", title: "A spread on screen", description: "current can be a list: a spread shows two pages on screen at once.", Component: Spread },
+  { fn: "MangaOrder", title: "Manga order", description: "direction=\"rtl\" lays the strip out right to left, as manga is read.", Component: MangaOrder },
+]
 
 export function States() {
   const pages = useMemo(() => chapterPages().slice(0, 3), [])
