@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { ReleaseCalendar, ReleaseRow, type Release } from "@registry/manga/signature/release-calendar"
 import { Tile, force } from "../state-grid"
+import type { Example } from "../registry"
 
 import { Art, type ArtName } from "../mapless"
 
@@ -8,6 +9,8 @@ import { Art, type ArtName } from "../mapless"
 const pic = (name: ArtName) => <Art name={name} alt="" shown="(min-width: 40rem) 24rem, 100vw" className="size-full object-cover" />
 const Sun = () => pic("lighthouse-night")
 const Bars = () => pic("bridge-far")
+
+export const previewWide = true
 
 // A fixed week, today = Wednesday (2). Invented series only.
 const TODAY = 2 as const
@@ -108,6 +111,28 @@ export function States() {
     </div>
   )
 }
+
+function StripDay() {
+  return <ReleaseCalendar layout="strip" releases={RELEASES} today={TODAY} defaultDay={4} />
+}
+
+function EveryDay() {
+  return <ReleaseCalendar layout="columns" releases={RELEASES} today={TODAY} />
+}
+
+function OneRelease() {
+  return (
+    <div className="mx-auto w-full max-w-md">
+      <ReleaseRow release={LINK} />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "StripDay", title: "Strip, one day", description: "layout=\"strip\" shows one day at a time; the day buttons pick the day.", Component: StripDay, wide: true },
+  { fn: "EveryDay", title: "Columns, every day", description: "layout=\"columns\" shows the whole week side by side.", Component: EveryDay, wide: true },
+  { fn: "OneRelease", title: "A release row", description: "A row with an href is a link: it lifts on hover and takes the ink focus ring.", Component: OneRelease },
+]
 
 /** Live: press a release; it is marked as opened. */
 export function Thumb() {
