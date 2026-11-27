@@ -18,6 +18,19 @@
     "dependency": "@fontsource-variable/atkinson-hyperlegible-next"
   },
   "meta": {
-    "tagline": "The reading face for text and fields."
+    "tagline": "The reading face for text and fields.",
+    "usage": "<p className=\"font-sans\">Every island deserves a map.</p>",
+    "props": [
+      {
+        "name": "font-sans",
+        "type": "Tailwind class",
+        "description": "Sets the reading face: body text, descriptions and form fields."
+      },
+      {
+        "name": "--font-manga-body",
+        "type": "CSS variable",
+        "description": "The font family behind font-sans; set it to use another face."
+      }
+    ]
   }
 }
