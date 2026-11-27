@@ -123,10 +123,12 @@ export function States() {
 }
 
 /** Live: pick a range. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   const [range, setRange] = React.useState<DateRange | undefined>({ from: d(8), to: d(12) })
+  // the top of the month at real size: its title, the weekdays and the first weeks
   return (
-    <div className="[zoom:0.38]">
+    <div className="w-64 h-28 overflow-hidden">
       <Calendar mode="range" selected={range} onSelect={setRange} defaultMonth={JUNE} today={TODAY} />
     </div>
   )
