@@ -59,6 +59,12 @@
         "type": "\"background\" | \"layer\"",
         "default": "\"background\"",
         "description": "Behind children or overlaid on the parent."
+      },
+      {
+        "name": "seed",
+        "type": "number",
+        "default": "3",
+        "description": "Seed for the noise pattern."
       }
     ]
   }
