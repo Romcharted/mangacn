@@ -13,32 +13,44 @@ import {
   TypographySmall,
   TypographyTable,
 } from "@registry/manga/ui/typography"
+import type { Example } from "../registry"
 import { Tile, Tiles } from "../state-grid"
 
 export function Preview() {
   return (
-    <article className="max-w-prose">
-      <TypographyH1 as="h2">The long night</TypographyH1>
+    <article className="mx-auto max-w-prose">
+      <TypographyH2>The long night</TypographyH2>
       <TypographyLead>Three stations, one train, and a letter nobody was meant to open.</TypographyLead>
       <TypographyP>
         The harbour lamps came on one by one. Mei counted them twice, the way she counted pages before a deadline, and
         still the last one was out.
       </TypographyP>
       <TypographyBlockquote>Narration: the ferry left without her, and the sea kept the lamp lit.</TypographyBlockquote>
-      <TypographyH2>Cast</TypographyH2>
+    </article>
+  )
+}
+
+/** Headings: the lettering face, or the SFX face with `sfx`. */
+function Headings() {
+  return (
+    <article className="mx-auto max-w-prose">
+      <TypographyH1 as="p">The long night</TypographyH1>
+      <TypographyH2 sfx>Boom</TypographyH2>
+      <TypographyH3>Notes for the printer</TypographyH3>
+      <TypographyH4>Small print</TypographyH4>
+    </article>
+  )
+}
+
+/** Lists and tables: an ink header and thin row rules. */
+function ListsAndTable() {
+  return (
+    <article className="mx-auto max-w-prose">
       <TypographyList>
         <li>Mei, who keeps the ledger</li>
         <li>Ren, who draws the rain</li>
         <li>Sora, who was never on the boat</li>
       </TypographyList>
-      <TypographyH3>Notes for the printer</TypographyH3>
-      <TypographyP>
-        Set the title with <TypographyInlineCode>font-letter</TypographyInlineCode> and keep the page count in the margin.
-      </TypographyP>
-      <TypographyH4>Small print</TypographyH4>
-      <TypographySmall>Chapter 12 · 24 pages</TypographySmall>
-      <TypographyMuted>Drafts are reviewed on paper before they go to the editor.</TypographyMuted>
-      <TypographyLarge>Ready for the next run</TypographyLarge>
       <TypographyTable>
         <thead>
           <tr>
@@ -61,6 +73,26 @@ export function Preview() {
   )
 }
 
+/** Small text, muted text and inline code: the same ink, never grey. */
+function SmallText() {
+  return (
+    <article className="mx-auto max-w-prose">
+      <TypographyLarge>Ready for the next run</TypographyLarge>
+      <TypographySmall>Chapter 12 · 24 pages</TypographySmall>
+      <TypographyMuted>Drafts are reviewed on paper before they go to the editor.</TypographyMuted>
+      <TypographyP>
+        Set the title with <TypographyInlineCode>font-letter</TypographyInlineCode> and keep the page count in the margin.
+      </TypographyP>
+    </article>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Headings", title: "Headings", description: "H1 and H2 use the lettering face, H3 and H4 step down; sfx on H2 switches it to the SFX face.", Component: Headings },
+  { fn: "ListsAndTable", title: "Lists and table", description: "TypographyList for cast lists, TypographyTable for rows with an ink header.", Component: ListsAndTable },
+  { fn: "SmallText", title: "Small and inline", description: "Large, small and muted text, and TypographyInlineCode for a short token in a sentence.", Component: SmallText },
+]
+
 export function States() {
   return (
     <Tiles>
@@ -68,7 +100,9 @@ export function States() {
         <TypographyH1 as="p">Title</TypographyH1>
       </Tile>
       <Tile label="h1 · sfx" size="lg">
-        <TypographyH1 as="p" sfx>Boom</TypographyH1>
+        <TypographyH1 as="p" sfx>
+          Boom
+        </TypographyH1>
       </Tile>
       <Tile label="h2 · lettering" size="lg">
         <TypographyH2>Cast</TypographyH2>
