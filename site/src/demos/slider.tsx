@@ -64,6 +64,16 @@ export function States() {
   )
 }
 
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
-  return <Slider defaultValue={[60]} className="w-48" aria-label="Volume" />
+  const [value, setValue] = useState([60])
+  return (
+    <div className="grid w-48 gap-2">
+      <div className="flex justify-between font-letter text-sm uppercase">
+        <span>Volume</span>
+        <span className="font-mono normal-case">{value[0]}%</span>
+      </div>
+      <Slider value={value} onValueChange={(v) => setValue(Array.isArray(v) ? [...v] : [v])} aria-label="Volume" />
+    </div>
+  )
 }
