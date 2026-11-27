@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "Stacked cases; the open one turns to ink.",
     "usage": "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from \"@/components/ui/manga/accordion\"\n\n<Accordion>\n  <AccordionItem value=\"a\">\n    <AccordionTrigger>Chapter 1</AccordionTrigger>\n    <AccordionContent>The long night.</AccordionContent>\n  </AccordionItem>\n</Accordion>",
-    "props": []
+    "props": [
+      {
+        "name": "data-manga",
+        "type": "string",
+        "description": "Set on the root, the items, the triggers and the panels (accordion, accordion-item, accordion-trigger, accordion-content): hooks for your own CSS."
+      }
+    ]
   }
 }
