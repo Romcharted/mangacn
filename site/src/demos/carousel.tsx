@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import { Button } from "@registry/manga/ui/button"
 import { Carousel, CarouselContent, CarouselDots, CarouselItem, CarouselNext, CarouselPrevious } from "@registry/manga/ui/carousel"
 import { Art as Picture, type ArtName } from "../mapless"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 type Art = (p: { className?: string }) => ReactNode
@@ -42,10 +43,6 @@ function ChapterSlide({ n, title, art: A }: { n: number; title: string; art: Art
   )
 }
 
-function Heading({ children }: { children: ReactNode }) {
-  return <h3 className="mb-3 font-letter text-xl tracking-wide uppercase">{children}</h3>
-}
-
 const pages: { n: number; art: Art; line: string }[] = [
   { n: 1, art: Figure, line: "Suzu looks up." },
   { n: 2, art: Runner, line: "The spear falls." },
@@ -69,62 +66,84 @@ function PageSlide({ n, art: A, line }: { n: number; art: Art; line: string }) {
 
 export function Preview() {
   return (
-    <div className="grid gap-10">
-      <section>
-        <Heading>Chapter preview</Heading>
-        <div className="sm:px-12">
-          <Carousel opts={{ align: "start" }} className="@container">
-            <CarouselContent>
-              {chapters.map((c) => (
-                <CarouselItem key={c.n} className="@md:basis-1/2 @3xl:basis-1/3">
-                  <ChapterSlide {...c} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-            <CarouselDots />
-          </Carousel>
-        </div>
-      </section>
-
-      <section>
-        <Heading>Manga order · right to left</Heading>
-        <div className="sm:px-12" data-reading="rtl">
-          <Carousel opts={{ direction: "rtl" }} className="@container">
-            <CarouselContent>
-              {pages.map((p) => (
-                <CarouselItem key={p.n} className="@md:basis-1/2">
-                  <PageSlide {...p} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-            <CarouselDots />
-          </Carousel>
-        </div>
-      </section>
-
-      <section>
-        <Heading>Vertical</Heading>
-        <div className="mx-auto max-w-sm py-14 sm:py-12">
-          <Carousel orientation="vertical" opts={{ align: "start" }}>
-            <CarouselContent className="h-80">
-              {pages.map((p) => (
-                <CarouselItem key={p.n} className="basis-1/2">
-                  <PageSlide {...p} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-      </section>
+    <div className="w-full max-w-xl sm:px-12">
+      <Carousel opts={{ align: "start" }} className="@container">
+        <CarouselContent>
+          {chapters.map((c) => (
+            <CarouselItem key={c.n} className="@md:basis-1/2 @3xl:basis-1/3">
+              <ChapterSlide {...c} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+        <CarouselDots />
+      </Carousel>
     </div>
   )
 }
+
+function OneAtATime() {
+  return (
+    <div className="w-full max-w-xs sm:px-12">
+      <Carousel opts={{ align: "start" }}>
+        <CarouselContent>
+          {chapters.map((c) => (
+            <CarouselItem key={c.n}>
+              <ChapterSlide {...c} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+        <CarouselDots />
+      </Carousel>
+    </div>
+  )
+}
+
+function MangaOrder() {
+  return (
+    <div className="w-full max-w-xl sm:px-12" data-reading="rtl">
+      <Carousel opts={{ direction: "rtl" }} className="@container">
+        <CarouselContent>
+          {pages.map((p) => (
+            <CarouselItem key={p.n} className="@md:basis-1/2">
+              <PageSlide {...p} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+        <CarouselDots />
+      </Carousel>
+    </div>
+  )
+}
+
+function Vertical() {
+  return (
+    <div className="mx-auto w-full max-w-sm py-14 sm:py-12">
+      <Carousel orientation="vertical" opts={{ align: "start" }}>
+        <CarouselContent className="h-80">
+          {pages.map((p) => (
+            <CarouselItem key={p.n} className="basis-1/2">
+              <PageSlide {...p} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "OneAtATime", title: "One slide at a time", description: "Without a basis class, each CarouselItem fills the view: one chapter at a time.", Component: OneAtATime },
+  { fn: "MangaOrder", title: "Manga order", description: "data-reading=\"rtl\" makes the strip run right to left, and the arrows and keys follow.", Component: MangaOrder, wide: true },
+  { fn: "Vertical", title: "Vertical", description: "orientation=\"vertical\" stacks the slides; the buttons sit above and below and the up and down keys turn the pages.", Component: Vertical },
+]
 
 /* Static twins of the controls (same classes as the wrapper), so the states can be frozen. */
 function Arrow({ dir, state, disabled }: { dir: "previous" | "next"; state?: string; disabled?: boolean }) {
