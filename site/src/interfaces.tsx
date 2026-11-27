@@ -230,7 +230,7 @@ function Vignette({ i }: { i: Interface }) {
   return (
     <div ref={ref} data-demo inert aria-hidden className="pointer-events-none relative h-52 overflow-hidden border-b-[length:var(--mg-bw)] border-border [contain:strict] [transform:translateZ(0)]">
       {near && (
-        <div className="w-[64rem]">
+        <div className="w-[64rem] max-sm:w-screen">
           <Deferred fallback={null}>
             <Component titleAs="h2" />
           </Deferred>
