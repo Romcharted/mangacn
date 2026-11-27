@@ -95,9 +95,10 @@ export function States() {
   )
 }
 
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="relative h-36 w-44 ink-case-inner">
+    <div className="relative h-28 w-56 ink-case-inner">
       <LoadingScreen progress={60} sfx="ドドド" />
     </div>
   )
