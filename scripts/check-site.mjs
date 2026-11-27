@@ -15,7 +15,7 @@
 //
 // ONLY=docs/components/button,examples node scripts/check-site.mjs   checks a few addresses only.
 // WIDTHS=375 node scripts/check-site.mjs                              one width only.
-import { spawnSync } from "node:child_process"
+import { spawn } from "node:child_process"
 import { readFileSync } from "node:fs"
 import { chromium } from "playwright-core"
 
@@ -159,9 +159,20 @@ function measure({ minText, centre }) {
     for (const el of stage.querySelectorAll("[data-stage-content] *")) {
       const s = getComputedStyle(el)
       if (s.position === "fixed" || !visible(el)) continue
-      const b = el.getBoundingClientRect()
-      L = Math.min(L, Math.max(b.left, fr.left))
-      R = Math.max(R, Math.min(b.right, fr.right))
+      // what shows on screen: the box cut by every ancestor that clips (a carousel's hidden slides do not count)
+      let { left: l, right: r } = el.getBoundingClientRect()
+      for (let p = el.parentElement; p && p !== stage; p = p.parentElement) {
+        if (getComputedStyle(p).overflowX !== "visible") {
+          const pb = p.getBoundingClientRect()
+          l = Math.max(l, pb.left)
+          r = Math.min(r, pb.right)
+        }
+      }
+      l = Math.max(l, fr.left)
+      r = Math.min(r, fr.right)
+      if (r - l < 1) continue
+      L = Math.min(L, l)
+      R = Math.max(R, r)
     }
     if (!Number.isFinite(L)) continue
     const left = L - fr.left
@@ -281,8 +292,9 @@ if (!process.env.ONLY) {
     ["scripts/check-thumbs.mjs", [url + "docs/components"]],
   ]) {
     console.log(`\n$ node ${script}`)
-    const run = spawnSync(process.execPath, [script, ...args], { stdio: "inherit" })
-    if (run.status !== 0) failed = true
+    // asynchronous: this process serves the site to the child meanwhile
+    const status = await new Promise((resolve) => spawn(process.execPath, [script, ...args], { stdio: "inherit" }).on("exit", resolve))
+    if (status !== 0) failed = true
   }
 }
 await server?.close()
