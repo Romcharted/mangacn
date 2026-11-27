@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { SceneTransition, useSceneTransition, type SceneTransitionVariant } from "@registry/manga/signature/scene-transition"
 import { Button } from "@registry/manga/ui/button"
+import type { Example } from "../registry"
 import { Tile } from "../state-grid"
 
 const SCENES = [
@@ -22,7 +23,7 @@ function Stage({ variant, direction }: { variant: SceneTransitionVariant; direct
         </div>
         {transition}
       </div>
-      <Button variant="outline" disabled={playing} onClick={() => play(() => setScene((n) => (n + 1) % SCENES.length))}>
+      <Button variant="outline" className="min-h-11 sm:min-h-8" disabled={playing} onClick={() => play(() => setScene((n) => (n + 1) % SCENES.length))}>
         Next scene · {variant}, {direction}
       </Button>
     </div>
@@ -30,22 +31,52 @@ function Stage({ variant, direction }: { variant: SceneTransitionVariant; direct
 }
 
 export function Preview() {
-  const [screen, setScreen] = useState(false)
   return (
-    <div className="grid gap-6">
-      <div className="grid gap-4 sm:grid-cols-3">
+    <div className="flex w-full justify-center">
+      <div className="w-full max-w-sm">
         <Stage variant="ink" direction="reading" />
+      </div>
+    </div>
+  )
+}
+
+function Panels() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="w-full max-w-sm">
         <Stage variant="panels" direction="reading" />
+      </div>
+    </div>
+  )
+}
+
+function Tone() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="w-full max-w-sm">
         <Stage variant="tone" direction="down" />
       </div>
-      <div className="flex flex-wrap items-center gap-3">
-        <Button onClick={() => setScreen(true)}>Sweep the whole screen</Button>
-        <span className="text-sm">The ink wipe follows the reading order: switch “Read ←” to sweep right to left.</span>
-      </div>
+    </div>
+  )
+}
+
+function WholeScreen() {
+  const [screen, setScreen] = useState(false)
+  return (
+    <div className="flex w-full flex-col items-center gap-3">
+      <Button className="min-h-11 sm:min-h-8" onClick={() => setScreen(true)}>
+        Sweep the whole screen
+      </Button>
       <SceneTransition playing={screen} onDone={() => setScreen(false)} caption="Chapter 2" />
     </div>
   )
 }
+
+export const examples: Example[] = [
+  { fn: "Panels", title: "Four panels", description: "variant panels closes the scene with four ink panels, one after the other, in the reading order.", Component: Panels },
+  { fn: "Tone", title: "Tone, top to bottom", description: "variant tone covers with a screentone band; direction down wipes from the top of the box to the bottom.", Component: Tone },
+  { fn: "WholeScreen", title: "Sweep the whole screen", description: "A transition with scope screen covers the viewport; the caption shows in the middle while it is covered.", Component: WholeScreen },
+]
 
 const FRAMES = [2, 4, 5, 8] as const
 
