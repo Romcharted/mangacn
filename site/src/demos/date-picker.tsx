@@ -132,14 +132,8 @@ export function States() {
 }
 
 /** Live: the field opens its calendar; the small calendar picks a day too. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   const [day, setDay] = React.useState<Date | undefined>(d(12))
-  return (
-    <div className="flex flex-col items-start gap-2">
-      <DatePicker aria-label="Release day" value={day} onValueChange={setDay} className="w-52" />
-      <div className="relative ms-6 [zoom:0.24]">
-        <Calendar mode="single" selected={day} onSelect={setDay} defaultMonth={JUNE} today={TODAY} />
-      </div>
-    </div>
-  )
+  return <DatePicker aria-label="Release day" value={day} onValueChange={setDay} className="w-52" />
 }
