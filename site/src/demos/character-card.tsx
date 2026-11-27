@@ -111,10 +111,11 @@ export function States() {
   )
 }
 
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="w-56 [zoom:0.5]">
-      <CharacterCard name="Suzu" role="Cartographer" image={KAI} toned={false} stats={[{ label: "Ink", value: 82 }]} interactive className="max-w-56" />
+    <div className="w-52 h-28 overflow-hidden">
+      <CharacterCard name="Suzu" role="Cartographer" image={KAI} toned={false} stats={[{ label: "Ink", value: 82 }]} interactive className="max-w-52" />
     </div>
   )
 }
