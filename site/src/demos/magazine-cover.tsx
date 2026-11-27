@@ -4,11 +4,12 @@ import { artSrc } from "../mapless"
 import { Tile, force } from "../state-grid"
 import type { Example } from "../registry"
 
+// On these covers the character stands in the middle and to the right: the lines go down the calm left side
+// (sky, bridge, rocks), never over a face or a body.
 const LINES: CoverLine[] = [
   { text: "New series: Mapless", highlight: true },
   { text: "48 pages in colour" },
-  { text: "Interview: inking the sky", side: "end" },
-  { text: "Bonus poster inside", side: "end" },
+  { text: "Interview: inking the sky" },
 ]
 
 export function Preview() {
@@ -32,7 +33,7 @@ export function Preview() {
         image={artSrc("cover-2", 200)}
         lines={[
           { text: "The Eraser strikes" },
-          { text: "Special: the sky map", side: "end" },
+          { text: "Free map inside" },
         ]}
         className="max-w-sm"
       />
