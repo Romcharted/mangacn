@@ -53,7 +53,7 @@ function Story({ size = "md" }: { size?: "sm" | "md" }) {
 /** The strip in a row first (four panels side by side from 40rem, a column on phones). */
 export function Preview() {
   return (
-    <Yonkoma orientation="auto" labels={LABELS} title="The map" className="mx-auto max-w-3xl">
+    <Yonkoma orientation="auto" labels={LABELS} title="The map" className="mx-auto max-w-[13rem] sm:max-w-3xl">
       {Story({})}
     </Yonkoma>
   )
@@ -61,7 +61,7 @@ export function Preview() {
 
 function Vertical() {
   return (
-    <Yonkoma title="The map" labels={LABELS} className="w-64">
+    <Yonkoma title="The map" labels={LABELS} className="w-48">
       {Story({})}
     </Yonkoma>
   )
@@ -69,7 +69,7 @@ function Vertical() {
 
 function SquarePanels() {
   return (
-    <Yonkoma aspect="1" labels={LABELS} className="w-56">
+    <Yonkoma aspect="1" labels={LABELS} className="w-48">
       {Story({ size: "sm" })}
     </Yonkoma>
   )
@@ -77,7 +77,7 @@ function SquarePanels() {
 
 function Plain() {
   return (
-    <Yonkoma numbered={false} labels={LABELS} className="w-56">
+    <Yonkoma numbered={false} labels={LABELS} className="w-48">
       {Story({ size: "sm" })}
     </Yonkoma>
   )
@@ -116,11 +116,14 @@ export function States() {
   )
 }
 
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <Yonkoma className="w-20" numbered={false} labels={LABELS}>
-      {Story({ size: "sm" })}
-    </Yonkoma>
+    <div className="w-56 h-28 overflow-hidden">
+      <Yonkoma className="w-56" numbered={false} labels={LABELS}>
+        {Story({ size: "sm" })}
+      </Yonkoma>
+    </div>
   )
 }
 
