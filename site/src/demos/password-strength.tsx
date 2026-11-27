@@ -3,6 +3,7 @@ import { PasswordStrength, type PasswordScore } from "@registry/manga/signature/
 import { Button } from "@registry/manga/ui/button"
 import { Input } from "@registry/manga/ui/input"
 import { Tile, Tiles } from "../state-grid"
+import type { Example } from "../registry"
 
 function EyeIcon({ hidden }: { hidden: boolean }) {
   return (
@@ -19,7 +20,7 @@ function PasswordField() {
   const [password, setPassword] = useState("")
   const [shown, setShown] = useState(false)
   return (
-    <div className="grid w-full max-w-sm gap-2">
+    <div className="grid w-80 max-w-full gap-2">
       <label htmlFor={id} className="font-letter text-base tracking-wide uppercase">
         Password
       </label>
@@ -53,6 +54,62 @@ function PasswordField() {
 export function Preview() {
   return <PasswordField />
 }
+
+function MinLength() {
+  const [value, setValue] = useState("")
+  return (
+    <div className="grid w-80 max-w-full gap-2">
+      <Input
+        aria-label="New password"
+        type="password"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="At least 12 characters"
+        autoComplete="new-password"
+        className="h-11! sm:h-10!"
+      />
+      <PasswordStrength value={value} minLength={12} />
+    </div>
+  )
+}
+
+function OwnScore() {
+  const [score, setScore] = useState<PasswordScore>(2)
+  return (
+    <div className="grid w-80 max-w-full justify-items-center gap-4">
+      <PasswordStrength score={score} className="w-full" />
+      <div className="flex flex-wrap justify-center gap-3">
+        <Button
+          variant="outline"
+          className="min-h-11 sm:min-h-8"
+          disabled={score === 0}
+          onClick={() => setScore((s) => Math.max(0, s - 1) as PasswordScore)}
+        >
+          Weaker
+        </Button>
+        <Button className="min-h-11 sm:min-h-8" disabled={score === 4} onClick={() => setScore((s) => Math.min(4, s + 1) as PasswordScore)}>
+          Stronger
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+function CustomLabels() {
+  const labels = ["Empty", "Poor", "OK", "Good", "Great"]
+  return (
+    <div className="grid w-80 max-w-full gap-4">
+      <PasswordStrength value="ink" labels={labels} />
+      <PasswordStrength score={4} labels={labels} />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "MinLength", title: "Minimum length", description: "minLength sets the shortest password that can score above zero; here it asks for twelve characters.", Component: MinLength },
+  { fn: "OwnScore", title: "Your own score", description: "score takes your own estimate from 0 to 4 and overrides the password you type.", Component: OwnScore },
+  { fn: "CustomLabels", title: "Custom labels", description: "labels replaces the five words; a short word reads Empty and a full score reads Great.", Component: CustomLabels },
+]
 
 const SCORES: PasswordScore[] = [0, 1, 2, 3, 4]
 const NAMES = ["Too short", "Weak", "Fair", "Good", "Strong"]
