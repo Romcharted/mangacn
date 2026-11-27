@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "A notched case; the row under the pointer turns to ink.",
     "usage": "import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from \"@/components/ui/manga/dropdown-menu\"\n\n<DropdownMenu>\n  <DropdownMenuTrigger>Chapter</DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuItem>Bookmark</DropdownMenuItem>\n    <DropdownMenuItem variant=\"destructive\">Delete</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>",
-    "props": []
+    "props": [
+      {
+        "name": "data-variant",
+        "type": "\"default\" | \"destructive\"",
+        "description": "Set on each row by variant. Destructive rows use the accent."
+      }
+    ]
   }
 }
