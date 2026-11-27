@@ -13,6 +13,9 @@ import { Tile } from "../state-grid"
 import { ForceInside } from "../force-inside"
 import { chapterPages } from "./reader-art"
 import { JSON_CHAPTER } from "./reader-json"
+import type { Example } from "../registry"
+
+export const previewWide = true
 
 /** The live reader: settings and all pages in sheets, a chapter end card after the last page. */
 export function Preview() {
@@ -39,7 +42,7 @@ export function Preview() {
   )
   return (
     <div className="grid gap-3">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         {(["scans", "data"] as const).map((s) => (
           <button
             key={s}
@@ -130,6 +133,49 @@ function Frozen(props: Partial<React.ComponentProps<typeof PageReader>>) {
   const pages = useMemo(() => chapterPages(), [])
   return <PageReader pages={pages} className="h-[26rem]! min-h-0!" {...props} />
 }
+
+function DoubleSpread() {
+  return (
+    <div className="mx-auto w-full max-w-3xl">
+      <Frozen spread="double" defaultPage={1} />
+    </div>
+  )
+}
+
+function WesternOrder() {
+  return (
+    <div className="mx-auto w-full max-w-3xl">
+      <Frozen spread="double" direction="ltr" defaultPage={1} />
+    </div>
+  )
+}
+
+function InkBackground() {
+  return (
+    <div className="mx-auto w-full max-w-md">
+      <Frozen spread="single" background="ink" fit="width" defaultPage={2} />
+    </div>
+  )
+}
+
+function ChapterEndCard() {
+  return (
+    <div className="mx-auto w-full max-w-md">
+      <Frozen
+        spread="single"
+        defaultPage={3}
+        end={<ChapterEnd chapter="Chapter 1" next={{ number: 2, title: "The lighthouse keeper", date: "Dec 3" }} />}
+      />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "DoubleSpread", title: "Two pages at once", description: "spread=\"double\" shows two pages side by side, the first one alone.", Component: DoubleSpread, wide: true },
+  { fn: "WesternOrder", title: "Western order", description: "direction=\"ltr\" turns the pages left to right, as western books are read.", Component: WesternOrder, wide: true },
+  { fn: "InkBackground", title: "Ink background, fit width", description: "background=\"ink\" and fit=\"width\" give a dark page that scrolls down.", Component: InkBackground, wide: true },
+  { fn: "ChapterEndCard", title: "The chapter end", description: "end is shown after the last page: here a chapter end card with the next chapter.", Component: ChapterEndCard, wide: true },
+]
 
 export function States() {
   return (
