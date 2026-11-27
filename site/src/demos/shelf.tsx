@@ -95,9 +95,10 @@ export function States() {
 }
 
 /** Live: pull a volume out of the shelf. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="w-32">
+    <div className="w-60 h-32 overflow-hidden">
       <Shelf volumes={VOLUMES} openLabel="Read" className="[&_ul]:px-1 [&_ul]:pt-2" />
     </div>
   )
