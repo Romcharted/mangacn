@@ -112,7 +112,10 @@ function GuidedView({
   const target: GuidedRect = overview || !page?.panels[ki] ? { x: 0, y: 0, w: 100, h: 100 } : page.panels[ki].rect
   const bw = (target.w / 100) * DRAW_W
   const bh = (target.h / 100) * drawH
-  const scale = stage.w && bw && bh ? Math.min((stage.w - 2 * MARGIN) / bw, (stage.h - 2 * MARGIN) / bh, overview ? Infinity : 4) : 0
+  // a picture is never drawn larger than its own pixels: the camera stops zooming at the picture's real size
+  const shown = pages[pi]
+  const realWidth = shown && "src" in shown && shown.width ? shown.width : Infinity
+  const scale = stage.w && bw && bh ? Math.min((stage.w - 2 * MARGIN) / bw, (stage.h - 2 * MARGIN) / bh, overview ? Infinity : 4, realWidth / DRAW_W) : 0
   const bx = (target.x / 100) * DRAW_W
   const by = (target.y / 100) * drawH
   const tx = stage.w / 2 - scale * (bx + bw / 2)
@@ -327,7 +330,15 @@ function GuidedView({
                   "absolute top-0 origin-top-left bg-background [direction:ltr]",
                   drag === 0 && "transition-transform duration-[333ms] ease-[steps(4)] motion-reduce:transition-none",
                 )}
-                style={{ width: DRAW_W, height: drawH, transform: `translate(${tx + drag}px, ${ty}px) scale(${scale})`, left: 0, right: "auto" }}
+                style={{
+                  width: DRAW_W,
+                  height: drawH,
+                  transform: `translate(${tx + drag}px, ${ty}px) scale(${scale})`,
+                  left: 0,
+                  right: "auto",
+                  // the page's lettering stays at least 10px on screen whatever the camera's scale
+                  ["--mg-letter-floor" as string]: `${(10 / scale).toFixed(2)}px`,
+                }}
               >
                 {isData(current) ? (
                   <Page page={{ ...current.page, reading: current.page.reading ?? direction }} fold="never" label={current.alt ?? `Page ${pi + 1}`} />
