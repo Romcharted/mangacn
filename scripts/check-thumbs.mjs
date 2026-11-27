@@ -18,7 +18,7 @@ const browser = await chromium.launch()
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
 await page.goto(url, { waitUntil: "networkidle" })
 
-const cards = "article:has([data-demo])"
+const cards = "article[data-card]"
 const titles = await page.$$eval(`${cards} a[href*='/docs/components/']:not([aria-hidden])`, (as) => as.map((a) => a.textContent.trim()))
 const still = []
 const navigates = []
