@@ -18,6 +18,7 @@ import { PAGE_FORMAT_DOC } from "../pages/format-doc"
 import { Choice, Flag, Playground } from "../playground"
 import { Tile, Tiles } from "../state-grid"
 import { to } from "../router"
+import type { Example } from "../registry"
 
 const TEMPLATES = Object.keys(PAGE_TEMPLATES) as PageTemplate[]
 const FORMATS = Object.keys(PAGE_FORMATS) as PageFormat[]
@@ -100,46 +101,64 @@ ${n
         }
         code={code}
       />
-      <section aria-labelledby="page-jsx" className="grid grid-cols-[minmax(0,1fr)] gap-3">
-        <h3 id="page-jsx" className="font-letter text-xl uppercase">
-          Written by hand
-        </h3>
+    </div>
+  )
+}
+
+function ByHand() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="grid w-full max-w-xl gap-3">
         <p className="max-w-prose text-sm">
           Tiers stack from top to bottom, panels share a tier by <code>width</code>, every cut can <code>slant</code>. Gutters between
           tiers are wider than between panels, as in print. Under 480px the page folds into a vertical strip, one panel per row.
         </p>
-        <div className="w-full max-w-xl">
-          <Page format="square">
-            <Tier height={1.2} slant={6}>
-              <Panel width={1.6} slant={-5} bleed>
-                <Place x="8%" y="12%" anchor="top-left">
-                  <PanelCaption position="free">The night before.</PanelCaption>
-                </Place>
-              </Panel>
-              <Panel shape="jagged">
-                <Place x="50%" y="50%">
-                  <Sfx size="md">DOOM</Sfx>
-                </Place>
-              </Panel>
-            </Tier>
-            <Tier>
-              <Panel ink>
-                <Place x="50%" y="40%" maxWidth="80%">
-                  <SpeechBubble variant="thought" pointAt={{ x: "50%", y: "95%" }}>
-                    Who's there?
-                  </SpeechBubble>
-                </Place>
-              </Panel>
-              <Panel width={1.3} shape="cloud" />
-            </Tier>
-          </Page>
-        </div>
+        <Page format="square">
+          <Tier height={1.2} slant={6}>
+            <Panel width={1.6} slant={-5} bleed>
+              <Place x="8%" y="12%" anchor="top-left">
+                <PanelCaption position="free">The night before.</PanelCaption>
+              </Place>
+            </Panel>
+            <Panel shape="jagged">
+              <Place x="50%" y="50%">
+                <Sfx size="md">DOOM</Sfx>
+              </Place>
+            </Panel>
+          </Tier>
+          <Tier>
+            <Panel ink>
+              <Place x="50%" y="40%" maxWidth="80%">
+                <SpeechBubble variant="thought" pointAt={{ x: "50%", y: "95%" }}>
+                  Who's there?
+                </SpeechBubble>
+              </Place>
+            </Panel>
+            <Panel width={1.3} shape="cloud" />
+          </Tier>
+        </Page>
         <Code text={HAND} />
-      </section>
-      <section aria-labelledby="page-json" className="grid grid-cols-[minmax(0,1fr)] gap-3">
-        <h3 id="page-json" className="font-letter text-xl uppercase">
-          The page as data
-        </h3>
+      </div>
+    </div>
+  )
+}
+
+function Templates() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="w-full max-w-md">
+        <Page template="l-shape" label="L-shape template">
+          {slots("l-shape").map(numbered)}
+        </Page>
+      </div>
+    </div>
+  )
+}
+
+function AsData() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="grid w-full max-w-xl gap-3">
         <p className="max-w-prose text-sm">
           The same page can be given as JSON with <code>{"<Page page={data} />"}</code>. The{" "}
           <a href={to("studio")} className="underline">
@@ -148,10 +167,16 @@ ${n
           edits this format and readers use its geometry to zoom panel by panel.
         </p>
         <Code text={PAGE_FORMAT_DOC} />
-      </section>
+      </div>
     </div>
   )
 }
+
+export const examples: Example[] = [
+  { fn: "ByHand", title: "Written by hand", description: "Tiers, a slanted cut, a shaped panel and a bubble that aims: the whole page as JSX.", Component: ByHand },
+  { fn: "Templates", title: "Ready-made template", description: "template picks a layout; the Panel children fill its cells in reading order.", Component: Templates },
+  { fn: "AsData", title: "The page as data", description: "The same page as JSON, for the studio and for readers who zoom panel by panel.", Component: AsData },
+]
 
 const SHAPES: FrameShape[] = ["straight", "tilted", "jagged", "cloud", "memory"]
 
@@ -297,3 +322,6 @@ export function Thumb() {
     </div>
   )
 }
+
+/** The Playground takes the whole width of the frame, its controls on the right. */
+export const previewWide = true
