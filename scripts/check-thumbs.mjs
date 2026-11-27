@@ -1,11 +1,11 @@
-// Checks that the home page's previews are live: for each component card, hovers then clicks the controls of
+// Checks that the previews of /docs/components are live: for each component card, hovers then clicks the controls of
 // its preview (buttons first, then tabs, inputs…, then its centre, then a right-click) and compares screenshots
 // of the preview before and after. Lists the cards where nothing changed, and any preview whose click left the
-// home page (only the title and the arrow may open a component's page).
-// Usage: start the dev server (npm run dev), then: node scripts/check-thumbs.mjs [url] [only-title ...]
+// page (only the title and the arrow may open a component's page).
+// Usage: node scripts/check-thumbs.mjs <url of /docs/components> [only-title ...]   (npm run check runs it)
 import { chromium } from "playwright-core"
 
-const [url = "http://127.0.0.1:5173/", ...only] = process.argv.slice(2)
+const [url = "http://127.0.0.1:5173/docs/components", ...only] = process.argv.slice(2)
 const CONTROLS = [
   "button:not([disabled]):not([aria-hidden=true])",
   "[role=tab], [role=radio], [role=switch], [role=checkbox], [role=slider], [role=menuitem], [role=option]",
@@ -19,7 +19,7 @@ const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
 await page.goto(url, { waitUntil: "networkidle" })
 
 const cards = "article:has([data-demo])"
-const titles = await page.$$eval(`${cards} a[href^='#']:not([aria-hidden])`, (as) => as.map((a) => a.textContent.trim()))
+const titles = await page.$$eval(`${cards} a[href*='/docs/components/']:not([aria-hidden])`, (as) => as.map((a) => a.textContent.trim()))
 const still = []
 const navigates = []
 const moving = []
@@ -55,7 +55,7 @@ for (const [i, title] of titles.entries()) {
     await page.waitForTimeout(350)
     return page.screenshot({ clip: box, animations: "disabled", caret: "hide" })
   }
-  const hash = await page.evaluate(() => location.hash)
+  const hash = await page.evaluate(() => location.pathname)
   const open = await layers()
   // a preview that moves on its own cannot be judged by screenshots
   if (!same(await shot(), await shot())) {
@@ -103,7 +103,7 @@ for (const [i, title] of titles.entries()) {
     }
     await page.keyboard.press("Escape")
     await page.keyboard.press("Escape")
-    if ((await page.evaluate(() => location.hash)) !== hash) {
+    if ((await page.evaluate(() => location.pathname)) !== hash) {
       navigates.push(title)
       await page.goto(url, { waitUntil: "networkidle" })
       break
@@ -118,6 +118,6 @@ for (const [i, title] of titles.entries()) {
 console.log(`\n${only.length || titles.length} previews checked.`)
 console.log(still.length ? `Nothing changed in ${still.length}: ${still.join(", ")}` : "Every preview reacted.")
 if (moving.length) console.log(`Moving on their own (not judged): ${moving.join(", ")}`)
-if (navigates.length) console.log(`Left the home page: ${navigates.join(", ")}`)
+if (navigates.length) console.log(`Left the page: ${navigates.join(", ")}`)
 await browser.close()
 process.exit(navigates.length ? 1 : 0)
