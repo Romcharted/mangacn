@@ -4,6 +4,7 @@ import type { DateRange } from "react-day-picker"
 import { Calendar } from "@registry/manga/ui/calendar"
 import { DatePicker, DateRangePicker, datePickerTriggerClassName } from "@registry/manga/ui/date-picker"
 import { PopoverBubble } from "@registry/manga/ui/popover"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 const JUNE = new Date(2026, 5, 1)
@@ -23,28 +24,51 @@ function Field({ id, label, hint, children }: { id: string; label: string; hint?
 }
 
 export function Preview() {
-  const [birthday, setBirthday] = React.useState<Date | undefined>()
-  const [trip, setTrip] = React.useState<DateRange | undefined>({ from: d(12), to: d(15) })
+  const [day, setDay] = React.useState<Date | undefined>(d(12))
   return (
-    <div className="flex flex-wrap items-start gap-6 pb-96">
-      <Field id="dp-birthday" label="Birthday" hint={birthday ? `A cake panel on ${birthday.toDateString()}.` : "For a cake panel on your day."}>
-        <DatePicker
-          aria-labelledby="dp-birthday"
-          value={birthday}
-          onValueChange={setBirthday}
-          placeholder="Pick your birthday"
-          calendarProps={{ captionLayout: "dropdown", startMonth: new Date(1940, 0), endMonth: new Date(2026, 11), defaultMonth: new Date(2000, 0) }}
-        />
-      </Field>
-      <Field id="dp-trip" label="Convention trip" hint="Two months from 640px, one on phones.">
-        <DateRangePicker aria-labelledby="dp-trip" value={trip} onValueChange={setTrip} calendarProps={{ today: TODAY, disabled: { before: TODAY } }} />
-      </Field>
-      <Field id="dp-closed" label="Signing session" hint="Booking opens next month.">
-        <DatePicker aria-labelledby="dp-closed" disabled placeholder="Not open yet" />
-      </Field>
-    </div>
+    <Field id="dp-release" label="Release day" hint={day ? `Chapter 42 lands on ${day.toDateString()}.` : "No day picked yet."}>
+      <DatePicker aria-labelledby="dp-release" value={day} onValueChange={setDay} placeholder="Pick a date" className="w-72" />
+    </Field>
   )
 }
+
+function Birthday() {
+  const [birthday, setBirthday] = React.useState<Date | undefined>()
+  return (
+    <Field id="dp-birthday" label="Birthday" hint={birthday ? `A cake panel on ${birthday.toDateString()}.` : "For a cake panel on your day."}>
+      <DatePicker
+        aria-labelledby="dp-birthday"
+        value={birthday}
+        onValueChange={setBirthday}
+        placeholder="Pick your birthday"
+        calendarProps={{ captionLayout: "dropdown", startMonth: new Date(1940, 0), endMonth: new Date(2026, 11), defaultMonth: new Date(2000, 0) }}
+      />
+    </Field>
+  )
+}
+
+function Trip() {
+  const [trip, setTrip] = React.useState<DateRange | undefined>({ from: d(12), to: d(15) })
+  return (
+    <Field id="dp-trip" label="Convention trip" hint="Two months from 640px, one on phones.">
+      <DateRangePicker aria-labelledby="dp-trip" value={trip} onValueChange={setTrip} calendarProps={{ today: TODAY, disabled: { before: TODAY } }} />
+    </Field>
+  )
+}
+
+function Closed() {
+  return (
+    <Field id="dp-closed" label="Signing session" hint="Booking opens next month.">
+      <DatePicker aria-labelledby="dp-closed" disabled placeholder="Not open yet" />
+    </Field>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Birthday", title: "Dropdown months", description: "calendarProps passes captionLayout=\"dropdown\" with startMonth and endMonth: the caption becomes two selects.", Component: Birthday },
+  { fn: "Trip", title: "Date range", description: "DateRangePicker: the first click starts the range, the second ends it; past days are disabled through calendarProps.", Component: Trip },
+  { fn: "Closed", title: "Disabled", description: "disabled gives a dashed line and a tone frame; the calendar cannot open.", Component: Closed },
+]
 
 /** A static open picker: the trigger look and a bubble around the calendar (no portal). */
 function OpenTwin({ label, children, wide }: { label: string; children: React.ReactNode; wide?: boolean }) {
