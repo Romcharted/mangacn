@@ -81,10 +81,11 @@ const grow = (b: Box, d: number): Box => ({ x: b.x - d, y: b.y - d, w: b.w + 2 *
 /** Sizes inside a page, all from one page unit (1/100 of a page width). */
 function unitVars(pu: string, fold: boolean, lettering = 1): React.CSSProperties {
   // Lettering keeps a readable floor: 10px on a page shown small (a reader, a thumbnail of a page), more
-  // once folded on a phone, where the panels are read one by one.
+  // once folded on a phone, where the panels are read one by one. A reader that scales the page with a
+  // transform (GuidedView) raises --mg-letter-floor by the same factor, so the text stays 10px on screen.
   const at = (n: number, min: string) => {
     const k = Math.round(n * lettering * 1000) / 1000
-    return `max(${fold ? min : "10px"}, calc(${pu} * ${k}))`
+    return `max(${fold ? min : "var(--mg-letter-floor, 10px)"}, calc(${pu} * ${k}))`
   }
   return {
     "--pu": pu,
