@@ -22,45 +22,46 @@ function At({ x, y, w, children }: { x: number; y: number; w?: number; children:
   )
 }
 
-const bubble = "w-full px-[1.8cqi]! py-[1.4cqi]! text-[2.4cqi]! leading-tight!"
-const caption = "static! inline-block px-[1.4cqi]! py-[0.6cqi]! text-[2.2cqi]! leading-tight!"
+// Sizes follow the page (container units) with a 10px floor, so the lettering stays readable on a phone.
+const bubble = "w-full px-[1.6cqi]! py-[1.2cqi]! text-[max(10px,2.4cqi)]! leading-tight!"
+const caption = "static! inline-block px-[1.4cqi]! py-[0.6cqi]! text-[max(10px,2.2cqi)]! leading-tight!"
 
 /** The bridge page, lettered with the kit. */
 export function LetteredBridge() {
   return (
-    <figure className="@container relative m-0 w-full border-ink-panel bg-background">
+    <figure className="@container relative m-0 w-full overflow-hidden border-ink-panel bg-background">
       <Art name="page-1-bridge" alt={ALT["page-1-bridge"]} shown="(min-width: 64rem) 32rem, 92vw" className="block h-auto w-full" />
-      {/* panel 1: the sky above the bridge */}
+      {/* panel 1: the caption in the sky; the Eraser, standing at the right, speaks from the sky on his left */}
       <At x={2.5} y={1.5}>
         <PanelCaption position="free" className={caption}>
           Day 41. No map shows this bridge.
         </PanelCaption>
       </At>
-      <At x={74} y={2.5} w={23}>
-        <SpeechBubble tail="bottom" tailAlign="start" className={bubble}>
+      <At x={45} y={7} w={21}>
+        <SpeechBubble tail="end" tailAlign="end" className={bubble}>
           Nothing new gets drawn here.
         </SpeechBubble>
       </At>
-      {/* panel 2: the clouds behind the knight */}
-      <At x={29.5} y={33.6} w={19}>
+      {/* panel 2: the sky beside the Eraser's head, never past the middle of the page */}
+      <At x={29} y={31.5} w={17}>
         <SpeechBubble tail="start" className={bubble}>
           Turn back, cartographer.
         </SpeechBubble>
       </At>
-      {/* panel 3: the sky on the right */}
-      <At x={79} y={33.4} w={14}>
-        <SpeechBubble variant="shout" tail="start" className={bubble.replace("2.4cqi", "2.1cqi")}>
-          Kuro, back!
+      {/* panel 3: Suzu shouts from the top of her panel, on one line, the tail down to her face */}
+      <At x={52} y={31.5} w={38}>
+        <SpeechBubble variant="shout" tail="bottom" tailAlign="center" className={`${bubble} text-center whitespace-nowrap`}>
+          KURO, BACK!
         </SpeechBubble>
       </At>
       {/* panel 4: the speed lines, then the burst */}
       <At x={29} y={59.5}>
-        <Sfx size="lg" rotate={-12} className="text-[6cqi]!">
+        <Sfx size="lg" rotate={-12} className="text-[max(24px,6cqi)]!">
           KRAK!
         </Sfx>
       </At>
-      {/* panel 5: the white around the drop */}
-      <At x={74.5} y={93.4}>
+      {/* inset panel: the white around the drop, the caption inside the frame */}
+      <At x={75.5} y={90.5}>
         <PanelCaption position="free" className={caption}>
           …drip.
         </PanelCaption>
