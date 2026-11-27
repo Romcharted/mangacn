@@ -80,10 +80,11 @@ const grow = (b: Box, d: number): Box => ({ x: b.x - d, y: b.y - d, w: b.w + 2 *
 
 /** Sizes inside a page, all from one page unit (1/100 of a page width). */
 function unitVars(pu: string, fold: boolean, lettering = 1): React.CSSProperties {
-  // Folded on a phone, lettering keeps a readable floor.
+  // Lettering keeps a readable floor: 10px on a page shown small (a reader, a thumbnail of a page), more
+  // once folded on a phone, where the panels are read one by one.
   const at = (n: number, min: string) => {
     const k = Math.round(n * lettering * 1000) / 1000
-    return fold ? `max(${min}, calc(${pu} * ${k}))` : `calc(${pu} * ${k})`
+    return `max(${fold ? min : "10px"}, calc(${pu} * ${k}))`
   }
   return {
     "--pu": pu,
