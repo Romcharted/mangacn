@@ -56,12 +56,9 @@ const STORY_ART: StoryLandingArt = {
   cover: artSrc("suzu-portrait", 360),
   guide: artSrc("suzu-face", 96),
   reader: artSrc("kuro", 96),
-  beats: [panel("map"), panel("suzu-drawing"), panel("suzu-profile"), panel("suzu-face")],
 }
 
 const PORTFOLIO_ART: PortfolioArt = {
-  portrait: artSrc("suzu-face", 220),
-  inked: true,
   projects: { inkpot: panel("bridge-far"), ledger: panel("page-2-lighthouse"), tonelab: panel("lighthouse-night"), market: panel("map") },
 }
 
