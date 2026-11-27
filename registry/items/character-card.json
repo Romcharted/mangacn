@@ -66,6 +66,11 @@
         "description": "A line in a small speech bubble."
       },
       {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the card, e.g. its width."
+      },
+      {
         "name": "interactive",
         "type": "boolean",
         "default": "false",

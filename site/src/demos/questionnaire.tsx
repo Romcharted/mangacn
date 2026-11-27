@@ -17,6 +17,7 @@ import {
   QuestionnaireSubmit,
   QuestionnaireTitle,
 } from "@registry/manga/ui/questionnaire"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 const genres = [
@@ -131,6 +132,101 @@ export function Preview() {
     </div>
   )
 }
+
+function Shortcuts() {
+  return (
+    <div className="w-80 pe-2 pb-2">
+      <Questionnaire shortcuts="numbers" aria-label="Shortcuts">
+        <QuestionnaireItem name="lengths" required>
+          <QuestionnaireTitle>How many pages?</QuestionnaireTitle>
+          <QuestionnaireChoices>
+            {lengths.map((l) => (
+              <QuestionnaireChoice key={l} value={l}>
+                {l}
+              </QuestionnaireChoice>
+            ))}
+          </QuestionnaireChoices>
+        </QuestionnaireItem>
+      </Questionnaire>
+    </div>
+  )
+}
+
+function SeveralAnswers() {
+  return (
+    <div className="w-80 pe-2 pb-2">
+      <Questionnaire aria-label="Tones">
+        <QuestionnaireItem name="tones" multiple>
+          <QuestionnaireTitle>Which tones will you lay?</QuestionnaireTitle>
+          <QuestionnaireDescription>Pick any, or skip.</QuestionnaireDescription>
+          <QuestionnaireChoices>
+            {tones.map((t) => (
+              <QuestionnaireChoice key={t} value={t}>
+                {t}
+              </QuestionnaireChoice>
+            ))}
+          </QuestionnaireChoices>
+        </QuestionnaireItem>
+      </Questionnaire>
+    </div>
+  )
+}
+
+function Skippable() {
+  return (
+    <div className="w-80 pe-2 pb-2">
+      <Questionnaire aria-label="Skippable">
+        <QuestionnaireProgress />
+        <QuestionnaireItem name="tones" multiple>
+          <QuestionnaireTitle>Which tones will you lay?</QuestionnaireTitle>
+          <QuestionnaireChoices>
+            {tones.map((t) => (
+              <QuestionnaireChoice key={t} value={t}>
+                {t}
+              </QuestionnaireChoice>
+            ))}
+          </QuestionnaireChoices>
+        </QuestionnaireItem>
+        <QuestionnaireItem name="pitch">
+          <QuestionnaireTitle>Your pitch in one line</QuestionnaireTitle>
+          <QuestionnaireInput placeholder="A courier races the last ferry…" aria-label="Pitch" />
+        </QuestionnaireItem>
+        <QuestionnaireActions>
+          <QuestionnairePrevious />
+          <QuestionnaireSkip />
+          <QuestionnaireNext />
+        </QuestionnaireActions>
+      </Questionnaire>
+    </div>
+  )
+}
+
+function Invalid() {
+  return (
+    <div className="w-80 pe-2 pb-2">
+      <Questionnaire aria-label="Invalid">
+        <QuestionnaireItem name="genre" required invalid>
+          <QuestionnaireTitle>Which genre?</QuestionnaireTitle>
+          <QuestionnaireChoices>
+            {genres.slice(0, 2).map((g) => (
+              <QuestionnaireChoice key={g.value} value={g.value}>
+                {g.label}
+              </QuestionnaireChoice>
+            ))}
+          </QuestionnaireChoices>
+          <QuestionnaireError>Pick one genre to go on.</QuestionnaireError>
+        </QuestionnaireItem>
+      </Questionnaire>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Shortcuts", title: "Number keys", description: "The shortcuts prop puts a number key cap on each choice; press the digit to pick it.", Component: Shortcuts },
+  { fn: "SeveralAnswers", title: "Several answers", description: "multiple on the item turns the diamonds into checkboxes, so each choice can be ticked on its own.", Component: SeveralAnswers },
+  { fn: "Skippable", title: "Skip a question", description: "A question that is not required shows a Skip button, next to Previous and Next.", Component: Skippable },
+  { fn: "Invalid", title: "Invalid answer", description: "invalid on the item draws the error look, and the error text sits under the choices.", Component: Invalid },
+]
 
 /** Puts data-force="focus" on the hidden input of a choice (the row draws the ring). */
 function focusInput(el: HTMLElement | null) {
@@ -257,11 +353,11 @@ export function States() {
   )
 }
 
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="-my-10 w-72 scale-[0.6]">
+    <div className="w-60 h-32 overflow-hidden">
       <Questionnaire aria-label="Plan your one-shot" defaultItem="b">
-        <QuestionnaireProgress />
         <QuestionnaireItem name="a">
           <QuestionnaireTitle>Genre</QuestionnaireTitle>
         </QuestionnaireItem>
@@ -273,9 +369,6 @@ export function Thumb() {
             </QuestionnaireChoice>
             <QuestionnaireChoice value="romance">Romance</QuestionnaireChoice>
           </QuestionnaireChoices>
-        </QuestionnaireItem>
-        <QuestionnaireItem name="c">
-          <QuestionnaireTitle>Pages</QuestionnaireTitle>
         </QuestionnaireItem>
       </Questionnaire>
     </div>

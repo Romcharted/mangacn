@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "Chat messages as speech bubbles.",
     "usage": "import { Bubble, BubbleContent, BubbleGroup } from \"@/components/ui/manga/bubble\"\n\n<BubbleGroup>\n  <Bubble variant=\"secondary\"><BubbleContent>Did you read it?</BubbleContent></Bubble>\n  <Bubble align=\"end\"><BubbleContent>Twice.</BubbleContent></Bubble>\n</BubbleGroup>",
-    "props": []
+    "props": [
+      {
+        "name": "data-manga",
+        "type": "string",
+        "description": "Set on the root (bubble): a hook for your own CSS. The variant is read from data-variant."
+      }
+    ]
   }
 }

@@ -1,6 +1,7 @@
 import { Choice, Flag, Playground, Slider, jsx } from "../playground"
 import { useState } from "react"
 import { SpeedLines } from "@registry/manga/signature/speed-lines"
+import type { Example } from "../registry"
 
 export function Preview() {
   const [variant, setVariant] = useState<"focus" | "motion">("focus")
@@ -45,20 +46,26 @@ export function Preview() {
           `<span aria-hidden className="font-sfx text-5xl">${focus ? "ドン!" : "ZOOM"}</span>`,
         )}
       />
-      <Examples />
     </div>
   )
 }
 
-function Examples() {
+function Hit() {
   return (
-    <div className="grid gap-6 sm:grid-cols-2">
-      <SpeedLines animated className="grid h-56 place-items-center border-ink-panel">
+    <div className="flex w-full justify-center">
+      <SpeedLines animated className="grid h-56 w-full max-w-md place-items-center border-ink-panel">
         <span aria-hidden className="font-sfx text-6xl">
           ドン!
         </span>
       </SpeedLines>
-      <SpeedLines variant="motion" direction={-12} className="grid h-56 place-items-center border-ink-panel">
+    </div>
+  )
+}
+
+function Motion() {
+  return (
+    <div className="flex w-full justify-center">
+      <SpeedLines variant="motion" direction={-12} className="grid h-56 w-full max-w-md place-items-center border-ink-panel">
         <span aria-hidden className="-rotate-6 font-sfx text-5xl">
           ZOOM
         </span>
@@ -66,6 +73,22 @@ function Examples() {
     </div>
   )
 }
+
+function Quiet() {
+  return (
+    <div className="flex w-full justify-center">
+      <SpeedLines animated="slow" className="grid h-56 w-full max-w-md place-items-center border-ink-panel">
+        <span className="font-letter text-3xl uppercase">Chapter three</span>
+      </SpeedLines>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Hit", title: "Focus on a hit", description: "variant focus draws lines from the centre, for the moment of impact; hole keeps the centre clear.", Component: Hit },
+  { fn: "Motion", title: "Motion lines", description: "variant motion draws parallel lines at direction degrees, for a fast move across the panel.", Component: Motion },
+  { fn: "Quiet", title: "Slow background", description: "animated slow redraws the lines about twice a second, quiet enough to sit behind text.", Component: Quiet },
+]
 
 export function States() {
   return (
@@ -102,3 +125,6 @@ export function Thumb() {
     </SpeedLines>
   )
 }
+
+/** The Playground takes the whole width of the frame, its controls on the right. */
+export const previewWide = true

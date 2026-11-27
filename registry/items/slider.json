@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "A rail that fills with speed lines.",
     "usage": "import { Slider } from \"@/components/ui/manga/slider\"\n\n<Slider defaultValue={[40]} max={100} />",
-    "props": []
+    "props": [
+      {
+        "name": "data-manga",
+        "type": "\"slider\"",
+        "description": "Set on the root: the hook the rail, the speed-lined fill and the thumb are styled from."
+      }
+    ]
   }
 }

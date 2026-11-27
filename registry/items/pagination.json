@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "Cells for pages; the current one is ink.",
     "usage": "import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from \"@/components/ui/manga/pagination\"\n\n<Pagination>\n  <PaginationContent>\n    <PaginationItem><PaginationPrevious href=\"#\" /></PaginationItem>\n    <PaginationItem><PaginationLink href=\"#\" isActive>1</PaginationLink></PaginationItem>\n    <PaginationItem><PaginationNext href=\"#\" /></PaginationItem>\n  </PaginationContent>\n</Pagination>",
-    "props": []
+    "props": [
+      {
+        "name": "data-reading",
+        "type": "\"rtl\"",
+        "description": "Set on an ancestor (manga reading order): the pages run right to left and the arrows turn with them."
+      }
+    ]
   }
 }

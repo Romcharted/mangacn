@@ -21,6 +21,19 @@
     "dependency": "@fontsource/patrick-hand-sc"
   },
   "meta": {
-    "tagline": "Hand lettering for titles, buttons and badges."
+    "tagline": "Hand lettering for titles, buttons and badges.",
+    "usage": "<p className=\"font-letter\">Turn back, cartographer.</p>",
+    "props": [
+      {
+        "name": "font-letter",
+        "type": "Tailwind class",
+        "description": "Sets the lettering face: titles, buttons, badges and bubbles."
+      },
+      {
+        "name": "--font-manga-letter",
+        "type": "CSS variable",
+        "description": "The font family behind font-letter; set it to use another face."
+      }
+    ]
   }
 }

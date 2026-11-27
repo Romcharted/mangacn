@@ -29,9 +29,9 @@
         "description": "The direction the subtree is laid out in. Set dir on the element too, so CSS follows."
       },
       {
-        "name": "useDirection()",
-        "type": "hook",
-        "description": "Returns the current direction from the nearest provider."
+        "name": "children",
+        "type": "ReactNode",
+        "description": "The subtree laid out in that direction. The provider also sets dir from direction, so logical properties follow."
       }
     ]
   }

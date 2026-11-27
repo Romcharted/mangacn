@@ -72,6 +72,12 @@
         "description": "The error look: accent line and a \"!\" mark."
       },
       {
+        "name": "className",
+        "type": "string",
+        "default": "\"w-72\" · \"w-80\" (range)",
+        "description": "Replaces the default width of the trigger (max-w-full keeps it inside a narrow screen)."
+      },
+      {
         "name": "datePickerTriggerClassName",
         "type": "(className?) => string",
         "description": "The trigger look, for a static twin or a trigger of your own."

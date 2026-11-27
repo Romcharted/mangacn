@@ -25,9 +25,14 @@
     "usage": "import { Stat } from \"@/components/manga/stat\"\n\n<Stat label=\"Readers\" value=\"12.4k\" delta=\"+8%\" trend=\"up\" emphasis />",
     "props": [
       {
-        "name": "label / value",
+        "name": "label",
         "type": "ReactNode",
-        "description": "What and how much."
+        "description": "What is counted, in lettering."
+      },
+      {
+        "name": "value",
+        "type": "ReactNode",
+        "description": "How much, in the SFX face."
       },
       {
         "name": "delta",

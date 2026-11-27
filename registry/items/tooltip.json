@@ -30,6 +30,11 @@
         "type": "\"speech\" | \"thought\"",
         "default": "\"speech\"",
         "description": "On TooltipContent."
+      },
+      {
+        "name": "TooltipBubble",
+        "type": "component",
+        "description": "A static bubble with the same look, for previews and docs. Takes variant and side."
       }
     ]
   }

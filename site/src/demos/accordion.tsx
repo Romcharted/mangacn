@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@registry/manga/ui/accordion"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 const faq = [
@@ -9,13 +10,24 @@ const faq = [
 
 export function Preview() {
   return (
-    <Accordion defaultValue={["0"]} className="max-w-xl">
+    <Accordion defaultValue={["0"]} className="w-full max-w-md">
       {faq.map((f, i) => (
         <AccordionItem key={i} value={String(i)}>
           <AccordionTrigger>{f.q}</AccordionTrigger>
           <AccordionContent>{f.a}</AccordionContent>
         </AccordionItem>
       ))}
+    </Accordion>
+  )
+}
+
+function DisabledItem() {
+  return (
+    <Accordion defaultValue={["a"]} className="w-full max-w-md">
+      <AccordionItem value="a">
+        <AccordionTrigger>Chapter 12: The lighthouse</AccordionTrigger>
+        <AccordionContent>The lamps are lit. Read it now.</AccordionContent>
+      </AccordionItem>
       <AccordionItem value="x" disabled>
         <AccordionTrigger>Bonus volume (soon)</AccordionTrigger>
         <AccordionContent>Not yet.</AccordionContent>
@@ -23,6 +35,39 @@ export function Preview() {
     </Accordion>
   )
 }
+
+function LongAnswer() {
+  return (
+    <Accordion defaultValue={["a"]} className="w-full max-w-md">
+      <AccordionItem value="a">
+        <AccordionTrigger>Why is the ink so thick?</AccordionTrigger>
+        <AccordionContent>
+          Each panel is drawn with a 3px line so it reads from across the room. The lines stay the same on every page, so
+          the story keeps its rhythm even when the layout changes.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  )
+}
+
+function AllClosed() {
+  return (
+    <Accordion className="w-full max-w-md">
+      {faq.map((f, i) => (
+        <AccordionItem key={i} value={String(i)}>
+          <AccordionTrigger>{f.q}</AccordionTrigger>
+          <AccordionContent>{f.a}</AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "DisabledItem", title: "Disabled item", description: "disabled keeps the label on paper with a dashed underline, and the item does not open.", Component: DisabledItem },
+  { fn: "LongAnswer", title: "Long answer", description: "A long answer wraps inside the case, and defaultValue opens the item from the start.", Component: LongAnswer },
+  { fn: "AllClosed", title: "All closed", description: "Without defaultValue every item starts closed; each one opens on its own when clicked.", Component: AllClosed },
+]
 
 export function States() {
   return (

@@ -2,6 +2,7 @@ import * as React from "react"
 import { OTPInputContext, REGEXP_ONLY_DIGITS, type SlotProps } from "input-otp"
 
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@registry/manga/ui/input-otp"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 function Six({ separator = true }: { separator?: boolean }) {
@@ -34,7 +35,7 @@ export function Preview() {
   const [code, setCode] = React.useState("")
   const done = code.length === 6
   return (
-    <div className="relative flex w-full max-w-sm flex-col gap-4 sm:ink-case sm:p-5">
+    <div className="relative flex w-80 flex-col gap-4 sm:ink-case sm:p-5">
       <div>
         <p className="font-letter text-xl tracking-wide uppercase">Unlock chapter 42</p>
         <p className="text-sm">Enter the 6-digit code from the back of volume 9.</p>
@@ -54,6 +55,53 @@ export function Preview() {
     </div>
   )
 }
+
+function FourDigits() {
+  const [pin, setPin] = React.useState("")
+  return (
+    <div className="grid w-80 justify-items-center gap-3">
+      <InputOTP maxLength={4} pattern={REGEXP_ONLY_DIGITS} value={pin} onChange={setPin} aria-label="PIN code">
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+        </InputOTPGroup>
+      </InputOTP>
+      <p className="text-sm" aria-live="polite">
+        {pin.length} of 4 digits. Digits only.
+      </p>
+    </div>
+  )
+}
+
+function Locked() {
+  return (
+    <div className="grid w-80 justify-items-center gap-3">
+      <InputOTP maxLength={6} value="728104" aria-label="Locked code" disabled>
+        <Six />
+      </InputOTP>
+      <p className="text-sm">The shelf is locked until volume 10 is out.</p>
+    </div>
+  )
+}
+
+function Wrong() {
+  return (
+    <div className="grid w-80 justify-items-center gap-3">
+      <InputOTP maxLength={6} value="728105" aria-label="Wrong code" aria-invalid>
+        <Six separator={false} />
+      </InputOTP>
+      <p className="text-sm text-destructive">That code does not match. Try again.</p>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "FourDigits", title: "Four digits", description: "maxLength sets the number of slots; pattern limits what can be typed.", Component: FourDigits },
+  { fn: "Locked", title: "Disabled", description: "disabled dashes each cell; the characters stay readable on paper.", Component: Locked },
+  { fn: "Wrong", title: "Error", description: "aria-invalid on the group turns the frame to the accent colour, with a \"!\" mark.", Component: Wrong },
+]
 
 /** Frozen slot states: the real component, with its slots fed by a fixed context (showcase only). */
 function Frozen({ chars, active, children }: { chars: string; active?: number; children: React.ReactNode }) {

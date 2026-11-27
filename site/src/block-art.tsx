@@ -16,10 +16,10 @@ const panel = (name: ArtName) => artSrc(name, 360)
 
 export const AUTH_PICTURES: Record<"sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password", AuthPictures> = {
   "sign-in": { idle: panel("suzu-portrait"), error: panel("suzu-shock"), done: panel("suzu-face") },
-  "sign-up": { idle: panel("suzu-full"), error: panel("suzu-shock"), done: panel("suzu-face") },
-  "forgot-password": { idle: panel("suzu-profile"), error: panel("suzu-shock"), done: panel("suzu-face") },
-  "verify-code": { idle: panel("suzu-drawing"), error: panel("suzu-shock"), done: panel("suzu-face") },
-  "reset-password": { idle: panel("map"), error: panel("suzu-shock"), done: panel("suzu-face") },
+  "sign-up": { idle: panel("page-2-lighthouse"), error: panel("suzu-shock"), done: panel("suzu-face") },
+  "forgot-password": { idle: panel("page-1-bridge"), error: panel("suzu-shock"), done: panel("suzu-face") },
+  "verify-code": { idle: panel("cover-2"), error: panel("suzu-shock"), done: panel("suzu-face") },
+  "reset-password": { idle: panel("cover-1"), error: panel("suzu-shock"), done: panel("suzu-face") },
 }
 
 const CATALOG_COVERS: Record<CatalogCover, ReactNode> = {
@@ -47,7 +47,8 @@ const AUTHOR_ART: AuthorSiteArt = {
 
 const READER_ART: MangaReaderArt = {
   cover: <VolumeCover volume={2} />,
-  pages: (["bridge-far", "eraser-panel", "suzu-shock", "spear-clash", "ink-drop", "lighthouse-night", "suzu-drawing", "kuro-sleeping", "map", "suzu-profile", "cover-3-teaser"] as const).map(
+  // whole pages at one width, not crops: the cover of volume 1, the bridge page, the lighthouse page, then the chapter again
+  pages: (["cover-1", "page-1-bridge", "page-2-lighthouse", "page-1-bridge", "page-2-lighthouse", "page-1-bridge", "page-2-lighthouse"] as const).map(
     (name) => artPage(name),
   ),
 }
@@ -56,13 +57,10 @@ const STORY_ART: StoryLandingArt = {
   cover: artSrc("suzu-portrait", 360),
   guide: artSrc("suzu-face", 96),
   reader: artSrc("kuro", 96),
-  beats: [panel("map"), panel("suzu-drawing"), panel("suzu-profile"), panel("suzu-face")],
 }
 
 const PORTFOLIO_ART: PortfolioArt = {
-  portrait: artSrc("suzu-face", 220),
-  inked: true,
-  projects: { inkpot: panel("bridge-far"), ledger: panel("page-2-lighthouse"), tonelab: panel("lighthouse-night"), market: panel("map") },
+  projects: { inkpot: panel("bridge-far"), ledger: panel("page-2-lighthouse"), tonelab: panel("suzu-portrait"), market: panel("map") },
 }
 
 /** Props a block gets on the showcase, by slug. */

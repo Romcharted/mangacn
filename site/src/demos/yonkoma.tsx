@@ -4,6 +4,7 @@ import { Yonkoma } from "@registry/manga/signature/yonkoma"
 import { SpeechBubble } from "@registry/manga/signature/speech-bubble"
 import { Sfx } from "@registry/manga/signature/sfx"
 import { artSrc, type ArtName } from "../mapless"
+import type { Example } from "../registry"
 import { Tile } from "../state-grid"
 
 const LABELS: [string, string, string, string] = ["Suzu inks a map by the fire.", "The map takes shape.", "Kuro dozes off.", "Suzu laughs: done!"]
@@ -49,24 +50,44 @@ function Story({ size = "md" }: { size?: "sm" | "md" }) {
   ]
 }
 
+/** The strip in a row first (four panels side by side from 40rem, a column on phones). */
 export function Preview() {
   return (
-    <div className="grid gap-10">
-      <div className="grid gap-2">
-        <p className="font-mono text-xs">orientation="auto": four in a row from 40rem (follows the reading order), a column on phones</p>
-        <Yonkoma orientation="auto" labels={LABELS} title="The map">
-          {Story({})}
-        </Yonkoma>
-      </div>
-      <div className="grid justify-items-center gap-2">
-        <p className="font-mono text-xs">orientation="vertical": the classic column</p>
-        <Yonkoma title="The map" labels={LABELS} className="mx-auto">
-          {Story({})}
-        </Yonkoma>
-      </div>
-    </div>
+    <Yonkoma orientation="auto" labels={LABELS} title="The map" className="mx-auto max-w-[13rem] sm:max-w-3xl">
+      {Story({})}
+    </Yonkoma>
   )
 }
+
+function Vertical() {
+  return (
+    <Yonkoma title="The map" labels={LABELS} className="w-48">
+      {Story({})}
+    </Yonkoma>
+  )
+}
+
+function SquarePanels() {
+  return (
+    <Yonkoma aspect="1" labels={LABELS} className="w-48">
+      {Story({ size: "sm" })}
+    </Yonkoma>
+  )
+}
+
+function Plain() {
+  return (
+    <Yonkoma numbered={false} labels={LABELS} className="w-48">
+      {Story({ size: "sm" })}
+    </Yonkoma>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Vertical", title: "The classic column", description: "Without orientation, the four panels stack top to bottom, as in a newspaper strip.", Component: Vertical },
+  { fn: "SquarePanels", title: "Square panels", description: "aspect sets the shape of every panel; \"1\" makes them square.", Component: SquarePanels },
+  { fn: "Plain", title: "No title, no numbers", description: "numbered={false} hides the panel numbers; leave out title for a bare strip.", Component: Plain },
+]
 
 export function States() {
   return (
@@ -95,10 +116,16 @@ export function States() {
   )
 }
 
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <Yonkoma className="w-20" numbered={false} labels={LABELS}>
-      {Story({ size: "sm" })}
-    </Yonkoma>
+    <div className="w-52 h-28 overflow-hidden">
+      <Yonkoma className="w-52" numbered={false} labels={LABELS}>
+        {Story({ size: "sm" })}
+      </Yonkoma>
+    </div>
   )
 }
+
+/** The row needs the whole width of the frame. */
+export const previewWide = true

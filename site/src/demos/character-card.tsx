@@ -1,4 +1,5 @@
 import { CharacterCard } from "@registry/manga/signature/character-card"
+import type { Example } from "../registry"
 import { Tile, Tiles, force } from "../state-grid"
 
 import { artSrc } from "../mapless"
@@ -15,17 +16,20 @@ const STATS = [
 
 export function Preview() {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-8 py-2">
+    <div className="flex flex-wrap justify-center gap-8 py-2">
       <CharacterCard
+        className="w-64"
         name="Suzu"
         role="Apprentice cartographer"
-        image={KAI} toned={false}
+        image={KAI}
+        toned={false}
         stats={STATS}
         tags={["Brush", "Never lost"]}
         quote="No bridge? I'll draw one."
         interactive
       />
       <CharacterCard
+        className="w-64"
         name="The Eraser"
         role="Knight of the blank sky"
         stats={[
@@ -38,6 +42,52 @@ export function Preview() {
     </div>
   )
 }
+
+function Interactive() {
+  return (
+    <div className="flex justify-center">
+      <CharacterCard
+        className="w-64"
+        name="Suzu"
+        role="Apprentice cartographer"
+        image={KAI}
+        toned={false}
+        stats={STATS.slice(0, 2)}
+        quote="No bridge? I'll draw one."
+        interactive
+      />
+    </div>
+  )
+}
+
+function Initials() {
+  return (
+    <div className="flex justify-center">
+      <CharacterCard
+        className="w-64"
+        name="The Eraser"
+        role="Knight of the blank sky"
+        stats={[{ label: "Resolve", value: 9, max: 10 }]}
+        tags={["Spear"]}
+        quote="What is drawn can be undone."
+      />
+    </div>
+  )
+}
+
+function Toned() {
+  return (
+    <div className="flex justify-center">
+      <CharacterCard className="w-64" name="Suzu" role="Cartographer" image={KAI} stats={STATS} tags={["Brush"]} quote="One more road." />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Interactive", title: "Interactive card", description: "interactive makes the card focusable: it lifts on hover and takes the ink focus ring.", Component: Interactive },
+  { fn: "Initials", title: "Without a portrait", description: "Without an image, the initials of the name stand on paper.", Component: Initials },
+  { fn: "Toned", title: "Toned portrait", description: "toned, the default, draws the portrait as a screentone.", Component: Toned },
+]
 
 export function States() {
   return (
@@ -61,10 +111,11 @@ export function States() {
   )
 }
 
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="w-56 [zoom:0.5]">
-      <CharacterCard name="Suzu" role="Cartographer" image={KAI} toned={false} stats={[{ label: "Ink", value: 82 }]} interactive className="max-w-56" />
+    <div className="w-52 h-28 overflow-hidden">
+      <CharacterCard name="Suzu" role="Cartographer" image={KAI} toned={false} stats={[{ label: "Ink", value: 82 }]} interactive className="max-w-52" />
     </div>
   )
 }

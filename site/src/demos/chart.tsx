@@ -12,6 +12,7 @@ import {
   chartFill,
   chartPatternFill,
 } from "@registry/manga/ui/chart"
+import type { Example } from "../registry"
 import { Tile, Tiles } from "../state-grid"
 
 const monthly = [
@@ -48,7 +49,7 @@ const cursor = { stroke: "currentColor", strokeWidth: 1 }
 
 function BarsChart() {
   return (
-    <ChartContainer config={config}>
+    <ChartContainer config={config} className="w-full max-w-xl">
       <BarChart data={monthly}>
         <CartesianGrid vertical={false} stroke="currentColor" />
         <XAxis dataKey="month" tickLine={false} axisLine={axisLine} tickMargin={8} />
@@ -64,7 +65,7 @@ function BarsChart() {
 
 function LinesChart() {
   return (
-    <ChartContainer config={config}>
+    <ChartContainer config={config} className="w-full max-w-xl">
       <LineChart data={monthly}>
         <CartesianGrid vertical={false} stroke="currentColor" />
         <XAxis dataKey="month" tickLine={false} axisLine={axisLine} tickMargin={8} />
@@ -93,7 +94,7 @@ function LinesChart() {
 
 function AreaChartDemo() {
   return (
-    <ChartContainer config={config}>
+    <ChartContainer config={config} className="w-full max-w-xl">
       <AreaChart data={monthly}>
         <CartesianGrid vertical={false} stroke="currentColor" />
         <XAxis dataKey="month" tickLine={false} axisLine={axisLine} tickMargin={8} />
@@ -109,7 +110,7 @@ function AreaChartDemo() {
 
 function PieChartDemo() {
   return (
-    <ChartContainer config={genreConfig}>
+    <ChartContainer config={genreConfig} className="w-full max-w-sm">
       <PieChart>
         <ChartTooltip content={<ChartTooltipContent />} />
         <Pie
@@ -134,27 +135,14 @@ function PieChartDemo() {
 const ALL_PATTERNS: ChartPattern[] = ["solid", "hatch", "dots", "lines", "cross", "dots-fine", "paper"]
 
 export function Preview() {
-  return (
-    <div className="grid gap-8 md:grid-cols-2">
-      <section className="grid gap-3">
-        <h3 className="font-letter text-2xl uppercase">Reads and sales</h3>
-        <BarsChart />
-      </section>
-      <section className="grid gap-3">
-        <h3 className="font-letter text-2xl uppercase">Reads by month</h3>
-        <LinesChart />
-      </section>
-      <section className="grid gap-3">
-        <h3 className="font-letter text-2xl uppercase">Sales, filled</h3>
-        <AreaChartDemo />
-      </section>
-      <section className="grid gap-3">
-        <h3 className="font-letter text-2xl uppercase">Genres in print</h3>
-        <PieChartDemo />
-      </section>
-    </div>
-  )
+  return <BarsChart />
 }
+
+export const examples: Example[] = [
+  { fn: "LinesChart", title: "Lines", description: "Lines differ by dash and by marker, never by colour: a solid line with squares, a dashed one with diamonds.", Component: LinesChart },
+  { fn: "AreaChartDemo", title: "Filled area", description: "Areas take the series pattern at full strength, so they read as ink with no grey.", Component: AreaChartDemo },
+  { fn: "PieChartDemo", title: "Pie", description: "Pie slices are split by paper gaps, and each slice gets its own pattern.", Component: PieChartDemo },
+]
 
 export function States() {
   return (

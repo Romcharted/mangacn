@@ -2,6 +2,7 @@ import { useState } from "react"
 import type { ColumnDef } from "@tanstack/react-table"
 import { DataTable } from "@registry/manga/ui/data-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@registry/manga/ui/table"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 type Chapter = { id: number; title: string; pages: number; status: string; editor: string }
@@ -32,10 +33,15 @@ const columns: ColumnDef<Chapter>[] = [
   { accessorKey: "editor", header: "Editor" },
 ]
 
+// On phones the Prev / Next buttons and the filter field are at least 44px tall (sm: back to the kit size).
+const TOUCH = "grid min-w-0 gap-4 [&_input]:min-h-11 sm:[&_input]:min-h-8 [&_button:not([role=checkbox])]:min-h-11 sm:[&_button:not([role=checkbox])]:min-h-8"
+
+export const previewWide = true
+
 export function Preview() {
   const [picked, setPicked] = useState<Chapter[]>([])
   return (
-    <div className="grid gap-4">
+    <div className={TOUCH}>
       <DataTable columns={columns} data={chapters} filterColumn="title" pageSize={6} onSelectionChange={setPicked} />
       <p className="text-sm">
         {picked.length ? `${picked.length} chapter${picked.length > 1 ? "s" : ""} queued for the next print run.` : "Tick chapters to queue them for print."}
@@ -43,6 +49,53 @@ export function Preview() {
     </div>
   )
 }
+
+function Sorting() {
+  return (
+    <div className={TOUCH}>
+      <DataTable columns={columns} data={chapters.slice(0, 8)} pageSize={4} />
+    </div>
+  )
+}
+
+function Filtering() {
+  return (
+    <div className={TOUCH}>
+      <DataTable columns={columns} data={chapters} filterColumn="editor" pageSize={5} />
+    </div>
+  )
+}
+
+function ColumnMenu() {
+  return (
+    <div className={TOUCH}>
+      <DataTable columns={columns} data={chapters.slice(0, 6)} pageSize={6} />
+    </div>
+  )
+}
+
+// meta.card places each column on a phone: the status becomes the badge on the card's end side.
+const phoneColumns: ColumnDef<Chapter>[] = [
+  { accessorKey: "title", header: "Chapter" },
+  { accessorKey: "pages", header: "Pages" },
+  { accessorKey: "status", header: "Status", meta: { card: "badge" } },
+  { accessorKey: "editor", header: "Editor" },
+]
+
+function PhoneLayout() {
+  return (
+    <div className={TOUCH}>
+      <DataTable columns={phoneColumns} data={chapters.slice(0, 4)} pageSize={4} cardsBelow={2000} />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Sorting", title: "Sorting", description: "Click a header to sort; the brush arrow shows the direction and a second click reverses it.", Component: Sorting, wide: true },
+  { fn: "Filtering", title: "Filtering", description: "filterColumn names the column the Filter field searches: here the editor, so type Mei or Sora.", Component: Filtering, wide: true },
+  { fn: "ColumnMenu", title: "Column menu", description: "The Columns menu lists every column; untick one to hide it. The selection column always stays.", Component: ColumnMenu, wide: true },
+  { fn: "PhoneLayout", title: "Phone layout", description: "cardsBelow sets the width under which each row becomes a card; here it is forced, and meta.card puts the status as a badge.", Component: PhoneLayout, wide: true },
+]
 
 /** Header cell with a frozen sort mark. */
 function Sorted({ children, sort }: { children: string; sort: "ascending" | "descending" | "none" }) {

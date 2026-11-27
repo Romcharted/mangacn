@@ -1138,7 +1138,20 @@
         "dependency": "@fontsource-variable/atkinson-hyperlegible-next"
       },
       "meta": {
-        "tagline": "The reading face for text and fields."
+        "tagline": "The reading face for text and fields.",
+        "usage": "<p className=\"font-sans\">Every island deserves a map.</p>",
+        "props": [
+          {
+            "name": "font-sans",
+            "type": "Tailwind class",
+            "description": "Sets the reading face: body text, descriptions and form fields."
+          },
+          {
+            "name": "--font-manga-body",
+            "type": "CSS variable",
+            "description": "The font family behind font-sans; set it to use another face."
+          }
+        ]
       }
     },
     {
@@ -1164,7 +1177,20 @@
         "dependency": "@fontsource/patrick-hand-sc"
       },
       "meta": {
-        "tagline": "Hand lettering for titles, buttons and badges."
+        "tagline": "Hand lettering for titles, buttons and badges.",
+        "usage": "<p className=\"font-letter\">Turn back, cartographer.</p>",
+        "props": [
+          {
+            "name": "font-letter",
+            "type": "Tailwind class",
+            "description": "Sets the lettering face: titles, buttons, badges and bubbles."
+          },
+          {
+            "name": "--font-manga-letter",
+            "type": "CSS variable",
+            "description": "The font family behind font-letter; set it to use another face."
+          }
+        ]
       }
     },
     {
@@ -1189,7 +1215,20 @@
         "dependency": "@fontsource/dela-gothic-one"
       },
       "meta": {
-        "tagline": "A heavy face for sound effects, katakana included."
+        "tagline": "A heavy face for sound effects, katakana included.",
+        "usage": "<p className=\"font-sfx\">BOOM!</p>",
+        "props": [
+          {
+            "name": "font-sfx",
+            "type": "Tailwind class",
+            "description": "Sets the sound-effect face: onomatopoeia and loud headlines."
+          },
+          {
+            "name": "--font-manga-sfx",
+            "type": "CSS variable",
+            "description": "The font family behind font-sfx; set it to use another face."
+          }
+        ]
       }
     },
     {
@@ -1215,7 +1254,20 @@
         "dependency": "@fontsource/zen-kaku-gothic-new"
       },
       "meta": {
-        "tagline": "A Japanese reading face for furigana and vertical text."
+        "tagline": "A Japanese reading face for furigana and vertical text.",
+        "usage": "<p className=\"font-[family-name:var(--font-manga-jp)]\">地図のない空</p>",
+        "props": [
+          {
+            "name": "font-[family-name:var(--font-manga-jp)]",
+            "type": "Tailwind class",
+            "description": "Sets the Japanese face: furigana, vertical text and original-language lines."
+          },
+          {
+            "name": "--font-manga-jp",
+            "type": "CSS variable",
+            "description": "The font family behind font-[family-name:var(--font-manga-jp)]; set it to use another face."
+          }
+        ]
       }
     },
     {
@@ -1261,9 +1313,32 @@
             "description": "Speed lines on both sides; \"far\" for bursts."
           },
           {
+            "name": "<ImpactLines press>",
+            "type": "boolean",
+            "default": "true",
+            "description": "Also show the lines while the element is pressed. false for a counter that is not a control."
+          },
+          {
             "name": "<FocusFlash />",
             "type": "component",
             "description": "Optional halo of concentration lines around a window as it opens."
+          },
+          {
+            "name": "<FocusFlash className>",
+            "type": "string",
+            "description": "Extra classes on the halo, for example to change its offset or colour."
+          },
+          {
+            "name": "<BubbleTail variant>",
+            "type": "\"speech\" | \"thought\"",
+            "default": "\"speech\"",
+            "description": "The tail of a bubble: a pointed speech tail, or two round thought dots."
+          },
+          {
+            "name": "<BubbleTail weight>",
+            "type": "2 | 3",
+            "default": "2",
+            "description": "The line weight in px, matching the bubble's outline."
           }
         ]
       }
@@ -1435,7 +1510,13 @@
       "meta": {
         "tagline": "A square box; the brush check draws itself.",
         "usage": "import { Checkbox } from \"@/components/ui/manga/checkbox\"\n\n<label className=\"flex items-center gap-3\">\n  <Checkbox defaultChecked /> Notify me\n</label>",
-        "props": []
+        "props": [
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "The error look: a 3px accent frame, and the accent fill when the box is checked."
+          }
+        ]
       }
     },
     {
@@ -1464,7 +1545,13 @@
       "meta": {
         "tagline": "Paper track and ink thumb when off, the negative when on.",
         "usage": "import { Switch } from \"@/components/ui/manga/switch\"\n\n<Switch defaultChecked />",
-        "props": []
+        "props": [
+          {
+            "name": "data-manga",
+            "type": "\"switch\"",
+            "description": "Set on the root: the hook the track, the thumb and the motion are styled from."
+          }
+        ]
       }
     },
     {
@@ -1541,6 +1628,11 @@
             "type": "\"text\" | \"avatar\" | \"panel\" | \"block\"",
             "default": "\"block\"",
             "description": "Preset size and frame."
+          },
+          {
+            "name": "SkeletonCard",
+            "type": "component",
+            "description": "A card-shaped placeholder: a panel above two text lines. Takes className."
           }
         ]
       }
@@ -1572,7 +1664,18 @@
       "meta": {
         "tagline": "Toasts in a 3px panel, with room for a sound effect.",
         "usage": "import { Toaster, toast, ToastSfx } from \"@/components/ui/manga/sonner\"\n\n<Toaster />\n\ntoast.success(\"Subscribed!\")\ntoast(\"Level up!\", { icon: <ToastSfx>DON!</ToastSfx> })",
-        "props": []
+        "props": [
+          {
+            "name": "ToastCard",
+            "type": "component",
+            "description": "A static toast with the same look, for previews and docs. Takes type, title, description, icon and action."
+          },
+          {
+            "name": "ToastSfx",
+            "type": "component",
+            "description": "An onomatopoeia in its own column; pass it as the icon option of a toast."
+          }
+        ]
       }
     },
     {
@@ -1735,7 +1838,13 @@
       "meta": {
         "tagline": "Stacked cases; the open one turns to ink.",
         "usage": "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from \"@/components/ui/manga/accordion\"\n\n<Accordion>\n  <AccordionItem value=\"a\">\n    <AccordionTrigger>Chapter 1</AccordionTrigger>\n    <AccordionContent>The long night.</AccordionContent>\n  </AccordionItem>\n</Accordion>",
-        "props": []
+        "props": [
+          {
+            "name": "data-manga",
+            "type": "string",
+            "description": "Set on the root, the items, the triggers and the panels (accordion, accordion-item, accordion-trigger, accordion-content): hooks for your own CSS."
+          }
+        ]
       }
     },
     {
@@ -1813,6 +1922,11 @@
             "type": "\"speech\" | \"thought\"",
             "default": "\"speech\"",
             "description": "On TooltipContent."
+          },
+          {
+            "name": "TooltipBubble",
+            "type": "component",
+            "description": "A static bubble with the same look, for previews and docs. Takes variant and side."
           }
         ]
       }
@@ -1948,6 +2062,12 @@
             "type": "\"background\" | \"layer\"",
             "default": "\"background\"",
             "description": "Behind children or overlaid on the parent."
+          },
+          {
+            "name": "seed",
+            "type": "number",
+            "default": "3",
+            "description": "Seed for the noise pattern."
           }
         ]
       }
@@ -2013,6 +2133,12 @@
             "type": "boolean | \"slow\"",
             "default": "false",
             "description": "Redraws the lines in steps: true ≈ 6 fps, \"slow\" ≈ 2 fps. Off with reduced motion."
+          },
+          {
+            "name": "seed",
+            "type": "number",
+            "default": "11",
+            "description": "Changes the irregularity of the lines."
           }
         ]
       }
@@ -2243,7 +2369,13 @@
       "meta": {
         "tagline": "Input's ink line, for longer text.",
         "usage": "import { Textarea } from \"@/components/ui/manga/textarea\"\n\n<Textarea placeholder=\"Your review…\" />",
-        "props": []
+        "props": [
+          {
+            "name": "data-manga",
+            "type": "\"textarea\"",
+            "description": "Set on the root: the hook the field's lines, the focus ring and the error mark are styled from."
+          }
+        ]
       }
     },
     {
@@ -2307,7 +2439,13 @@
       "meta": {
         "tagline": "Labels, help text and errors with a “!” mark.",
         "usage": "import { Field, FieldDescription, FieldError, FieldLabel } from \"@/components/ui/manga/field\"\n\n<Field>\n  <FieldLabel htmlFor=\"email\">Email</FieldLabel>\n  <Input id=\"email\" aria-invalid />\n  <FieldError>Add the end of your address.</FieldError>\n</Field>",
-        "props": []
+        "props": [
+          {
+            "name": "data-invalid",
+            "type": "\"true\"",
+            "description": "On Field: marks the field as invalid; its text stays in the foreground colour. FieldError is always in the accent colour with a \"!\" mark."
+          }
+        ]
       }
     },
     {
@@ -2336,7 +2474,18 @@
       "meta": {
         "tagline": "Diamonds instead of circles; the chosen one turns to ink.",
         "usage": "import { RadioGroup, RadioGroupItem } from \"@/components/ui/manga/radio-group\"\n\n<RadioGroup defaultValue=\"ltr\">\n  <label><RadioGroupItem value=\"ltr\" /> Left to right</label>\n  <label><RadioGroupItem value=\"rtl\" /> Right to left</label>\n</RadioGroup>",
-        "props": []
+        "props": [
+          {
+            "name": "RadioGroupItem",
+            "type": "component",
+            "description": "The diamond option: the line thickens on hover, the checked one turns to ink, and it is dashed when disabled."
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean",
+            "description": "On RadioGroupItem: the accent colour for the error look."
+          }
+        ]
       }
     },
     {
@@ -2365,7 +2514,13 @@
       "meta": {
         "tagline": "A rail that fills with speed lines.",
         "usage": "import { Slider } from \"@/components/ui/manga/slider\"\n\n<Slider defaultValue={[40]} max={100} />",
-        "props": []
+        "props": [
+          {
+            "name": "data-manga",
+            "type": "\"slider\"",
+            "description": "Set on the root: the hook the rail, the speed-lined fill and the thumb are styled from."
+          }
+        ]
       }
     },
     {
@@ -2475,7 +2630,13 @@
       "meta": {
         "tagline": "A speech bubble pointing at its trigger.",
         "usage": "import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from \"@/components/ui/manga/popover\"\n\n<Popover>\n  <PopoverTrigger>Details</PopoverTrigger>\n  <PopoverContent><PopoverTitle>Vol. 3</PopoverTitle>18 pages.</PopoverContent>\n</Popover>",
-        "props": []
+        "props": [
+          {
+            "name": "PopoverBubble",
+            "type": "component",
+            "description": "A static bubble with the same look, for previews and docs. Takes side (\"bottom\" | \"top\") and children."
+          }
+        ]
       }
     },
     {
@@ -2534,7 +2695,13 @@
       "meta": {
         "tagline": "A notched case; the row under the pointer turns to ink.",
         "usage": "import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from \"@/components/ui/manga/dropdown-menu\"\n\n<DropdownMenu>\n  <DropdownMenuTrigger>Chapter</DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuItem>Bookmark</DropdownMenuItem>\n    <DropdownMenuItem variant=\"destructive\">Delete</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>",
-        "props": []
+        "props": [
+          {
+            "name": "data-variant",
+            "type": "\"default\" | \"destructive\"",
+            "description": "Set on each row by variant. Destructive rows use the accent."
+          }
+        ]
       }
     },
     {
@@ -2563,7 +2730,13 @@
       "meta": {
         "tagline": "A case sliding in from the edge.",
         "usage": "import { Sheet, SheetContent, SheetTitle, SheetTrigger } from \"@/components/ui/manga/sheet\"\n\n<Sheet>\n  <SheetTrigger>Contents</SheetTrigger>\n  <SheetContent side=\"right\"><SheetTitle>Chapters</SheetTitle></SheetContent>\n</Sheet>",
-        "props": []
+        "props": [
+          {
+            "name": "data-side",
+            "type": "\"right\" | \"left\" | \"top\" | \"bottom\"",
+            "description": "Set on SheetContent by side. The 3px line and the offset frame follow that edge."
+          }
+        ]
       }
     },
     {
@@ -2657,7 +2830,13 @@
       "meta": {
         "tagline": "Concentration lines turning in steps.",
         "usage": "import { Spinner } from \"@/components/ui/manga/spinner\"\n\n<Spinner />",
-        "props": []
+        "props": [
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Sets the size and spacing of the lines, for example size-4 or size-10."
+          }
+        ]
       }
     },
     {
@@ -2722,7 +2901,13 @@
       "meta": {
         "tagline": "Cells for pages; the current one is ink.",
         "usage": "import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from \"@/components/ui/manga/pagination\"\n\n<Pagination>\n  <PaginationContent>\n    <PaginationItem><PaginationPrevious href=\"#\" /></PaginationItem>\n    <PaginationItem><PaginationLink href=\"#\" isActive>1</PaginationLink></PaginationItem>\n    <PaginationItem><PaginationNext href=\"#\" /></PaginationItem>\n  </PaginationContent>\n</Pagination>",
-        "props": []
+        "props": [
+          {
+            "name": "data-reading",
+            "type": "\"rtl\"",
+            "description": "Set on an ancestor (manga reading order): the pages run right to left and the arrows turn with them."
+          }
+        ]
       }
     },
     {
@@ -2751,7 +2936,13 @@
       "meta": {
         "tagline": "Lettering, brush chevrons, the current page in ink.",
         "usage": "import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from \"@/components/ui/manga/breadcrumb\"\n\n<Breadcrumb>\n  <BreadcrumbList>\n    <BreadcrumbItem><BreadcrumbLink href=\"#\">Library</BreadcrumbLink></BreadcrumbItem>\n    <BreadcrumbSeparator />\n    <BreadcrumbItem><BreadcrumbPage>Vol. 3</BreadcrumbPage></BreadcrumbItem>\n  </BreadcrumbList>\n</Breadcrumb>",
-        "props": []
+        "props": [
+          {
+            "name": "children",
+            "type": "ReactNode",
+            "description": "On BreadcrumbSeparator: replaces the brush chevron with your own mark, such as a slash."
+          }
+        ]
       }
     },
     {
@@ -2780,7 +2971,13 @@
       "meta": {
         "tagline": "An empty panel with a heavy “…”.",
         "usage": "import { Empty, EmptyDescription, EmptyHeader, EmptyMark, EmptyTitle } from \"@/components/ui/manga/empty\"\n\n<Empty>\n  <EmptyHeader>\n    <EmptyMark />\n    <EmptyTitle>No bookmarks</EmptyTitle>\n    <EmptyDescription>Tap the corner of a page to keep it.</EmptyDescription>\n  </EmptyHeader>\n</Empty>",
-        "props": []
+        "props": [
+          {
+            "name": "EmptyMark",
+            "type": "component",
+            "description": "The heavy ellipsis that pops in above the title; a span, so className sets its size."
+          }
+        ]
       }
     },
     {
@@ -2809,7 +3006,13 @@
       "meta": {
         "tagline": "Chat messages as speech bubbles.",
         "usage": "import { Bubble, BubbleContent, BubbleGroup } from \"@/components/ui/manga/bubble\"\n\n<BubbleGroup>\n  <Bubble variant=\"secondary\"><BubbleContent>Did you read it?</BubbleContent></Bubble>\n  <Bubble align=\"end\"><BubbleContent>Twice.</BubbleContent></Bubble>\n</BubbleGroup>",
-        "props": []
+        "props": [
+          {
+            "name": "data-manga",
+            "type": "string",
+            "description": "Set on the root (bubble): a hook for your own CSS. The variant is read from data-variant."
+          }
+        ]
       }
     },
     {
@@ -2838,7 +3041,13 @@
       "meta": {
         "tagline": "A line of a conversation: avatar, name, bubbles.",
         "usage": "import { Message, MessageAvatar, MessageContent, MessageHeader } from \"@/components/ui/manga/message\"\n\n<Message>\n  <MessageAvatar>NO</MessageAvatar>\n  <MessageContent>\n    <MessageHeader>Night owl</MessageHeader>\n    {/* Bubble… */}\n  </MessageContent>\n</Message>",
-        "props": []
+        "props": [
+          {
+            "name": "data-manga",
+            "type": "\"message\"",
+            "description": "Set on the root line: the hook to style every message of the page from CSS."
+          }
+        ]
       }
     },
     {
@@ -3116,9 +3325,14 @@
         "usage": "import { Stat } from \"@/components/manga/stat\"\n\n<Stat label=\"Readers\" value=\"12.4k\" delta=\"+8%\" trend=\"up\" emphasis />",
         "props": [
           {
-            "name": "label / value",
+            "name": "label",
             "type": "ReactNode",
-            "description": "What and how much."
+            "description": "What is counted, in lettering."
+          },
+          {
+            "name": "value",
+            "type": "ReactNode",
+            "description": "How much, in the SFX face."
           },
           {
             "name": "delta",
@@ -3324,6 +3538,7 @@
           {
             "name": "spacing",
             "type": "number",
+            "default": "0",
             "description": "0 (default): one joined frame. Above 0: separate framed toggles with that gap."
           },
           {
@@ -3415,7 +3630,13 @@
       "meta": {
         "tagline": "Ink thumb in a fine track, square corners, no fade.",
         "usage": "import { ScrollArea, ScrollBar } from \"@/components/ui/manga/scroll-area\"\n\n<ScrollArea className=\"h-56\">\n  <p>Long text goes here.</p>\n</ScrollArea>\n\n<ScrollArea className=\"w-56\">\n  <div className=\"w-[28rem]\">Wide content</div>\n  <ScrollBar orientation=\"horizontal\" />\n</ScrollArea>",
-        "props": []
+        "props": [
+          {
+            "name": "data-manga",
+            "type": "\"scroll-area\" | \"scroll-bar\"",
+            "description": "Set on the area and on its bar: the hooks to style the ink thumb and track from CSS."
+          }
+        ]
       }
     },
     {
@@ -3444,7 +3665,13 @@
       "meta": {
         "tagline": "A lettering row that unfolds, its chevron turned to ink.",
         "usage": "import { Collapsible, CollapsibleContent, CollapsibleTrigger } from \"@/components/ui/manga/collapsible\"\n\n<Collapsible>\n  <CollapsibleTrigger>Chapter notes</CollapsibleTrigger>\n  <CollapsibleContent>The rooftop scenes were drawn at night.</CollapsibleContent>\n</Collapsible>",
-        "props": []
+        "props": [
+          {
+            "name": "data-manga",
+            "type": "string",
+            "description": "Set on the root, the trigger and the content (collapsible, collapsible-trigger, collapsible-content): hooks for your own CSS."
+          }
+        ]
       }
     },
     {
@@ -3473,7 +3700,23 @@
       "meta": {
         "tagline": "Lettering triggers; the open one turns to ink and its panel is a case.",
         "usage": "import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from \"@/components/ui/manga/navigation-menu\"\n\n<NavigationMenu>\n  <NavigationMenuList>\n    <NavigationMenuItem value=\"chapters\">\n      <NavigationMenuTrigger>Chapters</NavigationMenuTrigger>\n      <NavigationMenuContent>\n        <NavigationMenuLink href=\"/chapter-1\">The long night</NavigationMenuLink>\n      </NavigationMenuContent>\n    </NavigationMenuItem>\n  </NavigationMenuList>\n</NavigationMenu>",
-        "props": []
+        "props": [
+          {
+            "name": "navigationMenuTriggerStyle()",
+            "type": "() => string",
+            "description": "Classes for a trigger built by hand (frozen states, plain buttons), the same look as NavigationMenuTrigger."
+          },
+          {
+            "name": "navigationMenuLinkStyle()",
+            "type": "() => string",
+            "description": "Classes for a link built by hand. Set data-active=\"\" on the current link."
+          },
+          {
+            "name": "NavigationMenuPanel",
+            "type": "component",
+            "description": "A static panel with the content case look, for frozen states and docs; it does not open or close."
+          }
+        ]
       }
     },
     {
@@ -3521,14 +3764,9 @@
             "description": "On SidebarMenuButton and SidebarMenuSubButton: the current row, an ink flat."
           },
           {
-            "name": "tooltip",
-            "type": "string | TooltipContent props",
-            "description": "On SidebarMenuButton: shown beside the icon when the panel is collapsed to icons."
-          },
-          {
-            "name": "showOnHover",
-            "type": "boolean",
-            "description": "On SidebarMenuAction: show the star only when the row is hovered."
+            "name": "dir",
+            "type": "\"ltr\" | \"rtl\"",
+            "description": "On Sidebar: the writing direction, passed through to the panel (the stock prop)."
           }
         ]
       }
@@ -3565,12 +3803,6 @@
             "type": "\"default\" | \"outline\" | \"muted\"",
             "default": "\"default\"",
             "description": "default: frameless row. outline: 2px ink case. muted: 1px fine line with a 6px tone band on the start edge."
-          },
-          {
-            "name": "size",
-            "type": "\"default\" | \"sm\" | \"xs\"",
-            "default": "\"default\"",
-            "description": "Padding and gap of the row."
           },
           {
             "name": "interactive",
@@ -3879,6 +4111,11 @@
             "description": "A line in a small speech bubble."
           },
           {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the card, e.g. its width."
+          },
+          {
             "name": "interactive",
             "type": "boolean",
             "default": "false",
@@ -4034,6 +4271,11 @@
             "name": "NativeSelectOptGroup",
             "type": "component",
             "description": "A labelled group of options (native optgroup)."
+          },
+          {
+            "name": "NativeSelectOption",
+            "type": "component",
+            "description": "One option of the list, with the browser's native popup."
           }
         ]
       }
@@ -4064,7 +4306,18 @@
       "meta": {
         "tagline": "A case that opens at the pointer; the row under it turns to ink.",
         "usage": "import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from \"@/components/ui/manga/context-menu\"\n\n<ContextMenu>\n  <ContextMenuTrigger>Right-click this page</ContextMenuTrigger>\n  <ContextMenuContent>\n    <ContextMenuItem>Bookmark</ContextMenuItem>\n    <ContextMenuItem variant=\"destructive\">Delete</ContextMenuItem>\n  </ContextMenuContent>\n</ContextMenu>",
-        "props": []
+        "props": [
+          {
+            "name": "ContextMenuTwin",
+            "type": "component",
+            "description": "A static look-alike of an open menu, for documentation and state grids. Takes className and children."
+          },
+          {
+            "name": "ContextMenuTwinRow",
+            "type": "component",
+            "description": "One row of the static menu. Takes the booleans highlighted, checked, radio, disabled, destructive and sub."
+          }
+        ]
       }
     },
     {
@@ -4093,7 +4346,38 @@
       "meta": {
         "tagline": "A lettering bar of menus; the open one turns to ink.",
         "usage": "import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from \"@/components/ui/manga/menubar\"\n\n<Menubar>\n  <MenubarMenu>\n    <MenubarTrigger>File</MenubarTrigger>\n    <MenubarContent>\n      <MenubarItem>New volume</MenubarItem>\n      <MenubarItem variant=\"destructive\">Close volume</MenubarItem>\n    </MenubarContent>\n  </MenubarMenu>\n</Menubar>",
-        "props": []
+        "props": [
+          {
+            "name": "highlighted",
+            "type": "boolean",
+            "description": "On MenubarTwinRow: the row in its highlighted (ink flat) state, for state grids."
+          },
+          {
+            "name": "checked",
+            "type": "boolean",
+            "description": "On MenubarTwinRow: a checkbox row with its mark."
+          },
+          {
+            "name": "radio",
+            "type": "boolean",
+            "description": "On MenubarTwinRow: a radio row with its mark."
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "description": "On MenubarTwinRow: dashed underline, no action."
+          },
+          {
+            "name": "destructive",
+            "type": "boolean",
+            "description": "On MenubarTwinRow: the red row for an action that cannot be undone."
+          },
+          {
+            "name": "sub",
+            "type": "boolean",
+            "description": "On MenubarTwinRow: a chevron for a row that opens a submenu."
+          }
+        ]
       }
     },
     {
@@ -4159,10 +4443,9 @@
         "usage": "import { AspectRatio } from \"@/components/ui/manga/aspect-ratio\"\n\n<AspectRatio ratio={16 / 9}>\n  <img src=\"/cover.jpg\" alt=\"Cover\" className=\"size-full object-cover\" />\n</AspectRatio>",
         "props": [
           {
-            "name": "ratio",
-            "type": "number",
-            "default": "-",
-            "description": "Width divided by height (16 / 9, 2 / 3, 1)."
+            "name": "data-manga",
+            "type": "string",
+            "description": "Set on the box (aspect-ratio): a hook for your own CSS. The ratio prop is the stock one, see the shadcn page."
           }
         ]
       }
@@ -4473,11 +4756,6 @@
         "usage": "import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from \"@/components/ui/manga/combobox\"\n\n<Combobox items={series}>\n  <ComboboxInput placeholder=\"Find a series…\" />\n  <ComboboxContent>\n    <ComboboxEmpty>No series found</ComboboxEmpty>\n    <ComboboxList>\n      {(item) => <ComboboxItem key={item} value={item}>{item}</ComboboxItem>}\n    </ComboboxList>\n  </ComboboxContent>\n</Combobox>",
         "props": [
           {
-            "name": "showClear",
-            "type": "boolean",
-            "description": "On ComboboxInput: a small 2px square clear button."
-          },
-          {
             "name": "aria-invalid",
             "type": "boolean",
             "description": "On ComboboxInput or ComboboxChipsInput: the error look on the field."
@@ -4485,7 +4763,8 @@
           {
             "name": "sideOffset",
             "type": "number",
-            "description": "On ComboboxContent: gap to the input (14 by default: room for the notch and the focus ring)."
+            "default": "14",
+            "description": "On ComboboxContent: gap to the input (room for the notch and the focus ring)."
           },
           {
             "name": "ComboboxChips / ComboboxChip",
@@ -4523,16 +4802,6 @@
         "tagline": "Code boxes joined in one ink frame, with a stepped caret.",
         "usage": "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from \"@/components/ui/manga/input-otp\"\n\n<InputOTP maxLength={6}>\n  <InputOTPGroup>\n    <InputOTPSlot index={0} />\n    <InputOTPSlot index={1} />\n    <InputOTPSlot index={2} />\n  </InputOTPGroup>\n  <InputOTPSeparator />\n  <InputOTPGroup>\n    <InputOTPSlot index={3} />\n    <InputOTPSlot index={4} />\n    <InputOTPSlot index={5} />\n  </InputOTPGroup>\n</InputOTP>",
         "props": [
-          {
-            "name": "maxLength",
-            "type": "number",
-            "description": "Number of characters (one InputOTPSlot each)."
-          },
-          {
-            "name": "pattern",
-            "type": "string",
-            "description": "Allowed characters, e.g. REGEXP_ONLY_DIGITS from input-otp."
-          },
           {
             "name": "aria-invalid",
             "type": "boolean",
@@ -4579,11 +4848,6 @@
         "tagline": "A month drawn in ink: chosen days turn to flat ink, today gets a frame.",
         "usage": "import { Calendar } from \"@/components/ui/manga/calendar\"\n\nconst [date, setDate] = React.useState<Date | undefined>(new Date())\n\n<div className=\"relative w-fit ink-case\">\n  <Calendar mode=\"single\" selected={date} onSelect={setDate} />\n</div>",
         "props": [
-          {
-            "name": "mode",
-            "type": "\"single\" | \"multiple\" | \"range\"",
-            "description": "How days are chosen (react-day-picker). Chosen days are ink flats; a range shows a band between its ends."
-          },
           {
             "name": "captionLayout",
             "type": "\"label\" | \"dropdown\" | \"dropdown-months\" | \"dropdown-years\"",
@@ -4688,6 +4952,12 @@
             "description": "The error look: accent line and a \"!\" mark."
           },
           {
+            "name": "className",
+            "type": "string",
+            "default": "\"w-72\" · \"w-80\" (range)",
+            "description": "Replaces the default width of the trigger (max-w-full keeps it inside a narrow screen)."
+          },
+          {
             "name": "datePickerTriggerClassName",
             "type": "(className?) => string",
             "description": "The trigger look, for a static twin or a trigger of your own."
@@ -4728,18 +4998,6 @@
             "type": "\"idle\" | \"uploading\" | \"processing\" | \"error\" | \"done\"",
             "default": "\"done\"",
             "description": "The look of the file: running line, spinner, accent error or idle '+'."
-          },
-          {
-            "name": "size",
-            "type": "\"default\" | \"sm\" | \"xs\"",
-            "default": "\"default\"",
-            "description": "Stock sizes, kept."
-          },
-          {
-            "name": "orientation",
-            "type": "\"horizontal\" | \"vertical\"",
-            "default": "\"horizontal\"",
-            "description": "Vertical puts the media on top."
           }
         ]
       }
@@ -4810,10 +5068,9 @@
         "usage": "import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton } from \"@/components/ui/manga/message-scroller\"\n\n<MessageScrollerProvider>\n  <MessageScroller className=\"h-80\">\n    <MessageScrollerViewport>\n      <MessageScrollerContent>\n        <MessageScrollerItem>…</MessageScrollerItem>\n      </MessageScrollerContent>\n    </MessageScrollerViewport>\n    <MessageScrollerButton />\n  </MessageScroller>\n</MessageScrollerProvider>",
         "props": [
           {
-            "name": "direction",
-            "type": "\"start\" | \"end\"",
-            "default": "\"end\"",
-            "description": "Which way the button jumps: to the latest line or to the first."
+            "name": "data-manga",
+            "type": "\"message-scroller\" | \"message-scroller-button\"",
+            "description": "Set on the scroller and on its jump button: the hooks to style them from CSS. The button is 44px on phones."
           }
         ]
       }
@@ -5019,9 +5276,9 @@
             "description": "The direction the subtree is laid out in. Set dir on the element too, so CSS follows."
           },
           {
-            "name": "useDirection()",
-            "type": "hook",
-            "description": "Returns the current direction from the nearest provider."
+            "name": "children",
+            "type": "ReactNode",
+            "description": "The subtree laid out in that direction. The provider also sets dir from direction, so logical properties follow."
           }
         ]
       }
@@ -6544,6 +6801,11 @@
             "name": "href",
             "type": "string",
             "description": "Makes the cover a link."
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "description": "Added to the cover, e.g. its width."
           },
           {
             "name": "onSelect",

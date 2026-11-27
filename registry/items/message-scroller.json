@@ -28,10 +28,9 @@
     "usage": "import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, MessageScrollerButton } from \"@/components/ui/manga/message-scroller\"\n\n<MessageScrollerProvider>\n  <MessageScroller className=\"h-80\">\n    <MessageScrollerViewport>\n      <MessageScrollerContent>\n        <MessageScrollerItem>…</MessageScrollerItem>\n      </MessageScrollerContent>\n    </MessageScrollerViewport>\n    <MessageScrollerButton />\n  </MessageScroller>\n</MessageScrollerProvider>",
     "props": [
       {
-        "name": "direction",
-        "type": "\"start\" | \"end\"",
-        "default": "\"end\"",
-        "description": "Which way the button jumps: to the latest line or to the first."
+        "name": "data-manga",
+        "type": "\"message-scroller\" | \"message-scroller-button\"",
+        "description": "Set on the scroller and on its jump button: the hooks to style them from CSS. The button is 44px on phones."
       }
     ]
   }

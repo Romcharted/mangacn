@@ -25,6 +25,17 @@
   "meta": {
     "tagline": "Toasts in a 3px panel, with room for a sound effect.",
     "usage": "import { Toaster, toast, ToastSfx } from \"@/components/ui/manga/sonner\"\n\n<Toaster />\n\ntoast.success(\"Subscribed!\")\ntoast(\"Level up!\", { icon: <ToastSfx>DON!</ToastSfx> })",
-    "props": []
+    "props": [
+      {
+        "name": "ToastCard",
+        "type": "component",
+        "description": "A static toast with the same look, for previews and docs. Takes type, title, description, icon and action."
+      },
+      {
+        "name": "ToastSfx",
+        "type": "component",
+        "description": "An onomatopoeia in its own column; pass it as the icon option of a toast."
+      }
+    ]
   }
 }

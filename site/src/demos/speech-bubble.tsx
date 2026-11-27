@@ -1,6 +1,7 @@
 import { Choice, Playground, jsx } from "../playground"
 import { useState } from "react"
 import { BubbleGroup, SpeechBubble, type BubbleVariant } from "@registry/manga/signature/speech-bubble"
+import type { Example } from "../registry"
 
 const VARIANTS: BubbleVariant[] = ["speech", "thought", "shout", "whisper", "narration", "electronic", "wobbly"]
 const TEXT: Record<BubbleVariant, string> = {
@@ -11,26 +12,6 @@ const TEXT: Record<BubbleVariant, string> = {
   narration: "Three days later.",
   electronic: "Incoming call.",
   wobbly: "I-it's cold…",
-}
-
-function Examples() {
-  return (
-    <div className="flex flex-wrap items-start gap-x-10 gap-y-12 py-4">
-      <SpeechBubble>Did you hear that?</SpeechBubble>
-      <SpeechBubble variant="shout" tail="bottom" tailAlign="end">
-        Get down!
-      </SpeechBubble>
-      <SpeechBubble variant="thought" tail="start" tailAlign="center">
-        Something is off…
-      </SpeechBubble>
-      <BubbleGroup>
-        <SpeechBubble tail="none">Wait.</SpeechBubble>
-        <SpeechBubble tail="bottom" tailAlign="end">
-          It's coming from the roof.
-        </SpeechBubble>
-      </BubbleGroup>
-    </div>
-  )
 }
 
 const TAILS = ["top", "bottom", "start", "end", "none"] as const
@@ -54,10 +35,55 @@ export function Preview() {
         }
         code={jsx("SpeechBubble", props, { variant: "speech", tail: "bottom", tailAlign: "start" }, TEXT[variant])}
       />
-      <Examples />
     </div>
   )
 }
+
+function Shapes() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-12 py-4">
+      <SpeechBubble>Did you hear that?</SpeechBubble>
+      <SpeechBubble variant="shout" tail="bottom" tailAlign="end">
+        Get down!
+      </SpeechBubble>
+      <SpeechBubble variant="thought" tail="start" tailAlign="center">
+        Something is off…
+      </SpeechBubble>
+    </div>
+  )
+}
+
+function Tails() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-12 py-4">
+      <SpeechBubble tail="top" tailAlign="center">
+        Psst.
+      </SpeechBubble>
+      <SpeechBubble tail="end" tailAlign="end">
+        Over here.
+      </SpeechBubble>
+    </div>
+  )
+}
+
+function Group() {
+  return (
+    <div className="flex w-full justify-center">
+      <BubbleGroup>
+        <SpeechBubble tail="none">Wait.</SpeechBubble>
+        <SpeechBubble tail="bottom" tailAlign="end">
+          It's coming from the roof.
+        </SpeechBubble>
+      </BubbleGroup>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Shapes", title: "Shapes", description: "variant sets the outline: speech, thought (a cloud), shout (spikes), and more in the states below.", Component: Shapes },
+  { fn: "Tails", title: "Tail sides", description: "tail picks the side the tail points to and tailAlign where it sits along that side.", Component: Tails },
+  { fn: "Group", title: "Bubbles in a group", description: "BubbleGroup stacks the bubbles of one speaker; give the last one the tail.", Component: Group },
+]
 
 export function States() {
   return (
@@ -101,3 +127,6 @@ export function Thumb() {
     </button>
   )
 }
+
+/** The Playground takes the whole width of the frame, its controls on the right. */
+export const previewWide = true

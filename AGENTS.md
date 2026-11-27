@@ -33,12 +33,23 @@ registry/manga/ui/            # restyled shadcn components (thin wrappers)
 registry/manga/signature/     # manga components (SpeechBubble, Screentone, ...)
 registry/manga/webtoon/       # webtoon components (drawn in ink)
 registry/manga/blocks/        # full interfaces (registry:block), one folder each
-site/                         # one-page showcase (Vite + React 19 + Tailwind v4), gallery + detail by #hash
-site/src/demos/<item>.tsx     # optional Preview, States (frozen tiles) and Thumb (gallery card) exports
+site/                         # showcase (Vite + React 19 + Tailwind v4), real paths: see "The showcase" below
+site/src/demos/<item>.tsx     # Preview, examples, States (frozen tiles), Thumb (gallery card) of a component page
+site/src/docs/                # documentation: layout (3 columns), nav (left column), component page template
 site/src/pages/               # example manga pages (JSX and PageData) and the page format doc
-site/src/studio/              # the page studio (#studio): edits PageData, exports JSX, JSON and PNG
+site/src/studio/              # the page studio (/studio): edits PageData, exports JSX, JSON and PNG
 scripts/                      # sync-base, assemble-registry, llms.txt + README list, check-items, screenshots
 ```
+
+## The showcase
+
+Real addresses, served by a fallback to `index.html` (`site/public/.htaccess`, `docs/deploy.md`):
+`/` home · `/docs` and `/docs/<page>` Get started · `/docs/components` every component, live ·
+`/docs/components/<name>` one component · `/examples`, `/examples/<name>` the interfaces · `/view/<name>` one
+interface alone · `/studio` · `/legal`. Links are plain `<a href={to("docs/components/button")}>` (`site/src/router.ts`);
+`href="#"` in a demo never navigates. Old `#button`-style links still work: the home page redirects them.
+The left column of the documentation comes from `site/src/docs/nav.ts`: a new manga piece goes in one of
+`MANGA_GROUPS`, a new shadcn component follows its category.
 
 ## Commands
 
@@ -48,7 +59,8 @@ scripts/                      # sync-base, assemble-registry, llms.txt + README 
 | `npm run sync` | `mangacn.css` -> `base` item, item files -> `registry.json`, then `llms.txt` and the README list |
 | `npm run typecheck` | `tsc` |
 | `npm run build` | sync + typecheck + site build + `shadcn build` into `site/dist/r` |
-| `npm run check` | Every item complete: files, meta, llms.txt, README, built JSON, demo |
+| `npm run check` | Every item complete (`check:items`), then every address of the built site (`check:site`): no blank page or console error, no overflow, no picture larger than its file, no text under 10 px, centred previews, the sections of each component page, old `#` addresses, the reader counter and the live thumbnails |
+| `npm run review` | Build, then serve the built site on port 5198 (to review it as it will be online) |
 | `npm run shots` | Screenshots at 375/800/1280/1440 px, light and dark, 100 % (`-- --only button`); reports horizontal overflow |
 
 Never edit the `css` / `cssVars` of the `base` item by hand: edit `registry/manga/base/mangacn.css`
@@ -66,8 +78,14 @@ and run `npm run sync`.
    Then list the file in `registry/index.json` → `include` (in a wave, the orchestrator does this step).
    Manga pieces: `registry/manga/signature/<name>.tsx`, type `registry:component`, target
    `@components/manga/<name>.tsx`, `registryDependencies: ["Romcharted/mangacn/base"]` (+ gestures or ui items used).
-4. Add `site/src/demos/<name>.tsx` exporting `Preview` (live), `States` (labelled tiles, every variant × state,
-   frozen) and `Thumb` (small, non-interactive gallery preview).
+4. Add `site/src/demos/<name>.tsx`. It feeds the component page (`site/src/docs/component-page.tsx`):
+   - `Preview`: the main example, small and typical. The Preview / Code frame centres it (350 px tall at least),
+     and the Code tab shows this function's source with its imports, found by name in the file.
+   - `examples: Example[]`: `{ fn, title, description, Component, wide? }`, where `fn` is the name of a top-level
+     `function` of the file. Three at least for an interactive component.
+   - `States`: labelled frozen tiles, every variant × state (`../state-grid`).
+   - `Thumb`: the card of /docs/components: a readable detail, never the whole demo shrunk (no text under 10 px).
+   - `previewWide = true` when the Preview needs the frame's whole width (tables, strips, a `Playground`).
 5. `npm run build && npm run shots -- --only <view>`, look at the screenshots in light and dark, then commit
    (one commit per component).
 

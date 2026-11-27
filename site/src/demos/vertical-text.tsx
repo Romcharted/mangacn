@@ -1,40 +1,59 @@
 import { Tcy, VerticalText } from "@registry/manga/signature/vertical-text"
+import type { Example } from "../registry"
 import { Tile } from "../state-grid"
 
 const LINE = "夜の町に、静かな雨が降っている。"
 
 export function Preview() {
   return (
-    <div className="flex flex-wrap items-start gap-8">
-      <figure className="grid gap-2">
+    <div className="flex justify-center">
+      <figure className="grid justify-items-center gap-2">
         <VerticalText as="p" height="12rem" className="text-2xl">
-          雨の夜、
-          <Tcy>12</Tcy>
-          時。駅のホームで、まだ電車を待っている。
+          雨の夜、<Tcy>12</Tcy>時。駅のホームで、まだ電車を待っている。
         </VerticalText>
-        <figcaption className="max-w-44 text-sm">“A rainy night, 12 o’clock. Still waiting for the train on the platform.” Columns run right to left; the 12 stands in one cell.</figcaption>
-      </figure>
-      <figure className="grid gap-2">
-        <VerticalText as="h3" font="sfx" className="text-4xl">
-          第三話
-        </VerticalText>
-        <figcaption className="font-mono text-xs">font="sfx"</figcaption>
-      </figure>
-      <figure className="grid gap-2">
-        <VerticalText font="letter" upright lang="en" className="text-2xl leading-none tracking-[0.2em] uppercase">
-          Fin
-        </VerticalText>
-        <figcaption className="font-mono text-xs">upright, Latin</figcaption>
-      </figure>
-      <figure className="grid gap-2">
-        <VerticalText ruled height="10rem" className="text-xl">
-          {LINE}
-        </VerticalText>
-        <figcaption className="font-mono text-xs">ruled</figcaption>
+        <figcaption className="max-w-56 text-center text-sm">
+          “A rainy night, 12 o’clock. Still waiting for the train on the platform.” Columns run right to left; the 12 stands in one cell.
+        </figcaption>
       </figure>
     </div>
   )
 }
+
+function ChapterTitle() {
+  return (
+    <div className="flex justify-center">
+      <VerticalText as="h3" font="sfx" className="text-4xl">
+        第三話
+      </VerticalText>
+    </div>
+  )
+}
+
+function Upright() {
+  return (
+    <div className="flex justify-center">
+      <VerticalText font="letter" upright lang="en" className="text-2xl leading-none tracking-[0.2em] uppercase">
+        Fin
+      </VerticalText>
+    </div>
+  )
+}
+
+function Ruled() {
+  return (
+    <div className="flex justify-center">
+      <VerticalText ruled height="10rem" className="text-xl">
+        {LINE}
+      </VerticalText>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "ChapterTitle", title: "Chapter title", description: "font sfx sets the title in the heavy SFX face, as on a chapter opener.", Component: ChapterTitle },
+  { fn: "Upright", title: "Upright Latin", description: "upright stands Latin letters one under the other, for a title or a sign.", Component: Upright },
+  { fn: "Ruled", title: "Ruled sheet", description: "ruled adds a fine rule between the columns, like a manuscript sheet.", Component: Ruled },
+]
 
 export function States() {
   return (

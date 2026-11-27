@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "A square box; the brush check draws itself.",
     "usage": "import { Checkbox } from \"@/components/ui/manga/checkbox\"\n\n<label className=\"flex items-center gap-3\">\n  <Checkbox defaultChecked /> Notify me\n</label>",
-    "props": []
+    "props": [
+      {
+        "name": "aria-invalid",
+        "type": "boolean",
+        "description": "The error look: a 3px accent frame, and the accent fill when the box is checked."
+      }
+    ]
   }
 }

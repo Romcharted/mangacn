@@ -24,10 +24,9 @@
     "usage": "import { AspectRatio } from \"@/components/ui/manga/aspect-ratio\"\n\n<AspectRatio ratio={16 / 9}>\n  <img src=\"/cover.jpg\" alt=\"Cover\" className=\"size-full object-cover\" />\n</AspectRatio>",
     "props": [
       {
-        "name": "ratio",
-        "type": "number",
-        "default": "-",
-        "description": "Width divided by height (16 / 9, 2 / 3, 1)."
+        "name": "data-manga",
+        "type": "string",
+        "description": "Set on the box (aspect-ratio): a hook for your own CSS. The ratio prop is the stock one, see the shadcn page."
       }
     ]
   }

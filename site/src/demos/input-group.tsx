@@ -10,6 +10,7 @@ import {
   InputGroupTextarea,
 } from "@registry/manga/ui/input-group"
 import { Kbd } from "@registry/manga/ui/kbd"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 const MAX = 140
@@ -50,35 +51,56 @@ function Comment() {
 
 export function Preview() {
   return (
-    <div className="grid w-full max-w-md gap-5">
-      <InputGroup>
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-        <InputGroupInput aria-label="Search the library" placeholder="Search series, authors…" />
-        <InputGroupAddon align="inline-end">
-          <Kbd>/</Kbd>
-        </InputGroupAddon>
-      </InputGroup>
-      <InputGroup>
-        <InputGroupAddon>
-          <InputGroupText>https://</InputGroupText>
-        </InputGroupAddon>
-        <InputGroupInput aria-label="Circle website" placeholder="your-circle.example" />
-      </InputGroup>
-      <InputGroup>
-        <InputGroupAddon>
-          <InputGroupText>¥</InputGroupText>
-        </InputGroupAddon>
-        <InputGroupInput aria-label="Tip for the artist" inputMode="decimal" defaultValue="500" />
-        <InputGroupAddon align="inline-end">
-          <InputGroupText>JPY</InputGroupText>
-        </InputGroupAddon>
-      </InputGroup>
+    <InputGroup className="w-72">
+      <InputGroupAddon>
+        <SearchIcon />
+      </InputGroupAddon>
+      <InputGroupInput aria-label="Search the library" placeholder="Search series, authors…" />
+      <InputGroupAddon align="inline-end">
+        <Kbd>/</Kbd>
+      </InputGroupAddon>
+    </InputGroup>
+  )
+}
+
+function Website() {
+  return (
+    <InputGroup className="w-72">
+      <InputGroupAddon>
+        <InputGroupText>https://</InputGroupText>
+      </InputGroupAddon>
+      <InputGroupInput aria-label="Circle website" placeholder="your-circle.example" />
+    </InputGroup>
+  )
+}
+
+function Tip() {
+  return (
+    <InputGroup className="w-72">
+      <InputGroupAddon>
+        <InputGroupText>¥</InputGroupText>
+      </InputGroupAddon>
+      <InputGroupInput aria-label="Tip for the artist" inputMode="decimal" defaultValue="500" />
+      <InputGroupAddon align="inline-end">
+        <InputGroupText>JPY</InputGroupText>
+      </InputGroupAddon>
+    </InputGroup>
+  )
+}
+
+function CommentBox() {
+  return (
+    <div className="w-72">
       <Comment />
     </div>
   )
 }
+
+export const examples: Example[] = [
+  { fn: "Website", title: "With a text addon", description: "InputGroupAddon with an InputGroupText puts a fixed prefix inside the same line.", Component: Website },
+  { fn: "Tip", title: "Prefix and suffix", description: "Addons at both ends: a currency sign in front, its unit behind.", Component: Tip },
+  { fn: "CommentBox", title: "With a button and a counter", description: "A textarea with a counter and an InputGroupButton in a block-end addon. Send it to try.", Component: CommentBox },
+]
 
 function Search(props: { group?: object; input?: object; invalid?: boolean; disabled?: boolean; value?: string }) {
   return (

@@ -69,6 +69,12 @@ html {
   background: linear-gradient(var(--foreground), var(--foreground)) center / 100% 2px no-repeat;
   cursor: pointer;
 }
+/* phones: the whole 44px row is the touch target */
+@media (max-width: 639.98px) {
+  .mg-range {
+    height: 2.75rem;
+  }
+}
 .mg-range::-webkit-slider-thumb {
   appearance: none;
   width: 0.875rem;

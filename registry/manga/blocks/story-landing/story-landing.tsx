@@ -7,8 +7,9 @@
  * chapter. Jumping to a chapter plays a stepped scene transition (instant with reduced motion), then moves
  * focus to the chapter's heading. The strip is a Yonkoma on the page model: captions and the sound effect
  * are `Place`d on its panels, sized with the page. Nothing is posted; links never navigate.
- * The block ships no image: pass the cover, the faces and the strip's pictures in `art` (without them the
- * cover is screentone, the faces are left out and the panels stay blank).
+ * The block ships no image: pass the cover and the faces in `art` (without them the cover is screentone and the
+ * faces are left out). The strip draws its own pictures in ink (a goal on a page, a check, a cross, a burst);
+ * `art.beats` replaces them with your own pictures if you prefer.
  * One column on phones; container queries (`@container/story`) widen it.
  */
 import * as React from "react"
@@ -33,13 +34,80 @@ export type StoryLandingArt = {
   guide?: string
   /** The reader's face, when they answer. */
   reader?: string
-  /** One picture per panel of the four-panel strip. */
+  /** Your own picture for each panel of the four-panel strip, instead of the drawn ones. */
   beats?: [string, string, string, string]
 }
 
-/** One beat of the four-panel strip: its picture fills the panel. */
-function Beat({ src }: { src?: string }) {
-  return src ? <img src={src} alt="" draggable={false} className="absolute inset-0 size-full object-cover" /> : null
+/** One beat of the four-panel strip: your picture if you pass one, otherwise what the caption says, in ink. */
+function Beat({ src, index }: { src?: string; index: number }) {
+  if (src) return <img src={src} alt="" draggable={false} className="absolute inset-0 size-full object-cover" />
+  return (
+    <svg aria-hidden viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" className="absolute inset-x-[8%] top-[26%] bottom-[6%] h-[68%] w-[84%] text-foreground">
+      {index === 0 && <GoalPage />}
+      {index === 1 && <Check />}
+      {index === 2 && <Cross />}
+      {index === 3 && <Week />}
+    </svg>
+  )
+}
+
+const INK = { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round" } as const
+
+/** Panel 1: today's page, one goal written on it, the brush still on the paper. */
+function GoalPage() {
+  return (
+    <g {...INK} strokeWidth={3}>
+      <rect x={22} y={10} width={56} height={80} className="fill-background" />
+      <path d="M32 26 H68" strokeWidth={2} />
+      <path d="M32 40 Q44 34 52 40 T68 38" strokeWidth={4} />
+      <path d="M32 54 H58" strokeWidth={2} strokeDasharray="3 4" />
+      <path d="M32 66 H62" strokeWidth={2} strokeDasharray="3 4" />
+      <path d="M70 44 L88 18" strokeWidth={6} />
+      <path d="M68 47 L70 44" strokeWidth={3} />
+    </g>
+  )
+}
+
+/** Panel 2: the day's box, inked with a brush check. */
+function Check() {
+  return (
+    <g {...INK}>
+      <rect x={20} y={18} width={60} height={60} strokeWidth={4} className="fill-background" />
+      <path d="M30 50 L45 66 L80 22" strokeWidth={10} />
+      <path d="M12 86 L22 80 M88 86 L78 80 M50 94 V86" strokeWidth={3} />
+    </g>
+  )
+}
+
+/** Panel 3: a missed day: a cross in the box, drawn calmly. */
+function Cross() {
+  return (
+    <g {...INK}>
+      <rect x={20} y={18} width={60} height={60} strokeWidth={4} className="fill-background" />
+      <path d="M34 32 L66 64 M66 32 L34 64" strokeWidth={6} />
+    </g>
+  )
+}
+
+/** Panel 4: seven boxes, all checked, under a burst: the week is a chapter. */
+function Week() {
+  const burst = Array.from({ length: 16 }, (_, i) => {
+    const a = (i / 16) * Math.PI * 2
+    const r = i % 2 ? 22 : 34
+    return `${(50 + Math.cos(a) * r * 1.3).toFixed(1)},${(36 + Math.sin(a) * r).toFixed(1)}`
+  }).join(" ")
+  return (
+    <g {...INK}>
+      <polygon points={burst} strokeWidth={3} className="fill-background" />
+      <path d="M38 36 L46 44 L62 26" strokeWidth={6} />
+      {Array.from({ length: 7 }, (_, i) => (
+        <g key={i}>
+          <rect x={6 + i * 12.6} y={78} width={10} height={10} strokeWidth={2} className="fill-background" />
+          <path d={`M${8 + i * 12.6} 83 L${10.5 + i * 12.6} 86 L${14.5 + i * 12.6} 80`} strokeWidth={2} />
+        </g>
+      ))}
+    </g>
+  )
 }
 
 /* ---------- Content ---------- */
@@ -185,7 +253,7 @@ export function StoryLanding({
             {STRIP_CAPTIONS.map((caption, i) => (
               // a fragment: its Place elements sit on the page and may cross the frame
               <React.Fragment key={caption}>
-                <Beat src={art.beats?.[i]} />
+                <Beat src={art.beats?.[i]} index={i} />
                 <Place x={96} y={6} anchor="top-right" maxWidth={70}>
                   <PanelCaption aria-hidden position="free">
                     {caption}

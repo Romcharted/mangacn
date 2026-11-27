@@ -2,6 +2,7 @@ import { useState } from "react"
 import { VolumeCard, type VolumeStatus } from "@registry/manga/signature/volume-card"
 import { Tile, force } from "../state-grid"
 import { VolumeCover, artSrc, type ArtName } from "../mapless"
+import type { Example } from "../registry"
 
 // "Mapless", the showcase's series (AI-generated pictures, see public/art/CREDITS.md): the volumes, then extras.
 const VOLUMES: { id: string; volume: number; title: string; author: string; cover: ArtName; status: VolumeStatus; read: number; total: number }[] = [
@@ -18,6 +19,48 @@ const cover = (name: ArtName) =>
   name === "cover-1" ? <VolumeCover volume={1} /> : name === "cover-2" ? <VolumeCover volume={2} /> : name === "cover-3-teaser" ? <VolumeCover volume={3} /> : artSrc(name, 160)
 
 export function Preview() {
+  return (
+    <div className="w-44">
+      <VolumeCard title="Mapless" volume={2} author="Studio Mapless" cover={cover("cover-2")} status="ongoing" read={3} total={8} href="#" />
+    </div>
+  )
+}
+
+function Statuses() {
+  return (
+    <div className="grid grid-cols-2 justify-items-center gap-x-4 gap-y-8 sm:grid-cols-4">
+      {(["new", "ongoing", "completed", "hiatus"] as const).map((status) => (
+        <div key={status} className="w-36">
+          <VolumeCard title="Mapless" volume={3} cover={cover("cover-3-teaser")} status={status} read={2} total={8} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ReadingProgress() {
+  const [read, setRead] = useState(3)
+  return (
+    <div className="grid justify-items-center gap-3">
+      <div className="w-40">
+        <VolumeCard
+          title="Mapless"
+          volume={2}
+          cover={cover("cover-2")}
+          status={read >= 8 ? "completed" : "ongoing"}
+          read={read}
+          total={8}
+          onSelect={() => setRead((r) => (r >= 8 ? 0 : r + 1))}
+        />
+      </div>
+      <p aria-live="polite" className="font-mono text-sm">
+        {read} of 8 chapters read. Click the card to read one more.
+      </p>
+    </div>
+  )
+}
+
+function Shelf() {
   const [picked, setPicked] = useState<string | null>(null)
   return (
     <div className="grid gap-3">
@@ -92,6 +135,12 @@ export function States() {
     </div>
   )
 }
+
+export const examples: Example[] = [
+  { fn: "Statuses", title: "Statuses", description: "new, ongoing, completed and hiatus: a stamp in the corner of the cover.", Component: Statuses },
+  { fn: "ReadingProgress", title: "Reading progress", description: "read and total draw the progress under the cover; it turns completed at the last chapter.", Component: ReadingProgress },
+  { fn: "Shelf", title: "A shelf of volumes", description: "Cards in a grid with onSelect: the whole cover is the button.", Component: Shelf, wide: true },
+]
 
 /** Live: the card lifts on hover; a click reads one more chapter. */
 export function Thumb() {

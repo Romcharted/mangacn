@@ -71,6 +71,11 @@
         "description": "Makes the cover a link."
       },
       {
+        "name": "className",
+        "type": "string",
+        "description": "Added to the cover, e.g. its width."
+      },
+      {
         "name": "onSelect",
         "type": "() => void",
         "description": "Makes the cover a button."

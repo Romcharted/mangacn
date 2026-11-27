@@ -1,19 +1,50 @@
 import { useState } from "react"
 import { ReaderSettings, defaultReaderSettings, type ReaderSettingsValue } from "@registry/manga/signature/reader-settings"
+import type { Example } from "../registry"
 import { Tile } from "../state-grid"
 import { ForceInside } from "../force-inside"
 
 export function Preview() {
   const [value, setValue] = useState<ReaderSettingsValue>(defaultReaderSettings)
   return (
-    <div className="grid gap-4 sm:grid-cols-[minmax(0,24rem)_1fr]">
+    <div className="mx-auto grid w-full max-w-md gap-4">
       <div className="ink-case p-4">
         <ReaderSettings value={value} onValueChange={setValue} />
       </div>
-      <pre className="self-start overflow-x-auto border-ink-fine p-3 font-mono text-sm">{JSON.stringify(value, null, 2)}</pre>
+      <pre className="w-full overflow-x-auto border-ink-fine p-3 font-mono text-sm">{JSON.stringify(value, null, 2)}</pre>
     </div>
   )
 }
+
+function ModeOnly() {
+  return (
+    <div className="mx-auto w-80">
+      <ReaderSettings hide={["direction", "fit", "background"]} />
+    </div>
+  )
+}
+
+function ModeLocked() {
+  return (
+    <div className="mx-auto w-80">
+      <ReaderSettings disabled={["mode"]} />
+    </div>
+  )
+}
+
+function StartingValues() {
+  return (
+    <div className="mx-auto w-80">
+      <ReaderSettings defaultValue={{ direction: "rtl", mode: "double", fit: "width", background: "tone" }} />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "ModeOnly", title: "Reading mode only", description: "hide removes the settings you do not want to show; here only the mode is left.", Component: ModeOnly },
+  { fn: "ModeLocked", title: "A locked setting", description: "disabled greys a setting out, so it can be seen but not changed.", Component: ModeLocked },
+  { fn: "StartingValues", title: "Starting values", description: "defaultValue sets the choices at first; the reader then keeps its own.", Component: StartingValues },
+]
 
 export function States() {
   const row = (state?: "hover" | "focus" | "active", selector = "[role=radio][aria-checked=false]") => {

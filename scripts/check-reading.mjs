@@ -10,7 +10,7 @@ import { chromium } from "playwright-core"
 const HEIGHTS = process.env.HEIGHTS ? process.env.HEIGHTS.split(",").map(Number) : [600, 900, 1300]
 const STEP = 10
 const READERS = [
-  { name: "Reader Strip", hash: "#reader-strip", counter: '[role=progressbar][aria-label="Chapter progress"]' },
+  { name: "Reader Strip", hash: "docs/components/reader-strip", counter: '[role=progressbar][aria-label="Chapter progress"]' },
 ]
 
 let [url] = process.argv.slice(2)

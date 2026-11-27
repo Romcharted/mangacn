@@ -13,16 +13,20 @@ import {
 import { Kbd, KbdGroup } from "@registry/manga/ui/kbd"
 import { Popover, PopoverContent, PopoverTrigger } from "@registry/manga/ui/popover"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@registry/manga/ui/sheet"
-import { AiPanel } from "./ai"
+import { AiGuide, AiPanel } from "./ai"
+import { DocsNav } from "./docs/layout"
+import { GET_STARTED, componentRoute, docItems, familyOf } from "./docs/nav"
 import { interfaces } from "./interfaces"
 import { ACCENTS, type Accent, type Prefs } from "./prefs"
-import { CATEGORIES, GITHUB_URL, categories, categoryOf, items } from "./registry"
+import { GITHUB_URL, REPO } from "./registry"
+import { navigate, to } from "./router"
 import { track } from "./visits"
 
 /*
- * Site header, one line. From lg up: logo, the three sections, a search field that opens the command palette
- * (Ctrl/⌘ K or /, like the shadcn site), AI, GitHub and a Display menu (theme, accent, reading order).
- * Under lg: logo, search, AI and a menu button that opens a Sheet with everything else.
+ * Site header, one line, like the shadcn site. From lg up: logo, Docs, Components, Examples, Studio; then a
+ * search field that opens the command palette (Ctrl/⌘ K or /), AI, GitHub with its star count and a Display
+ * menu (theme, accent, reading order). Under lg: logo, search and a Menu button that opens a Sheet with the
+ * whole navigation (sections, the documentation tree, display settings, AI and links).
  */
 
 const ACCENT_LABEL: Record<Accent, string> = { stamp: "Stamp red", indigo: "Indigo", pine: "Pine", ochre: "Ochre" }
@@ -37,16 +41,64 @@ const useCompactHeader = () => useSyncExternalStore(subscribeWidth, () => matchM
 const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform)
 
 export type HeaderProps = {
-  hash: string
-  category: string | null
-  onCategory: (c: string | null) => void
+  route: string
   prefs: Prefs
   set: (patch: Partial<Prefs>) => void
 }
 
+/** Which header section a route belongs to. */
+function sectionOf(route: string) {
+  if (route.startsWith("docs/components")) return "components"
+  if (route === "docs" || route.startsWith("docs/")) return "docs"
+  if (route === "examples" || route.startsWith("examples/")) return "examples"
+  if (route === "studio") return "studio"
+  return null
+}
+
+const SECTIONS = [
+  { id: "docs", title: "Docs", route: "docs" },
+  { id: "components", title: "Components", route: "docs/components" },
+  { id: "examples", title: "Examples", route: "examples" },
+  { id: "studio", title: "Studio", route: "studio" },
+] as const
+
+/** The repository's star count, read once per visit from GitHub's public API; nothing when it fails. */
+function useStars() {
+  const [stars, setStars] = useState<number | null>(() => {
+    try {
+      const saved = sessionStorage.getItem("mangacn-stars")
+      return saved ? Number(saved) : null
+    } catch {
+      return null
+    }
+  })
+  useEffect(() => {
+    if (stars !== null) return
+    const ctrl = new AbortController()
+    fetch(`https://api.github.com/repos/${REPO}`, { signal: ctrl.signal, headers: { Accept: "application/vnd.github+json" } })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { stargazers_count?: number } | null) => {
+        if (typeof data?.stargazers_count !== "number") return
+        setStars(data.stargazers_count)
+        try {
+          sessionStorage.setItem("mangacn-stars", String(data.stargazers_count))
+        } catch {
+          /* storage unavailable */
+        }
+      })
+      .catch(() => {})
+    return () => ctrl.abort()
+  }, [stars])
+  return stars
+}
+
+const formatStars = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : String(n))
+
 export function SiteHeader(props: HeaderProps) {
   const compact = useCompactHeader()
   const [searching, setSearching] = useState(false)
+  const stars = useStars()
+  const current = sectionOf(props.route)
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -66,48 +118,39 @@ export function SiteHeader(props: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-40 h-14 border-b-[length:var(--mg-bw-panel)] border-border bg-background">
-      <div className="mx-auto flex h-full max-w-7xl items-center gap-2 px-4">
-        <a
-          href="#/"
-          className="me-2 inline-flex h-11 items-center font-sfx text-xl leading-none focus-ink"
-          aria-label="mangacn, home"
-        >
+      <div className="mx-auto flex h-full max-w-[90rem] items-center gap-2 px-4">
+        <a href={to("")} className="me-2 inline-flex h-11 items-center font-sfx text-xl leading-none focus-ink" aria-label="mangacn, home">
           manga<span className="ink-fill px-1">cn</span>
         </a>
         {compact ? (
           <>
             <button
               type="button"
-              aria-label="Search components"
+              aria-label="Search the documentation"
               onClick={() => setSearching(true)}
               className="ms-auto grid size-11 place-items-center border-ink focus-ink active:ink-fill"
             >
               <Search aria-hidden className="size-5" />
             </button>
-            <AiPanel />
-            <PhoneMenu {...props} />
+            <PhoneMenu {...props} stars={stars} />
           </>
         ) : (
           <>
             <nav aria-label="Sections" className="flex items-center">
-              <Section href="#/" current={props.hash === "" || props.hash === "/" || items.some((i) => i.name === props.hash)}>
-                Components
-              </Section>
-              <Section href="#examples" current={props.hash.startsWith("examples")}>
-                Examples
-              </Section>
-              <Section href="#grammar" current={props.hash === "grammar"}>
-                Grammar
-              </Section>
+              {SECTIONS.map((s) => (
+                <Section key={s.id} href={to(s.route)} current={current === s.id}>
+                  {s.title}
+                </Section>
+              ))}
             </nav>
             <button
               type="button"
               onClick={() => setSearching(true)}
-              className="ms-auto flex h-9 w-44 items-center gap-2 border-ink px-2.5 text-start hover:border-[3px] hover:px-[8px] focus-ink lg:w-72"
+              className="ms-auto flex h-9 w-44 items-center gap-2 border-ink px-2.5 text-start hover:border-[3px] hover:px-[8px] focus-ink xl:w-64"
             >
               <Search aria-hidden className="size-4 shrink-0" />
-              <span className="flex-1 truncate">Search components…</span>
-              <KbdGroup aria-hidden className="hidden lg:inline-flex">
+              <span className="flex-1 truncate">Search docs…</span>
+              <KbdGroup aria-hidden className="hidden xl:inline-flex">
                 <Kbd>{isMac ? "⌘" : "Ctrl"}</Kbd>
                 <Kbd>K</Kbd>
               </KbdGroup>
@@ -116,9 +159,15 @@ export function SiteHeader(props: HeaderProps) {
             <a
               href={GITHUB_URL}
               onClick={() => track("github", { from: "header" })}
-              className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink"
+              aria-label={stars !== null ? `GitHub, ${stars} stars` : "GitHub"}
+              className="inline-flex h-9 items-center gap-2 border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink"
             >
               GitHub
+              {stars !== null && (
+                <span aria-hidden className="border-s-[length:var(--mg-bw-fine)] border-current ps-2 font-mono text-xs">
+                  ★ {formatStars(stars)}
+                </span>
+              )}
             </a>
             <Popover>
               <PopoverTrigger
@@ -250,94 +299,6 @@ function Segmented({
   )
 }
 
-function PhoneMenu(props: HeaderProps) {
-  const [open, setOpen] = useState(false)
-  const close = () => setOpen(false)
-  const link =
-    "flex h-11 items-center border-ink px-3 font-letter text-base uppercase focus-ink active:ink-fill aria-[current=page]:ink-fill"
-  return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger
-        render={
-          <button
-            type="button"
-            className="inline-flex h-11 items-center gap-1.5 border-ink px-3 font-letter text-sm uppercase focus-ink aria-expanded:ink-fill"
-          />
-        }
-      >
-        <Menu aria-hidden className="size-4" />
-        Menu
-      </SheetTrigger>
-      <SheetContent side="right" className="w-full overflow-y-auto data-[side=right]:w-full data-[side=right]:sm:max-w-sm">
-        <SheetHeader className="pe-14">
-          <SheetTitle>Menu</SheetTitle>
-          <SheetDescription className="sr-only">Sections, categories, display settings and links.</SheetDescription>
-        </SheetHeader>
-        <div className="grid gap-7 px-4 pb-10">
-          <nav aria-label="Sections" className="grid gap-2">
-            <a
-              href="#/"
-              onClick={close}
-              className={link}
-              aria-current={props.hash === "" || props.hash === "/" ? "page" : undefined}
-            >
-              Components
-            </a>
-            <a
-              href="#examples"
-              onClick={close}
-              className={link}
-              aria-current={props.hash.startsWith("examples") ? "page" : undefined}
-            >
-              Examples
-            </a>
-            <a href="#grammar" onClick={close} className={link} aria-current={props.hash === "grammar" ? "page" : undefined}>
-              Grammar
-            </a>
-          </nav>
-          <nav aria-label="Categories" className="grid gap-2">
-            <span className="font-letter text-sm uppercase">Categories</span>
-            <div className="flex flex-wrap gap-2">
-              <CategoryPill active={props.category === null} onClick={() => (props.onCategory(null), close())}>
-                All
-              </CategoryPill>
-              {categories.map((c) => (
-                <CategoryPill key={c} active={props.category === c} onClick={() => (props.onCategory(c), close())}>
-                  {CATEGORIES[c] ?? c}
-                </CategoryPill>
-              ))}
-            </div>
-          </nav>
-          <section aria-label="Display" className="grid gap-2">
-            <DisplaySettings prefs={props.prefs} set={props.set} idPrefix="menu" />
-          </section>
-          <div className="grid gap-2">
-            <a href={GITHUB_URL} onClick={() => track("github", { from: "menu" })} className={link}>
-              GitHub
-            </a>
-            <a href="#legal" onClick={close} className={link}>
-              Legal notice
-            </a>
-          </div>
-        </div>
-      </SheetContent>
-    </Sheet>
-  )
-}
-
-export function CategoryPill(props: { active: boolean; onClick: () => void; children: ReactNode }) {
-  return (
-    <button
-      type="button"
-      aria-pressed={props.active}
-      onClick={props.onClick}
-      className="h-11 shrink-0 border-ink-fine px-3 font-letter text-sm uppercase hover:border-ink focus-ink aria-pressed:ink-fill sm:h-8 sm:px-2.5"
-    >
-      {props.children}
-    </button>
-  )
-}
-
 /*
  * Word matching instead of cmdk's fuzzy score, which ranks "Atkinson" above "Tabs" for "tab": a title that
  * starts with the query first, then a word that starts with it, then the category, then any substring.
@@ -352,36 +313,87 @@ function match(value: string, search: string, keywords?: string[]) {
   return v.includes(q) ? 0.3 : 0
 }
 
-/** The palette: pages, full interfaces, then every component by category. Choosing one opens it. */
+/** Phones and tablets: the whole navigation in a sheet. Closes on any link. */
+function PhoneMenu(props: HeaderProps & { stars: number | null }) {
+  const [open, setOpen] = useState(false)
+  const close = () => setOpen(false)
+  const current = sectionOf(props.route)
+  useEffect(() => setOpen(false), [props.route])
+  const link = "flex h-11 items-center border-ink px-3 font-letter text-base uppercase focus-ink active:ink-fill aria-[current=page]:ink-fill"
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger
+        render={
+          <button type="button" className="inline-flex h-11 items-center gap-1.5 border-ink px-3 font-letter text-sm uppercase focus-ink aria-expanded:ink-fill" />
+        }
+      >
+        <Menu aria-hidden className="size-4" />
+        Menu
+      </SheetTrigger>
+      <SheetContent side="right" className="w-full overflow-y-auto data-[side=right]:w-full data-[side=right]:sm:max-w-sm">
+        <SheetHeader className="pe-14">
+          <SheetTitle>Menu</SheetTitle>
+          <SheetDescription className="sr-only">Sections, the documentation, display settings and links.</SheetDescription>
+        </SheetHeader>
+        <div className="grid gap-8 px-4 pb-10">
+          <nav aria-label="Sections" className="grid grid-cols-2 gap-2">
+            {SECTIONS.map((s) => (
+              <a key={s.id} href={to(s.route)} onClick={close} className={link} aria-current={current === s.id ? "page" : undefined}>
+                {s.title}
+              </a>
+            ))}
+          </nav>
+          <DocsNav route={props.route} onNavigate={close} idPrefix="menu-nav" />
+          <section aria-label="Display" className="grid gap-2">
+            <p className="font-letter text-base uppercase">Display</p>
+            <DisplaySettings prefs={props.prefs} set={props.set} idPrefix="menu" />
+          </section>
+          <section aria-label="AI" className="grid gap-2">
+            <p className="font-letter text-base uppercase">Use with an AI</p>
+            <AiGuide />
+          </section>
+          <div className="grid gap-2">
+            <a href={GITHUB_URL} onClick={() => track("github", { from: "menu" })} className={link}>
+              GitHub{props.stars !== null && <span className="ms-auto font-mono text-xs">★ {formatStars(props.stars)}</span>}
+            </a>
+            <a href={to("legal")} onClick={close} className={link}>
+              Legal notice
+            </a>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  )
+}
+
+/** The palette: pages, full interfaces, then every component by family. Choosing one opens it. */
 function SearchPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
-  const go = (hash: string) => {
-    location.hash = hash
+  const go = (route: string) => {
+    navigate(route)
     onOpenChange(false)
   }
+  const families = [...new Map(docItems.map((i) => [familyOf(i).id, familyOf(i)])).values()]
   return (
-    <CommandDialog
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Search mangacn"
-      description="Find a component, an example or a page."
-    >
+    <CommandDialog open={open} onOpenChange={onOpenChange} title="Search mangacn" description="Find a component, an example or a page.">
       <Command filter={match}>
         <CommandInput placeholder="Search components, examples…" />
         <CommandList>
           <CommandEmpty>Nothing matches.</CommandEmpty>
-          <CommandGroup heading="Pages">
-            <CommandItem value="Components gallery all" onSelect={() => go("/")}>
+          <CommandGroup heading="Get started">
+            {GET_STARTED.map((p) => (
+              <CommandItem key={p.route} value={`${p.title} docs`} onSelect={() => go(p.route)}>
+                {p.title}
+              </CommandItem>
+            ))}
+            <CommandItem value="All components gallery" onSelect={() => go("docs/components")}>
               All components
             </CommandItem>
-            <CommandItem value="Examples interfaces" onSelect={() => go("examples")}>
-              Examples
-            </CommandItem>
-            <CommandItem value="Grammar gestures rules" onSelect={() => go("grammar")}>
-              Grammar
+            <CommandItem value="Studio page lettering" onSelect={() => go("studio")}>
+              Studio
             </CommandItem>
           </CommandGroup>
           {interfaces.length > 0 && (
-            <CommandGroup heading="Interfaces">
+            <CommandGroup heading="Examples">
               {interfaces.map((i) => (
                 <CommandItem key={i.slug} value={`${i.title} interface example`} onSelect={() => go(`examples/${i.slug}`)}>
                   {i.title}
@@ -390,17 +402,12 @@ function SearchPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (o
             </CommandGroup>
           )}
           <CommandSeparator />
-          {categories.map((c) => (
-            <CommandGroup key={c} heading={CATEGORIES[c] ?? c}>
-              {items
-                .filter((i) => i.type !== "registry:block" && categoryOf(i) === c)
+          {families.map((f) => (
+            <CommandGroup key={f.id} heading={f.title}>
+              {docItems
+                .filter((i) => familyOf(i).id === f.id)
                 .map((i) => (
-                  <CommandItem
-                    key={i.name}
-                    value={`${i.title} ${i.name}`}
-                    keywords={[CATEGORIES[c] ?? c]}
-                    onSelect={() => go(i.name)}
-                  >
+                  <CommandItem key={i.name} value={`${i.title} ${i.name}`} keywords={[f.title]} onSelect={() => go(componentRoute(i.name))}>
                     {i.title}
                   </CommandItem>
                 ))}

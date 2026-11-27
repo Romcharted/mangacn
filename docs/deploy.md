@@ -14,7 +14,7 @@ npm run check
 | Variable | What it does | Default |
 | --- | --- | --- |
 | `SITE_URL` | Public address, written into the share tags (canonical, `og:url`, `og:image`). | none: those tags are left out, `og:image` stays relative |
-| `BASE_PATH` | Where the site is served: `/` at the root of a domain, `/mangacn/` in a folder. | `./` (works anywhere: the site routes with the hash) |
+| `BASE_PATH` | Where the site is served: `/` at the root of a domain, `/mangacn/` in a folder. | `/` (the site uses real paths such as `/docs/components/button`, so the base is absolute) |
 | `VITE_UMAMI_SRC` | Umami script address. | `https://stats.romain-sonnet.fr/script.js` (`.env.production`) |
 | `VITE_UMAMI_WEBSITE_ID` | Umami site id. Empty: no statistics script at all. | empty |
 
@@ -25,7 +25,13 @@ Put local values in `.env.production.local` (ignored by git), or pass them on th
 
 Copy the **contents** of `site/dist` (hidden `.htaccess` included) into `public_html/` — or into
 `public_html/mangacn/` with `BASE_PATH=/mangacn/`. The `.htaccess` serves `.json` as JSON with an open CORS
-header, caches hashed assets for good and keeps `index.html` fresh.
+header, caches hashed assets for good and keeps `index.html` fresh. It also sends every address without a
+file extension that is not a file (`/docs/components/button`, `/examples/dashboard`) to `index.html`, which
+shows the right page: this fallback is what lets the site use real paths on a static host. Missing files
+(`r/nothing.json`, `art/nothing.webp`) still answer 404. In a folder, the same rule works unchanged.
+
+Old links in `#` (`/#button`, `/#grammar`, `/#examples/dashboard`) open the home page, which replaces them
+with their new address.
 
 ## After upload
 

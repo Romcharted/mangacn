@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { DialogueBox, type DialogueLine } from "@registry/manga/signature/dialogue-box"
+import type { Example } from "../registry"
 import { artSrc } from "../mapless"
 import { Tile, force } from "../state-grid"
 
@@ -20,14 +21,44 @@ const LINES: DialogueLine[] = [
 export function Preview() {
   const [ended, setEnded] = useState(0)
   return (
-    <div className="grid max-w-2xl gap-3">
-      <DialogueBox lines={LINES} onEnd={() => setEnded((n) => n + 1)} />
+    <div className="flex w-full max-w-2xl flex-col items-center gap-3">
+      <DialogueBox lines={LINES} onEnd={() => setEnded((n) => n + 1)} className="w-full" />
       <p className="font-mono text-xs">
         Click the text or the arrow. Finished {ended} time{ended === 1 ? "" : "s"}.
       </p>
     </div>
   )
 }
+
+function Narration() {
+  return (
+    <div className="flex w-full justify-center">
+      <DialogueBox lines={[{ speaker: "Narrator", text: "That night, by the lighthouse…" }]} className="w-full max-w-xl" />
+    </div>
+  )
+}
+
+function NoCount() {
+  return (
+    <div className="flex w-full justify-center">
+      <DialogueBox lines={LINES} showCount={false} className="w-full max-w-xl" />
+    </div>
+  )
+}
+
+function StaysAtEnd() {
+  return (
+    <div className="flex w-full justify-center">
+      <DialogueBox lines={LINES} defaultIndex={3} loop={false} className="w-full max-w-xl" />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Narration", title: "A line with no portrait", description: "A line without a portrait keeps the name plate and the text; the box works the same way.", Component: Narration },
+  { fn: "NoCount", title: "Without the count", description: "showCount false hides the \"2 / 5\" counter next to the arrow.", Component: NoCount },
+  { fn: "StaysAtEnd", title: "Stays on the last line", description: "loop false keeps the box on the last line instead of starting again from the first.", Component: StaysAtEnd },
+]
 
 const one = (extra: Partial<React.ComponentProps<typeof DialogueBox>> = {}) => <DialogueBox lines={LINES} className="w-full" {...extra} />
 
@@ -72,6 +103,11 @@ function Forced({ state }: { state: "hover" | "focus" | "active" }) {
 }
 
 /** Live: a click on the text or the arrow moves to the next line. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
-  return <DialogueBox lines={LINES.slice(0, 2)} showCount={false} className="w-96 [zoom:0.6]" />
+  return (
+    <div className="w-72 h-32 overflow-hidden">
+      <DialogueBox lines={LINES.slice(0, 1)} showCount={false} />
+    </div>
+  )
 }

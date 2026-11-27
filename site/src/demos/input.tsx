@@ -1,21 +1,50 @@
 import { Input } from "@registry/manga/ui/input"
+import type { Example } from "../registry"
 import { StateGrid, force } from "../state-grid"
 
 export function Preview() {
   return (
-    <div className="grid max-w-md gap-4">
-      <label className="grid gap-1.5">
-        <span className="font-letter text-base uppercase">Pen name</span>
-        <Input placeholder="Your name on the cover" />
-      </label>
-      <label className="grid gap-1.5">
-        <span className="font-letter text-base uppercase">Email</span>
-        <Input type="email" defaultValue="reader@" aria-invalid />
-        <span className="text-sm text-destructive">! That email is missing its domain.</span>
-      </label>
+    <label className="grid w-72 gap-1.5">
+      <span className="font-letter text-base uppercase">Pen name</span>
+      <Input placeholder="Your name on the cover" />
+    </label>
+  )
+}
+
+function Sizes() {
+  return (
+    <div className="grid w-72 gap-4">
+      {(["sm", "default", "lg"] as const).map((size) => (
+        <Input key={size} inputSize={size} placeholder={`inputSize="${size}"`} aria-label={`Input, ${size}`} />
+      ))}
     </div>
   )
 }
+
+function Invalid() {
+  return (
+    <label className="grid w-72 gap-1.5">
+      <span className="font-letter text-base uppercase">Email</span>
+      <Input type="email" defaultValue="reader@" aria-invalid />
+      <span className="text-sm text-destructive">! That email is missing its domain.</span>
+    </label>
+  )
+}
+
+function Locked() {
+  return (
+    <div className="grid w-72 gap-4">
+      <Input aria-label="Locked name" defaultValue="Cannot change" disabled />
+      <Input aria-label="Read-only chapter" defaultValue="Chapter 12" readOnly />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Sizes", title: "Sizes", description: "inputSize sets the height and the text size: sm, default and lg.", Component: Sizes },
+  { fn: "Invalid", title: "Error", description: "aria-invalid gives the stamp-red line, a serrated edge and a \"!\" mark at the end.", Component: Invalid },
+  { fn: "Locked", title: "Disabled and read-only", description: "disabled gives a dashed line; readOnly keeps a fine line, and the text stays readable.", Component: Locked },
+]
 
 const STATES = ["default", "hover", "focus", "filled", "error", "read-only", "disabled"] as const
 

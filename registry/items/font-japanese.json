@@ -21,6 +21,19 @@
     "dependency": "@fontsource/zen-kaku-gothic-new"
   },
   "meta": {
-    "tagline": "A Japanese reading face for furigana and vertical text."
+    "tagline": "A Japanese reading face for furigana and vertical text.",
+    "usage": "<p className=\"font-[family-name:var(--font-manga-jp)]\">地図のない空</p>",
+    "props": [
+      {
+        "name": "font-[family-name:var(--font-manga-jp)]",
+        "type": "Tailwind class",
+        "description": "Sets the Japanese face: furigana, vertical text and original-language lines."
+      },
+      {
+        "name": "--font-manga-jp",
+        "type": "CSS variable",
+        "description": "The font family behind font-[family-name:var(--font-manga-jp)]; set it to use another face."
+      }
+    ]
   }
 }

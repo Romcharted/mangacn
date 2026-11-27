@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "Paper track and ink thumb when off, the negative when on.",
     "usage": "import { Switch } from \"@/components/ui/manga/switch\"\n\n<Switch defaultChecked />",
-    "props": []
+    "props": [
+      {
+        "name": "data-manga",
+        "type": "\"switch\"",
+        "description": "Set on the root: the hook the track, the thumb and the motion are styled from."
+      }
+    ]
   }
 }

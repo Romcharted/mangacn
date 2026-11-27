@@ -3,6 +3,7 @@ import { cn } from "cn"
 import { Choice, Playground, Slider, jsx } from "../playground"
 import { Tile, Tiles } from "../state-grid"
 import { TonedImage, type TonedPattern } from "@registry/manga/signature/toned-image"
+import type { Example } from "../registry"
 import { artSrc } from "../mapless"
 
 /** A picture from "Mapless", the showcase's series (AI-generated, see public/art/CREDITS.md): already inked, toned here only to show the effect. */
@@ -72,20 +73,6 @@ function DropZone({ onFile }: { onFile: (file: File) => void }) {
 export function Preview() {
   const settings = useSettings()
   const { pattern, density, contrast, threshold } = settings
-  const [own, setOwn] = useState<string | null>(null)
-
-  // the object URL of a previous pick is released when a new one replaces it, or on unmount
-  useEffect(
-    () => () => {
-      if (own) URL.revokeObjectURL(own)
-    },
-    [own],
-  )
-
-  const pick = (file: File) => {
-    if (file.type.startsWith("image/")) setOwn(URL.createObjectURL(file))
-  }
-
   return (
     <div className="grid gap-8">
       <Playground
@@ -123,13 +110,57 @@ export function Preview() {
         }
         code={jsx("TonedImage", { src: "/picture.jpg", alt: "Picture" }, { pattern, density, contrast, threshold })}
       />
-      <div className="grid max-w-sm gap-3">
+    </div>
+  )
+}
+
+function Lines() {
+  return (
+    <div className="flex w-full justify-center">
+      <TonedImage src={SCENE} alt="A lighthouse on a floating island at night" pattern="lines" density={10} contrast={1.4} className="aspect-[4/3] w-full max-w-sm border-ink" />
+    </div>
+  )
+}
+
+function Threshold() {
+  return (
+    <div className="flex w-full justify-center">
+      <TonedImage src={SCENE} alt="A lighthouse on a floating island at night" density={8} threshold={0.4} className="aspect-[4/3] w-full max-w-sm border-ink" />
+    </div>
+  )
+}
+
+function OwnPicture() {
+  const settings = useSettings()
+  const [own, setOwn] = useState<string | null>(null)
+
+  // the object URL of a previous pick is released when a new one replaces it, or on unmount
+  useEffect(
+    () => () => {
+      if (own) URL.revokeObjectURL(own)
+    },
+    [own],
+  )
+
+  const pick = (file: File) => {
+    if (file.type.startsWith("image/")) setOwn(URL.createObjectURL(file))
+  }
+
+  return (
+    <div className="flex w-full justify-center">
+      <div className="grid w-full max-w-sm gap-3">
         <DropZone onFile={pick} />
         {own && <TonedImage src={own} alt="Your picture, toned" {...settings} className="aspect-[4/3] w-full border-ink" />}
       </div>
     </div>
   )
 }
+
+export const examples: Example[] = [
+  { fn: "Lines", title: "Bars instead of dots", description: "pattern lines draws parallel bars; contrast above 1 pushes the lights and the shadows apart.", Component: Lines },
+  { fn: "Threshold", title: "Solid ink in the dark", description: "threshold above 0 turns the darkest areas solid ink first, for a bolder drawing.", Component: Threshold },
+  { fn: "OwnPicture", title: "Your own picture", description: "Drop a picture on the frame or choose one: it is toned in the browser and never uploaded.", Component: OwnPicture },
+]
 
 export function States() {
   const settings = useSettings()
@@ -161,3 +192,6 @@ export function Thumb() {
     </button>
   )
 }
+
+/** The Playground takes the whole width of the frame, its controls on the right. */
+export const previewWide = true

@@ -1,4 +1,5 @@
 import { ObiBand } from "@registry/manga/signature/obi-band"
+import type { Example } from "../registry"
 import { Tile } from "../state-grid"
 import { VolumeCover } from "../mapless"
 
@@ -9,7 +10,7 @@ const Tower = () => <VolumeCover volume={2} />
 
 export function Preview() {
   return (
-    <div className="grid max-w-2xl grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
+    <div className="mx-auto grid w-full max-w-2xl grid-cols-2 justify-items-center gap-x-6 gap-y-10 sm:grid-cols-3">
       <ObiBand tone="accent" size="md" headline="Mapless" caption="Over 2 million copies in print" badge="NEW">
         <Dusk />
       </ObiBand>
@@ -22,6 +23,52 @@ export function Preview() {
     </div>
   )
 }
+
+function Badge() {
+  return (
+    <div className="w-40">
+      <ObiBand tone="ink" size="md" headline="Volume 3" caption="Coming soon" badge="NEW">
+        <Stripes />
+      </ObiBand>
+    </div>
+  )
+}
+
+function Sizes() {
+  return (
+    <div className="flex flex-wrap items-end justify-center gap-6">
+      {(
+        [
+          ["sm", "Small"],
+          ["md", "Medium"],
+          ["lg", "Large"],
+        ] as const
+      ).map(([size, text]) => (
+        <div key={size} className="w-32">
+          <ObiBand tone="paper" size={size} headline="Mapless" caption={text}>
+            <Dusk />
+          </ObiBand>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function Narrow() {
+  return (
+    <div className="w-[120px]">
+      <ObiBand tone="accent" size="md" headline="Mapless" caption="Finally in print" badge="NEW">
+        <Tower />
+      </ObiBand>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Badge", title: "With a badge", description: "badge adds a small stamp to the corner of the band, for news.", Component: Badge },
+  { fn: "Sizes", title: "Sizes", description: "size sets the height and the type: sm, md or lg.", Component: Sizes },
+  { fn: "Narrow", title: "Narrow cover", description: "The band fits a cover as narrow as 120 px.", Component: Narrow },
+]
 
 export function States() {
   const tones = ["accent", "ink", "paper"] as const

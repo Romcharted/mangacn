@@ -1,9 +1,25 @@
 import { useId, type ReactNode } from "react"
 import { Switch } from "@registry/manga/ui/switch"
 import { Code } from "./copy"
+import { useLiveCode } from "./docs/frame"
 
-/** Preview + controls + the usage code, kept in sync. Showcase only. */
+/**
+ * Preview + controls + the usage code, kept in sync. Showcase only. In a component page's Preview / Code
+ * frame (demo with `previewWide`), the controls sit to the right of the preview and the code goes to the
+ * frame's Code tab.
+ */
 export function Playground({ preview, controls, code }: { preview: ReactNode; controls: ReactNode; code: string }) {
+  const inFrame = useLiveCode(code)
+  if (inFrame)
+    return (
+      <div data-playground className="grid w-full grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_15rem]">
+        <div className="grid min-h-[300px] min-w-0 place-items-center overflow-hidden">{preview}</div>
+        <fieldset className="grid content-start gap-4 border-ink p-3">
+          <legend className="px-1 font-letter text-sm uppercase">Controls</legend>
+          {controls}
+        </fieldset>
+      </div>
+    )
   return (
     <div data-playground className="grid grid-cols-[minmax(0,1fr)] gap-4">
       <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
@@ -34,7 +50,7 @@ export function Choice<T extends string>(props: { label: string; value: T; optio
             role="radio"
             aria-checked={o === props.value}
             onClick={() => props.onChange(o)}
-            className="relative -ms-px flex-auto border-s-[length:var(--mg-bw-fine)] border-border px-2 py-1 font-letter text-sm uppercase first:ms-0 first:border-s-0 hover:shadow-[inset_0_-3px_0_var(--foreground)] focus-ink focus-visible:z-10 aria-checked:ink-fill aria-checked:hover:shadow-none"
+            className="relative -ms-px min-h-11 flex-auto border-s-[length:var(--mg-bw-fine)] border-border px-2 py-1 font-letter sm:min-h-8 text-sm uppercase first:ms-0 first:border-s-0 hover:shadow-[inset_0_-3px_0_var(--foreground)] focus-ink focus-visible:z-10 aria-checked:ink-fill aria-checked:hover:shadow-none"
           >
             {o}
           </button>

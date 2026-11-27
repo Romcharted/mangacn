@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Ruby } from "@registry/manga/signature/ruby"
 import { VerticalText } from "@registry/manga/signature/vertical-text"
+import type { Example } from "../registry"
 import { Tile, force } from "../state-grid"
 
 const SENTENCE = (reveal: "always" | "hover" | "never", size = "text-3xl") => (
@@ -14,42 +15,57 @@ const SENTENCE = (reveal: "always" | "hover" | "never", size = "text-3xl") => (
 
 export function Preview() {
   return (
-    <div className="grid max-w-2xl gap-6">
-      <div className="grid gap-1">
-        <p className="font-mono text-xs">reveal="always"</p>
-        {SENTENCE("always")}
-        <p className="text-sm">“To read kanji.” A reading per character (parts), or one over a whole word (base + reading).</p>
-      </div>
-      <div className="grid gap-1">
-        <p className="font-mono text-xs">reveal="hover" · hover or focus a word</p>
+    <div className="grid justify-items-center gap-2 text-center">
+      {SENTENCE("always")}
+      <p className="max-w-prose text-sm">“To read kanji.” A reading per character (parts), or one over a whole word (base + reading).</p>
+    </div>
+  )
+}
+
+function Hover() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="grid justify-items-center gap-2 text-center">
         <p lang="ja" className="text-3xl leading-[2.2]">
           <Ruby reveal="hover" base="明日" reading="あした" />
           は
           <Ruby reveal="hover" base="晴" reading="は" />
           れ
         </p>
-        <p className="text-sm">“Tomorrow, clear skies.” The readings keep their room, so nothing moves when they show.</p>
-      </div>
-      <div className="flex items-start gap-8">
-        <div className="grid gap-1">
-          <p className="font-mono text-xs">vertical</p>
-          <VerticalText className="h-44 text-2xl leading-[2.2]">
-            <Ruby base="物語" reading="ものがたり" />
-            の
-            <Ruby base="始" reading="はじ" />
-            まり
-          </VerticalText>
-        </div>
-        <div className="grid gap-1">
-          <p className="font-mono text-xs">position="under"</p>
-          <p lang="ja" className="text-3xl leading-[2.2]">
-            <Ruby position="under" base="東京" reading="とうきょう" />
-          </p>
-        </div>
+        <p className="max-w-prose text-sm">“Tomorrow, clear skies.” With reveal="hover" the readings show on hover or focus, and keep their room so nothing moves.</p>
       </div>
     </div>
   )
 }
+
+function Vertical() {
+  return (
+    <div className="flex justify-center">
+      <VerticalText className="h-44 text-2xl leading-[2.2]">
+        <Ruby base="物語" reading="ものがたり" />
+        の
+        <Ruby base="始" reading="はじ" />
+        まり
+      </VerticalText>
+    </div>
+  )
+}
+
+function Under() {
+  return (
+    <div className="flex justify-center">
+      <p lang="ja" className="text-3xl leading-[2.2]">
+        <Ruby position="under" base="東京" reading="とうきょう" />
+      </p>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Hover", title: "Hover to reveal", description: "reveal hover hides the readings for learners until the word is hovered or focused.", Component: Hover },
+  { fn: "Vertical", title: "In vertical text", description: "Inside a column the reading falls on the right of the characters, as in printed Japanese.", Component: Vertical },
+  { fn: "Under", title: "Under the base", description: "position under puts the reading below the characters instead of above them.", Component: Under },
+]
 
 export function States() {
   return (

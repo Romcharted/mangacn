@@ -80,10 +80,12 @@ const grow = (b: Box, d: number): Box => ({ x: b.x - d, y: b.y - d, w: b.w + 2 *
 
 /** Sizes inside a page, all from one page unit (1/100 of a page width). */
 function unitVars(pu: string, fold: boolean, lettering = 1): React.CSSProperties {
-  // Folded on a phone, lettering keeps a readable floor.
+  // Lettering keeps a readable floor: 10px on a page shown small (a reader, a thumbnail of a page), more
+  // once folded on a phone, where the panels are read one by one. A reader that scales the page with a
+  // transform (GuidedView) raises --mg-letter-floor by the same factor, so the text stays 10px on screen.
   const at = (n: number, min: string) => {
     const k = Math.round(n * lettering * 1000) / 1000
-    return fold ? `max(${min}, calc(${pu} * ${k}))` : `calc(${pu} * ${k})`
+    return `max(${fold ? min : "var(--mg-letter-floor, 10px)"}, calc(${pu} * ${k}))`
   }
   return {
     "--pu": pu,
@@ -615,6 +617,8 @@ function PanelArt({ src, alt, x = 50, y = 50, zoom = 1, toned, className }: Pane
   const box = React.useContext(PanelBox)
   const [size, setSize] = React.useState({ w: 0, h: 0 })
   const [natural, setNatural] = React.useState<{ src: string; w: number; h: number } | null>(null)
+  // a picture that cannot be loaded (moved, deleted) leaves a toned panel, never a broken image
+  const [missing, setMissing] = React.useState<string | null>(null)
   React.useLayoutEffect(() => {
     const el = ref.current
     if (!el) return
@@ -628,6 +632,7 @@ function PanelArt({ src, alt, x = 50, y = 50, zoom = 1, toned, className }: Pane
     let live = true
     const img = new Image()
     img.onload = () => live && setNatural({ src, w: img.naturalWidth, h: img.naturalHeight })
+    img.onerror = () => live && setMissing(src)
     img.src = src
     return () => {
       live = false
@@ -651,6 +656,17 @@ function PanelArt({ src, alt, x = 50, y = 50, zoom = 1, toned, className }: Pane
   const opts = typeof toned === "object" ? toned : {}
   // The screen follows the page: about one dot per page unit.
   const density = opts.density ?? (box && size.w ? Math.max(3, Math.round((size.w / box.units) * 0.9)) : 6)
+  if (missing === src)
+    return (
+      <div
+        ref={ref}
+        data-manga="panel-art"
+        data-missing=""
+        role="img"
+        aria-label={alt ? `${alt} (picture missing)` : "Picture missing"}
+        className={cn("absolute inset-0 overflow-hidden tone-25", className)}
+      />
+    )
   return (
     <div ref={ref} data-manga="panel-art" className={cn("absolute inset-0 overflow-hidden", className)}>
       <div className="absolute" style={frame}>

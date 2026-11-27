@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "A lettering row that unfolds, its chevron turned to ink.",
     "usage": "import { Collapsible, CollapsibleContent, CollapsibleTrigger } from \"@/components/ui/manga/collapsible\"\n\n<Collapsible>\n  <CollapsibleTrigger>Chapter notes</CollapsibleTrigger>\n  <CollapsibleContent>The rooftop scenes were drawn at night.</CollapsibleContent>\n</Collapsible>",
-    "props": []
+    "props": [
+      {
+        "name": "data-manga",
+        "type": "string",
+        "description": "Set on the root, the trigger and the content (collapsible, collapsible-trigger, collapsible-content): hooks for your own CSS."
+      }
+    ]
   }
 }

@@ -4,6 +4,7 @@ import { ReactionChip, ReactionGrid, ReactionPicker, type Reaction } from "@regi
 import { SpeechBubble } from "@registry/manga/signature/speech-bubble"
 import { PopoverBubble } from "@registry/manga/ui/popover"
 import { force, Tile, Tiles } from "../state-grid"
+import type { Example } from "../registry"
 
 /** Toggles a reaction: on adds one, off takes it back; a reaction at zero leaves the row. */
 function toggle(list: Reaction[], kind: ManpuKind): Reaction[] {
@@ -20,6 +21,7 @@ function Message({
   text,
   initial,
   max,
+  kinds,
   disabled,
   align = "start",
 }: {
@@ -27,6 +29,7 @@ function Message({
   text: string
   initial: Reaction[]
   max?: number
+  kinds?: ManpuKind[]
   disabled?: boolean
   align?: "start" | "end"
 }) {
@@ -41,6 +44,7 @@ function Message({
         reactions={reactions}
         onReact={(kind) => setReactions((list) => toggle(list, kind))}
         max={max}
+        kinds={kinds}
         disabled={disabled}
         className={align === "end" ? "justify-end" : undefined}
       />
@@ -50,30 +54,53 @@ function Message({
 
 export function Preview() {
   return (
-    <div className="grid max-w-2xl gap-10 pb-40">
-      <Message
-        who="Editor"
-        text="Chapter 12 goes live tonight!"
-        initial={[
-          { kind: "love", count: 12, active: true },
-          { kind: "surprise", count: 5 },
-          { kind: "sweat", count: 2 },
-        ]}
-      />
-      <Message
-        who="Mika · max 3 kinds"
-        align="end"
-        text="The last page is still blank."
-        initial={[
-          { kind: "gloom", count: 3 },
-          { kind: "question", count: 1 },
-        ]}
-        max={3}
-      />
-      <Message who="Archive · read-only" text="Volume 1 is out of print." initial={[{ kind: "sigh", count: 48, active: true }, { kind: "anger", count: 7 }]} disabled />
-    </div>
+    <Message
+      who="Editor"
+      text="Chapter 12 goes live tonight!"
+      initial={[
+        { kind: "love", count: 12, active: true },
+        { kind: "surprise", count: 5 },
+        { kind: "sweat", count: 2 },
+      ]}
+    />
   )
 }
+
+function MaxKinds() {
+  return (
+    <Message
+      who="Mika · max 3 kinds"
+      align="end"
+      text="The last page is still blank."
+      initial={[
+        { kind: "gloom", count: 3 },
+        { kind: "question", count: 1 },
+      ]}
+      max={3}
+    />
+  )
+}
+
+function ReadOnly() {
+  return <Message who="Archive · read-only" text="Volume 1 is out of print." initial={[{ kind: "sigh", count: 48, active: true }, { kind: "anger", count: 7 }]} disabled />
+}
+
+function FourMarks() {
+  return (
+    <Message
+      who="Class"
+      text="Quiz on Friday, bring a pencil."
+      initial={[{ kind: "question", count: 4, active: true }]}
+      kinds={["question", "sweat", "sigh", "love"]}
+    />
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "MaxKinds", title: "Maximum kinds", description: "max caps how many different reactions the row holds; once it is full, the + picker only takes back the ones there.", Component: MaxKinds },
+  { fn: "ReadOnly", title: "Read-only", description: "disabled turns the chips dashed and removes the + picker, for a message nobody can react to.", Component: ReadOnly },
+  { fn: "FourMarks", title: "Four marks", description: "kinds limits the marks the + picker offers, here four of the eight.", Component: FourMarks },
+]
 
 export function States() {
   return (

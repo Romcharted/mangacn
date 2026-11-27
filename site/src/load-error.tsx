@@ -11,7 +11,7 @@ import { Component, Suspense, type ErrorInfo, type ReactNode } from "react"
 export function LoadError({ compact = false, className = "" }: { compact?: boolean; className?: string }) {
   if (compact) {
     return (
-      <span role="alert" className="grid place-items-center gap-1 text-center font-letter text-xs uppercase">
+      <span role="alert" data-load-error className="grid place-items-center gap-1 text-center font-letter text-xs uppercase">
         Didn’t load
         <button
           type="button"
@@ -24,7 +24,7 @@ export function LoadError({ compact = false, className = "" }: { compact?: boole
     )
   }
   return (
-    <div role="alert" className={`grid min-h-64 place-items-center p-4 ${className}`}>
+    <div role="alert" data-load-error className={`grid min-h-64 place-items-center p-4 ${className}`}>
       <div className="grid max-w-sm justify-items-center gap-3 border-ink-panel bg-background p-6 text-center">
         <p className="font-letter text-2xl leading-none uppercase">This part didn’t load.</p>
         <p className="text-sm">The connection dropped or the site was updated. Reload to try again.</p>

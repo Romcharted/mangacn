@@ -1,36 +1,77 @@
 import { Button } from "@registry/manga/ui/button"
 import { ToastCard, ToastSfx, toast, type ToastType } from "@registry/manga/ui/sonner"
+import type { Example } from "../registry"
 import { Tile, Tiles } from "../state-grid"
 
 const wait = () => new Promise((r) => setTimeout(r, 1500))
 
 export function Preview() {
   return (
-    <div className="flex flex-wrap gap-3">
-      <Button variant="outline" onClick={() => toast("Chapter saved", { description: "Page 14 bookmarked." })}>
+    <Button variant="outline" className="min-h-11 sm:min-h-8" onClick={() => toast.success("Subscribed!")}>
+      Subscribe
+    </Button>
+  )
+}
+
+function Types() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-3">
+      <Button variant="outline" className="min-h-11 sm:min-h-8" onClick={() => toast("Chapter saved", { description: "Page 14 bookmarked." })}>
         Default
       </Button>
-      <Button variant="outline" onClick={() => toast.success("Subscribed!")}>
+      <Button variant="outline" className="min-h-11 sm:min-h-8" onClick={() => toast.success("Subscribed!")}>
         Success
       </Button>
-      <Button variant="outline" onClick={() => toast.error("Could not load page 15")}>
-        Error
-      </Button>
-      <Button variant="outline" onClick={() => toast.warning("Spoilers ahead")}>
+      <Button variant="outline" className="min-h-11 sm:min-h-8" onClick={() => toast.warning("Spoilers ahead")}>
         Warning
       </Button>
-      <Button variant="outline" onClick={() => toast.promise(wait, { loading: "Loading chapter…", success: "Ready!", error: "Failed" })}>
-        Loading
-      </Button>
-      <Button variant="outline" onClick={() => toast("Volume 3 is out", { action: { label: "Read", onClick: () => {} } })}>
-        With action
-      </Button>
-      <Button variant="shout" onClick={() => toast("Level up!", { icon: <ToastSfx>DON!</ToastSfx> })}>
-        SFX
+      <Button variant="outline" className="min-h-11 sm:min-h-8" onClick={() => toast.error("Could not load page 15")}>
+        Error
       </Button>
     </div>
   )
 }
+
+function Loading() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-3">
+      <Button
+        variant="outline"
+        className="min-h-11 sm:min-h-8"
+        onClick={() => toast.promise(wait, { loading: "Loading chapter…", success: "Ready!", error: "Failed" })}
+      >
+        Load a chapter
+      </Button>
+    </div>
+  )
+}
+
+function WithAction() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-3">
+      <Button variant="outline" className="min-h-11 sm:min-h-8" onClick={() => toast("Volume 3 is out", { action: { label: "Read", onClick: () => {} } })}>
+        Volume out
+      </Button>
+    </div>
+  )
+}
+
+function Sfx() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-3">
+      <Button variant="shout" className="min-h-11 sm:min-h-8" onClick={() => toast("Level up!", { icon: <ToastSfx>DON!</ToastSfx> })}>
+        Level up
+      </Button>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Types", title: "Types", description: "toast.success, toast.warning and toast.error set the mark; a plain toast takes a description.", Component: Types },
+  { fn: "Loading", title: "While loading", description: "toast.promise shows the spinning lines, then the success or error text when the work ends.", Component: Loading },
+  { fn: "WithAction", title: "With an action", description: "The action option adds a button to the toast, here a Read link to the new volume.", Component: WithAction },
+  { fn: "Sfx", title: "With a sound effect", description: "ToastSfx in the icon option puts an onomatopoeia in its own column beside the text.", Component: Sfx },
+]
 
 const TYPES: { type: ToastType; title: string; description?: string }[] = [
   { type: "default", title: "Chapter saved", description: "Page 14 bookmarked." },

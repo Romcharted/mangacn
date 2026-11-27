@@ -43,14 +43,9 @@
         "description": "On SidebarMenuButton and SidebarMenuSubButton: the current row, an ink flat."
       },
       {
-        "name": "tooltip",
-        "type": "string | TooltipContent props",
-        "description": "On SidebarMenuButton: shown beside the icon when the panel is collapsed to icons."
-      },
-      {
-        "name": "showOnHover",
-        "type": "boolean",
-        "description": "On SidebarMenuAction: show the star only when the row is hovered."
+        "name": "dir",
+        "type": "\"ltr\" | \"rtl\"",
+        "description": "On Sidebar: the writing direction, passed through to the panel (the stock prop)."
       }
     ]
   }

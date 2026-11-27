@@ -23,6 +23,12 @@
   "meta": {
     "tagline": "Concentration lines turning in steps.",
     "usage": "import { Spinner } from \"@/components/ui/manga/spinner\"\n\n<Spinner />",
-    "props": []
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Sets the size and spacing of the lines, for example size-4 or size-10."
+      }
+    ]
   }
 }

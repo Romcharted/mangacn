@@ -1,5 +1,7 @@
+import { useState } from "react"
 import { AuthDivider, SocialButton } from "@registry/manga/signature/social-button"
 import { Button } from "@registry/manga/ui/button"
+import type { Example } from "../registry"
 import { Tile, Tiles, force } from "../state-grid"
 // The official Google and Apple marks, showcase only (the SocialButton item ships no logo).
 import { AppleMark, GoogleMark } from "../brands"
@@ -9,10 +11,9 @@ function Placeholder({ letter }: { letter: string }) {
   return <span className="grid size-5 place-items-center border-ink-fine font-letter text-sm leading-none">{letter}</span>
 }
 
-
 export function Preview() {
   return (
-    <div className="grid w-full max-w-sm gap-4">
+    <div className="grid w-72 max-w-full gap-4">
       <SocialButton provider="google" logo={<GoogleMark />}>
         Continue with Google
       </SocialButton>
@@ -26,6 +27,52 @@ export function Preview() {
     </div>
   )
 }
+
+function Loading() {
+  const [busy, setBusy] = useState(false)
+  return (
+    <div className="grid w-72 max-w-full gap-4">
+      <SocialButton
+        provider="google"
+        logo={<GoogleMark />}
+        loading={busy}
+        onClick={() => {
+          setBusy(true)
+          setTimeout(() => setBusy(false), 1500)
+        }}
+      >
+        {busy ? "Signing in" : "Continue with Google"}
+      </SocialButton>
+    </div>
+  )
+}
+
+function NoLogo() {
+  return (
+    <div className="grid w-72 max-w-full gap-4">
+      <SocialButton provider="mapless">Continue with Mapless ID</SocialButton>
+    </div>
+  )
+}
+
+function Compact() {
+  return (
+    <div className="flex flex-wrap justify-center gap-3">
+      <SocialButton provider="google" logo={<GoogleMark />} fullWidth={false}>
+        Google
+      </SocialButton>
+      <SocialButton provider="apple" logo={<AppleMark />} fullWidth={false}>
+        Apple
+      </SocialButton>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Loading", title: "Loading", description: "loading turns the lines on and ignores clicks while the sign-in runs. Click to try.", Component: Loading },
+  { fn: "NoLogo", title: "Without a logo", description: "Leave logo out for a service with no mark; the label keeps the same place and height.", Component: NoLogo },
+  { fn: "Compact", title: "Not full width", description: "fullWidth={false} sizes each button to its label, so two can share a row.", Component: Compact },
+]
 
 export function States() {
   return (

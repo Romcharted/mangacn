@@ -11,6 +11,7 @@ import {
   MessageScrollerProvider,
   MessageScrollerViewport,
 } from "@registry/manga/ui/message-scroller"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 type Line = { id: string; who: "editor" | "artist"; text: string }
@@ -47,6 +48,9 @@ function Line({ line }: { line: Line }) {
   )
 }
 
+// On phones the outline button is 44px tall (sm: the kit size).
+const TOUCH = "min-h-11 self-center sm:min-h-8"
+
 export function Preview() {
   const [lines, setLines] = useState<Line[]>(START)
   const add = () =>
@@ -59,7 +63,7 @@ export function Preview() {
       },
     ])
   return (
-    <div className="flex w-full max-w-md flex-col gap-3">
+    <div className="flex w-80 flex-col gap-3">
       <div className="ink-case relative h-80 bg-background">
         <MessageScrollerProvider>
           <MessageScroller className="h-full">
@@ -76,12 +80,89 @@ export function Preview() {
           </MessageScroller>
         </MessageScrollerProvider>
       </div>
-      <Button variant="outline" onClick={add} className="self-start">
+      <Button variant="outline" onClick={add} className={TOUCH}>
         Add a message
       </Button>
     </div>
   )
 }
+
+function JumpToFirst() {
+  return (
+    <div className="ink-case relative h-64 w-80 bg-background">
+      <MessageScrollerProvider defaultScrollPosition="end">
+        <MessageScroller className="h-full">
+          <MessageScrollerViewport className="p-4">
+            <MessageScrollerContent>
+              {START.map((line) => (
+                <MessageScrollerItem key={line.id} messageId={line.id}>
+                  <Line line={line} />
+                </MessageScrollerItem>
+              ))}
+            </MessageScrollerContent>
+          </MessageScrollerViewport>
+          <MessageScrollerButton direction="start" />
+        </MessageScroller>
+      </MessageScrollerProvider>
+    </div>
+  )
+}
+
+function ShortThread() {
+  return (
+    <div className="ink-case relative h-64 w-80 bg-background">
+      <MessageScrollerProvider>
+        <MessageScroller className="h-full">
+          <MessageScrollerViewport className="p-4">
+            <MessageScrollerContent>
+              {START.slice(0, 2).map((line) => (
+                <MessageScrollerItem key={line.id} messageId={line.id}>
+                  <Line line={line} />
+                </MessageScrollerItem>
+              ))}
+            </MessageScrollerContent>
+          </MessageScrollerViewport>
+          <MessageScrollerButton />
+        </MessageScroller>
+      </MessageScrollerProvider>
+    </div>
+  )
+}
+
+function Replying() {
+  const [lines, setLines] = useState<Line[]>(START.slice(0, 3))
+  const reply = () =>
+    setLines((ls) => [...ls, { id: `r${ls.length + 1}`, who: "artist", text: "Noted, I will fix it tonight." }])
+  return (
+    <div className="flex w-80 flex-col gap-3">
+      <div className="ink-case relative h-64 bg-background">
+        <MessageScrollerProvider>
+          <MessageScroller className="h-full">
+            <MessageScrollerViewport className="p-4">
+              <MessageScrollerContent>
+                {lines.map((line) => (
+                  <MessageScrollerItem key={line.id} messageId={line.id}>
+                    <Line line={line} />
+                  </MessageScrollerItem>
+                ))}
+              </MessageScrollerContent>
+            </MessageScrollerViewport>
+            <MessageScrollerButton />
+          </MessageScroller>
+        </MessageScrollerProvider>
+      </div>
+      <Button variant="outline" onClick={reply} className={TOUCH}>
+        Send a reply
+      </Button>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "JumpToFirst", title: "Jump to the first line", description: "The column opens on the latest line; direction=\"start\" makes the button jump back to the first one.", Component: JumpToFirst },
+  { fn: "ShortThread", title: "Short thread", description: "When every line fits, nothing to scroll: the button stays hidden until the reader scrolls up.", Component: ShortThread },
+  { fn: "Replying", title: "Replying", description: "Each reply is appended; when the reader has scrolled up, the jump button pops in to come back.", Component: Replying },
+]
 
 function JumpTile({ state }: { state?: "hover" | "focus" | "active" }) {
   return (

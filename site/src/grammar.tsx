@@ -193,11 +193,8 @@ function GestureCard({ g }: { g: Gesture }) {
 
 export function Grammar() {
   return (
-    <article className="pt-6" aria-labelledby="grammar-title">
-      <a href="#/" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
-        ← All components
-      </a>
-      <header className="mt-6 max-w-prose space-y-2">
+    <div>
+      <header className="mt-3 max-w-prose space-y-2">
         <h1 id="grammar-title" className="font-letter text-5xl leading-none uppercase">
           Grammar
         </h1>
@@ -217,6 +214,6 @@ export function Grammar() {
           <GestureCard key={g.id} g={g} />
         ))}
       </div>
-    </article>
+    </div>
   )
 }

@@ -14,7 +14,7 @@ export const JSON_CHAPTER: PageData[] = [
     format: "pocket",
     tiers: [
       {
-        height: 1.2,
+        height: 0.9,
         panels: [
           {
             bleed: true,
@@ -34,8 +34,8 @@ export const JSON_CHAPTER: PageData[] = [
             items: [{ type: "bubble", x: 72, y: 10, text: "Nothing new gets drawn here.", pointAt: { x: 46, y: 26 }, maxWidth: 52 }],
           },
           {
-            label: "Suzu startled",
-            art: art("suzu-shock", { zoom: 1.1 }),
+            label: "Suzu calls Kuro back",
+            art: art("suzu-face"),
             items: [{ type: "bubble", x: 30, y: 12, text: "Kuro, back!", variant: "shout", pointAt: { x: 60, y: 46 }, maxWidth: 55 }],
           },
         ],
@@ -43,9 +43,13 @@ export const JSON_CHAPTER: PageData[] = [
       {
         panels: [
           {
+            label: "The Eraser raises his spear",
+            art: art("eraser-full", { y: 25 }),
+          },
+          {
             label: "The spear smashes the bridge",
             art: art("spear-clash", { y: 70 }),
-            items: [{ type: "sfx", x: 74, y: 30, text: "KRAK", size: "md", rotate: -8 }],
+            items: [{ type: "sfx", x: 70, y: 30, text: "KRAK", size: "md", rotate: -8 }],
           },
         ],
       },
@@ -58,7 +62,7 @@ export const JSON_CHAPTER: PageData[] = [
       {
         panels: [
           {
-            width: 1.3,
+            width: 1.6,
             label: "Suzu inks a map by the fire",
             art: art("suzu-drawing", { y: 40 }),
             items: [{ type: "bubble", x: 68, y: 12, text: "Then I'll draw us another one.", pointAt: { x: 40, y: 30 }, maxWidth: 55 }],
@@ -67,7 +71,7 @@ export const JSON_CHAPTER: PageData[] = [
         ],
       },
       {
-        height: 1.4,
+        height: 1.15,
         panels: [
           {
             shape: "jagged",

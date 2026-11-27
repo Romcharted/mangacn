@@ -24,6 +24,12 @@
   "meta": {
     "tagline": "An empty panel with a heavy “…”.",
     "usage": "import { Empty, EmptyDescription, EmptyHeader, EmptyMark, EmptyTitle } from \"@/components/ui/manga/empty\"\n\n<Empty>\n  <EmptyHeader>\n    <EmptyMark />\n    <EmptyTitle>No bookmarks</EmptyTitle>\n    <EmptyDescription>Tap the corner of a page to keep it.</EmptyDescription>\n  </EmptyHeader>\n</Empty>",
-    "props": []
+    "props": [
+      {
+        "name": "EmptyMark",
+        "type": "component",
+        "description": "The heavy ellipsis that pops in above the title; a span, so className sets its size."
+      }
+    ]
   }
 }

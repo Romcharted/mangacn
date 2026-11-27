@@ -90,9 +90,9 @@ export function Art({ name, shown = "50vw", alt, loading = "lazy", ...props }: A
 
 /** Where the title sits on each cover: in its sky, clear of the figures and below a card's "Vol." badge. */
 const COVER_TITLE = {
-  1: { name: "cover-1", place: "inset-x-0 top-[max(12%,2.1rem)] text-center text-[14cqi]", night: false },
-  2: { name: "cover-2", place: "inset-x-0 top-[max(12%,2.1rem)] text-center text-[14cqi]", night: false },
-  3: { name: "cover-3-teaser", place: "end-[4%] top-[3%] text-end text-[11cqi]", night: true },
+  1: { name: "cover-1", place: "inset-x-0 top-[max(12%,2.1rem)] text-center text-[max(10px,14cqi)]", night: false },
+  2: { name: "cover-2", place: "inset-x-0 top-[max(12%,2.1rem)] text-center text-[max(10px,14cqi)]", night: false },
+  3: { name: "cover-3-teaser", place: "end-[4%] top-[3%] text-end text-[max(10px,11cqi)]", night: true },
 } as const
 
 /**

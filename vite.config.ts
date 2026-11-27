@@ -29,11 +29,12 @@ const forceStates: PostcssPlugin = {
 
 /*
  * Hosting (see docs/deploy.md). BASE_PATH: where the site is served ("/" at the root of a domain,
- * "/mangacn/" in a folder); "./" by default works anywhere since the site routes with the hash.
+ * "/mangacn/" in a folder). The site routes with real paths (/docs/components/button), so the base is absolute;
+ * the host sends unknown paths to index.html (site/public/.htaccess).
  * SITE_URL: the public address (https://example.com/ or https://example.com/mangacn/), written into the
  * share tags; without it the canonical and og:url tags are left out and og:image stays relative.
  */
-const BASE_PATH = process.env.BASE_PATH || "./"
+const BASE_PATH = process.env.BASE_PATH || "/"
 const SITE_URL = process.env.SITE_URL ? process.env.SITE_URL.replace(/\/?$/, "/") : ""
 const siteUrl: Plugin = {
   name: "mangacn-site-url",

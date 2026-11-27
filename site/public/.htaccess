@@ -20,3 +20,13 @@ AddDefaultCharset utf-8
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
+
+# The site uses real paths (/docs/components/button): any address without a file extension that is not a
+# file or a folder gets index.html, which shows the right page. Missing files (r/x.json, art/x.webp) stay 404.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !\.[A-Za-z0-9]+$
+  RewriteRule ^ index.html [L]
+</IfModule>

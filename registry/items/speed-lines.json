@@ -59,6 +59,12 @@
         "type": "boolean | \"slow\"",
         "default": "false",
         "description": "Redraws the lines in steps: true ≈ 6 fps, \"slow\" ≈ 2 fps. Off with reduced motion."
+      },
+      {
+        "name": "seed",
+        "type": "number",
+        "default": "11",
+        "description": "Changes the irregularity of the lines."
       }
     ]
   }

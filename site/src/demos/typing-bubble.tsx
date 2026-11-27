@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { SpeechBubble } from "@registry/manga/signature/speech-bubble"
 import { TypingBubble } from "@registry/manga/signature/typing-bubble"
 import { Button } from "@registry/manga/ui/button"
+import type { Example } from "../registry"
 import { Tile, Tiles } from "../state-grid"
 
 const REPLY = "Almost! Two pages still need their tones. I'll send them tonight."
@@ -36,33 +36,56 @@ function Speaker({ children }: { children: React.ReactNode }) {
 export function Preview() {
   const [run, setRun] = useState(0)
   return (
-    <div className="grid max-w-2xl gap-8">
-      <div className="flex flex-col items-start gap-1">
-        <SpeechBubble tail="bottom" tailAlign="start">
-          Is chapter 12 ready for Friday?
-        </SpeechBubble>
-        <Speaker>Editor</Speaker>
-      </div>
-      <div key={`reply-${run}`} className="flex flex-col items-end gap-1">
+    <div className="flex flex-col items-center gap-6">
+      <div key={run} className="flex flex-col items-center gap-1">
         <Delayed text={REPLY} delay={1200} tail="bottom" tailAlign="end" />
         <Speaker>Mika</Speaker>
       </div>
-      <div key={`thought-${run}`} className="flex flex-col items-start gap-1">
+      <Button variant="outline" className="min-h-11 sm:min-h-8" onClick={() => setRun((n) => n + 1)}>
+        Replay
+      </Button>
+    </div>
+  )
+}
+
+function Thought() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="flex flex-col items-center gap-1">
         <Delayed text={THOUGHT} delay={2400} variant="thought" tail="bottom" tailAlign="start" />
         <Speaker>Rin · thinking…</Speaker>
-      </div>
-      <div key={`stream-${run}`} className="flex flex-col items-end gap-1">
-        <Streamed />
-        <Speaker>Assistant · streamed</Speaker>
-      </div>
-      <div>
-        <Button variant="outline" onClick={() => setRun((n) => n + 1)}>
-          Replay
-        </Button>
       </div>
     </div>
   )
 }
+
+function Answer() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="flex flex-col items-center gap-1">
+        <Streamed />
+        <Speaker>Assistant · streamed</Speaker>
+      </div>
+    </div>
+  )
+}
+
+function Waiting() {
+  return (
+    <div className="flex w-full justify-center">
+      <div className="flex flex-col items-center gap-1">
+        <TypingBubble text="" />
+        <Speaker>Mika · typing</Speaker>
+      </div>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Thought", title: "A thought", description: "variant thought draws a cloud outline; the text types on after the dots, as a private line would.", Component: Thought },
+  { fn: "Answer", title: "Answer in chunks", description: "Text that grows over time types on from where it stopped, so a streamed reply writes without restarting.", Component: Answer },
+  { fn: "Waiting", title: "Waiting dots", description: "Without text, typing shows three waiting dots; the writing starts when the text arrives.", Component: Waiting },
+]
 
 export function States() {
   return (

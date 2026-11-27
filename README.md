@@ -5,8 +5,8 @@ redraws your shadcn/ui components in ink and screentone: black and white, sharp 
 speed lines, and one accent colour you choose.
 
 [Showcase](https://DOMAIN/) ·
-[Grammar](https://DOMAIN/#grammar) ·
-[Examples](https://DOMAIN/#examples) ·
+[Grammar](https://DOMAIN/docs/grammar) ·
+[Examples](https://DOMAIN/examples) ·
 [llms.txt](https://DOMAIN/llms.txt)
 
 > `DOMAIN` stands for the showcase address, set when the site goes live.
@@ -241,7 +241,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 Every component draws its motion from the same eight gestures, written once in `base`: case (G1), flat (G2),
 hover (G3), impact (G4), pop (G5), bubble (G6), running line (G7) and mark (G8). They move in steps at
 12 frames per second and stand still under `prefers-reduced-motion`. The
-[Grammar page](https://DOMAIN/#grammar) shows each one; [AGENTS.md](AGENTS.md) has the
+[Grammar page](https://DOMAIN/docs/grammar) shows each one; [AGENTS.md](AGENTS.md) has the
 rules.
 
 ## Dark mode, accent colour, reading order
@@ -281,6 +281,7 @@ rules.
 npm install
 npm run dev        # showcase
 npm run build      # sync base CSS, llms.txt and this README's list; typecheck; build the site and r/*.json
+npm run review     # build, then serve the built site on http://localhost:5198 (to review it as it will be online)
 npm run shots      # screenshots of the built site (light and dark)
 npm run check      # every item complete: files, meta, llms.txt, README, built JSON, demo
 ```

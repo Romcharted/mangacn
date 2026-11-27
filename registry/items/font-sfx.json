@@ -20,6 +20,19 @@
     "dependency": "@fontsource/dela-gothic-one"
   },
   "meta": {
-    "tagline": "A heavy face for sound effects, katakana included."
+    "tagline": "A heavy face for sound effects, katakana included.",
+    "usage": "<p className=\"font-sfx\">BOOM!</p>",
+    "props": [
+      {
+        "name": "font-sfx",
+        "type": "Tailwind class",
+        "description": "Sets the sound-effect face: onomatopoeia and loud headlines."
+      },
+      {
+        "name": "--font-manga-sfx",
+        "type": "CSS variable",
+        "description": "The font family behind font-sfx; set it to use another face."
+      }
+    ]
   }
 }

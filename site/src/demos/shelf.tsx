@@ -3,6 +3,7 @@ import { Shelf, type ShelfVolume } from "@registry/manga/signature/shelf"
 import { Tile } from "../state-grid"
 import { ForceInside } from "../force-inside"
 import { VolumeCover } from "../mapless"
+import type { Example } from "../registry"
 
 // "Mapless", the showcase's series: volumes 1 and 2 out, volume 3 coming (its cover is a crop).
 const VOLUMES: ShelfVolume[] = [
@@ -15,8 +16,8 @@ export function Preview() {
   const [opened, setOpened] = useState<string | null>(null)
   const [order, setOrder] = useState<"ltr" | "rtl">("ltr")
   return (
-    <div className="grid gap-3">
-      <div className="flex flex-wrap items-center gap-2 font-mono text-sm">
+    <div className="mx-auto grid w-full max-w-xl gap-3">
+      <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-sm">
         <span>Order:</span>
         {(["ltr", "rtl"] as const).map((o) => (
           <button
@@ -31,12 +32,42 @@ export function Preview() {
         ))}
       </div>
       <Shelf volumes={VOLUMES} direction={order} defaultSelected="m-2" openLabel="Read" onOpen={(v) => setOpened(`${v.title}, vol. ${v.volume}`)} />
-      <p aria-live="polite" className="font-mono text-sm">
+      <p aria-live="polite" className="text-center font-mono text-sm">
         {opened ? `Opening ${opened}…` : "Pull a volume, then Read."}
       </p>
     </div>
   )
 }
+
+function Spines() {
+  return (
+    <div className="mx-auto w-full max-w-md">
+      <Shelf volumes={VOLUMES} />
+    </div>
+  )
+}
+
+function Pulled() {
+  return (
+    <div className="mx-auto w-full max-w-md">
+      <Shelf volumes={VOLUMES} defaultSelected="m-1" openLabel="Read" />
+    </div>
+  )
+}
+
+function MangaOrder() {
+  return (
+    <div className="mx-auto w-full max-w-md">
+      <Shelf volumes={VOLUMES} direction="rtl" defaultSelected="m-3" />
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Spines", title: "Spines on the shelf", description: "Each volume is a spine: its band and its tone tell the volumes apart. A click pulls one out.", Component: Spines },
+  { fn: "Pulled", title: "A volume pulled out", description: "defaultSelected opens one volume at first; its Read button opens it.", Component: Pulled },
+  { fn: "MangaOrder", title: "Manga order", description: "direction=\"rtl\" puts volume 1 at the right, as manga is read.", Component: MangaOrder },
+]
 
 export function States() {
   const few = VOLUMES.slice(0, 3)
@@ -64,9 +95,10 @@ export function States() {
 }
 
 /** Live: pull a volume out of the shelf. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="w-32">
+    <div className="w-60 h-32 overflow-hidden">
       <Shelf volumes={VOLUMES} openLabel="Read" className="[&_ul]:px-1 [&_ul]:pt-2" />
     </div>
   )

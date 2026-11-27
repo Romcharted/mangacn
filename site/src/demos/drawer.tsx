@@ -11,6 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@registry/manga/ui/drawer"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 const bookmarks = [
@@ -18,6 +19,8 @@ const bookmarks = [
   { page: "p. 37", title: "After the rain", note: "Rooftop chase" },
   { page: "p. 62", title: "Harbour", note: "First letter" },
 ]
+
+const chapters = ["The long night", "After the rain", "Harbour", "Paper lanterns"]
 
 /** The reading goal: − / + kit buttons around a big number. */
 function GoalPicker({ goal, setGoal }: { goal: number; setGoal: (n: number) => void }) {
@@ -42,7 +45,7 @@ function GoalDrawer() {
   const [draft, setDraft] = useState(3)
   return (
     <Drawer showSwipeHandle onOpenChange={(open) => open && setDraft(goal)}>
-      <DrawerTrigger render={<Button />}>Reading goal · {goal}</DrawerTrigger>
+      <DrawerTrigger render={<Button className="min-h-11 sm:min-h-8" />}>Reading goal · {goal}</DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto flex w-full max-w-md flex-col">
           <DrawerHeader>
@@ -51,10 +54,10 @@ function GoalDrawer() {
           </DrawerHeader>
           <GoalPicker goal={draft} setGoal={setDraft} />
           <DrawerFooter>
-            <DrawerClose render={<Button fullWidth />} onClick={() => setGoal(draft)}>
+            <DrawerClose render={<Button fullWidth className="min-h-11 sm:min-h-8" />} onClick={() => setGoal(draft)}>
               Set the goal
             </DrawerClose>
-            <DrawerClose render={<Button variant="outline" fullWidth />}>Cancel</DrawerClose>
+            <DrawerClose render={<Button variant="outline" fullWidth className="min-h-11 sm:min-h-8" />}>Cancel</DrawerClose>
           </DrawerFooter>
         </div>
       </DrawerContent>
@@ -78,10 +81,10 @@ function BookmarkList() {
   )
 }
 
-function BookmarksDrawer() {
+function Bookmarks() {
   return (
     <Drawer swipeDirection="right">
-      <DrawerTrigger render={<Button variant="outline" />}>Bookmarks</DrawerTrigger>
+      <DrawerTrigger render={<Button variant="outline" className="min-h-11 sm:min-h-8" />}>Bookmarks</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Bookmarks</DrawerTitle>
@@ -89,7 +92,47 @@ function BookmarksDrawer() {
         </DrawerHeader>
         <BookmarkList />
         <DrawerFooter>
-          <DrawerClose render={<Button variant="outline" fullWidth />}>Close</DrawerClose>
+          <DrawerClose render={<Button variant="outline" fullWidth className="min-h-11 sm:min-h-8" />}>Close</DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}
+
+function ChapterIndex() {
+  return (
+    <Drawer swipeDirection="left">
+      <DrawerTrigger render={<Button variant="outline" className="min-h-11 sm:min-h-8" />}>Chapters</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Chapters</DrawerTitle>
+          <DrawerDescription>The long night, Vol. 3.</DrawerDescription>
+        </DrawerHeader>
+        <ol className="grid gap-2 px-4 pb-4 text-base">
+          {chapters.map((c, i) => (
+            <li key={c} className="flex gap-3">
+              <span className="font-mono text-sm">{String(i + 1).padStart(2, "0")}</span>
+              {c}
+            </li>
+          ))}
+        </ol>
+      </DrawerContent>
+    </Drawer>
+  )
+}
+
+function Confirm() {
+  return (
+    <Drawer>
+      <DrawerTrigger render={<Button className="min-h-11 sm:min-h-8" />}>Finish volume</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Mark Vol. 3 as read?</DrawerTitle>
+          <DrawerDescription>Your bookmarks stay where they are.</DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter>
+          <DrawerClose render={<Button fullWidth className="min-h-11 sm:min-h-8" />}>Mark as read</DrawerClose>
+          <DrawerClose render={<Button variant="outline" fullWidth className="min-h-11 sm:min-h-8" />}>Not yet</DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -97,13 +140,14 @@ function BookmarksDrawer() {
 }
 
 export function Preview() {
-  return (
-    <div className="flex flex-wrap gap-3">
-      <GoalDrawer />
-      <BookmarksDrawer />
-    </div>
-  )
+  return <GoalDrawer />
 }
+
+export const examples: Example[] = [
+  { fn: "Bookmarks", title: "From the right", description: "swipeDirection=\"right\" docks the drawer to the right edge, for a list that is read beside the page.", Component: Bookmarks },
+  { fn: "ChapterIndex", title: "From the left", description: "swipeDirection=\"left\" slides the drawer in from the left, with the 3px line on its open side.", Component: ChapterIndex },
+  { fn: "Confirm", title: "A confirmation", description: "A bottom drawer with a title, a line of text and two choices in the footer; a tap on either closes it.", Component: Confirm },
+]
 
 export function States() {
   return (
@@ -115,8 +159,10 @@ export function States() {
             description="How many chapters a day?"
             footer={
               <>
-                <Button fullWidth>Set the goal</Button>
-                <Button variant="outline" fullWidth>
+                <Button fullWidth className="min-h-11 sm:min-h-8">
+                  Set the goal
+                </Button>
+                <Button variant="outline" fullWidth className="min-h-11 sm:min-h-8">
                   Cancel
                 </Button>
               </>
@@ -133,7 +179,7 @@ export function States() {
             title="Bookmarks"
             description="Vol. 3 · three pages saved."
             footer={
-              <Button variant="outline" fullWidth>
+              <Button variant="outline" fullWidth className="min-h-11 sm:min-h-8">
                 Close
               </Button>
             }
@@ -150,17 +196,21 @@ export function States() {
       </Tile>
       <Tile label="footer · 2px rule" size="lg">
         <div className="w-full pt-2">
-          <DrawerCard handle={false} footer={<Button fullWidth>Set the goal</Button>} className="w-full" />
+          <DrawerCard handle={false} footer={<Button fullWidth className="min-h-11 sm:min-h-8">Set the goal</Button>} className="w-full" />
         </div>
       </Tile>
       <Tile label="stepper · at the minimum" size="lg">
         <GoalPicker goal={1} setGoal={() => {}} />
       </Tile>
       <Tile label="trigger · hover" size="lg">
-        <Button {...force("hover")}>Reading goal · 3</Button>
+        <Button className="min-h-11 sm:min-h-8" {...force("hover")}>
+          Reading goal · 3
+        </Button>
       </Tile>
       <Tile label="trigger · focus" size="lg">
-        <Button {...force("focus")}>Reading goal · 3</Button>
+        <Button className="min-h-11 sm:min-h-8" {...force("focus")}>
+          Reading goal · 3
+        </Button>
       </Tile>
     </Tiles>
   )

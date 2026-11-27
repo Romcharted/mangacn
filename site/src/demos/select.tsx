@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@registry/manga/ui/select"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 const volumes = [
@@ -20,40 +21,83 @@ const volumes = [
 
 export function Preview() {
   return (
-    <div className="flex flex-wrap items-start gap-6 pb-48">
-      <Select items={volumes} defaultValue="v2">
-        <SelectTrigger aria-label="Volume">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent alignItemWithTrigger={false}>
-          <SelectGroup>
-            <SelectLabel>Season one</SelectLabel>
-            {volumes.map((v) => (
-              <SelectItem key={v.value} value={v.value}>
-                {v.label}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-          <SelectSeparator />
-          <SelectGroup>
-            <SelectLabel>Season two</SelectLabel>
-            <SelectItem value="v4" disabled>
-              Vol. 4 — Coming soon
+    <Select items={volumes} defaultValue="v2">
+      <SelectTrigger aria-label="Volume">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent alignItemWithTrigger={false}>
+        <SelectGroup>
+          <SelectLabel>Season one</SelectLabel>
+          {volumes.map((v) => (
+            <SelectItem key={v.value} value={v.value}>
+              {v.label}
             </SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      <Select>
-        <SelectTrigger aria-label="Chapter">
-          <SelectValue placeholder="No chapters" />
-        </SelectTrigger>
-        <SelectContent alignItemWithTrigger={false}>
-          <SelectEmpty />
-        </SelectContent>
-      </Select>
-    </div>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }
+
+function Groups() {
+  return (
+    <Select items={volumes} defaultValue="v1">
+      <SelectTrigger aria-label="Volume">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent alignItemWithTrigger={false}>
+        <SelectGroup>
+          <SelectLabel>Season one</SelectLabel>
+          <SelectItem value="v1">Vol. 1 — The long night</SelectItem>
+          <SelectItem value="v2">Vol. 2 — After the rain</SelectItem>
+        </SelectGroup>
+        <SelectSeparator />
+        <SelectGroup>
+          <SelectLabel>Season two</SelectLabel>
+          <SelectItem value="v4" disabled>
+            Vol. 4 — Coming soon
+          </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
+
+function Empty() {
+  return (
+    <Select>
+      <SelectTrigger aria-label="Chapter">
+        <SelectValue placeholder="No chapters" />
+      </SelectTrigger>
+      <SelectContent alignItemWithTrigger={false}>
+        <SelectEmpty />
+      </SelectContent>
+    </Select>
+  )
+}
+
+function Invalid() {
+  return (
+    <Select items={volumes}>
+      <SelectTrigger aria-label="Volume" aria-invalid>
+        <SelectValue placeholder="Required" />
+      </SelectTrigger>
+      <SelectContent alignItemWithTrigger={false}>
+        {volumes.map((v) => (
+          <SelectItem key={v.value} value={v.value}>
+            {v.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Groups", title: "Groups and a disabled option", description: "SelectGroup with SelectLabel and SelectSeparator splits the list; a disabled item keeps its label with a dashed underline.", Component: Groups },
+  { fn: "Empty", title: "Empty list", description: "SelectEmpty tells the reader there is nothing to pick yet, with a mark and a short line.", Component: Empty },
+  { fn: "Invalid", title: "Invalid trigger", description: "aria-invalid on SelectTrigger draws the error look until a volume is chosen.", Component: Invalid },
+]
 
 /** A static list that looks like the open one, for frozen states. */
 function StaticList({ children }: { children: React.ReactNode }) {

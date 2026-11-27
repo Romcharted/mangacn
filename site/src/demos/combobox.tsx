@@ -1,4 +1,6 @@
-import { Fragment } from "react"
+import { Fragment, type ComponentProps } from "react"
+import { Combobox as ComboboxPrimitive } from "@base-ui/react"
+import { X } from "lucide-react"
 
 import {
   Combobox,
@@ -19,10 +21,12 @@ import {
   comboboxLabelClassName,
   ComboboxList,
   ComboboxSeparator,
+  ComboboxTrigger,
   ComboboxValue,
   useComboboxAnchor,
 } from "@registry/manga/ui/combobox"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@registry/manga/ui/input-group"
+import type { Example } from "../registry"
 import { force, Tile, Tiles } from "../state-grid"
 
 const series = ["Night Shift Ink", "Paper Lanterns", "The Rooftop Club", "Salt and Steel", "Harbour Lights", "Last Train Home"]
@@ -33,10 +37,37 @@ const shelves = [
   { value: "Finished", items: ["The Rooftop Club"] },
 ]
 
+/** The input with its own named trigger: the stock trigger has no accessible name, so the demo names it. */
+function PickerInput(props: ComponentProps<typeof ComboboxInput>) {
+  return (
+    <ComboboxInput showTrigger={false} {...props} className={`max-sm:h-11! ${props.className ?? ""}`}>
+      <InputGroupAddon align="inline-end">
+        <ComboboxTrigger
+          aria-label={`Open ${props["aria-label"] ?? "the list"}`}
+          disabled={props.disabled}
+          className="grid size-8 place-items-center max-sm:size-11"
+        />
+      </InputGroupAddon>
+    </ComboboxInput>
+  )
+}
+
+/** A chip with its own named remove button: the stock remove button has no accessible name. */
+function Chip({ value }: { value: string }) {
+  return (
+    <ComboboxChip showRemove={false}>
+      {value}
+      <ComboboxPrimitive.ChipRemove aria-label={`Remove ${value}`}>
+        <X className="pointer-events-none" />
+      </ComboboxPrimitive.ChipRemove>
+    </ComboboxChip>
+  )
+}
+
 function SeriesPicker() {
   return (
     <Combobox items={series} defaultValue="Paper Lanterns">
-      <ComboboxInput aria-label="Series" placeholder="Find a series…" showClear className="w-full" />
+      <PickerInput aria-label="Series" placeholder="Find a series…" className="w-full" />
       <ComboboxContent>
         <ComboboxEmpty>No series found</ComboboxEmpty>
         <ComboboxList>
@@ -60,7 +91,7 @@ function GenrePicker() {
           {(values: string[]) => (
             <Fragment>
               {values.map((value) => (
-                <ComboboxChip key={value}>{value}</ComboboxChip>
+                <Chip key={value} value={value} />
               ))}
               <ComboboxChipsInput aria-label="Genres" placeholder={values.length ? "" : "Add a genre…"} />
             </Fragment>
@@ -84,7 +115,7 @@ function GenrePicker() {
 function ShelfPicker() {
   return (
     <Combobox items={shelves}>
-      <ComboboxInput aria-label="From your shelves" placeholder="From your shelves…" className="w-full" />
+      <PickerInput aria-label="From your shelves" placeholder="From your shelves…" className="w-full" />
       <ComboboxContent>
         <ComboboxEmpty>Nothing on your shelves</ComboboxEmpty>
         <ComboboxList>
@@ -116,26 +147,53 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
-export function Preview() {
+function Genres() {
   return (
-    <div className="grid w-full max-w-md gap-5">
-      <Field label="Series">
-        <SeriesPicker />
-      </Field>
+    <div className="w-72">
       <Field label="Genres">
         <GenrePicker />
       </Field>
+    </div>
+  )
+}
+
+function Shelves() {
+  return (
+    <div className="w-72">
       <Field label="Shelves">
         <ShelfPicker />
       </Field>
+    </div>
+  )
+}
+
+function Locked() {
+  return (
+    <div className="w-72">
       <Field label="Publisher (locked)">
         <Combobox items={series} disabled>
-          <ComboboxInput aria-label="Publisher" placeholder="Set by your editor" disabled className="w-full" />
+          <PickerInput aria-label="Publisher" placeholder="Set by your editor" disabled className="w-full" />
         </Combobox>
       </Field>
     </div>
   )
 }
+
+export function Preview() {
+  return (
+    <div className="w-72">
+      <Field label="Series">
+        <SeriesPicker />
+      </Field>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Genres", title: "Several values", description: "multiple turns the field into chips: each pick adds one, and its remove cell takes it out.", Component: Genres },
+  { fn: "Shelves", title: "Grouped list", description: "Items sorted under underlined group labels, with a fine rule between the groups.", Component: Shelves },
+  { fn: "Locked", title: "Disabled", description: "disabled keeps the field on paper with a dashed line and a tone frame; nothing opens.", Component: Locked },
+]
 
 /** A static popup that looks like the open one (same classes), for frozen states. */
 function StaticPopup({ children }: { children: React.ReactNode }) {
@@ -159,16 +217,15 @@ function Row({ children, state }: { children: React.ReactNode; state?: "highligh
   )
 }
 
-function Single(props: { invalid?: boolean; disabled?: boolean; clear?: boolean; value?: string }) {
+function Single(props: { invalid?: boolean; disabled?: boolean; value?: string }) {
   return (
     <Combobox items={series} defaultValue={props.value ?? null} disabled={props.disabled}>
-      <ComboboxInput
+      <PickerInput
         aria-label="Series"
         placeholder="Find a series…"
         className="w-full max-w-64"
         aria-invalid={props.invalid || undefined}
         disabled={props.disabled}
-        showClear={props.clear}
       />
     </Combobox>
   )
@@ -192,7 +249,7 @@ export function States() {
       </Tile>
       <Tile label="input · focus" size="lg">
         <Combobox items={series}>
-          <ComboboxInput aria-label="Series" placeholder="Find a series…" className="w-full max-w-64" {...force("focus")} />
+          <PickerInput aria-label="Series" placeholder="Find a series…" className="w-full max-w-64" {...force("focus")} />
         </Combobox>
       </Tile>
       <Tile label="input · error" size="lg">
@@ -201,8 +258,8 @@ export function States() {
       <Tile label="input · disabled" size="lg">
         <Single disabled />
       </Tile>
-      <Tile label="input · with clear" size="lg">
-        <Single clear value="Harbour Lights" />
+      <Tile label="input · chosen" size="lg">
+        <Single value="Harbour Lights" />
       </Tile>
       <Tile label="list · highlighted, chosen, disabled, group" size="lg">
         <StaticPopup>
@@ -227,7 +284,7 @@ export function States() {
               {(values: string[]) => (
                 <Fragment>
                   {values.map((value) => (
-                    <ComboboxChip key={value}>{value}</ComboboxChip>
+                    <Chip key={value} value={value} />
                   ))}
                   <ComboboxChipsInput aria-label="Genres" />
                 </Fragment>
@@ -259,7 +316,7 @@ export function States() {
               {(values: string[]) => (
                 <Fragment>
                   {values.map((value) => (
-                    <ComboboxChip key={value}>{value}</ComboboxChip>
+                    <Chip key={value} value={value} />
                   ))}
                   <ComboboxChipsInput aria-label="Genres" aria-invalid />
                 </Fragment>
@@ -275,7 +332,7 @@ export function States() {
               {(values: string[]) => (
                 <Fragment>
                   {values.map((value) => (
-                    <ComboboxChip key={value}>{value}</ComboboxChip>
+                    <Chip key={value} value={value} />
                   ))}
                   <ComboboxChipsInput aria-label="Genres" disabled />
                 </Fragment>
@@ -292,7 +349,7 @@ export function Thumb() {
   return (
     <div className="w-56">
       <Combobox items={series} defaultValue="Paper Lanterns">
-        <ComboboxInput aria-label="Series" className="w-full" />
+        <PickerInput aria-label="Series" className="w-full" />
       </Combobox>
     </div>
   )
