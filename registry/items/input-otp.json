@@ -27,16 +27,6 @@
     "usage": "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from \"@/components/ui/manga/input-otp\"\n\n<InputOTP maxLength={6}>\n  <InputOTPGroup>\n    <InputOTPSlot index={0} />\n    <InputOTPSlot index={1} />\n    <InputOTPSlot index={2} />\n  </InputOTPGroup>\n  <InputOTPSeparator />\n  <InputOTPGroup>\n    <InputOTPSlot index={3} />\n    <InputOTPSlot index={4} />\n    <InputOTPSlot index={5} />\n  </InputOTPGroup>\n</InputOTP>",
     "props": [
       {
-        "name": "maxLength",
-        "type": "number",
-        "description": "Number of characters (one InputOTPSlot each)."
-      },
-      {
-        "name": "pattern",
-        "type": "string",
-        "description": "Allowed characters, e.g. REGEXP_ONLY_DIGITS from input-otp."
-      },
-      {
         "name": "aria-invalid",
         "type": "boolean",
         "description": "On InputOTP (or a slot): accent lines and a \"!\" mark beside the group."
