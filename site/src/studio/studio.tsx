@@ -36,6 +36,7 @@ import {
   updatePanel,
 } from "./model"
 import { pageToPng } from "./png"
+import { to } from "../router"
 
 /*
  * The page studio (#studio): edits a PageData and writes the code. Everything stays in this browser:
@@ -190,7 +191,7 @@ export function Studio() {
 
   return (
     <article className="pt-6" aria-labelledby="studio-title">
-      <a href="#examples" className="inline-flex h-11 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink sm:h-9">
+      <a href={to("examples")} className="inline-flex h-11 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink sm:h-9">
         ← Examples
       </a>
       <header className="mt-6 max-w-prose space-y-2">

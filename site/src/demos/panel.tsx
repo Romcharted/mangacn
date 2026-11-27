@@ -17,6 +17,7 @@ import { Code } from "../copy"
 import { PAGE_FORMAT_DOC } from "../pages/format-doc"
 import { Choice, Flag, Playground } from "../playground"
 import { Tile, Tiles } from "../state-grid"
+import { to } from "../router"
 
 const TEMPLATES = Object.keys(PAGE_TEMPLATES) as PageTemplate[]
 const FORMATS = Object.keys(PAGE_FORMATS) as PageFormat[]
@@ -141,7 +142,7 @@ ${n
         </h3>
         <p className="max-w-prose text-sm">
           The same page can be given as JSON with <code>{"<Page page={data} />"}</code>. The{" "}
-          <a href="#studio" className="underline">
+          <a href={to("studio")} className="underline">
             page studio
           </a>{" "}
           edits this format and readers use its geometry to zoom panel by panel.

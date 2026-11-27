@@ -34,7 +34,7 @@ export function NotFound() {
       <div className="flex flex-wrap items-center justify-center gap-4">
         <p className="text-base">The page you wanted is not in this volume.</p>
         {/* a link drawn as a button: works the same under Radix and Base UI */}
-        <a href="#/" className={buttonClassName({ variant: "shout", size: "lg" }) + " inline-flex items-center"}>
+        <a href="#" className={buttonClassName({ variant: "shout", size: "lg" }) + " inline-flex items-center"}>
           Back to the library
         </a>
       </div>

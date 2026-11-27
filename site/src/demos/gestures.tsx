@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ImpactLines, withImpact } from "@/lib/manga/gestures"
+import { to } from "../router"
 
 /** A plain element made to hit: data-[impact]:animate-hit + <ImpactLines /> + withImpact(). */
 function Hit({ children, onHit }: { children: React.ReactNode; onHit?: () => void }) {
@@ -24,7 +25,7 @@ export function Preview() {
       </div>
       <p className="text-sm">
         Without JavaScript the press still shows a 2px offset, the negative and the lines. Every gesture is on the{" "}
-        <a href="#grammar" className="hover-underline">
+        <a href={to("docs/grammar")} className="hover-underline">
           Grammar page
         </a>
         .

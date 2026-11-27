@@ -2,10 +2,11 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { track } from "./visits"
 import { Code, CopyButton } from "./copy"
 import { REPO, installCommand, type Item } from "./registry"
+import { BASE } from "./router"
 
 /** Where this copy of the site is served from, so the links work on any host and base path. */
 function siteBase() {
-  return location.origin + location.pathname.replace(/[^/]*$/, "")
+  return location.origin + BASE
 }
 
 /** Where the item's files land after `shadcn add`, by registry type. */
@@ -78,19 +79,32 @@ export function AiPanel() {
           <SheetTitle>Use mangacn with an AI</SheetTitle>
           <SheetDescription>Everything a coding agent needs to install and use the kit.</SheetDescription>
         </SheetHeader>
-        <div className="grid grid-cols-[minmax(0,1fr)] gap-6 px-4 pb-6">
+        <div className="px-4 pb-6">
+          <AiGuide />
+        </div>
+      </SheetContent>
+    </Sheet>
+  )
+}
+
+/** llms.txt, the MCP server, a prompt: in the header's AI sheet and on the For AI page (with ids for its contents). */
+export function AiGuide({ page = false }: { page?: boolean }) {
+  const H = page ? "h2" : "h3"
+  const title = page ? "scroll-mt-20 font-letter text-3xl leading-none uppercase" : "font-letter text-lg uppercase"
+  return (
+        <div className={`grid grid-cols-[minmax(0,1fr)] ${page ? "gap-12" : "gap-6"}`}>
           <section className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
-            <h3 className="font-letter text-lg uppercase">1. llms.txt</h3>
+            <H id={page ? "llms-txt" : undefined} className={title}>1. llms.txt</H>
             <p className="text-sm">Every item with its install command, props and a minimal example.</p>
             <div className="flex items-stretch border-ink">
-              <a href="./llms.txt" className="min-w-0 flex-1 truncate px-3 py-2 font-mono text-sm underline focus-ink">
+              <a href={`${BASE}llms.txt`} className="min-w-0 flex-1 truncate px-3 py-2 font-mono text-sm underline focus-ink">
                 {siteBase()}llms.txt
               </a>
               <CopyButton text={`${siteBase()}llms.txt`} className="border-s-[length:var(--mg-bw)]" />
             </div>
           </section>
           <section className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
-            <h3 className="font-letter text-lg uppercase">2. shadcn MCP server</h3>
+            <H id={page ? "mcp" : undefined} className={title}>2. shadcn MCP server</H>
             <p className="text-sm">
               Add the namespace to <code className="font-mono">components.json</code>, then set up the server for your
               assistant and restart it.
@@ -99,12 +113,10 @@ export function AiPanel() {
             <Code text="npx shadcn@latest mcp init --client claude   # or cursor, vscode, codex, opencode" />
           </section>
           <section className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
-            <h3 className="font-letter text-lg uppercase">3. A prompt for your agent</h3>
+            <H id={page ? "prompt" : undefined} className={title}>3. A prompt for your agent</H>
             <p className="text-sm">Paste it into Claude Code, Cursor, Codex or any coding agent.</p>
             <Code text={agentPrompt()} />
           </section>
         </div>
-      </SheetContent>
-    </Sheet>
   )
 }

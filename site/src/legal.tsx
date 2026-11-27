@@ -25,10 +25,7 @@ const mail = (
 export function Legal() {
   return (
     <article aria-labelledby="legal-title" className="mx-auto max-w-3xl pt-6">
-      <a href="#/" className="inline-flex h-9 items-center border-ink px-3 font-letter text-sm uppercase hover:ink-fill focus-ink">
-        ← All components
-      </a>
-      <h1 id="legal-title" className="mt-6 font-letter text-5xl leading-none uppercase">
+      <h1 id="legal-title" className="font-letter text-5xl leading-none uppercase">
         Legal notice <span className="block text-3xl">Mentions légales</span>
       </h1>
 
