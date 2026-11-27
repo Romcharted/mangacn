@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { ChapterEnd, ChapterNext } from "@registry/manga/signature/chapter-end"
 import { Button } from "@/components/ui/manga/button"
+import type { Example } from "../registry"
 import { Tile, force } from "../state-grid"
 
 import { artSrc } from "../mapless"
@@ -15,10 +16,10 @@ const ON_SELECT = { number: 13, title: "The lighthouse keeper", onSelect: () => 
 function Actions() {
   return (
     <>
-      <Button variant="outline" size="sm">
+      <Button variant="outline" size="sm" className="min-h-11 sm:min-h-8">
         Back to series
       </Button>
-      <Button variant="ghost" size="sm">
+      <Button variant="ghost" size="sm" className="min-h-11 sm:min-h-8">
         Comments
       </Button>
     </>
@@ -28,23 +29,23 @@ function Actions() {
 export function Preview() {
   const [reading, setReading] = useState<"rtl" | "ltr">("rtl")
   return (
-    <div className="grid gap-4">
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Reading order">
+    <div className="mx-auto grid w-full max-w-lg gap-4">
+      <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="Reading order">
         <Button
           variant="outline"
           size="sm"
+          className="min-h-11 sm:min-h-8 aria-pressed:bg-primary! aria-pressed:text-primary-foreground!"
           aria-pressed={reading === "rtl"}
           onClick={() => setReading("rtl")}
-          className="aria-pressed:bg-primary! aria-pressed:text-primary-foreground!"
         >
           Manga RTL
         </Button>
         <Button
           variant="outline"
           size="sm"
+          className="min-h-11 sm:min-h-8 aria-pressed:bg-primary! aria-pressed:text-primary-foreground!"
           aria-pressed={reading === "ltr"}
           onClick={() => setReading("ltr")}
-          className="aria-pressed:bg-primary! aria-pressed:text-primary-foreground!"
         >
           Western LTR
         </Button>
@@ -57,6 +58,45 @@ export function Preview() {
     </div>
   )
 }
+
+function NotOutYet() {
+  return (
+    <div className="mx-auto w-full max-w-md">
+      <ChapterEnd chapter="Chapter 12 · Echo" next={NOT_OUT} />
+    </div>
+  )
+}
+
+function EndOfSeries() {
+  return (
+    <div className="mx-auto w-full max-w-md">
+      <ChapterEnd variant="end" chapter="Chapter 40 · Last Light">
+        <Actions />
+      </ChapterEnd>
+    </div>
+  )
+}
+
+function NextButton() {
+  const [opened, setOpened] = useState(false)
+  return (
+    <div className="mx-auto grid w-full max-w-md justify-items-center gap-3">
+      <ChapterEnd
+        chapter="Chapter 12 · Echo"
+        next={{ number: 13, title: "The lighthouse keeper", cover: <Cover />, onSelect: () => setOpened(true) }}
+      />
+      <p aria-live="polite" className="font-mono text-sm">
+        {opened ? "Opening chapter 13…" : "Pick the next chapter to go on."}
+      </p>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "NotOutYet", title: "Next chapter not out yet", description: "date shows when the next chapter comes out, while it is not out yet.", Component: NotOutYet },
+  { fn: "EndOfSeries", title: "End of the series", description: "variant=\"end\" closes the series: no next chapter, only the actions.", Component: EndOfSeries },
+  { fn: "NextButton", title: "Go on to the next chapter", description: "next with onSelect makes the card a button that opens the next chapter.", Component: NextButton },
+]
 
 export function States() {
   return (
