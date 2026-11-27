@@ -119,9 +119,10 @@ export function States() {
 }
 
 /** Live: the real header, small; "Read more" unfolds the summary. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   return (
-    <div className="w-[26rem] [zoom:0.42]">
+    <div className="w-64 h-28 overflow-hidden">
       <SeriesHeader title="Mapless" author="Studio Mapless" cover={<VolumeCover volume={1} />} status="ongoing" summary={SUMMARY} as="h3" />
     </div>
   )
