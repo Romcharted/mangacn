@@ -16,10 +16,10 @@ const panel = (name: ArtName) => artSrc(name, 360)
 
 export const AUTH_PICTURES: Record<"sign-in" | "sign-up" | "forgot-password" | "verify-code" | "reset-password", AuthPictures> = {
   "sign-in": { idle: panel("suzu-portrait"), error: panel("suzu-shock"), done: panel("suzu-face") },
-  "sign-up": { idle: panel("suzu-full"), error: panel("suzu-shock"), done: panel("suzu-face") },
-  "forgot-password": { idle: panel("suzu-profile"), error: panel("suzu-shock"), done: panel("suzu-face") },
-  "verify-code": { idle: panel("suzu-drawing"), error: panel("suzu-shock"), done: panel("suzu-face") },
-  "reset-password": { idle: panel("map"), error: panel("suzu-shock"), done: panel("suzu-face") },
+  "sign-up": { idle: panel("page-2-lighthouse"), error: panel("suzu-shock"), done: panel("suzu-face") },
+  "forgot-password": { idle: panel("page-1-bridge"), error: panel("suzu-shock"), done: panel("suzu-face") },
+  "verify-code": { idle: panel("cover-2"), error: panel("suzu-shock"), done: panel("suzu-face") },
+  "reset-password": { idle: panel("cover-1"), error: panel("suzu-shock"), done: panel("suzu-face") },
 }
 
 const CATALOG_COVERS: Record<CatalogCover, ReactNode> = {
@@ -59,7 +59,7 @@ const STORY_ART: StoryLandingArt = {
 }
 
 const PORTFOLIO_ART: PortfolioArt = {
-  projects: { inkpot: panel("bridge-far"), ledger: panel("page-2-lighthouse"), tonelab: panel("lighthouse-night"), market: panel("map") },
+  projects: { inkpot: panel("bridge-far"), ledger: panel("page-2-lighthouse"), tonelab: panel("suzu-portrait"), market: panel("map") },
 }
 
 /** Props a block gets on the showcase, by slug. */
