@@ -14,7 +14,8 @@
     "shots": "node scripts/screenshots.mjs",
     "check": "node scripts/check-items.mjs",
     "check:reading": "node scripts/check-reading.mjs",
-    "check:sizes": "node scripts/check-sizes.mjs"
+    "check:sizes": "node scripts/check-sizes.mjs",
+    "review": "npm run build && vite preview --port 5198 --strictPort"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

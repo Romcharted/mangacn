@@ -21,6 +21,9 @@ const out = [
 for (const item of registry.items) {
   out.push(`### ${item.title} (\`${item.name}\`)`, ``, item.description, ``)
   out.push(`- Install: \`npx shadcn@latest add ${REPO}/${item.name}\``)
+  // the item's page on the site: a component page, or the example for a full interface
+  const page = item.type === "registry:block" ? `examples/${item.name}` : `docs/components/${item.name}`
+  out.push(`- Docs: ${registry.homepage.replace(/\/?$/, "/")}${page}`)
   if (item.categories?.length) out.push(`- Categories: ${item.categories.join(", ")}`)
   const props = item.meta?.props ?? []
   if (props.length) {

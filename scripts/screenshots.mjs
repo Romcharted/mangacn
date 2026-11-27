@@ -52,7 +52,7 @@ const views = [
   { name: "tabs", hash: "#tabs", full: true },
   { name: "speech-bubble", hash: "#speech-bubble", full: true },
   { name: "dialog-open", hash: "#dialog", full: false, open: async (page) => {
-      await page.getByRole("button", { name: "Open dialog" }).click()
+      await page.getByRole("button", { name: "Leave the chapter" }).click()
       await page.waitForTimeout(400)
     } },
   { name: "toast", hash: "#sonner", full: false, open: async (page) => {
