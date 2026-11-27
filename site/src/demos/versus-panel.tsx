@@ -152,6 +152,7 @@ export function States() {
 }
 
 /** Live: pick a side; the ink moves to it. */
+/** Thumbnail: a readable detail at real size, cropped. */
 export function Thumb() {
   const [pick, setPick] = useState<0 | 1>(1)
   const side = (i: 0 | 1, name: string) => (
@@ -162,7 +163,7 @@ export function Thumb() {
     </VersusSide>
   )
   return (
-    <VersusPanel label="VS" className="w-80 [zoom:0.6]">
+    <VersusPanel label="VS" className="w-56">
       {side(0, "Suzu")}
       {side(1, "Eraser")}
     </VersusPanel>
