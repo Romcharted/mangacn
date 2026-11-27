@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { LoadingScreen } from "@registry/manga/signature/loading-screen"
 import { Button } from "@registry/manga/ui/button"
+import type { Example } from "../registry"
 import { Tile } from "../state-grid"
 
 export function Preview() {
@@ -19,24 +20,53 @@ export function Preview() {
   }, [full])
 
   return (
-    <div className="grid gap-6">
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="relative h-80 ink-case-inner">
-          <LoadingScreen progress={progress} message="Loading chapter 12…" />
-        </div>
-        <div className="relative h-80 ink-case-inner">
-          <LoadingScreen message="Fetching the next pages…" />
-        </div>
+    <div className="mx-auto grid w-full max-w-sm justify-items-center gap-4">
+      <div className="relative h-72 w-full ink-case-inner">
+        <LoadingScreen progress={progress} message="Loading chapter 12…" />
       </div>
-      <div>
-        <Button onClick={() => setFull(true)} disabled={full}>
-          Show fullscreen for 2 s
-        </Button>
-      </div>
+      <Button className="min-h-11 sm:min-h-8" onClick={() => setFull(true)} disabled={full}>
+        Show fullscreen for 2 s
+      </Button>
       {full && <LoadingScreen fullscreen message="Hold on, it is coming." progress={progress} />}
     </div>
   )
 }
+
+function Determinate() {
+  return (
+    <div className="mx-auto grid w-full max-w-sm">
+      <div className="relative h-56 w-full ink-case-inner">
+        <LoadingScreen progress={60} message="Almost there" />
+      </div>
+    </div>
+  )
+}
+
+function Indeterminate() {
+  return (
+    <div className="mx-auto grid w-full max-w-sm">
+      <div className="relative h-56 w-full ink-case-inner">
+        <LoadingScreen message="Waiting for the server" />
+      </div>
+    </div>
+  )
+}
+
+function WithSound() {
+  return (
+    <div className="mx-auto grid w-full max-w-sm">
+      <div className="relative h-56 w-full ink-case-inner">
+        <LoadingScreen progress={30} sfx="RUMBLE" message="Turning the page" />
+      </div>
+    </div>
+  )
+}
+
+export const examples: Example[] = [
+  { fn: "Determinate", title: "With a progress", description: "progress fills the bar and the count; the screen shows how far the loading is.", Component: Determinate },
+  { fn: "Indeterminate", title: "Without progress", description: "Without progress the loader only moves: for a wait with no known end.", Component: Indeterminate },
+  { fn: "WithSound", title: "With a sound effect", description: "sfx sets the sound effect lettered on the screen.", Component: WithSound },
+]
 
 export function States() {
   return (
