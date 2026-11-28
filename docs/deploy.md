@@ -1,9 +1,30 @@
-# Deploying the showcase (Hostinger)
+# Deploying the showcase
 
 The showcase is a static site: one HTML page, its assets, `llms.txt` and the registry files `r/*.json`
-that the shadcn CLI and its MCP server read. Everything is in `site/dist` after a build, ready to upload.
+that the shadcn CLI and its MCP server read. Everything is in `site/dist` after a build.
 
-## Build
+It is live at <https://mangacn.romain-sonnet.fr/>, deployed with Coolify. Statistics go to Umami on
+`stats.romain-sonnet.fr` (site « mangacn »; the id is in `.env.production`).
+
+## Coolify (the live site)
+
+Coolify builds the [Dockerfile](../Dockerfile) from the GitHub repository (branch `main`): Node runs
+`npm run build`, then nginx serves `site/dist` with [docker/nginx.conf](../docker/nginx.conf), the same rules
+as the `.htaccess` below (real paths fall back to `index.html`, open CORS on `.json` and `.txt`, hashed assets
+cached for good). `SITE_URL` and `BASE_PATH` are build arguments, set by default for the live address.
+
+Automatic deployment on push is off: **to publish, press Deploy** on the application in Coolify. It rebuilds
+from the latest `main`.
+
+To try the container locally:
+
+```bash
+docker build -t mangacn . && docker run --rm -p 8080:80 mangacn
+```
+
+## Hostinger (static upload, the alternative)
+
+### Build
 
 ```bash
 npm ci
@@ -16,12 +37,12 @@ npm run check
 | `SITE_URL` | Public address, written into the share tags (canonical, `og:url`, `og:image`). | none: those tags are left out, `og:image` stays relative |
 | `BASE_PATH` | Where the site is served: `/` at the root of a domain, `/mangacn/` in a folder. | `/` (the site uses real paths such as `/docs/components/button`, so the base is absolute) |
 | `VITE_UMAMI_SRC` | Umami script address. | `https://stats.romain-sonnet.fr/script.js` (`.env.production`) |
-| `VITE_UMAMI_WEBSITE_ID` | Umami site id. Empty: no statistics script at all. | empty |
+| `VITE_UMAMI_WEBSITE_ID` | Umami site id. Empty: no statistics script at all. | the « mangacn » site (`.env.production`) |
 
 Put local values in `.env.production.local` (ignored by git), or pass them on the command line. CI reads
 `SITE_URL` and `BASE_PATH` from the repository variables and keeps the build as the `mangacn-site` artifact.
 
-## Upload
+### Upload
 
 Copy the **contents** of `site/dist` (hidden `.htaccess` included) into `public_html/` — or into
 `public_html/mangacn/` with `BASE_PATH=/mangacn/`. The `.htaccess` serves `.json` as JSON with an open CORS
@@ -33,7 +54,7 @@ shows the right page: this fallback is what lets the site use real paths on a st
 Old links in `#` (`/#button`, `/#grammar`, `/#examples/dashboard`) open the home page, which replaces them
 with their new address.
 
-## After upload
+### After upload
 
 These should answer 200:
 

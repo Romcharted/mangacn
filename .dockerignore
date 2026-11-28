@@ -1,0 +1,8 @@
+.git
+node_modules
+site/dist
+screenshots
+*.log
+.env.local
+.env.*.local
+tsconfig.tsbuildinfo
