@@ -5,6 +5,8 @@
  * If either is empty, nothing loads. Nothing loads either when the browser sends Do Not Track or
  * Global Privacy Control. The script is added once the page is idle, so it never delays the first paint.
  */
+import { onRouteChange } from "./router"
+
 type Umami = { track: (event?: string | ((p: Record<string, unknown>) => Record<string, unknown>), data?: Record<string, unknown>) => void }
 declare global {
   interface Window {
@@ -21,9 +23,9 @@ function refused() {
   return dnt === "1" || dnt === "yes" || n.globalPrivacyControl === true
 }
 
-// The showcase routes with the hash, which Umami does not see: page views are sent by hand.
+// The showcase changes page without reloading: page views are sent by hand, on load and on each change.
 function pageview() {
-  window.umami?.track((p) => ({ ...p, url: location.pathname + location.hash }))
+  window.umami?.track((p) => ({ ...p, url: location.pathname + location.search, title: document.title }))
 }
 
 export function loadAnalytics() {
@@ -37,7 +39,8 @@ export function loadAnalytics() {
     s.dataset.doNotTrack = "true"
     s.onload = pageview
     document.head.append(s)
-    addEventListener("hashchange", pageview)
+    // the page sets its title once it has rendered: wait a moment before counting it
+    onRouteChange(() => setTimeout(pageview, 300))
   }
   const idle = () => ("requestIdleCallback" in window ? requestIdleCallback(add, { timeout: 4000 }) : setTimeout(add, 1500))
   if (document.readyState === "complete") idle()

@@ -98,6 +98,13 @@ const subscribe = (l: () => void) => {
   return () => listeners.delete(l)
 }
 
+/** Called after each change of page (link, back, forward). Returns the function that stops it. */
+export function onRouteChange(l: () => void) {
+  start()
+  listeners.add(l)
+  return () => void listeners.delete(l)
+}
+
 /** The current route, kept in sync with the address bar. */
 export function useRoute() {
   return useSyncExternalStore(subscribe, () => route)
