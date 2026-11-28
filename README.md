@@ -4,14 +4,12 @@
 redraws your shadcn/ui components in ink and screentone: black and white, sharp lines, tones instead of grey,
 speed lines, and one accent colour you choose.
 
-[Showcase](https://DOMAIN/) ·
-[Grammar](https://DOMAIN/docs/grammar) ·
-[Examples](https://DOMAIN/examples) ·
-[llms.txt](https://DOMAIN/llms.txt)
+[Showcase](https://mangacn.romain-sonnet.fr/) ·
+[Grammar](https://mangacn.romain-sonnet.fr/docs/grammar) ·
+[Examples](https://mangacn.romain-sonnet.fr/examples) ·
+[llms.txt](https://mangacn.romain-sonnet.fr/llms.txt)
 
-> `DOMAIN` stands for the showcase address, set when the site goes live.
-
-[![The mangacn showcase: “shadcn/ui, inked like a manga.” next to a page of three panels](docs/hero.png)](https://DOMAIN/)
+[![The mangacn showcase: “shadcn/ui, inked like a manga.” next to a page of three panels](docs/hero.png)](https://mangacn.romain-sonnet.fr/)
 
 It does not fork shadcn. Each restyled component is a thin file that imports **your** shadcn component, adds
 classes and `data-*` attributes, and re-exports it with the same props. It works whether your shadcn project
@@ -241,7 +239,7 @@ npx shadcn@latest search Romcharted/mangacn --query bubble
 Every component draws its motion from the same eight gestures, written once in `base`: case (G1), flat (G2),
 hover (G3), impact (G4), pop (G5), bubble (G6), running line (G7) and mark (G8). They move in steps at
 12 frames per second and stand still under `prefers-reduced-motion`. The
-[Grammar page](https://DOMAIN/docs/grammar) shows each one; [AGENTS.md](AGENTS.md) has the
+[Grammar page](https://mangacn.romain-sonnet.fr/docs/grammar) shows each one; [AGENTS.md](AGENTS.md) has the
 rules.
 
 ## Dark mode, accent colour, reading order
@@ -254,14 +252,14 @@ rules.
 ## Use with AI assistants
 
 - **llms.txt** lists every item with its install command, main props and a minimal example:
-  `https://DOMAIN/llms.txt`.
+  `https://mangacn.romain-sonnet.fr/llms.txt`.
 - **shadcn MCP server.** The MCP server reads the registries declared in `components.json`. Add a namespace
   that points at the JSON files this repo publishes:
 
   ```json
   {
     "registries": {
-      "@mangacn": "https://DOMAIN/r/{name}.json"
+      "@mangacn": "https://mangacn.romain-sonnet.fr/r/{name}.json"
     }
   }
   ```

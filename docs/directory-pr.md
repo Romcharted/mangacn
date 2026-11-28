@@ -9,6 +9,6 @@ mangacn redraws shadcn/ui in ink and screentone, like a printed manga: same comp
 - One accent colour, dark mode as the negative, motion in stepped frames that stops under reduced motion.
 - MIT. Fonts under the SIL Open Font License.
 
-Registry: https://DOMAIN/r/registry.json · Site: https://DOMAIN/ · Source: https://github.com/Romcharted/mangacn
+Registry: https://mangacn.romain-sonnet.fr/r/registry.json · Site: https://mangacn.romain-sonnet.fr/ · Source: https://github.com/Romcharted/mangacn
 
 `pnpm validate:registries` passes locally.

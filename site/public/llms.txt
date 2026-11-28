@@ -5,7 +5,7 @@
 Install any item: `npx shadcn@latest add Romcharted/mangacn/<item>`
 Every item depends on `Romcharted/mangacn/base` (tokens, screentone utilities, animations), installed automatically.
 Restyled shadcn components install to `@ui/manga/<name>.tsx` and wrap the project's own `@/components/ui/<name>` (works with Radix and Base UI).
-Homepage: https://DOMAIN
+Homepage: https://mangacn.romain-sonnet.fr
 
 ## Items
 
@@ -14,7 +14,7 @@ Homepage: https://DOMAIN
 Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn variables (dark mode is the negative) and one accent colour, --mg-accent (stamp red by default; presets via data-accent="indigo|pine|ochre"), which also drives --destructive. Screentone utilities (tone-10/20/35/50, tone-lines, tone-cross, tone-fade-r/l/t/b, tone-frame), on-tone (paper plate for labels over tones), knockout (outline for heavy SFX), speed-lines and focus-lines, tone-shadow (offset screentone, never a blur), ink-fill, focus-ink, border-ink, shape-burst, edge-jagged, mark-error, a reading-rtl: variant for manga reading order (data-reading="rtl"), a screentone veil for every shadcn overlay, and stepped 12 fps animations. Installed automatically as a dependency of every other item. Includes stepped keyframes for tabs, clicks, switches, dialogs and toasts; all motion stops with prefers-reduced-motion.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/base`
-- Docs: https://DOMAIN/docs/components/base
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/base
 - Categories: foundations
 
 ```tsx
@@ -29,7 +29,7 @@ Shared foundation for every mangacn item: ink/paper tokens mapped onto shadcn va
 Reading face for body text and form fields (SIL OFL). Sets --font-manga-body. Installed by base.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/font-body`
-- Docs: https://DOMAIN/docs/components/font-body
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/font-body
 - Categories: foundations
 - Props:
   - `font-sans`: `Tailwind class` — Sets the reading face: body text, descriptions and form fields.
@@ -44,7 +44,7 @@ Reading face for body text and form fields (SIL OFL). Sets --font-manga-body. In
 Hand-lettering face for titles, buttons and badges (SIL OFL). Sets --font-manga-letter. Installed by base.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/font-lettering`
-- Docs: https://DOMAIN/docs/components/font-lettering
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/font-lettering
 - Categories: foundations
 - Props:
   - `font-letter`: `Tailwind class` — Sets the lettering face: titles, buttons, badges and bubbles.
@@ -59,7 +59,7 @@ Hand-lettering face for titles, buttons and badges (SIL OFL). Sets --font-manga-
 Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --font-manga-sfx. Installed by base.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/font-sfx`
-- Docs: https://DOMAIN/docs/components/font-sfx
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/font-sfx
 - Categories: foundations
 - Props:
   - `font-sfx`: `Tailwind class` — Sets the sound-effect face: onomatopoeia and loud headlines.
@@ -74,7 +74,7 @@ Very heavy face for onomatopoeia, covers Latin and katakana (SIL OFL). Sets --fo
 Japanese reading face (kana and kanji, SIL OFL) for furigana, vertical text and original-language bubbles. Sets --font-manga-jp, which base adds as the Japanese fallback of every text face. Optional: not installed by base; without it the system's Japanese font is used.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/font-japanese`
-- Docs: https://DOMAIN/docs/components/font-japanese
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/font-japanese
 - Categories: foundations
 - Props:
   - `font-[family-name:var(--font-manga-jp)]`: `Tailwind class` — Sets the Japanese face: furigana, vertical text and original-language lines.
@@ -89,7 +89,7 @@ Japanese reading face (kana and kanji, SIL OFL) for furigana, vertical text and 
 The JavaScript half of the mangacn grammar: punch() and withImpact() play the G4 impact on click or keyboard validation (data-impact for ~250 ms), <ImpactLines> draws the short speed lines outside the element, <FocusFlash> draws an optional halo of concentration lines around a window as it opens (G5, never full screen). Everything is skipped with prefers-reduced-motion.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/gestures`
-- Docs: https://DOMAIN/docs/components/gestures
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/gestures
 - Categories: foundations
 - Props:
   - `punch(el)`: `(el: Element) => void` — Plays the three-frame impact on an element.
@@ -115,7 +115,7 @@ import { ImpactLines, withImpact } from "@/lib/manga/gestures"
 Manga-styled wrapper around your shadcn Button. Variants: default (ink flat), outline, tone (screentone band on the bottom third, label on paper), ghost, link (wavy underline that thickens on hover), destructive (accent colour, jagged edge), shout (burst shape for the one call to action on a page; its focus ring is a second burst). Sizes sm, default, lg, icon. Hover: a screentone shadow appears. Pressed: 2px offset and a negative that stays visible in dark mode. Disabled: dashed line, tone frame, label on paper. Adds loading (concentration lines turning in steps, aria-busy) and fullWidth. A click plays a three-frame impact (negative, recoil, settle) with short speed lines on both sides; the shout burst fidgets on hover.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/button`
-- Docs: https://DOMAIN/docs/components/button
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/button
 - Categories: actions
 - Props:
   - `variant`: `"default" | "outline" | "tone" | "ghost" | "link" | "destructive" | "shout"` (default `"default"`) — Visual style.
@@ -135,7 +135,7 @@ import { Button } from "@/components/ui/manga/button"
 Manga-styled wrapper around your shadcn Input. 2px ink line that thickens to 3px on focus, italic placeholder, fine line when read-only, dashed line + light tone when disabled, and an error look on aria-invalid (stamp red, serrated bottom edge, "!" mark). Sizes via inputSize: sm, default, lg.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/input`
-- Docs: https://DOMAIN/docs/components/input
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/input
 - Categories: actions
 - Props:
   - `inputSize`: `"sm" | "default" | "lg"` (default `"default"`) — Height and text size.
@@ -153,7 +153,7 @@ import { Input } from "@/components/ui/manga/input"
 Manga-styled wrapper around your shadcn Select. The trigger is drawn like Input with a brush chevron that turns in two steps. The list is a case (3px ink line, tone shadow) with a notch toward the trigger, popping in over three frames. The highlighted option inverts to ink; the chosen option gets a brush check that draws itself. Group labels are underlined lettering; disabled options keep the label with a dashed underline. Adds SelectEmpty (a “…” mark) and SelectLoading (turning concentration lines).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/select`
-- Docs: https://DOMAIN/docs/components/select
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/select
 - Categories: actions
 - Props:
   - `SelectEmpty`: `component` — Empty list: a “…” mark and a short line.
@@ -177,7 +177,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 Manga-styled wrapper around your shadcn Checkbox. Square ink box; hover thickens the line (no screentone under 24px); checked is an ink flat with a brush check that draws itself in three frames; indeterminate is a thick bar; disabled is dashed; aria-invalid uses the accent colour.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/checkbox`
-- Docs: https://DOMAIN/docs/components/checkbox
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/checkbox
 - Categories: actions
 - Props:
   - `aria-invalid`: `boolean` — The error look: a 3px accent frame, and the accent fill when the box is checked.
@@ -195,7 +195,7 @@ import { Checkbox } from "@/components/ui/manga/checkbox"
 Manga-styled wrapper around your shadcn Switch, 44 × 24 px. Off: paper track and ink thumb. On: ink track and paper thumb. Hover thickens the line, disabled is dashed, aria-invalid uses the accent colour. The thumb travels in three steps with a trail of speed lines; a small spark flies off when it turns on.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/switch`
-- Docs: https://DOMAIN/docs/components/switch
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/switch
 - Categories: actions
 - Props:
   - `data-manga`: `"switch"` — Set on the root: the hook the track, the thumb and the motion are styled from.
@@ -211,7 +211,7 @@ import { Switch } from "@/components/ui/manga/switch"
 Manga-styled wrapper around your shadcn Badge in lettering type. Variants: default (ink flat), outline, tone (screentone tab at the start, label on paper), destructive (clean accent flat), burst ("NEW!" star) and stamp (tilted accent stamp). Optional square status dot; icons via data-icon.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/badge`
-- Docs: https://DOMAIN/docs/components/badge
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/badge
 - Categories: feedback
 - Props:
   - `variant`: `"default" | "outline" | "tone" | "destructive" | "burst" | "stamp"` (default `"default"`) — Visual style.
@@ -229,7 +229,7 @@ import { Badge } from "@/components/ui/manga/badge"
 Manga-styled wrapper around your shadcn Skeleton: a light screentone (tone-10) that flickers in steps instead of pulsing in opacity, no heavy frame. Shapes: text, avatar, panel, block. SkeletonCard composes a card placeholder.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/skeleton`
-- Docs: https://DOMAIN/docs/components/skeleton
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/skeleton
 - Categories: feedback
 - Props:
   - `shape`: `"text" | "avatar" | "panel" | "block"` (default `"block"`) — Preset size and frame.
@@ -247,7 +247,7 @@ import { Skeleton, SkeletonCard } from "@/components/ui/manga/skeleton"
 Manga-styled wrapper around your shadcn Sonner Toaster: 3px panel with an offset second frame, stepped entrance, lettering titles, ink marks for success / info / warning / error, concentration lines while loading, a shake on error. ToastSfx adds an onomatopoeia in its own column. ToastCard renders a static toast with the same look for previews and docs. Toasts enter in three steps with motion lines under them.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sonner`
-- Docs: https://DOMAIN/docs/components/sonner
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/sonner
 - Categories: feedback
 - Props:
   - `ToastCard`: `component` — A static toast with the same look, for previews and docs. Takes type, title, description, icon and action.
@@ -267,7 +267,7 @@ toast("Level up!", { icon: <ToastSfx>DON!</ToastSfx> })
 Manga-styled wrapper around your shadcn Card as a comic panel: 3px frame and an offset screentone shadow. Variants: default, bleed (first image runs to the edges), tilted (slanted bottom edge drawn in SVG; the content stays upright), splash (focus lines around a wide empty centre, title on a paper plate), beta (ink flat). interactive lifts it on hover; selected adds a double ink frame.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/card`
-- Docs: https://DOMAIN/docs/components/card
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/card
 - Categories: display
 - Props:
   - `variant`: `"default" | "bleed" | "tilted" | "splash" | "beta"` (default `"default"`) — Panel style.
@@ -288,7 +288,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/manga/
 Manga-styled wrapper around your shadcn Tabs. Variants: index (tabs resting on the 3px top edge of a framed panel, the active tab merges with the panel), underline (one baseline, a thick bar under the active tab), boxed (one frame split into cells, the active cell is an ink flat). The flat or bar travels to the new tab in three steps and the panel slides in. Labels always sit on paper. Horizontal and vertical; disabled tabs are dashed with a tone frame.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/tabs`
-- Docs: https://DOMAIN/docs/components/tabs
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/tabs
 - Categories: navigation
 - Props:
   - `variant`: `"index" | "underline" | "boxed"` (default `"index"`) — Set on <Tabs>; lists and triggers follow.
@@ -310,7 +310,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/manga/
 Manga-styled wrapper around your shadcn Table. The table sits in a case; the header is an ink flat and stays in place while the body scrolls (maxHeight). Rows are split by a 1px line, never striped. Hovered row: a 3px ink bar at the row start; selected row (data-state="selected" or aria-selected): a 6px bar. Sortable headers get a brush arrow and aria-sort. Adds TableEmpty (a “…” mark) and TableLoading (flickering tone placeholders).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/table`
-- Docs: https://DOMAIN/docs/components/table
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/table
 - Categories: display
 - Props:
   - `maxHeight`: `string` — On Table: height of the scroll area; the header stays in place.
@@ -336,7 +336,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 Manga-styled wrapper around your shadcn Accordion. Items are cases stacked so they share their lines; the open header is an ink flat that sweeps in, the content drops in by steps and the brush chevron turns in two steps. Hover thickens the label underline; disabled items keep the label on paper inside a tone frame. Radix needs type="single" | "multiple" on <Accordion>; Base UI does not.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/accordion`
-- Docs: https://DOMAIN/docs/components/accordion
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/accordion
 - Categories: display
 - Props:
   - `data-manga`: `string` — Set on the root, the items, the triggers and the panels (accordion, accordion-item, accordion-trigger, accordion-content): hooks for your own CSS.
@@ -357,7 +357,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 Manga-styled wrapper around your shadcn Dialog: centred 3px panel with a screentone shadow that pops in over three steps; the overlay is a light screentone fixed to the screen (no blur, no moiré when zooming). Sizes sm, default, lg, full. DialogBody adds a scrolling region that keeps the shadow outside. flash adds a halo of concentration lines around the window as it opens (off by default).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/dialog`
-- Docs: https://DOMAIN/docs/components/dialog
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/dialog
 - Categories: overlays
 - Props:
   - `size`: `"sm" | "default" | "lg" | "full"` (default `"default"`) — On DialogContent: max width.
@@ -377,7 +377,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/
 Manga-styled wrapper around your shadcn Tooltip as a mini speech bubble with a curved tail (or two circles for thought) that follows the side; the offset leaves room for the tail. TooltipBubble renders a static bubble for previews and docs.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/tooltip`
-- Docs: https://DOMAIN/docs/components/tooltip
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/tooltip
 - Categories: overlays
 - Props:
   - `variant`: `"speech" | "thought"` (default `"speech"`) — On TooltipContent.
@@ -397,7 +397,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/manga/t
 Manga speech bubble drawn in SVG at its real size and inscribed in its box, with real text inside. Variants: speech, thought (cloud), shout (spikes), whisper (dashed), narration (caption box), electronic (zigzag), wobbly (trembling). The tail points to top, bottom, start or end, aligned start/center/end, or none, and its room is reserved as margin; or pointAt={{ x, y }} (percent of the panel, in a Place) aims the tail at a point and lengthens it. Every length follows the font size, so on a Page the bubble scales with the page; there round bubbles square up a little to hold a block of text. align sets the text alignment, maxWidth the width limit (a percentage of the panel in a Place). BubbleGroup chains bubbles through a neck that hides both outlines.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/speech-bubble`
-- Docs: https://DOMAIN/docs/components/speech-bubble
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/speech-bubble
 - Categories: manga
 - Props:
   - `variant`: `"speech" | "thought" | "shout" | "whisper" | "narration" | "electronic" | "wobbly"` (default `"speech"`) — Bubble shape.
@@ -424,7 +424,7 @@ import { SpeechBubble, BubbleGroup } from "@/components/manga/speech-bubble"
 Screentone as a component: dots, lines, cross-hatching or noise, with density, angle and cell size (SVG patterns with patternTransform), and a stepped (never smooth) fade toward any side. Use it as a background (put labels on a plate with on-tone) or as a layer over art. Coloured by --tone-ink.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/screentone`
-- Docs: https://DOMAIN/docs/components/screentone
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/screentone
 - Categories: manga
 - Props:
   - `pattern`: `"dots" | "lines" | "cross" | "noise"` (default `"dots"`) — Tone pattern.
@@ -446,7 +446,7 @@ import { Screentone } from "@/components/manga/screentone"
 Emphasis lines drawn in SVG at the real size: focus (radial concentration lines with an empty centre and a movable origin) or motion (tapered parallel lines at any direction). Density control, optional stepped animation (off with reduced motion). Children sit on top with a paper knockout, ideal for SFX.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/speed-lines`
-- Docs: https://DOMAIN/docs/components/speed-lines
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/speed-lines
 - Categories: manga
 - Props:
   - `variant`: `"focus" | "motion"` (default `"focus"`) — Radial or parallel.
@@ -470,7 +470,7 @@ import { SpeedLines } from "@/components/manga/speed-lines"
 The manga page model. Page is a book page in a fixed format (pocket, magazine, square, or a free-height strip; spread for a double page) that keeps its proportions and scales as one block: lines, gutters, bubbles and sound effects are sized in container units of the page. A page is made of Tier (bands, height share, slant of the cut below) holding Panel (width share, slant of the cut after it) or Column (tiers inside a cell); the code order is the reading order, and reading="rtl" lays panels out right to left. Gutters between tiers are wider than between panels. Panel options: bleed, frameless, overflow, ink, inset (laid over the previous panel), shape straight | tilted | jagged | cloud | memory. Twelve templates (template prop): three-tiers, big-plus-two, l-shape, diagonal, four-koma, spread, grid-six, splash, inset, columns, shock, flashback; Panel children fill a template in order. Place puts any element in a panel in percent from an anchor (x="72%" y="12%" anchor="top-right") and keeps it inside the panel; SpeechBubble pointAt aims its tail. PanelArt shows a picture framed by a focal point and zoom, toned with TonedImage. The same page can be given as data (page prop, PageData JSON, same structure as the JSX; see page-geometry.ts). Under 480px the page folds into a vertical strip. pageGeometry(data) and onGeometry give each panel's box in reading order (percent of the page) for panel-by-panel readers. PanelGrid, the first CSS-grid layout (cols, rows, colSpan, rowSpan, cut, padding), stays for existing code and becomes Page when given a page, template, format or Tier children. PanelCaption is the narration box (corner or free).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/panel`
-- Docs: https://DOMAIN/docs/components/panel
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/panel
 - Categories: manga
 - Props:
   - `format`: `"pocket" | "magazine" | "square" | "strip"` (default `"pocket"`) — On Page: fixed proportions (strip: free height).
@@ -523,7 +523,7 @@ import { SpeechBubble } from "@/components/manga/speech-bubble"
 Onomatopoeia lettering: the SFX face (covers katakana) with a paper knockout, a tilt and a stepped pop when it appears. Variants solid (ink letters) and outline (paper letters, ink outline). Decorative by default (aria-hidden); pass label to make it spoken. On a Page the four sizes follow the page width instead of the screen.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sfx`
-- Docs: https://DOMAIN/docs/components/sfx
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/sfx
 - Categories: manga
 - Props:
   - `size`: `"sm" | "md" | "lg" | "xl"` (default `"md"`) — Letter size.
@@ -544,7 +544,7 @@ import { Sfx } from "@/components/manga/sfx"
 Manga-styled wrapper around your shadcn Textarea, drawn like Input: 2px ink line that thickens on hover, 3px with ink / paper / ink on focus, italic placeholder, dashed line and tone frame when disabled, accent line and a "!" mark on aria-invalid.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/textarea`
-- Docs: https://DOMAIN/docs/components/textarea
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/textarea
 - Categories: actions
 - Props:
   - `data-manga`: `"textarea"` — Set on the root: the hook the field's lines, the focus ring and the error mark are styled from.
@@ -560,7 +560,7 @@ import { Textarea } from "@/components/ui/manga/textarea"
 Manga-styled wrapper around your shadcn Label: lettering face, uppercase, never faded when its field is disabled. Optional required asterisk.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/label`
-- Docs: https://DOMAIN/docs/components/label
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/label
 - Categories: actions
 - Props:
   - `required`: `boolean` — Adds an ink asterisk.
@@ -576,7 +576,7 @@ import { Label } from "@/components/ui/manga/label"
 Manga-styled wrapper around your shadcn Field family (Field, FieldLabel, FieldDescription, FieldError, FieldSet, FieldLegend, FieldGroup, FieldSeparator). Labels in lettering, descriptions in ink, errors in the accent with a "!" mark and a shake. A choice card (FieldLabel wrapping a Field) is a 2px case; checked, it gets a 6px ink bar at the start.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/field`
-- Docs: https://DOMAIN/docs/components/field
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/field
 - Categories: actions
 - Props:
   - `data-invalid`: `"true"` — On Field: marks the field as invalid; its text stays in the foreground colour. FieldError is always in the accent colour with a "!" mark.
@@ -596,7 +596,7 @@ import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui
 Manga-styled wrapper around your shadcn Radio Group. Each option is a small diamond (only speech bubbles are round): the line thickens on hover, the checked one is an ink flat that sweeps in with a paper dot. Dashed when disabled.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/radio-group`
-- Docs: https://DOMAIN/docs/components/radio-group
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/radio-group
 - Categories: actions
 - Props:
   - `RadioGroupItem`: `component` — The diamond option: the line thickens on hover, the checked one turns to ink, and it is dashed when disabled.
@@ -616,7 +616,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/manga/radio-group"
 Manga-styled wrapper around your shadcn Slider: a 2px ink rail whose filled part runs with speed lines, and an ink block thumb with a paper gap. Hover thickens the thumb line; dashed rail when disabled.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/slider`
-- Docs: https://DOMAIN/docs/components/slider
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/slider
 - Categories: actions
 - Props:
   - `data-manga`: `"slider"` — Set on the root: the hook the rail, the speed-lined fill and the thumb are styled from.
@@ -632,7 +632,7 @@ import { Slider } from "@/components/ui/manga/slider"
 Manga-styled wrapper around your shadcn Alert: a 3px case with a tone shadow that pops in. destructive: accent line, a "!" column at the start and a shake when it appears. Title in lettering.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/alert`
-- Docs: https://DOMAIN/docs/components/alert
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/alert
 - Categories: feedback
 - Props:
   - `variant`: `"default" | "destructive"` (default `"default"`) — Destructive adds the accent and the “!” mark.
@@ -651,7 +651,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/manga/alert
 Manga-styled wrapper around your shadcn Alert Dialog: a 3px case that pops in over three steps (flash adds a halo of concentration lines, off by default), over the light screentone veil from base. Action and Cancel are drawn as manga buttons; the action hits on click (tone="destructive" for irreversible actions).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/alert-dialog`
-- Docs: https://DOMAIN/docs/components/alert-dialog
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/alert-dialog
 - Categories: overlays
 - Props:
   - `tone`: `"default" | "destructive"` (default `"default"`) — On AlertDialogAction: the button look.
@@ -680,7 +680,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 Manga-styled wrapper around your shadcn Popover: a speech bubble (3px line, round corners) with a tail toward the trigger, popping in. Adds PopoverBubble, a static twin for previews.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/popover`
-- Docs: https://DOMAIN/docs/components/popover
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/popover
 - Categories: overlays
 - Props:
   - `PopoverBubble`: `component` — A static bubble with the same look, for previews and docs. Takes side ("bottom" | "top") and children.
@@ -699,7 +699,7 @@ import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "@/compone
 Manga-styled wrapper around your shadcn Hover Card: the same speech bubble as Popover, with a tail toward the trigger, popping in.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/hover-card`
-- Docs: https://DOMAIN/docs/components/hover-card
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/hover-card
 - Categories: overlays
 
 ```tsx
@@ -716,7 +716,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/m
 Manga-styled wrapper around your shadcn Dropdown Menu: a case with a notch toward the trigger, popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent. Group labels in underlined lettering, sub-menus with a brush chevron. Put DropdownMenuLabel inside a DropdownMenuGroup: Base UI requires it (Radix does not).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/dropdown-menu`
-- Docs: https://DOMAIN/docs/components/dropdown-menu
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/dropdown-menu
 - Categories: overlays
 - Props:
   - `data-variant`: `"default" | "destructive"` — Set on each row by variant. Destructive rows use the accent.
@@ -738,7 +738,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 Manga-styled wrapper around your shadcn Sheet: a case docked to an edge, 3px line on the open side with an offset frame thrown onto the page, sliding in over three frames. Title in lettering; the veil comes from base.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sheet`
-- Docs: https://DOMAIN/docs/components/sheet
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/sheet
 - Categories: overlays
 - Props:
   - `data-side`: `"right" | "left" | "top" | "bottom"` — Set on SheetContent by side. The 3px line and the offset frame follow that edge.
@@ -757,7 +757,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/m
 Manga-styled wrapper around your shadcn Avatar: a small square panel (2px ink frame), pictures in greyscale, initials in lettering on paper. Badge is a small ink square; groups overlap with a paper gap; the group count is an ink flat. Option toned: the picture goes through the toned-image screentone (dots, lines, cross or noise).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/avatar`
-- Docs: https://DOMAIN/docs/components/avatar
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/avatar
 - Categories: display
 - Props:
   - `toned`: `boolean | { pattern?, density?, contrast?, threshold? }` (default `false`) — Screentone the picture (see toned-image). true uses the defaults: dots, 6px.
@@ -776,7 +776,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/manga/avata
 Manga-styled wrapper around your shadcn Progress: a 2px ink rail filled with speed lines; the fill moves in four steps. Label in lettering, value in monospace.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/progress`
-- Docs: https://DOMAIN/docs/components/progress
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/progress
 - Categories: feedback
 
 ```tsx
@@ -790,7 +790,7 @@ import { Progress } from "@/components/ui/manga/progress"
 Waiting mark: concentration lines turning in steps. The stock Spinner is only an icon, so this one draws its own lines (same props: className and svg attributes; role="status").
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/spinner`
-- Docs: https://DOMAIN/docs/components/spinner
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/spinner
 - Categories: feedback
 - Props:
   - `className`: `string` — Sets the size and spacing of the lines, for example size-4 or size-10.
@@ -806,7 +806,7 @@ import { Spinner } from "@/components/ui/manga/spinner"
 Manga-styled wrapper around your shadcn Separator: 2px ink by default, fine (1px), or double for a break between chapters.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/separator`
-- Docs: https://DOMAIN/docs/components/separator
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/separator
 - Categories: display
 - Props:
   - `variant`: `"ink" | "fine" | "double"` (default `"ink"`) — Line weight.
@@ -823,7 +823,7 @@ import { Separator } from "@/components/ui/manga/separator"
 Manga-styled wrapper around your shadcn Pagination: page numbers are cells with a 2px frame whose line thickens on hover; the current page is an ink flat that sweeps in; previous / next carry brush arrows. In manga reading order the pages run right to left.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/pagination`
-- Docs: https://DOMAIN/docs/components/pagination
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/pagination
 - Categories: navigation
 - Props:
   - `data-reading`: `"rtl"` — Set on an ancestor (manga reading order): the pages run right to left and the arrows turn with them.
@@ -845,7 +845,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 Manga-styled wrapper around your shadcn Breadcrumb: lettering, links whose underline thickens on hover, the current page as an ink flat, brush chevrons between steps.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/breadcrumb`
-- Docs: https://DOMAIN/docs/components/breadcrumb
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/breadcrumb
 - Categories: navigation
 - Props:
   - `children`: `ReactNode` — On BreadcrumbSeparator: replaces the brush chevron with your own mark, such as a slash.
@@ -867,7 +867,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 Manga-styled wrapper around your shadcn Empty: a 2px solid frame (dashes mean disabled in this kit), title in lettering, media in an ink frame. Adds EmptyMark, a heavy ellipsis that pops in.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/empty`
-- Docs: https://DOMAIN/docs/components/empty
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/empty
 - Categories: feedback
 - Props:
   - `EmptyMark`: `component` — The heavy ellipsis that pops in above the title; a span, so className sets its size.
@@ -889,7 +889,7 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMark, EmptyTitle } from "@/c
 Manga-styled wrapper around your shadcn Bubble (conversation): speech bubbles with a 2px ink line and a tail at the bottom pointing at the speaker; only the last bubble of a group keeps its tail; new bubbles pop in. default is an ink bubble (your messages), secondary / muted / outline / tinted are paper bubbles, destructive adds the accent and a "!" mark.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/bubble`
-- Docs: https://DOMAIN/docs/components/bubble
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/bubble
 - Categories: display
 - Props:
   - `data-manga`: `string` — Set on the root (bubble): a hook for your own CSS. The variant is read from data-variant.
@@ -908,7 +908,7 @@ import { Bubble, BubbleContent, BubbleGroup } from "@/components/ui/manga/bubble
 Manga-styled wrapper around your shadcn Message (conversation): square avatar frame, speaker name in lettering, time in a small monospace. Pair with Bubble.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/message`
-- Docs: https://DOMAIN/docs/components/message
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/message
 - Categories: display
 - Props:
   - `data-manga`: `"message"` — Set on the root line: the hook to style every message of the page from CSS.
@@ -930,7 +930,7 @@ import { Message, MessageAvatar, MessageContent, MessageHeader } from "@/compone
 Emotion marks drawn for the kit (manpu): anger vein, sweat drop, surprise lines, question mark, sparkle, gloom lines, love, sigh. Ink strokes that pop in; anger and sparkle keep a small stepped motion. Decorative by default; pass label to make it spoken.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/manpu`
-- Docs: https://DOMAIN/docs/components/manpu
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/manpu
 - Categories: manga
 - Props:
   - `kind`: `"anger" | "sweat" | "surprise" | "question" | "sparkle" | "gloom" | "love" | "sigh"` — Which mark.
@@ -950,7 +950,7 @@ import { Manpu } from "@/components/manga/manpu"
 A starburst drawn in SVG (irregular spikes, 3px outline) with its content centred on the flat, never on a tone. Variants ink, paper and accent; it fidgets in steps on hover, or always.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/burst`
-- Docs: https://DOMAIN/docs/components/burst
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/burst
 - Categories: manga
 - Props:
   - `variant`: `"ink" | "paper" | "accent"` (default `"ink"`) — Fill.
@@ -970,7 +970,7 @@ import { Burst } from "@/components/manga/burst"
 A seal in the accent colour: double square frame, heavy lettering, slightly uneven ink, tilted; lands with a thump. Horizontal or vertical (top to bottom). tone="ink" draws it in ink for everyday statuses.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/stamp`
-- Docs: https://DOMAIN/docs/components/stamp
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/stamp
 - Categories: manga
 - Props:
   - `rotate`: `number` (default `-8`) — Tilt in degrees.
@@ -990,7 +990,7 @@ import { Stamp } from "@/components/manga/stamp"
 A title ribbon for announcements and section heads: ink, paper or accent, with swallowtail or straight ends; optional speed lines running out from both ends (never under the text).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/banner`
-- Docs: https://DOMAIN/docs/components/banner
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/banner
 - Categories: manga
 - Props:
   - `variant`: `"ink" | "paper" | "accent"` (default `"ink"`) — Ribbon colour.
@@ -1008,7 +1008,7 @@ import { Banner } from "@/components/manga/banner"
 Steps as chapter marks: done steps get a brush check, the current one is an ink flat that sweeps in, the next ones are paper squares; the rail between done steps runs with speed lines. Horizontal or vertical; follows the manga reading order.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/stepper`
-- Docs: https://DOMAIN/docs/components/stepper
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/stepper
 - Categories: manga
 - Props:
   - `steps`: `{ label; description? }[]` — The steps.
@@ -1026,7 +1026,7 @@ import { Stepper } from "@/components/manga/stepper"
 A key figure in a case: label in lettering, the number in the SFX face, a brush arrow for the trend. With emphasis, concentration lines burst around the case (never under the number).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/stat`
-- Docs: https://DOMAIN/docs/components/stat
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/stat
 - Categories: manga
 - Props:
   - `label`: `ReactNode` — What is counted, in lettering.
@@ -1046,7 +1046,7 @@ import { Stat } from "@/components/manga/stat"
 Plain styled elements for manga text, with no state and no gesture of their own. Headings use the lettering face (TypographyH1 and H2 switch to the SFX face with the sfx prop); body text uses the reading face. Variants: TypographyH1, H2 (ink rule underneath), H3, H4, P, Lead, Large, Small, Muted (smaller, same ink, never grey), Blockquote (a narration box: a 2px case with a 6px ink bar at the start), List, InlineCode (fine frame, monospace) and Table (an ink header and 1px row rules, the kit Table look). Each accepts className and the element's props.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/typography`
-- Docs: https://DOMAIN/docs/components/typography
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/typography
 - Categories: foundations
 - Props:
   - `sfx`: `boolean` — On TypographyH1 and TypographyH2: use the SFX face instead of the lettering face.
@@ -1066,7 +1066,7 @@ import { TypographyH1, TypographyP, TypographyBlockquote } from "@/components/ui
 Manga-styled command palette (cmdk). The palette is a case (3px ink line, tone shadow) with a search row drawn like an input with a search mark and a 2px line under it. Group headings are underlined lettering; the highlighted item inverts to an ink flat; the chosen item gets a brush check; disabled items keep the label with a dashed underline. Shortcuts are mono lettering in a fine frame. CommandDialog pops in over three steps, and its case is the palette itself. Empty state uses a “…” mark. Gestures: G1 case, G2 flat, G3 hover inversion, G5 pop, G8 check.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/command`
-- Docs: https://DOMAIN/docs/components/command
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/command
 - Categories: actions
 - Props:
   - `CommandDialog`: `component` — The palette in a dialog (open, onOpenChange, title, description). The dialog frame is hidden: the palette draws the case.
@@ -1097,7 +1097,7 @@ import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, Comma
 Manga-styled on/off button (Base UI or Radix toggle). Variants: default (frameless: inverts to ink on hover) and outline (2px frame on paper: lifts its tone shadow on hover). Sizes sm, default, lg. Off is paper; on (aria-pressed or data-state=on) is an ink flat that sweeps in over three frames. Click plays the impact (speed lines, 2px recoil). Disabled: dashed line, tone frame, label on paper, not-allowed cursor. Gestures: G2 flat, G3 hover, G4 impact.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/toggle`
-- Docs: https://DOMAIN/docs/components/toggle
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/toggle
 - Categories: actions
 - Props:
   - `variant`: `"default" | "outline"` — default: frameless, inverts on hover · outline: 2px frame, lifts on hover.
@@ -1117,7 +1117,7 @@ import { Toggle } from "@/components/ui/manga/toggle"
 Manga-styled group of toggles (Base UI or Radix). By default (spacing 0) the toggles share one frame, split by a 2px line like the cells of a boxed Tabs; the pressed cell is an ink flat that sweeps in; hover thickens the line of a cell. With spacing above 0 each toggle is a framed button of its own. Orientation horizontal or vertical. Single and multiple selection come from the stock API (value / defaultValue arrays, multiple). Focus stays inside its cell. Gestures: G2 flat, G3 hover on cells, G4 impact.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/toggle-group`
-- Docs: https://DOMAIN/docs/components/toggle-group
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/toggle-group
 - Categories: actions
 - Props:
   - `spacing`: `number` (default `0`) — 0 (default): one joined frame. Above 0: separate framed toggles with that gap.
@@ -1140,7 +1140,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/manga/toggle-group
 Manga-styled group of buttons and inputs joined in one row or column. Shared edges collapse to one 2px line; the outer corners follow the radius. A ButtonGroupSeparator is an ink rule (2px, no tone) between two buttons. ButtonGroupText is a label cell in the same frame. Works with the kit Button and Input. Vertical orientation is supported. The focused button draws its ring inside itself, never over a neighbour. Gestures: the buttons keep their own G3 hover, G4 impact and focus.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/button-group`
-- Docs: https://DOMAIN/docs/components/button-group
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/button-group
 - Categories: actions
 - Props:
   - `orientation`: `"horizontal" | "vertical"` — Row (default) or column; the shared line follows it.
@@ -1163,7 +1163,7 @@ import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/manga/button-
 Manga-styled wrapper around your shadcn Scroll Area. The scrollbar thumb is a flat of ink inset in a fine ink track (a 1px line on the start edge). No rounded pill, no opacity fade, a square corner. The viewport focus ring is an ink line inside the area. Keyboard and wheel behaviour are stock. Add a horizontal bar with ScrollBar orientation="horizontal". Works with Radix and Base UI.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/scroll-area`
-- Docs: https://DOMAIN/docs/components/scroll-area
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/scroll-area
 - Categories: display
 - Props:
   - `data-manga`: `"scroll-area" | "scroll-bar"` — Set on the area and on its bar: the hooks to style the ink thumb and track from CSS.
@@ -1186,7 +1186,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/manga/scroll-area"
 Manga-styled wrapper around your shadcn Collapsible. The trigger is a frameless lettering row: its underline thickens on hover and its brush chevron turns in two steps when open. The content unfolds with a drop-in by steps. No frame of its own, so it sits on the page or inside a case the caller adds. Disabled keeps the label on paper with a dashed underline and a not-allowed cursor. Works with Radix and Base UI.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/collapsible`
-- Docs: https://DOMAIN/docs/components/collapsible
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/collapsible
 - Categories: display
 - Props:
   - `data-manga`: `string` — Set on the root, the trigger and the content (collapsible, collapsible-trigger, collapsible-content): hooks for your own CSS.
@@ -1205,7 +1205,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 Manga-styled wrapper around your shadcn Navigation Menu. Top-level triggers are frameless lettering: an underline thickens on hover, and the open one is an ink flat that sweeps in, with a brush chevron that turns in two steps. The panel is an ink case that pops in, its links invert on hover and the current link is an ink flat. Focus is an ink line inside the shape. Works with Radix and Base UI: the viewport ring and shadow are removed on Radix, the stock Base UI popup keeps its own ring. Items that open a panel use NavigationMenuItem with a value; a plain NavigationMenuLink needs no panel.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/navigation-menu`
-- Docs: https://DOMAIN/docs/components/navigation-menu
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/navigation-menu
 - Categories: navigation
 - Props:
   - `navigationMenuTriggerStyle()`: `() => string` — Classes for a trigger built by hand (frozen states, plain buttons), the same look as NavigationMenuTrigger.
@@ -1232,7 +1232,7 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 Manga-styled wrapper around your shadcn Sidebar. Desktop: a case with a 3px ink edge on its open side (like Sheet), paper inside. Rows are frameless and invert to ink on hover; the current row is an ink flat that sweeps in over three frames, as in Tabs. Group labels are underlined lettering. Badges are paper plates with an ink frame. The trigger is an ink square that inverts on hover; the rail is an ink line that thickens on hover. Collapsed (icon) mode keeps square icon cells. Mobile: the same panel as a sheet that slides in from its edge, with an offset second frame. Clicks hit with the impact gesture. Disabled rows: dashed frame and tone frame, label on paper. Parts: SidebarProvider, Sidebar, SidebarTrigger, SidebarRail, SidebarInset, SidebarHeader, SidebarFooter, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton (isActive, tooltip), SidebarMenuAction, SidebarMenuBadge, SidebarMenuSub, SidebarMenuSubButton, SidebarInput, SidebarSeparator, useSidebar.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sidebar`
-- Docs: https://DOMAIN/docs/components/sidebar
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/sidebar
 - Categories: navigation
 - Props:
   - `collapsible`: `"offcanvas" | "icon" | "none"` — On Sidebar. icon keeps square icon cells when collapsed; offcanvas slides the panel away; none is always open.
@@ -1267,7 +1267,7 @@ import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, 
 Manga-styled wrapper around your shadcn Item: a list row with a media square, a title, a description and actions at the end. Variants: default (frameless row), outline (a 2px ink case), muted (a 1px fine ink line on paper with a 6px tone band on the start edge, outside the text; no inner tone frame, so it never reads as disabled). Sizes default, sm, xs. Media is a 40px square case with a 2px ink frame. Titles are lettering; descriptions take the row's colour. Pass interactive for a row that is clicked: a frameless row inverts to ink on hover (G3), a framed or muted row thickens its line by 1px. Disabled: dashed frame with a tone frame and the label on paper. Also ItemGroup (a list), ItemSeparator (a fine ink line), ItemHeader and ItemFooter.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/item`
-- Docs: https://DOMAIN/docs/components/item
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/item
 - Categories: display
 - Props:
   - `variant`: `"default" | "outline" | "muted"` (default `"default"`) — default: frameless row. outline: 2px ink case. muted: 1px fine line with a 6px tone band on the start edge.
@@ -1295,7 +1295,7 @@ import { Item, ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemActions }
 Manga-styled wrapper around your shadcn Kbd: a key cap drawn in ink. A 2px frame with a heavier 3px bottom edge, like a pressed key; paper inside; lettering inside, uppercase. KbdGroup spaces a chord (Ctrl K). No tone (under 24px). Keys are not interactive: no hover, press or focus state. Works inline in a sentence, in a tooltip and on an ink flat.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/kbd`
-- Docs: https://DOMAIN/docs/components/kbd
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/kbd
 - Categories: display
 - Props:
   - `KbdGroup`: `component` — Spaces a chord of keys (Ctrl, Shift, K) on one line.
@@ -1313,7 +1313,7 @@ import { Kbd, KbdGroup } from "@/components/ui/manga/kbd"
 Manga-styled wrapper around the shadcn Chart (recharts). Series are told apart by screentone and hatching, never by colour: chartFill(series) gives each series a pattern (solid ink, 45° hatching, dots, horizontal lines, cross hatching, fine dots), bars and areas are outlined in 2px ink, pie slices are separated by paper gaps. Lines differ by dash and by marker (ChartMarker: square, diamond, dot). The container is a case; the tooltip is a speech bubble with a tail; the legend shows pattern swatches. Exports ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle, ChartPatterns, ChartMarker, chartFill, chartPattern, chartPatternFill and type ChartConfig. Ink and paper only, dark mode is the negative.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/chart`
-- Docs: https://DOMAIN/docs/components/chart
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/chart
 - Categories: display
 - Props:
   - `ChartContainer`: `{ config, id?, className? } + recharts children` — A case around the recharts container. className goes on the case; --chart-h sets the height.
@@ -1346,7 +1346,7 @@ const keys = Object.keys(config)
 A sortable, filterable, selectable table built on @tanstack/react-table and the mangacn Table. The table is a case with an ink header; sorted columns show a brush arrow (aria-sort); the hovered row gets its ink bar and selected rows a 6px bar. The toolbar has a filter field (filterColumn) and a column visibility menu (grouped, checkable items). Row selection uses the mangacn Checkbox, with a select-all in the header; pagination uses the mangacn Button. An empty filter result shows the "…" mark (TableEmpty). Props: columns, data, filterColumn?, pageSize?, onSelectionChange?(rows). Also exports selectColumn. On phones (table narrower than 640px) rows become cards: checkbox, title, badge, labelled lines; set `meta: { card: ... }` on a column to choose.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/data-table`
-- Docs: https://DOMAIN/docs/components/data-table
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/data-table
 - Categories: display
 - Props:
   - `columns`: `ColumnDef<TData, TValue>[]` — Column definitions. A selection column is added first by the table.
@@ -1374,7 +1374,7 @@ const columns: ColumnDef<Chapter>[] = [
 Any picture turned into a manga screentone: black and white, dark areas become dense dots or lines in ink, light areas stay paper. Patterns: dots (45° screen), lines, cross, noise. Settings: density (cell size in px), contrast, threshold (solid ink above a darkness level). Done with CSS only (blend modes, filters, radial and linear gradients, a feTurbulence noise tile as background): same look in Chromium, Firefox and WebKit, cross-origin pictures work, nothing uploaded. Ink is the foreground colour, paper the background; dark mode is the negative. Keeps alt text.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/toned-image`
-- Docs: https://DOMAIN/docs/components/toned-image
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/toned-image
 - Categories: manga
 - Props:
   - `src / alt`: `string` — The picture and its text alternative (kept). Same-origin, data: or blob: URL.
@@ -1395,7 +1395,7 @@ import { TonedImage } from "@/components/manga/toned-image"
 A character sheet in a case: a portrait panel (toned as a screentone, or the initials on paper), the name in lettering, the role, stats as bars filled with speed lines, tags (kit Badge) and a short quote in a small speech bubble. Static by default; interactive adds the hover lift and the ink focus ring.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/character-card`
-- Docs: https://DOMAIN/docs/components/character-card
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/character-card
 - Categories: manga
 - Props:
   - `name`: `string` — Set in lettering.
@@ -1427,7 +1427,7 @@ import { CharacterCard } from "@/components/manga/character-card"
 A number that changes with an impact: when the value changes, the number takes the three-frame hit (G4) with speed lines on both sides, and a growing value flashes a "+n" burst (G8) that leaves after a moment. Lettering after the number, optional icon, custom format. Sizes sm, default, lg. Reduced motion: the new number only. Built for likes, streaks and scores.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/impact-counter`
-- Docs: https://DOMAIN/docs/components/impact-counter
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/impact-counter
 - Categories: manga
 - Props:
   - `value`: `number` — The number. Each change plays the impact.
@@ -1447,7 +1447,7 @@ import { ImpactCounter } from "@/components/manga/impact-counter"
 Manga-styled wrapper around your shadcn Input Group. The whole group is drawn like Input: a 2px ink line on paper; the inner input or textarea has no line of its own. Hover thickens the group's line (G3, fields); focus on the control thickens it to 3px with a paper gap and an ink ring around the group; aria-invalid on the control gives an accent line, a "!" mark and a serrated bottom edge; a disabled control gives a dashed line and a tone frame with the text on paper. Addons and InputGroupText read in ink in the reading face. InputGroupButton is a small kit button (2px frame, lettering, hover inverts to ink, pressed is a negative with a 2px offset, focus ring kept inside the group). Block addons (block-start / block-end) are separated by a fine ink rule. At least 44px tall under 640px. Exports inputGroupClassName for components whose input is an input group (Combobox).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/input-group`
-- Docs: https://DOMAIN/docs/components/input-group
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/input-group
 - Categories: actions
 - Props:
   - `align`: `"inline-start" | "inline-end" | "block-start" | "block-end"` — On InputGroupAddon: where the addon sits. Block addons get a fine ink rule.
@@ -1474,7 +1474,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGr
 Manga-styled wrapper around your shadcn Native Select (a real <select>). Drawn like the kit Select trigger: a 2px ink line on paper and a brush chevron (mark-chevron) in place of the stock icon. Hover thickens the line (G3, fields); focus thickens it to 3px with a paper gap and an ink ring; aria-invalid gives an accent line, a "!" mark before the chevron and a serrated bottom edge; disabled gives a dashed line and a tone frame with the label on paper and a not-allowed cursor. Sizes default and sm, both 44px tall under 640px. The options keep the browser's native popup.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/native-select`
-- Docs: https://DOMAIN/docs/components/native-select
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/native-select
 - Categories: actions
 - Props:
   - `size`: `"sm" | "default"` — Height and text size (44px tall under 640px either way).
@@ -1496,7 +1496,7 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/manga/native-s
 Manga-styled wrapper around your shadcn Context Menu: a case that opens at the pointer (no notch), popping in. Rows invert to ink on hover or keyboard focus; checkbox rows get a brush check, radio rows an ink diamond; destructive rows use the accent; sub-menus have a brush chevron. Rows are 44px tall under 640 px. Put ContextMenuLabel inside a ContextMenuGroup: Base UI requires it (Radix does not). Works with Base UI and Radix.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/context-menu`
-- Docs: https://DOMAIN/docs/components/context-menu
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/context-menu
 - Categories: overlays
 - Props:
   - `ContextMenuTwin`: `component` — A static look-alike of an open menu, for documentation and state grids. Takes className and children.
@@ -1519,7 +1519,7 @@ import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } 
 Manga-styled wrapper around your shadcn Menubar: a 2px frame with lettering triggers in a group. A trigger thickens its line on hover, an open trigger is an ink flat, and focus is drawn inside the cell. Menus are the Dropdown Menu panel with the notch toward the trigger. On phones the bar wraps so every trigger keeps a 44px target. Works with Base UI and Radix.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/menubar`
-- Docs: https://DOMAIN/docs/components/menubar
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/menubar
 - Categories: navigation
 - Props:
   - `highlighted`: `boolean` — On MenubarTwinRow: the row in its highlighted (ink flat) state, for state grids.
@@ -1548,7 +1548,7 @@ import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } fro
 Manga-styled wrapper around your shadcn Resizable panels (react-resizable-panels v4). The handle is a 2px ink line: hover thickens it by 1px per side, focus draws the focus ring, and a grip (withHandle) is a small 2px-framed box that turns to an ink flat while dragging. The hit area is 24px wide (44px under 640 px). Put the group inside a case (ink-case) to frame the panels.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/resizable`
-- Docs: https://DOMAIN/docs/components/resizable
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/resizable
 - Categories: display
 - Props:
   - `withHandle`: `boolean` (default `false`) — On ResizableHandle: draws the grip (a small 2px-framed box with two ink lines).
@@ -1568,7 +1568,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 Manga-styled wrapper around your shadcn Aspect Ratio. No manga effect: it is a layout tool, so only the data-manga hook is added. Same API: pass a ratio (width / height) and the child fills the box.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/aspect-ratio`
-- Docs: https://DOMAIN/docs/components/aspect-ratio
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/aspect-ratio
 - Categories: display
 - Props:
   - `data-manga`: `string` — Set on the box (aspect-ratio): a hook for your own CSS. The ratio prop is the stock one, see the shadcn page.
@@ -1586,7 +1586,7 @@ import { AspectRatio } from "@/components/ui/manga/aspect-ratio"
 Manga-styled wrapper around your shadcn Drawer (Base UI drawer or vaul). Like Sheet docked to an edge: paper, a 3px ink line on the open side and an offset second frame thrown onto the page as its shadow, in all four directions. The grab handle is a 2px ink bar with square ends, 64px wide; the title is in lettering; the footer sits above a 2px rule. The library keeps its own slide and drag transforms; the wrapper only makes their timing stepped (steps(5)), so swiping still follows the finger, and nothing moves with reduced motion. The veil comes from base. Adds DrawerCard, a static look-alike of an open drawer for previews and frozen states. Buttons inside are the kit Button.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/drawer`
-- Docs: https://DOMAIN/docs/components/drawer
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/drawer
 - Categories: overlays
 - Props:
   - `swipeDirection / direction`: `"down" | "up" | "left" | "right" (Base UI) · "bottom" | "top" | "left" | "right" (vaul)` — On Drawer: the edge it slides from, with each library's own prop. The 3px line and the offset frame follow it.
@@ -1613,7 +1613,7 @@ import { Button } from "@/components/ui/manga/button"
 Manga-styled wrapper around your shadcn Carousel (embla). Every slide is a panel: its content gets a 2px ink frame on paper (ink-case-inner). Previous / Next are the kit outline icon button with a brush arrow: the tone shadow appears on hover, pressed is a negative with impact lines, focus is the ink / paper / ink ring, disabled is dashed with a tone frame. Under 640px they grow to 44px and sit inside the carousel width, in a row under the slides (stock places them 48px outside). Adds CarouselDots, a mangacn addition built on useCarousel: square dots, the current one an ink flat that sweeps in, 24px hit areas (44px under 640px). Manga reading order: under data-reading="rtl" (or opts.direction "rtl", or dir="rtl") embla runs right to left, slides flow right to left, the arrows and arrow keys follow; text stays left to right. Vertical orientation puts the buttons above and below and uses the up / down keys.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/carousel`
-- Docs: https://DOMAIN/docs/components/carousel
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/carousel
 - Categories: display
 - Props:
   - `CarouselDots`: `component` — mangacn addition: one square dot per snap point; the current one is an ink flat. Uses useCarousel.
@@ -1639,7 +1639,7 @@ import { Carousel, CarouselContent, CarouselDots, CarouselItem, CarouselNext, Ca
 Two halves of a comparison split by a 3px ink diagonal, with a VS burst at the crossing. Side by side from a container width of 36rem, the halves stack below it and the split becomes a zig from left to right with the VS on it (container queries, no viewport breakpoints). Exactly two VersusSide children; highlight gives one side the ink flat with paper text (the recommended offer). Each side is a named region. Gestures: case (outer frame), flat (highlight), burst (VS mark).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/versus-panel`
-- Docs: https://DOMAIN/docs/components/versus-panel
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/versus-panel
 - Categories: manga
 - Props:
   - `label`: `string` (default `"VS"`) — Lettering on the crossing mark (decorative, aria-hidden).
@@ -1664,7 +1664,7 @@ import { VersusPanel, VersusSide } from "@/components/manga/versus-panel"
 A waiting screen: concentration lines turning behind a paper plate, an onomatopoeia in the SFX face in the centre, an optional message and either a determinate bar filled with speed lines (progress 0 to 100) or an indeterminate turning spinner (progress omitted). role=status with aria-live=polite; the SFX is decorative. Fills its container by default; fullscreen covers the viewport (fixed, z-50). Lines stop under prefers-reduced-motion, the states stay distinct.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/loading-screen`
-- Docs: https://DOMAIN/docs/components/loading-screen
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/loading-screen
 - Categories: manga
 - Props:
   - `sfx`: `string` (default `"ドドド"`) — Onomatopoeia in the centre (decorative).
@@ -1687,7 +1687,7 @@ import { LoadingScreen } from "@/components/manga/loading-screen"
 A manga volume in a case: a 2:3 cover framed in ink with the volume number as a lettering tag on its corner, the title in lettering, the author, a status (new as a burst, ongoing as an ink flat, completed with a brush check, hiatus as an outline) and reading progress as a bar filled with speed lines with the count. Static by default; with href it is a link, with onSelect a button, both with the hover lift, the ink focus ring and a pressed offset. Works in a two-column grid at 360 px.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/volume-card`
-- Docs: https://DOMAIN/docs/components/volume-card
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/volume-card
 - Categories: manga
 - Props:
   - `title`: `ReactNode` — Set in lettering.
@@ -1721,7 +1721,7 @@ import { VolumeCard } from "@/components/manga/volume-card"
 Manga-styled wrapper around your shadcn Combobox (Base UI in both shadcn versions). The input is the kit input group: a 2px ink line on paper that thickens on hover (G3, fields) and gets 3px + paper + ink on focus; aria-invalid gives an accent line, a "!" mark and a serrated edge; disabled gives a dashed line and a tone frame. The chevron is a brush mark (mark-chevron) that turns when open; the clear button is a small 2px square that inverts on hover. The popup is a case (3px ink line, tone shadow) with a notch toward the input, popping in over three frames. The highlighted item inverts to ink; the chosen item gets a brush check that draws itself; disabled items keep the label with a dashed underline. Group labels are underlined lettering; the separator is a fine ink rule; the empty state is a solid-line box with a "…" mark and lettering. Chips (multiple) are drawn like Badge (2px frame, lettering, square) with a remove cell that inverts; focus stays inside the chip; chips wrap. Rows are 44px tall under 640px. Exports the class strings of the popup, item, label, empty state and chip for static look-alikes.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/combobox`
-- Docs: https://DOMAIN/docs/components/combobox
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/combobox
 - Categories: actions
 - Props:
   - `aria-invalid`: `boolean` — On ComboboxInput or ComboboxChipsInput: the error look on the field.
@@ -1747,7 +1747,7 @@ import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, 
 Manga-styled wrapper around your shadcn Input OTP (input-otp). The slots are joined 44px cells in one 2px ink frame (shared lines collapse to one 2px rule), each character large in the lettering face. Hover thickens the frame; the active slot gets a 3px line inside (never over its neighbours) and a 2px ink caret blinking in steps; focus adds ink / paper / ink around the group. The separator is a short 2px dash. aria-invalid (on InputOTP or on a slot) turns the lines to the accent and adds a "!" mark beside the group; disabled is dashed with a tone frame in each cell, characters kept on paper. Six slots and a separator fit a 360px screen.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/input-otp`
-- Docs: https://DOMAIN/docs/components/input-otp
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/input-otp
 - Categories: actions
 - Props:
   - `aria-invalid`: `boolean` — On InputOTP (or a slot): accent lines and a "!" mark beside the group.
@@ -1777,7 +1777,7 @@ import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/comp
 Manga-styled wrapper around your shadcn Calendar (react-day-picker). No frame of its own: put it in a Card, a Popover or an ink-case. Month caption and weekday heads in the uppercase lettering face; square 2px-framed nav buttons with a brush chevron (hover thickens the line, focus is ink / paper / ink). Day cells are cells of a group: hover draws a 1px line inside, focus stays inside the cell. Selected day, range start and range end are ink flats that sweep in over three frames; today is a 2px ink frame (selected wins); the middle of a range is paper with a fine ink line above and below, never a tone behind the number. Outside days keep the same ink in a lighter weight; disabled days get a dashed line-through and a not-allowed cursor. The dropdown caption draws its month and year selects with a 2px line and a brush chevron. Cells are 40px; under 640px they share the available width up to 44px, so a month fits a 360px screen; several months sit side by side from 640px and stack on phones. Same API as the stock Calendar (mode single, multiple, range).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/calendar`
-- Docs: https://DOMAIN/docs/components/calendar
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/calendar
 - Categories: actions
 - Props:
   - `captionLayout`: `"label" | "dropdown" | "dropdown-months" | "dropdown-years"` (default `"label"`) — Dropdowns draw month and year selects with a 2px line and a brush chevron (use with startMonth / endMonth).
@@ -1801,7 +1801,7 @@ const [date, setDate] = React.useState<Date | undefined>(new Date())
 mangacn's own Date Picker (shadcn documents it as a recipe, not an item): DatePicker (one date) and DateRangePicker (from / to), built on the manga Popover and Calendar. The trigger is a field like the Select trigger: 2px ink line, a drawn calendar mark, the placeholder in the same ink (italic, never grey), the date formatted with date-fns. Hover thickens the line, focus is ink / paper / ink, the line goes to 3px while open, disabled is dashed with a tone frame, aria-invalid adds the accent line and a "!" mark. The calendar opens in a speech bubble with a tail toward the trigger and pops in; choosing a day closes it (single). The range picker shows two months from 640px and one on phones, so the bubble fits a 360px screen. Works with Radix and Base UI (the trigger only gets a className).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/date-picker`
-- Docs: https://DOMAIN/docs/components/date-picker
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/date-picker
 - Categories: actions
 - Props:
   - `value / defaultValue`: `Date (DatePicker) · DateRange (DateRangePicker)` — Controlled or initial value.
@@ -1827,7 +1827,7 @@ import { DatePicker, DateRangePicker } from "@/components/ui/manga/date-picker"
 Manga-styled wrapper around your shadcn Attachment (a file attached to a message or a prompt): a 2px ink frame, a fine-framed media square, title in the reading face and description in small mono. States via state: done (rest), uploading (a running line along the bottom edge), processing (the manga Spinner in the media square), error (accent line, a mark-error '!' and accent description), idle (a solid line with a '+' mark). AttachmentTrigger makes the whole card clickable (hover-lift, focus ring); AttachmentAction is a small square ink button with hover-thicken. AttachmentGroup wraps. Sizes default, sm, xs; orientation horizontal or vertical.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/attachment`
-- Docs: https://DOMAIN/docs/components/attachment
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/attachment
 - Categories: display
 - Props:
   - `state`: `"idle" | "uploading" | "processing" | "error" | "done"` (default `"done"`) — The look of the file: running line, spinner, accent error or idle '+'.
@@ -1852,7 +1852,7 @@ import { Attachment, AttachmentMedia, AttachmentContent, AttachmentTitle, Attach
 Manga-styled wrapper around your shadcn Marker (a line inside a conversation, such as 'Today', 'Model switched to ...' or 'Context compacted'): lettering, small, uppercase, always ink (never grey). variant separator draws a 1px ink rule on both sides; variant border draws a 1px ink rule under it. Links inside take the underline hover and the focus ring. MarkerIcon stays in ink.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/marker`
-- Docs: https://DOMAIN/docs/components/marker
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/marker
 - Categories: display
 - Props:
   - `variant`: `"default" | "separator" | "border"` (default `"default"`) — separator: rules on both sides. border: a rule under the line.
@@ -1870,7 +1870,7 @@ import { Marker, MarkerIcon, MarkerContent } from "@/components/ui/manga/marker"
 Manga-styled wrapper around your shadcn Message Scroller (the scrolling column of a conversation with a 'jump to latest' button). The viewport keeps the stock behaviour (it scrolls) with a thin ink scrollbar and no grey fade at the edges. MessageScrollerButton is a square ink-framed button (only bubbles are round): it pops in when the reader scrolls up (animate-pop), lifts on hover, shows a focus ring and hits on click (impact lines). 44px touch target under 640px.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/message-scroller`
-- Docs: https://DOMAIN/docs/components/message-scroller
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/message-scroller
 - Categories: display
 - Props:
   - `data-manga`: `"message-scroller" | "message-scroller-button"` — Set on the scroller and on its jump button: the hooks to style them from CSS. The button is 44px on phones.
@@ -1895,7 +1895,7 @@ import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, Mess
 Manga-styled wrapper around your shadcn Questionnaire (one question at a time, the kind an AI agent asks). The whole form is a case (3px ink line, tone shadow). Progress reads “Question 2 of 4” in lettering beside a 2px ink rail filled with speed lines that moves in steps. Each question pops in over three frames; titles are lettering, descriptions the reading face. Each choice is a choice card: a 2px ink frame whose line thickens on hover, with the ink / paper / ink focus ring around the row; checked, a 6px ink bar grows down its start edge and the indicator fills with ink (radio = a diamond with a paper dot, checkbox = a square with a brush check that draws itself). Shortcuts are key caps. The free-text input is the kit Input. Errors: accent line, a “!” mark and one shake. Previous / Skip are outline buttons, Next / Submit ink buttons, all with the impact on click. Disabled choices: dashed line and tone frame, label on paper.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/questionnaire`
-- Docs: https://DOMAIN/docs/components/questionnaire
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/questionnaire
 - Categories: actions
 - Props:
   - `shortcuts`: `"letters" | "numbers"` — On Questionnaire: shows a key cap on each choice and picks it on key press.
@@ -1933,7 +1933,7 @@ import {
 Manga-styled wrapper around your shadcn Trace (the log of steps an agent ran). Every line is reading text in ink, never faded. An empty TraceIcon shows the mark of the line's status: done = a brush check, running = turning concentration lines (the kit Spinner, instead of the stock shimmer), pending = a small hollow square (no dashes: dashes mean disabled), error = accent text and a “!” mark. Lines inside a link or button are underlined; the underline thickens on hover and focus draws the ink / paper / ink ring. A collapsible group has a brush chevron that turns in two steps and content that unfolds in steps along a 1px ink rail on the start side. Durations (TraceDescription) are small mono, in ink.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/trace`
-- Docs: https://DOMAIN/docs/components/trace
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/trace
 - Categories: feedback
 - Props:
   - `status`: `"running" | "error" | "pending"` — On TraceLine. Omitted = done (brush check).
@@ -1961,7 +1961,7 @@ import { Trace, TraceDescription, TraceIcon, TraceLine, TraceTitle } from "@/com
 Manga-styled wrapper around your shadcn Code Block: a 2px ink frame on paper, the file name in lettering above a fine rule, the code in mono, ink only (syntax colours are monochrome). Line numbers in ink. Line variants: highlighted (a 6px ink bar), added (bar and "+"), removed (accent bar, accent "−", struck text). Size sm, destructive frame. The copy button is an ink-framed square: hover thickens its line, focus draws the ink, click plays an impact, and the check icon shows once copied. Long lines scroll inside the block, never the page.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/code-block`
-- Docs: https://DOMAIN/docs/components/code-block
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/code-block
 - Categories: display
 - Props:
   - `variant`: `"default" | "destructive"` (default `"default"`) — On CodeBlock: destructive draws the frame and the text in the accent.
@@ -1990,7 +1990,7 @@ import { CodeBlock, CodeBlockHeader, CodeBlockTitle, CodeBlockActions, CodeBlock
 Plain re-export of shadcn's Direction provider (DirectionProvider and useDirection), with the same API. Nothing is dressed: direction has no manga effect. It always takes `direction` ("ltr" or "rtl"), which both the Base UI and the Radix versions accept. The writing direction (dir) is what the kit's logical properties and rtl: variants follow; the manga reading order (data-reading) is a separate setting.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/direction`
-- Docs: https://DOMAIN/docs/components/direction
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/direction
 - Categories: foundations
 - Props:
   - `direction`: `"ltr" | "rtl"` — The direction the subtree is laid out in. Set dir on the element too, so CSS follows.
@@ -2009,7 +2009,7 @@ import { DirectionProvider, useDirection } from "@/components/ui/manga/direction
 A speech or thought bubble (the kit SpeechBubble) that first shows three small ink squares rising one after another at 12 fps (waiting), then writes its text a few characters per frame with a stepped block caret. The whole text is laid out from the start (the rest is invisible), so the bubble never reflows. Text that grows over time (streamed answers) types on from where it stopped, never from zero. The typed text is aria-hidden; a visually hidden copy is announced once, complete, through aria-live="polite"; the dots are role="status" with aria-label="Typing". Reduced motion: still dots, the text at once. Gestures: G6 bubble, G7 waiting.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/typing-bubble`
-- Docs: https://DOMAIN/docs/components/typing-bubble
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/typing-bubble
 - Categories: manga
 - Props:
   - `text`: `string` — The text to write. It may grow over time: only the new characters animate.
@@ -2031,7 +2031,7 @@ import { TypingBubble } from "@/components/manga/typing-bubble"
 A row of reactions drawn as manpu marks (anger, sweat, surprise, question, sparkle, gloom, love, sigh), each a toggle chip with its count in the SFX face: 2px ink frame, sharp corners. A chip is a button with aria-pressed; reacted = ink flat sweeping in (G2), hover thickens the line (G3, small cells), a click hits with speed lines (G4) and the count takes the hit when it changes; new chips pop in (G5). A "+" chip opens the kit Popover bubble (G6) with the eight marks as labelled buttons ("React with anger"); picking one toggles it and closes. Arrow keys move inside the grid. The row wraps; 44px targets under 640px. Controlled: pass reactions and toggle them in onReact. max caps the different kinds in the row; disabled makes it read-only (dashed chips). Exports ReactionChip and ReactionGrid for custom layouts and frozen previews.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/reaction-picker`
-- Docs: https://DOMAIN/docs/components/reaction-picker
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/reaction-picker
 - Categories: manga
 - Props:
   - `reactions`: `{ kind: ManpuKind; count: number; active?: boolean }[]` — The row, in order. active = the reader reacted with it. Entries at 0 that are not active are hidden.
@@ -2054,7 +2054,7 @@ import { ReactionPicker } from "@/components/manga/reaction-picker"
 A vertical strip of page images for scroll (webtoon) reading, centred, full width on phones and at most 720px (or the widest page) on desktop. It follows the page scroll or the nearest scroll parent: no inner scroll box. Each page is a <figure> with a lazy <img> whose width and height reserve the space (no jump), with an optional srcSet of smaller files (never shown wider than its width), framed by a 2px ink line unless gap is "none". Page states: loading = a paper panel of the page's ratio with a tone frame and the kit Spinner (G7); error = an accent edge-jagged panel with a "!" and a Retry button (G8) that asks the image again; loaded = the art pops in (G5). After the last page, an end panel (3px frame, SFX "END", brush mark-check, "To be continued"), announced to screen readers when reached. Reports progress (0-1) and the page being read, by the reading line of ReadingProgress: the last page whose top has crossed a line a third of the way down the visible view, under the sticky header (found on its own), page 1 until page 2 crosses it and the last page once the strip's bottom is in view, with a requestAnimationFrame-throttled scroll listener, cleaned up on unmount. Exports ReaderStrip, ReaderPage (one page, with a status prop to freeze a state) and ReaderEnd (the end panel).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/reader-strip`
-- Docs: https://DOMAIN/docs/components/reader-strip
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/reader-strip
 - Categories: manga
 - Props:
   - `pages`: `{ src: string; alt: string; width: number; height: number }[]` — The page images, in reading order. width / height reserve the space.
@@ -2081,7 +2081,7 @@ import { ReaderStrip } from "@/components/manga/reader-strip"
 A reading progress bar: a 2px ink baseline with an ink fill-lines bar sitting on it (G7), in whole pixels; the bar shares the baseline's outer edge and grows inward, 4px of solid ink at rest and 6px with a paper speed line through it while the reader scrolls or the value changes. Measures the scroll of a target element (its own scroll, or how far the window has moved through it) or of the window, with requestAnimationFrame, cleaned up on unmount; or takes a controlled value (then the width moves in steps). Positions: fixed to the top or bottom edge of the viewport, or inline in the flow. In manga reading order (data-reading="rtl") it fills from the right. Optional value text ("42 %" or "Page 3 / 8") on paper, never on the lines. role="progressbar" with aria-valuenow/min/max and aria-valuetext. Reduced motion: no motion, the value still updates. Also exports useScrollProgress(target) and the reading line shared by the readers' page counters: the current page is the last page whose top has crossed a line a third of the way down the visible part of the view, under its sticky header (sticky or fixed bars over its top edge are found on their own); page 1 until page 2 crosses that line, the last page once the bottom of the last page is in view. readingArea(el) gives the visible part, readingPage(pages, area) the page, and useReadingPage(count) keeps it up to date for a list: const [page, ref] = useReadingPage(pages.length).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/reading-progress`
-- Docs: https://DOMAIN/docs/components/reading-progress
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/reading-progress
 - Categories: manga
 - Props:
   - `value`: `number` — 0-100, controlled. Leave out to measure the scroll.
@@ -2103,7 +2103,7 @@ import { ReadingProgress } from "@/components/manga/reading-progress"
 A manga read page by page from a list of images ({ src, alt, width, height }). One page or two-page spreads (auto: spreads when the stage is wide and landscape; the cover stands alone), manga order (right to left: the next page is on the left, a spread puts the lower page on the right) or western order. Turn with the page edges (invisible zones that show a paper plate with a brush arrow on hover), the arrow keys (following the order), Page Up / Down, Home / End, a swipe (the page follows the finger with no steps, then turns or snaps back; it resists at both ends) or the toolbar. Fit: whole page, width (scrolls down) or height. Background: paper, ink or tone. Zoom 100–300 % with buttons, + / - / 0 or a double click at a point, then drag to pan. Full screen asks the browser (Fullscreen API on the document) and falls back to a fixed immersive mode (iOS Safari); Escape leaves. Pages around the current one are fetched ahead (preload), and a page known to be loaded shows at once. Each page is a ReaderPage (ink frame, loading panel, jagged error panel with Retry, a paper mat in dark mode). A turned page slides in from the side it comes from in three steps. An optional end view after the last page holds a ChapterEnd. The toolbar has a ReadingProgress with a page counter and a slot for your own buttons (settings, thumbnails). Controlled or not (page / onPageChange). Built at 375 px first: 44 px controls, two toolbar rows. PageReader also takes pages of the page model ({ page: PageData }), drawn by Page with real lettering; scans and data pages can be mixed.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/page-reader`
-- Docs: https://DOMAIN/docs/components/page-reader
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/page-reader
 - Categories: manga
 - Props:
   - `pages`: `({ src: string; alt: string; width: number; height: number } | { page: PageData; alt?: string })[]` — Scans, or pages of the page model, in reading order.
@@ -2139,7 +2139,7 @@ import { ChapterEnd } from "@/components/manga/chapter-end"
 Every page of a chapter in a grid, to jump anywhere: a nav of numbered page buttons, each a small 2px case with the page (lazy image, aspect from its width and height, a paper mat in dark mode so scans stay light) and its number on a fine plate. The page on screen (one, or two for a spread) has a 3px frame and its number plate is an ink flat that sweeps in (aria-current=page); pages already read carry a brush check. Hover lift, ink focus ring, pressed offset. In manga order the grid runs right to left. The columns fill the width from a minimum size (three at 375 px). When it opens inside a dialog or a scroll frame, the page being read is scrolled into view. It also takes pages of the page model ({ page: PageData }), drawn small by Page.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/page-thumbnails`
-- Docs: https://DOMAIN/docs/components/page-thumbnails
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/page-thumbnails
 - Categories: manga
 - Props:
   - `pages`: `({ src: string; alt: string; width: number; height: number } | { page: PageData; alt?: string })[]` — Scans, or pages of the page model, in reading order.
@@ -2167,7 +2167,7 @@ import { PageThumbnails } from "@/components/manga/page-thumbnails"
 A manga read panel by panel, made for phones: the screen zooms from one panel to the next. It reads the panel geometry of the page model (pageGeometry: every panel's box in reading order, insets included), so a page written as PageData is drawn by Page and guided without any extra data; scans work too, with the box of each panel in percent of the page. The page is drawn once at a fixed width and a camera fits the current panel in the stage, moving in four steps (333 ms); the panels around it hide under a paper veil with wide dots that steps aside while the camera travels. A new page slides in from the side it comes from. Next and previous by tapping the page edges (on hover a paper plate with a brush arrow), the arrow keys following the reading order, Space, Page Up / Down, Home / End, a swipe (the page follows the finger, then turns or snaps back) or the toolbar. Whole page shows the page with every panel as a target (the current one framed, hover thickens a panel's line). A ReadingProgress counts the panels; a live region reads each panel's label. Optional end view (e.g. a ChapterEnd) and a slot for your buttons. Reduced motion: the camera jumps.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/guided-view`
-- Docs: https://DOMAIN/docs/components/guided-view
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/guided-view
 - Categories: manga
 - Props:
   - `pages`: `({ page: PageData; alt?: string } | { src: string; alt: string; width: number; height: number; panels: { x: number; y: number; w: number; h: number; label?: string }[] })[]` — Page-model pages, or scans with their panel boxes (percent of the page).
@@ -2198,7 +2198,7 @@ const pages: PageData[] = [/* your pages */]
 Settings for a manga reader: reading order (manga right to left, western left to right), mode (page, double page, strip), fit (whole page, width, height) and background (paper, ink, tone). Each setting is a radio group drawn like boxed tabs: one 2px frame split into cells of at least 44 px, each with a small drawn pictogram and a lettering label; the chosen cell is an ink flat that sweeps in, hover thickens the line, focus stays inside the cell (a paper line on the chosen ink cell), pressed moves 1px. Arrows move and choose (following the writing direction), Home / End, Tab leaves. A setting can be hidden or shown disabled (dashed frame, tone frame in the cells, the chosen label underlined on paper). Controlled or not; it only holds the value: put it in a Sheet, a Popover or a page and feed PageReader.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/reader-settings`
-- Docs: https://DOMAIN/docs/components/reader-settings
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/reader-settings
 - Categories: manga
 - Props:
   - `value`: `{ direction: "rtl" | "ltr"; mode: "single" | "double" | "strip"; fit: "contain" | "width" | "height"; background: "paper" | "ink" | "tone" }` — The settings, controlled.
@@ -2221,7 +2221,7 @@ const [settings, setSettings] = React.useState(defaultReaderSettings)
 The end card of a chapter: a 3px panel whose concentration lines surround a central paper plate, with the chapter line, the big SFX word (To be continued, or The end for a finished series) and a brush arrow in the reading direction (a check at the end of a series). Under it, the next chapter as a full-width button with its number, title and optional cover, or, when it is not out yet, the date in a stamp; then any actions the reader wants (back to the series, comments). Under the manga reading order (data-reading="rtl") the arrow points left. The panel pops in once.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/chapter-end`
-- Docs: https://DOMAIN/docs/components/chapter-end
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/chapter-end
 - Categories: manga
 - Props:
   - `chapter`: `ReactNode` — The chapter just read, shown as "End of {chapter}".
@@ -2247,7 +2247,7 @@ import { ChapterEnd } from "@/components/manga/chapter-end"
 Manga volumes standing spine out on a shelf. Each spine is a 2px case at least 44 px wide (three thicknesses, slightly varied heights) with the volume number on an ink flat at the top, the title in vertical lettering and an optional tone band or tone ends (never under text); the plank is a 3px ink edge, a band of tone lines and another edge. Hover lifts the spine's tone shadow, focus is the ink ring, pressed the 2px offset. Pulling a volume (click, Enter) turns its spine into an ink flat raised by 16px in two steps and drops its VolumeCard in under the shelf (cover, status, reading progress) with Open and Put back buttons. Arrows move along the row, Home / End, Escape puts the volume back and returns the focus to its spine. The row scrolls sideways when it is wider than the screen; in manga order volume 1 stands at the right end. Controlled or not (selected / onSelectedChange).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/shelf`
-- Docs: https://DOMAIN/docs/components/shelf
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/shelf
 - Categories: manga
 - Props:
   - `volumes`: `ShelfVolume[]` — { id, title, volume, author?, cover?, status?, read?, total?, thickness?: 1 | 2 | 3, spine?: "plain" | "band" | "tone" }.
@@ -2277,7 +2277,7 @@ import { Shelf } from "@/components/manga/shelf"
 The head of a manga series page, in a case: a 2:3 cover in a 2px case (image URL or any node; a screentone without one), the status as a Stamp (accent for new, ink for ongoing, completed and hiatus), the title in big lettering, an alternative title, the author, genres as outline Badges, up to four figures (chapters, volumes, readers) in a frame split into cells, a summary folded to a few lines with a Read more / Show less link (shown only when the text is cut; the unfolded text drops in) and your actions. At 375 px the cover sits beside the title and the rest takes the full width; in a wide container everything but the cover forms one column beside it (container queries, so it adapts to its column, not the window).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/series-header`
-- Docs: https://DOMAIN/docs/components/series-header
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/series-header
 - Categories: manga
 - Props:
   - `title`: `ReactNode` — Set in big lettering.
@@ -2314,7 +2314,7 @@ import { Button } from "@/components/ui/manga/button"
 The paper promotional band wrapped round the lower part of a manga volume. It takes a 2:3 cover (an image URL, or any node) and overhangs it by a few pixels at the bottom, with a 2px ink line on each side and a fold strip at the start edge. Tones: accent (the kit's one colour), ink (an ink flat) or paper (a screentone strip on the top edge only). Sizes sm, md, lg set the band height (26, 34, 42 % of the cover). The headline scales with the cover width through container queries, so it works on a 120 px cover too. An optional badge is a burst at the band's end corner. Static, not interactive.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/obi-band`
-- Docs: https://DOMAIN/docs/components/obi-band
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/obi-band
 - Categories: manga
 - Props:
   - `cover`: `string | ReactNode` — An image URL (object-cover), or any node drawn as the cover. Takes precedence over children.
@@ -2344,7 +2344,7 @@ import { ObiBand } from "@/components/manga/obi-band"
 Content hidden by a screentone, revealed on click. Block: the children stay in the layout but are inert and aria-hidden under a tone cover with a paper plate that names what is hidden ("Chapter 12 ending") and says "Tap to reveal"; the plate gets a tone shadow on hover, the cover has the ink focus ring and a pressed offset, and the content pops in on reveal with a Hide button to cover it again. Inline: a few words become an ink flat with transparent text, a paper inner line on hover, and the revealed words get a 2px underline. Controlled (revealed, onRevealedChange) or uncontrolled (defaultRevealed).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/spoiler`
-- Docs: https://DOMAIN/docs/components/spoiler
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/spoiler
 - Categories: manga
 - Props:
   - `variant`: `"block" | "inline"` (default `"block"`) — block: an image or a paragraph under a cover · inline: a few words in a sentence.
@@ -2372,7 +2372,7 @@ import { Spoiler } from "@/components/manga/spoiler"
 A ranking with big numbers in a case: the rank in the SFX face (the top ranks biggest, the first place in the accent), an optional 2:3 cover thumbnail in a 2px ink frame, the title in lettering and a subtitle, an optional score, and the change at the end: an up or down brush arrow with its count, an en dash for no change, or a NEW burst. Rows are separated by 2px ink lines. Rows with href are links, rows with onSelect are buttons: both invert to ink on hover, and press to a paper negative with a 2px offset. Logical properties only, so dir=rtl works.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/ranking-list`
-- Docs: https://DOMAIN/docs/components/ranking-list
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/ranking-list
 - Categories: manga
 - Props:
   - `entries`: `RankingEntry[]` — Rows: id, title, subtitle, cover, change (number or "new"), score, href.
@@ -2397,7 +2397,7 @@ const entries: RankingEntry[] = [
 Releases by day of the week. On a narrow screen a day strip drawn like boxed tabs (one frame split into seven cells, the selected day an ink flat, today marked with a corner triangle) shows the releases of one day below it, with arrow, Home and End keys. From a container of 56 rem up, seven columns show every day at once, today's header an ink flat. Each release is a case with its cover, time, title and chapter, a NEW burst or a Break stamp; rows with an href are links, rows with onSelect are buttons, both with the hover lift, the ink focus ring and the pressed offset. A day without releases shows a short line in a fine frame.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/release-calendar`
-- Docs: https://DOMAIN/docs/components/release-calendar
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/release-calendar
 - Categories: manga
 - Props:
   - `releases`: `Release[]` — Each release: id, day (0 = Monday … 6 = Sunday), title, optional chapter, time, cover (URL or node), status ("new" | "break") and href (makes the row a link).
@@ -2427,7 +2427,7 @@ const releases: Release[] = [
 "Continue with <service>" button for third-party sign-in. An outline button (2px ink line, lettering label, hover, pressed, focus, loading and disabled exactly like the manga Button), 44px tall and full width by default. A logo slot at the start: a bare 32 × 32 box that fits the given mark without recolouring, framing or redrawing it (a mark that needs a plate, like Google's icon on white, brings its own); the item ships no logo and no brand colour. AuthDivider is a horizontal fine ink rule with "or" in lettering in the middle. All Button props pass through; provider sets data-provider.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/social-button`
-- Docs: https://DOMAIN/docs/components/social-button
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/social-button
 - Categories: manga
 - Props:
   - `logo`: `React.ReactNode` (default `undefined`) — The brand mark, used as its brand provides it (with its own plate when the brand asks for one), fitted into a bare 32 × 32 box. Omit it for a button without a logo.
@@ -2450,7 +2450,7 @@ import { SocialButton, AuthDivider } from "@/components/manga/social-button"
 A gauge under a password field: four segments (2px ink frame) that fill with speed lines, one after the other in steps; the top level is an ink flat. The label sits beside the gauge on paper and is announced politely; the gauge is role=meter. Props: value (the password, scored locally by passwordScore: length, lower/upper case, digits, symbols; no dictionary, no network) or score 0-4 (overrides value), labels (five, default Too short, Weak, Fair, Good, Strong), minLength (default 8). Also exports passwordScore(password, minLength?).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/password-strength`
-- Docs: https://DOMAIN/docs/components/password-strength
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/password-strength
 - Categories: manga
 - Props:
   - `value`: `string` (default `""`) — The password to estimate locally. Ignored when score is given.
@@ -2471,7 +2471,7 @@ import { PasswordStrength, passwordScore } from "@/components/manga/password-str
 A four-panel strip read top to bottom, to explain something in four beats, built on the page model: a free-height Page (format strip) with one Tier per panel, or one Tier of four panels in a row in the manga reading order. The API is four children, one per panel, plus an optional title box; each panel is a named group for screen readers with a small number box in its corner. A child given as a fragment is spread into its panel, so Place elements in it (bubbles with pointAt, captions, Sfx) sit on the page and may cross the frame. The strip measures itself: frames stay about 3px and the lettering stays readable at any width. orientation="horizontal" puts the four in a row; "auto" stacks them, then lines them up once the strip is 40rem wide. Any aspect ratio per panel.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/yonkoma`
-- Docs: https://DOMAIN/docs/components/yonkoma
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/yonkoma
 - Categories: manga
 - Props:
   - `children`: `ReactNode` — Four children, one per panel. Extra ones are left out.
@@ -2504,7 +2504,7 @@ import { Yonkoma } from "@/components/manga/yonkoma"
 A character dialogue box for a queue of lines: a case with a square portrait (a case inside it) on the start or end side, the speaker on an ink name plate on the top edge (it pops when the speaker changes), the line writing itself at 12 fps with a stepped block caret and no reflow, and a 44px arrow button that shows the whole line at once while it writes, then goes to the next line (the arrow blinks in two hard steps), with a 2 / 5 count. A click on the text does the same. After the last line it loops or stays (loop={false}) and calls onEnd. Controlled or not; progress freezes a line for previews. Each finished line is announced; reduced motion shows lines at once.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/dialogue-box`
-- Docs: https://DOMAIN/docs/components/dialogue-box
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/dialogue-box
 - Categories: manga
 - Props:
   - `lines`: `{ speaker; text: string; portrait?; side?: "start" | "end" }[]` — The queue of lines.
@@ -2535,7 +2535,7 @@ import { DialogueBox } from "@/components/manga/dialogue-box"
 A chapter title page used as a section header: a big number in the SFX face with a small label above it, the title in lettering (a real heading, read as "Chapter 3: title"), a 3px ink rule and an optional subtitle, and an optional column of vertical text at the end side against a narrow band of speed lines on its edge (never under the letters). Paper or ink. animated: the number pops and the rule grows from the start in steps when it appears; still with reduced motion.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/chapter-title`
-- Docs: https://DOMAIN/docs/components/chapter-title
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/chapter-title
 - Categories: manga
 - Props:
   - `number`: `ReactNode` — The chapter number, shown big.
@@ -2563,7 +2563,7 @@ import { ChapterTitle } from "@/components/manga/chapter-title"
 A manga magazine cover in a 3:4 case: the masthead in the SFX face across a band of ink at the top with an optional tagline, the issue and date in a box at its end, cover lines on paper plates down both sides of the art (one may be an accent flat for the big news) and a headline plate at the foot. Every word rests on a flat, never on the art. The lettering scales with the cover (container units), from a thumbnail to full width on a phone. Static, a link (href) or a button (onSelect) with the hover lift, ink focus ring and pressed offset.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/magazine-cover`
-- Docs: https://DOMAIN/docs/components/magazine-cover
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/magazine-cover
 - Categories: manga
 - Props:
   - `title`: `ReactNode` — The masthead.
@@ -2597,7 +2597,7 @@ import { MagazineCover } from "@/components/manga/magazine-cover"
 A wipe that sweeps the screen (or a container) between two sections or pages, in steps: four frames to cover, a hold, four frames to uncover, at 12 fps, swapping the scene while the screen is covered. Across in the reading order (right to left with data-reading="rtl" or dir="rtl") or downward. Variants: ink (an ink flat), tone (a 50% screentone on paper edged with ink lines), panels (four ink panels with paper gutters dropped one per frame). An optional caption pops in the middle during the hold, on a paper narration box. As a hook (useSceneTransition: play(swap) returns a promise) or a component (playing, onCovered, onDone). The overlay is aria-hidden and catches clicks while it plays; with reduced motion the scene is swapped at once.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/scene-transition`
-- Docs: https://DOMAIN/docs/components/scene-transition
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/scene-transition
 - Categories: manga
 - Props:
   - `variant`: `"ink" | "tone" | "panels"` (default `"ink"`) — Ink flat, 50% screentone, or four ink panels.
@@ -2623,7 +2623,7 @@ const { play, transition } = useSceneTransition({ variant: "panels", caption: "M
 Furigana: small readings over (or under, or beside in vertical text) the characters they read, in native <ruby> / <rt> markup with <rp> fallbacks so the text copies, wraps and reads aloud. One reading over a whole word (base + reading) or one per character (parts). reveal="hover" hides the readings for learners until the word is hovered or focused, keeping their room so nothing reflows; the word is then focusable with a dotted underline that thickens on hover and the ink focus ring. CSS only, no JavaScript.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/ruby`
-- Docs: https://DOMAIN/docs/components/ruby
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/ruby
 - Categories: manga
 - Props:
   - `base`: `ReactNode` — The characters (group ruby).
@@ -2646,7 +2646,7 @@ import { Ruby } from "@/components/manga/ruby"
 Vertical writing (tategaki) with CSS writing modes: characters run top to bottom and columns right to left, whatever the page's reading order or writing direction, and the text stays real text. A column height wraps it into new columns; the reading, lettering or SFX face; Latin letters lying on their side or upright; an optional fine rule between columns like a manuscript sheet. Tcy sets a short number upright in one cell (tate-chu-yoko).
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/vertical-text`
-- Docs: https://DOMAIN/docs/components/vertical-text
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/vertical-text
 - Categories: manga
 - Props:
   - `as`: `"div" | "p" | "span" | "h1" | "h2" | "h3" | "h4"` (default `"div"`) — Rendered element.
@@ -2669,7 +2669,7 @@ import { Tcy, VerticalText } from "@/components/manga/vertical-text"
 A SpeechBubble (wrapped, not changed) that switches between the original line and its translation. Both texts share one grid cell, so the bubble keeps the size of the longer one and never jumps; the hidden one is invisible and aria-hidden, each carries its own lang. A two-cell switch sits on top of the bubble (pressed buttons: the current language an ink flat that sweeps in, cells thicken on hover, a click hits, focus stays inside the cell, 44px on phones); the line that comes in pops in steps. Controlled or not; every SpeechBubble variant and tail.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/bilingual-bubble`
-- Docs: https://DOMAIN/docs/components/bilingual-bubble
+- Docs: https://mangacn.romain-sonnet.fr/docs/components/bilingual-bubble
 - Categories: manga
 - Props:
   - `original`: `ReactNode` — The line as first written.
@@ -2693,7 +2693,7 @@ import { BilingualBubble } from "@/components/manga/bilingual-bubble"
 A full dashboard made only with mangacn: a collapsible Sidebar (a sheet on phones), four Stat key figures, a bar chart and a line chart in screentone patterns (Chart), a Data Table of chapters with Badge statuses, a period switch (Button Group of pressed buttons) and a Command palette opened with Ctrl/⌘ K. Works in light, dark, any accent and at phone width.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/dashboard`
-- Docs: https://DOMAIN/examples/dashboard
+- Docs: https://mangacn.romain-sonnet.fr/examples/dashboard
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
@@ -2710,7 +2710,7 @@ import { Dashboard } from "@/components/manga/blocks/dashboard"
 A production task board made only with mangacn: a Data Table whose statuses are stamps (ink for everyday statuses, the accent colour only for Blocked), a search Input, status filters as pressed buttons, actions on the selected rows (Button Group: mark done, reopen, delete) and a ImpactCounter of finished tasks.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/tasks`
-- Docs: https://DOMAIN/examples/tasks
+- Docs: https://mangacn.romain-sonnet.fr/examples/tasks
 - Categories: blocks
 - Props:
   - `className`: `string` — Size and placement of the whole interface.
@@ -2727,7 +2727,7 @@ import { Tasks } from "@/components/manga/blocks/tasks"
 A product landing page made only with mangacn, for an invented manga publishing app: a top nav that folds into a Sheet below 42rem of container width, an opening splash page of Panels on a PanelGrid (lettering headline, focus SpeedLines and an accent Burst around the cover you pass, never under text, a shout Button and an outline Button, an ink panel of key figures; three columns with a slanted gutter from 48rem), features in cases (ink-case), pricing as a VersusPanel (Free vs Pro, Pro highlighted, monthly or yearly with pressed buttons in a Button Group), reviews in SpeechBubbles with square Avatars, a FAQ in the Accordion and a footer with link columns and a newsletter InputGroup in a Field that validates the address. One column on phones, container queries widen it; links never navigate. Works in light, dark, any accent and at phone width.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/landing-page`
-- Docs: https://DOMAIN/examples/landing-page
+- Docs: https://mangacn.romain-sonnet.fr/examples/landing-page
 - Categories: blocks
 - Props:
   - `cover`: `ReactNode` — Image URL or node of the cover in the opening panel. Without it, a screentone cover.
@@ -2745,7 +2745,7 @@ import { LandingPage } from "@/components/manga/blocks/landing-page"
 A full chat with an AI story assistant made only with mangacn: a header with the assistant's name, a model switch (Button Group of pressed buttons that drops a Marker in the conversation) and New chat; the conversation in the Message Scroller with Message + Bubble lines (your own in ink bubbles, the assistant's in paper bubbles), Markers ("Today", "Switched to a faster model"), the reasoning folded in a Collapsible that opens a thought SpeechBubble ("Thought for 4 s"), tool steps in a Trace (done checks, a running Spinner), a Code Block, Reaction Picker chips, Attachments on a user line, an offered Questionnaire ("Plan your one-shot") that folds into a summary card, and an error shouted in an accent shout SpeechBubble with Retry. The composer: Attachments row (uploading line, remove action), attach button, Textarea (Enter sends, Shift+Enter new line), send button that shows the loading lines while the assistant answers. Sending plays a fake reply with no network: a running step, the waiting dots, then the answer types in a TypingBubble. From 48rem wide it is a 48rem frame that scrolls inside; narrower it follows the page (no inner scroller) and sending brings the composer back into view. Works in light, dark, any accent and at phone width.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/ai-chat`
-- Docs: https://DOMAIN/examples/ai-chat
+- Docs: https://mangacn.romain-sonnet.fr/examples/ai-chat
 - Categories: blocks
 - Props:
   - `className`: `string` — Placement and width of the whole interface.
@@ -2761,7 +2761,7 @@ import { AiChat } from "@/components/manga/blocks/ai-chat"
 A webtoon-style chapter reader made only with mangacn: a top bar with the series and chapter, a Full screen toggle (pressed button) and a Chapters button opening a Sheet headed by a VolumeCard of the current volume (the cover you pass, ongoing status, chapters read / out as a running-line bar) above the chapter list (the current chapter is an ink flat, read chapters carry a brush check), a reading-order switch of pressed buttons (Manga RTL / Western LTR) that sets data-reading on the root and flips the previous / next chapter buttons, a ReadingProgress bar with a "Page 3 / 9" counter fed by the strip (the page whose top has crossed the reading line, a third of the way down the view under the sticky bar), a ReaderStrip of the chapter's pages (lazy images, END panel), previous / next chapter buttons and a comments strip (Message, Bubble, ReactionPicker, Input). From @md/main up, on screens at least 36rem tall, the reader fills a 46rem frame that scrolls inside and the progress bar sticks to the top of the frame and measures it; on phones it follows the page and the progress bar sticks to the bottom edge. Full screen makes the reader root fixed inset-0 with its own scroll (data-fullscreen="immersive", also the fallback when the Fullscreen API is missing or refused, e.g. iOS Safari) and asks the browser for full screen on the document element (data-fullscreen="native"), so the Sheet still opens above it; Escape or the button leaves. Works in light, dark, any accent and at phone width.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/manga-reader`
-- Docs: https://DOMAIN/examples/manga-reader
+- Docs: https://mangacn.romain-sonnet.fr/examples/manga-reader
 - Categories: blocks
 - Props:
   - `art`: `{ cover?: ReactNode; pages?: ReaderStripPage[] }` — The volume cover (image URL or node) and the chapter pages (image URLs).
@@ -2779,7 +2779,7 @@ import { MangaReader } from "@/components/manga/blocks/manga-reader"
 The site of one manga series, made only with mangacn: its volumes (VolumeCards, an ObiBand for the volume still to come), the week's releases, the most read chapters and the shelf, then the series page and the chapter. Reader: Page by page with PageReader or Panel by panel with GuidedView (a pressed toggle), both fed by the same chapter written as page data (PageData: panels, pictures, real bubbles, captions and sound effects); all pages in PageThumbnails and ReaderSettings (order, mode, fit, background) in Sheets from the toolbar, the strip mode as pages one under the other with a sticky ReadingProgress "Page 2 / 3" counter that follows the reading line (useReadingPage), and a ChapterEnd after the last page leading to the next chapter (or its date, or the end of the series) and back to the series. Each screen slides in; reading progress is remembered per series for Continue. Works at 375 px, in light and dark, with any accent.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/author-site`
-- Docs: https://DOMAIN/examples/author-site
+- Docs: https://mangacn.romain-sonnet.fr/examples/author-site
 - Categories: blocks
 - Props:
   - `art`: `{ covers?: Record<number, ReactNode>; scenes?: Partial<Record<AuthorSiteScene, string>> }` — Volume covers by number (image URLs or nodes) and the pictures of the chapter panels (image URLs).
@@ -2796,7 +2796,7 @@ import { AuthorSite } from "@/components/manga/blocks/author-site"
 A developer's portfolio made only with mangacn: a top bar whose section buttons scroll in place, an opening spread of two Panels with a slanted gutter (focus SpeedLines behind the portrait you pass (toned by TonedImage, or shown as it is when inked), a SpeechBubble, Sfx lettering and a band of motion lines), projects as a manga page of Cards (wide, two, wide) with the thumbnails you pass, Badge tags, a CodeBlock install snippet and links that do not navigate, skills as a CharacterCard with stat bars, a career as a vertical Stepper, and a contact form (Field, Input, Textarea, Button) that validates on submit, shakes its errors, shows a loading button and then a brush-check success panel. No network. One column on phones; container queries widen it. Works in light, dark, any accent and in manga reading order.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/portfolio`
-- Docs: https://DOMAIN/examples/portfolio
+- Docs: https://mangacn.romain-sonnet.fr/examples/portfolio
 - Categories: blocks
 - Props:
   - `art`: `{ portrait?: string; inked?: boolean; projects?: Record<string, string> }` — The portrait and one thumbnail per project id (image URLs); inked shows the portrait without tone.
@@ -2814,7 +2814,7 @@ import { Portfolio } from "@/components/manga/blocks/portfolio"
 The catalog of one manga series, made only with mangacn: a search field (Input Group with a search icon and a clear button), shelf Tabs in the underline variant (All / Reading / Completed / Wishlist), filters (genre Native Select, status Toggles for new / ongoing / completed / hiatus, sort Native Select), a live result count, and a grid of Volume Cards whose covers you pass in covers (a screentone cover without one). When nothing matches, the kit Empty state offers to clear the search and filters. Mobile first: one column at 360 px with two cards per row and a Filters button that opens the fields in a bottom Drawer; from 48rem of its own width (container query @3xl/main) the filters sit in a case beside a grid of three to five columns. Works with Base UI and Radix, in light, dark and any accent.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/catalog`
-- Docs: https://DOMAIN/examples/catalog
+- Docs: https://mangacn.romain-sonnet.fr/examples/catalog
 - Categories: blocks
 - Props:
   - `covers`: `Partial<Record<CatalogCover, ReactNode>>` — Covers by book (image URLs or nodes). Without one, a screentone cover.
@@ -2832,7 +2832,7 @@ import { Catalog } from "@/components/manga/blocks/catalog"
 The sign-in screen of the mangacn auth flow, made only with the kit. A manga Panel: the picture you pass for each state (pictures), focus SpeedLines around her, a SpeechBubble ('Welcome back! Your shelf missed you.', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu mark and the Sfx ドキッ. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: email Field, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit), a 'Keep me signed in' Checkbox, a Sign in Button with its loading state (fields stay enabled), a 'Forgot password?' link, SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'New here? Create an account'. Errors: field errors (Field) with focus on the first wrong field; wrong credentials (demo: the password 'wrongpass') show a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp and an 'Enter your code' button for the second step. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sign-in`
-- Docs: https://DOMAIN/examples/sign-in
+- Docs: https://mangacn.romain-sonnet.fr/examples/sign-in
 - Categories: blocks
 - Props:
   - `pictures`: `{ idle?: string; error?: string; done?: string }` — Image URLs for the panel, one per state. Without them the panel shows its speed lines only.
@@ -2856,7 +2856,7 @@ import { SignIn } from "@/components/manga/blocks/sign-in"
 The one-time code screen of a manga auth flow, made only with mangacn. A manga Panel shows the picture you pass for each state (pictures), focus SpeedLines around her, 'ピコン' Sfx lettering and a SpeechBubble that reacts: 'Check your inbox!', a shout bubble 'Huh?!' on error, 'Yes!' on success. From 48rem of container width the panel sits on the start side at the full height of the form; under it the panel is a 4:3 picture above the form. The form, in a case (G1) when there is room: InputOTP with one group of 6 digits (fits 360px), a Button with its loading state, a resend link after a 30 s countdown (only the end and the resend are announced) and 'Use another email'. Fewer than six digits shows a Field error; the wrong code 000000 shows the G8 error box (accent fill, edge-jagged, '!' mark, shake, role=alert) and the InputOTP invalid look, focus back in the code; any other full code loads, then the success Stamp lands with the next action. The purpose prop (sign-in, sign-up, reset) changes the copy, the stamp ('Welcome back!', 'Welcome!', 'Verified!') and the next screen. Links call onNavigate and never navigate by themselves. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/verify-code`
-- Docs: https://DOMAIN/examples/verify-code
+- Docs: https://mangacn.romain-sonnet.fr/examples/verify-code
 - Categories: blocks
 - Props:
   - `pictures`: `{ idle?: string; error?: string; done?: string }` — Image URLs for the panel, one per state. Without them the panel shows its speed lines only.
@@ -2878,7 +2878,7 @@ import { VerifyCode } from "@/components/manga/blocks/verify-code"
 The last screen of a manga 'forgot password' flow, made only with mangacn. A manga Panel shows the picture you pass for each state (pictures), focus SpeedLines around her, 'キラッ' Sfx lettering and a SpeechBubble that reacts: 'A fresh start.', a shout bubble 'Huh?!' on error, 'Yes!' on success. From 48rem of container width the panel sits on the start side at the full height of the form; under it the panel is a 4:3 picture above the form. The form, in a case (G1) when there is room: a new password in an InputGroup with a show/hide toggle (aria-pressed, 'Show password' / 'Hide password', touch-hit, it reveals both fields) and a PasswordStrength gauge, a confirmation Input, a Save Button with its loading state. Field errors (empty, weak when the score is under 2, mismatch) appear on submit with focus on the first wrong field; the demo 'server' refuses the current password 'Lanterns42!' with the G8 error box (accent fill, edge-jagged, '!' mark, shake, role=alert). Success: the 'Saved!' Stamp lands and 'Back to sign in' calls onNavigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/reset-password`
-- Docs: https://DOMAIN/examples/reset-password
+- Docs: https://mangacn.romain-sonnet.fr/examples/reset-password
 - Categories: blocks
 - Props:
   - `pictures`: `{ idle?: string; error?: string; done?: string }` — Image URLs for the panel, one per state. Without them the panel shows its speed lines only.
@@ -2898,7 +2898,7 @@ import { ResetPassword } from "@/components/manga/blocks/reset-password"
 The sign-up screen of the mangacn auth flow, made only with the kit. A manga Panel: the picture you pass for each state (pictures), focus SpeedLines, a SpeechBubble ('A new reader!', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sparkle and the Sfx ワクワク. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: name and email Fields, password with a show/hide toggle inside an InputGroup (aria-pressed, touch-hit) and a PasswordStrength gauge, a terms Checkbox ('I accept the Terms and the Privacy notice'), a Create account Button with its loading state (fields stay enabled), SocialButtons (Google, Apple by default, no logo shipped) behind an AuthDivider 'or', and 'Already have an account? Sign in'. Errors with focus on the first wrong field: empty fields, invalid email, weak password (passwordScore under 2), terms unchecked; a taken email (demo: an address starting with 'taken') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Created!', 'Check your inbox' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/sign-up`
-- Docs: https://DOMAIN/examples/sign-up
+- Docs: https://mangacn.romain-sonnet.fr/examples/sign-up
 - Categories: blocks
 - Props:
   - `pictures`: `{ idle?: string; error?: string; done?: string }` — Image URLs for the panel, one per state. Without them the panel shows its speed lines only.
@@ -2922,7 +2922,7 @@ import { SignUp } from "@/components/manga/blocks/sign-up"
 The password-recovery screen of the mangacn auth flow, made only with the kit. A manga Panel: the picture you pass for each state (pictures), focus SpeedLines, a SpeechBubble ('Forgot it? It happens.', a shout bubble 'Huh?!' on error, 'Yes!' on success), a Manpu sweat drop and the Sfx ハッ. From 48rem of container width the panel stands full height on the start side of the form; narrower, it sits above the form in 4:3 with the character whole. The form, in a case (G1) when there is room: an email Field, a Send code Button with its loading state (the field stays enabled) and a 'Back to sign in' link. Errors with focus on the field: empty or invalid email; an unknown email (demo: an address containing 'unknown') shows a jagged accent box with a '!' mark that shakes, role=alert (G8). Success: an accent Stamp 'Sent!' and an 'Enter the code' button. Links call onNavigate and never navigate. One column on phones with 44px touch targets; container queries widen it. Works in light, dark, any accent and with Radix or Base UI.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/forgot-password`
-- Docs: https://DOMAIN/examples/forgot-password
+- Docs: https://mangacn.romain-sonnet.fr/examples/forgot-password
 - Categories: blocks
 - Props:
   - `pictures`: `{ idle?: string; error?: string; done?: string }` — Image URLs for the panel, one per state. Without them the panel shows its speed lines only.
@@ -2941,7 +2941,7 @@ import { ForgotPassword } from "@/components/manga/blocks/forgot-password"
 A product landing page told as a short manga, made only with mangacn, for an invented habit app: a top bar, an opening MagazineCover (masthead band, issue box, cover lines around the picture you pass) beside a lettering headline, a shout Button and a contents page that lists the chapters like the first page of a volume; then four sections titled with ChapterTitle (big number, vertical text): a Yonkoma strip on the page model that explains the product in four beats (a column on phones, four in a row from 40rem; captions and an Sfx put on the panels with Place), a guide character who talks the reader through it in a DialogueBox, reader quotes in SpeechBubbles, and a closing call to action. Jumping to a chapter plays a stepped SceneTransition (four ink panels, a "Meanwhile…" caption), then focus moves to the section; starting plays an ink wipe and reveals a finished state with an Sfx. Reduced motion: instant. Container queries widen it; links never navigate; nothing is posted. Works in light, dark, any accent, both reading orders and at phone width.
 
 - Install: `npx shadcn@latest add Romcharted/mangacn/story-landing`
-- Docs: https://DOMAIN/examples/story-landing
+- Docs: https://mangacn.romain-sonnet.fr/examples/story-landing
 - Categories: blocks
 - Props:
   - `art`: `{ cover?: string; guide?: string; reader?: string; beats?: [string, string, string, string] }` — The cover, the faces and the strip pictures (image URLs). Without them the cover is screentone and the panels stay blank.

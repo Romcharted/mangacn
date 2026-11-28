@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "mangacn",
-  "homepage": "https://DOMAIN",
+  "homepage": "https://mangacn.romain-sonnet.fr",
   "include": [
     "registry/items/base.json",
     "registry/items/font-body.json",
